@@ -4,10 +4,10 @@
  */
 
 import { Colors } from '@/constants/theme';
-import { useAppTheme } from '@/context/theme-provider';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 export function useTheme() {
-  const { resolvedTheme } = useAppTheme();
+  const resolvedTheme = useColorScheme();
 
   return Colors[resolvedTheme];
 }

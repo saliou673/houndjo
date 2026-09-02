@@ -17,21 +17,22 @@ import { SettingsListScreen } from '@/components/settings-list-screen';
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
-import { useAppTheme, type Theme } from '@/context/theme-provider';
+import { useModeToggle } from '@/hooks/useModeToggle';
+import { type Mode } from '@/providers/mode-provider';
 
-const THEME_TO_API: Record<Theme, AppearancePreferencesThemeEnumKey> = {
+const THEME_TO_API: Record<Mode, AppearancePreferencesThemeEnumKey> = {
   light: appearancePreferencesThemeEnum.LIGHT,
   dark: appearancePreferencesThemeEnum.DARK,
   system: appearancePreferencesThemeEnum.SYSTEM,
 };
 
-const THEME_ICONS: Record<Theme, SymbolViewProps['name']> = {
+const THEME_ICONS: Record<Mode, SymbolViewProps['name']> = {
   system: { ios: 'circle.lefthalf.filled', android: 'contrast', web: 'contrast' },
   light: { ios: 'sun.max', android: 'light_mode', web: 'light_mode' },
   dark: { ios: 'moon.stars', android: 'dark_mode', web: 'dark_mode' },
 };
 
-const API_TO_THEME: Record<AppearancePreferencesThemeEnumKey, Theme> = {
+const API_TO_THEME: Record<AppearancePreferencesThemeEnumKey, Mode> = {
   LIGHT: 'light',
   DARK: 'dark',
   SYSTEM: 'system',
@@ -40,7 +41,7 @@ const API_TO_THEME: Record<AppearancePreferencesThemeEnumKey, Theme> = {
 export default function AppearanceScreen() {
   const { t } = useTranslation();
   const uiColors = useTheme();
-  const { theme, setTheme } = useAppTheme();
+  const { mode: theme, setMode: setTheme } = useModeToggle();
 
   const { data: preferences } = useGetCurrentUserPreferences();
   const [formError, setFormError] = useState<string | null>(null);
@@ -60,7 +61,7 @@ export default function AppearanceScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preferences]);
 
-  async function onSelect(next: Theme) {
+  async function onSelect(next: Mode) {
     setFormError(null);
     setTheme(next);
 
@@ -85,7 +86,7 @@ export default function AppearanceScreen() {
     }
   }
 
-  const options: { value: Theme; label: string }[] = [
+  const options: { value: Mode; label: string }[] = [
     { value: 'system', label: t('settings.appearance.system') },
     { value: 'light', label: t('settings.appearance.light') },
     { value: 'dark', label: t('settings.appearance.dark') },
