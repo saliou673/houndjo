@@ -123,7 +123,7 @@ export default function ActivateScreen() {
         autoComplete="one-time-code"
         autoCorrect={false}
         maxLength={CODE_LENGTH}
-        style={styles.codeInput}
+        inputStyle={styles.codeInput}
         editable={!isPending}
         onSubmitEditing={() => void onSubmit()}
       />

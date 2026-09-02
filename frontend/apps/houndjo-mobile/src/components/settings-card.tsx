@@ -1,17 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, type ViewProps } from 'react-native';
 
-import { ThemedView, type ThemedViewProps } from '@/components/themed-view';
-import { CardShadow, Radius, Spacing } from '@/constants/theme';
+import { Card } from '@/components/ui/card';
 
-export function SettingsCard({ style, ...props }: ThemedViewProps) {
-  return <ThemedView type="backgroundElement" style={[styles.card, style]} {...props} />;
+export function SettingsCard({ style, children, ...props }: ViewProps) {
+  return (
+    <Card style={StyleSheet.flatten(style)} {...props}>
+      {children}
+    </Card>
+  );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    borderRadius: Radius.card,
-    padding: Spacing.three,
-    gap: Spacing.three,
-    ...CardShadow,
-  },
-});

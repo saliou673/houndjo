@@ -144,7 +144,7 @@ export default function ChangeEmailScreen() {
                 autoComplete="one-time-code"
                 autoCorrect={false}
                 maxLength={CODE_LENGTH}
-                style={styles.codeInput}
+                inputStyle={styles.codeInput}
                 editable={!isConfirming}
                 onSubmitEditing={() => void onConfirmSubmit()}
               />
