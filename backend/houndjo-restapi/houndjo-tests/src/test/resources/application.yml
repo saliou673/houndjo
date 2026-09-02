@@ -1,0 +1,105 @@
+spring:
+  mvc:
+    format:
+      date-time: iso
+      date: iso
+    apiversion:
+      enabled: true
+      use:
+        header: X-API-Version
+      default: 1.0
+      supported: 1.0
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  testcontainers:
+    postgres:
+      enabled: true
+
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql:18-alpine:///test
+    username: test
+    password: test
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yml # Use the liquibase files in main/resources.
+  sql:
+    init:
+      mode: always
+
+  mail:
+    host: smtp.test.com
+    port: 587
+    username: test@houndjo.dev
+    password: test
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            trust: smtp.test.com
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+app:
+  version: v1.0
+  description: "Houndjo REST API"
+  web-app-origin: http://localhost:4200
+  security:
+    authentication:
+      jwt:
+        base64-secret: M2ExYTMyMDY4ZGY5MGRjYzgyNTQ3ZmFiMDJhOWQxOGFlMzI3OTk5ZDE4MDIyY2NhMDQzMzFmZTNmNGYyMDY3MTVmMWYzMjlhN2IzM2M3MjYxNzVkNGRjYmUzNjRiYjBkNzAzNWI2MjYzZjQ2ZTEwYmQxYzNkZDY1MWQ1MmRjZjc=
+        token-validity-in-seconds: 1800 # 30 minutes
+        token-validity-in-seconds-for-remember-me: 2592000 # 30 days
+
+  default-user:
+    create: false # Do not create default user's on test startup
+    password: 12345678
+  account:
+    cleanup-cron: 0 0 1 * * ?
+    non-activated-user-retention-period: 3d
+    soft-deleted-user-retention-period: 30d
+    reset-code-validity-period: 5m
+    managed-user-invitation-code-length: 8
+    managed-user-invitation-code-validity-period: 5m
+  mail:
+    from: noreply@houndjo.com
+    routes:
+      account-validation: account-validation
+      reset-password: reset-password/finish
+      login: login
+      managed-user-invitation: account/invitation
+  two-factor:
+    code-validity-period: 5m
+    code-length: 6
+    totp-issuer: Houndjo-Test
+  rate-limit:
+    enabled: true
+    auth:
+      limit-for-period: 1000
+      limit-refresh-period: 60s
+    api:
+      limit-for-period: 1000
+      limit-refresh-period: 60s
+  contact:
+    recipient-emails: support@houndjo.test,admin@houndjo.test
+  storage:
+    upload-dir: ./test-uploads
+    aws:
+      bucket: test-bucket
+      region: eu-west-3
+      endpoint:
+      path-style-access-enabled: false

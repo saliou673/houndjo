@@ -1,0 +1,26 @@
+{
+    "name": "houndjo-apiclient",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "main": "./src/index.ts",
+    "types": "./src/index.ts",
+    "scripts": {
+        "generate": "KUBB_DISABLE_TELEMETRY=1 kubb --config kubb.config.ts"
+    },
+    "dependencies": {
+        "@tanstack/react-query": "^5.66.0"
+    },
+    "peerDependencies": {
+        "react": "^19.2.3"
+    },
+    "devDependencies": {
+        "@kubb/cli": "^4.31.5",
+        "@kubb/core": "^4.31.5",
+        "@kubb/plugin-client": "^4.31.5",
+        "@kubb/plugin-oas": "^4.31.5",
+        "@kubb/plugin-react-query": "^4.31.5",
+        "@kubb/plugin-ts": "^4.31.5",
+        "typescript": "^5.7.3"
+    }
+}

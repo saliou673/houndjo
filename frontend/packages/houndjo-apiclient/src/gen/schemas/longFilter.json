@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+        "equals": { "type": "integer", "format": "int64" },
+        "notEquals": { "type": "integer", "format": "int64" },
+        "specified": { "type": "boolean" },
+        "in": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" }
+        },
+        "notIn": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" }
+        },
+        "greaterThan": { "type": "integer", "format": "int64" },
+        "lessThan": { "type": "integer", "format": "int64" },
+        "greaterThanOrEqual": { "type": "integer", "format": "int64" },
+        "lessThanOrEqual": { "type": "integer", "format": "int64" }
+    },
+    "x-readme-ref-name": "LongFilter"
+}

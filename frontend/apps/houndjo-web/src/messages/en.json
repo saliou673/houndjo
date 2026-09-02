@@ -1,0 +1,422 @@
+{
+    "LanguageSwitch": {
+        "toggleLabel": "Toggle language",
+        "english": "English",
+        "french": "French"
+    },
+    "Settings": {
+        "pageTitle": "Settings",
+        "description": "Manage your account settings and set e-mail preferences.",
+        "nav": {
+            "profile": "Profile",
+            "account": "Account",
+            "appearance": "Appearance",
+            "notifications": "Notifications",
+            "display": "Display"
+        }
+    },
+    "Sidebar": {
+        "groups": {
+            "general": "General",
+            "other": "Other"
+        },
+        "nav": {
+            "dashboard": "Dashboard",
+            "users": "Users",
+            "roleGroups": "Role Groups",
+            "configuration": "Configuration",
+            "referenceData": "Reference Data",
+            "security": "Security",
+            "settings": "Settings",
+            "helpCenter": "Help Center"
+        }
+    },
+    "SettingsProfile": {
+        "pageTitle": "Settings",
+        "sectionTitle": "Profile",
+        "sectionDescription": "Review the profile information currently attached to your account.",
+        "summaryTitle": "Profile summary",
+        "summaryDescription": "Review the account information currently stored for your profile.",
+        "fields": {
+            "email": "Email",
+            "status": "Status",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "birthDate": "Birth date",
+            "gender": "Gender",
+            "phoneNumber": "Phone number",
+            "language": "Language",
+            "address": "Address"
+        },
+        "notProvided": "Not provided",
+        "errorTitle": "Unable to load profile",
+        "errorDescription": "Refresh the page and try again."
+    },
+    "UserEnums": {
+        "gender": {
+            "MALE": "Male",
+            "FEMALE": "Female"
+        },
+        "status": {
+            "NOT_ACTIVATED": "Not activated",
+            "ACTIVATED": "Activated",
+            "DEACTIVATED": "Deactivated",
+            "LOCKED": "Locked",
+            "BANNED": "Banned"
+        }
+    },
+    "DataTable": {
+        "reset": "Reset",
+        "noResultsFound": "No results found.",
+        "clearFilters": "Clear filters",
+        "nSelected": "{count} selected",
+        "toggleColumns": "Toggle columns",
+        "view": "View",
+        "rowsPerPage": "Rows per page",
+        "pageOf": "Page {page} of {total}",
+        "goToFirstPage": "Go to first page",
+        "goToPreviousPage": "Go to previous page",
+        "goToNextPage": "Go to next page",
+        "goToLastPage": "Go to last page",
+        "goToPage": "Go to page {page}"
+    },
+    "Users": {
+        "pageTitle": "Users",
+        "title": "User List",
+        "description": "Manage your users and their roles here.",
+        "addUser": "Add user",
+        "table": {
+            "columns": {
+                "name": "Name",
+                "email": "Email",
+                "phoneNumber": "Phone Number",
+                "roleGroups": "Role Groups",
+                "gender": "Gender",
+                "status": "Status"
+            },
+            "selectAll": "Select all",
+            "selectRow": "Select row",
+            "loading": "Loading users...",
+            "errorFallback": "Unable to load users.",
+            "noResults": "No results.",
+            "searchPlaceholder": "Filter by email...",
+            "filters": {
+                "status": "Status",
+                "gender": "Gender",
+                "roleGroup": "Role Group"
+            }
+        },
+        "rowActions": {
+            "openMenu": "Open menu",
+            "edit": "Edit",
+            "delete": "Delete"
+        },
+        "bulkActions": {
+            "deleteSelected": "Delete selected users",
+            "clearSelection": "Clear selection",
+            "clearSelectionTitle": "Clear selection (Escape)",
+            "entityLabel": "{count, plural, one {user} other {users}}",
+            "selectedWord": "{count, plural, one {selected} other {selected}}",
+            "announcement": "{count, plural, one {# user selected. Bulk actions toolbar is available.} other {# users selected. Bulk actions toolbar is available.}}",
+            "toolbarAriaLabel": "{count, plural, one {Bulk actions for # selected user} other {Bulk actions for # selected users}}",
+            "selectedCountAriaLabel": "{count, plural, one {# selected} other {# selected}}"
+        },
+        "deleteDialog": {
+            "title": "Delete User",
+            "confirmMessage": "Are you sure you want to delete <bold>{email}</bold>? This action will permanently remove this managed user from the system. This cannot be undone.",
+            "emailLabel": "User email:",
+            "emailPlaceholder": "Enter the user email to confirm deletion.",
+            "warningTitle": "Warning!",
+            "warningDescription": "Please be careful, this operation can not be rolled back.",
+            "confirmButton": "Delete",
+            "successToast": "User deleted."
+        },
+        "multiDeleteDialog": {
+            "title": "{count, plural, one {Delete # user} other {Delete # users}}",
+            "description": "Are you sure you want to delete the selected users? This action cannot be undone.",
+            "confirmLabel": "Confirm by typing \"{word}\":",
+            "placeholder": "Type \"{word}\" to confirm.",
+            "typeToConfirmError": "Please type \"{word}\" to confirm.",
+            "successToast": "{count, plural, one {Deleted # user.} other {Deleted # users.}}",
+            "partialToast": "Deleted {deleted} of {total} selected users."
+        },
+        "form": {
+            "addTitle": "Add New User",
+            "editTitle": "Edit User",
+            "addDescription": "Create a managed user and assign at least one role group.",
+            "editDescription": "Update the managed user profile and assigned role groups. Email cannot be changed.",
+            "fields": {
+                "email": "Email",
+                "emailPlaceholder": "john.doe@example.com",
+                "emailEditNote": "Email updates are not supported by the admin user endpoint.",
+                "firstName": "First Name",
+                "firstNamePlaceholder": "John",
+                "lastName": "Last Name",
+                "lastNamePlaceholder": "Doe",
+                "birthDate": "Birth Date",
+                "gender": "Gender",
+                "genderPlaceholder": "Select a gender",
+                "phoneNumber": "Phone Number",
+                "phoneNumberPlaceholder": "+33601020304",
+                "address": "Address",
+                "addressPlaceholder": "221B Baker Street",
+                "languageKey": "Language Key",
+                "languageKeyPlaceholder": "en",
+                "imageUrl": "Image URL",
+                "imageUrlPlaceholder": "https://example.com/avatar.png",
+                "roleGroups": "Role Groups"
+            },
+            "roleGroupsLoading": "Loading role groups...",
+            "roleGroupsEmpty": "No role groups available.",
+            "roleGroupsDescriptionEdit": "Assign or revoke role groups for this user.",
+            "roleGroupsDescriptionAdd": "Role groups are required when creating a managed user.",
+            "submitAdd": "Create user",
+            "submitEdit": "Save changes",
+            "toastCreated": "User created.",
+            "toastUpdated": "User updated.",
+            "validation": {
+                "emailRequired": "Email is required.",
+                "firstNameRequired": "First name is required.",
+                "lastNameRequired": "Last name is required.",
+                "roleGroupRequired": "At least one role group is required."
+            }
+        }
+    },
+    "RoleGroups": {
+        "pageTitle": "Role Groups",
+        "title": "Role Groups",
+        "description": "Manage role groups and their assigned permissions.",
+        "addRoleGroup": "Add role group",
+        "table": {
+            "columns": {
+                "name": "Name",
+                "description": "Description",
+                "permissions": "Permissions"
+            },
+            "loading": "Loading role groups...",
+            "errorFallback": "Unable to load role groups.",
+            "noResults": "No results.",
+            "searchPlaceholder": "Filter by name..."
+        },
+        "rowActions": {
+            "openMenu": "Open menu",
+            "edit": "Edit",
+            "delete": "Delete"
+        },
+        "deleteDialog": {
+            "title": "Delete Role Group",
+            "confirmMessage": "Are you sure you want to delete <bold>{name}</bold>? This action cannot be undone. The deletion will fail if the role group is still assigned to users.",
+            "confirmButton": "Delete",
+            "successToast": "Role group deleted."
+        },
+        "form": {
+            "addTitle": "Add New Role Group",
+            "editTitle": "Edit Role Group",
+            "addDescription": "Create a role group and assign at least one permission.",
+            "editDescription": "Update the role group name, description, and assigned permissions.",
+            "fields": {
+                "name": "Name",
+                "namePlaceholder": "e.g. Admin, Editor",
+                "description": "Description",
+                "descriptionPlaceholder": "Describe the role group...",
+                "permissions": "Permissions"
+            },
+            "permissionsLoading": "Loading permissions...",
+            "permissionsEmpty": "No permissions available.",
+            "permissionsDescription": "Select the permissions granted by this role group.",
+            "submitAdd": "Create role group",
+            "submitEdit": "Save changes",
+            "toastCreated": "Role group created.",
+            "toastUpdated": "Role group updated.",
+            "validation": {
+                "nameRequired": "Name is required.",
+                "permissionRequired": "Select at least one permission."
+            }
+        }
+    },
+    "SettingsAccount": {
+        "metadataTitle": "Account Settings",
+        "sectionTitle": "Account",
+        "sectionDescription": "Update the personal and account information stored for your user.",
+        "dangerZoneTitle": "Danger Zone",
+        "dangerZoneDescription": "Deleting your account is reversible within 30 days. After that, all your data will be permanently erased.",
+        "deleteAccountButton": "Delete account",
+        "form": {
+            "fields": {
+                "firstName": "First name",
+                "firstNamePlaceholder": "Enter your first name",
+                "lastName": "Last name",
+                "lastNamePlaceholder": "Enter your last name",
+                "email": "Email",
+                "emailDescription": "Email is managed separately and cannot be changed from this page.",
+                "phoneNumber": "Phone number",
+                "phoneNumberPlaceholder": "Enter your phone number",
+                "phoneNumberDescription": "Add a contact number for account-related communication.",
+                "birthDate": "Birth date",
+                "birthDatePlaceholder": "Select your birth date",
+                "birthDateDescription": "Used as part of your account profile.",
+                "gender": "Gender",
+                "genderPlaceholder": "Select gender",
+                "genderDescription": "This value is stored on your account.",
+                "genderMale": "Male",
+                "genderFemale": "Female",
+                "language": "Language",
+                "languagePlaceholder": "Select a language",
+                "languageDescription": "Sets your preferred language for the app interface.",
+                "languageEnglish": "English",
+                "languageFrench": "French",
+                "imageUrl": "Profile image URL",
+                "imageUrlPlaceholder": "https://example.com/avatar.png",
+                "imageUrlDescription": "Use a public image URL for your avatar.",
+                "address": "Address",
+                "addressPlaceholder": "Enter your address",
+                "addressDescription": "This address is stored on your account profile."
+            },
+            "submitDefault": "Update account",
+            "submitPending": "Saving changes...",
+            "loadError": "Unable to load account details. Refresh the page and try again.",
+            "toastUpdated": "Account updated",
+            "validation": {
+                "firstNameRequired": "Please enter your first name.",
+                "firstNameMax": "First name must not be longer than 100 characters.",
+                "lastNameRequired": "Please enter your last name.",
+                "lastNameMax": "Last name must not be longer than 100 characters.",
+                "emailInvalid": "Please enter a valid email.",
+                "phoneNumberMax": "Phone number must not be longer than 50 characters.",
+                "birthDateRequired": "Please select your birth date.",
+                "genderRequired": "Please select your gender.",
+                "addressMax": "Address must not be longer than 500 characters.",
+                "languageMax": "Language must not be longer than 20 characters.",
+                "imageUrlInvalid": "Please enter a valid image URL."
+            }
+        },
+        "emailChange": {
+            "title": "Change email address",
+            "description": "A 4-digit confirmation code will be sent to your new email address to verify ownership. You will be signed out after the change.",
+            "newEmailLabel": "New email address",
+            "newEmailPlaceholder": "your-new-email@example.com",
+            "sendButton": "Send confirmation code",
+            "sendingButton": "Sending code...",
+            "codeSentToast": "A 4-digit code has been sent to {email}.",
+            "confirmTitle": "Confirm your new email",
+            "confirmDescription": "Enter the 4-digit code sent to <bold>{email}</bold>.",
+            "codeLabel": "Confirmation code",
+            "cancelButton": "Cancel",
+            "confirmButton": "Confirm",
+            "confirmingButton": "Confirming...",
+            "changedTitle": "Email changed",
+            "changedDescription": "Your email has been successfully updated to <bold>{email}</bold>. You will be signed out and redirected to the sign-in page in <bold>{countdown}s</bold>.",
+            "signInNowButton": "Sign in now",
+            "validation": {
+                "newEmailInvalid": "Please enter a valid email address.",
+                "codeLength": "Please enter the 4-digit code."
+            }
+        },
+        "changePassword": {
+            "title": "Change password",
+            "description": "Choose a strong new password for your account.",
+            "currentPasswordLabel": "Current password",
+            "newPasswordLabel": "New password",
+            "confirmPasswordLabel": "Confirm new password",
+            "submitDefault": "Update password",
+            "submitPending": "Updating password...",
+            "toastUpdated": "Your password has been updated.",
+            "invalidCurrentPassword": "Your current password is incorrect.",
+            "validation": {
+                "currentPasswordRequired": "Please enter your current password.",
+                "newPasswordTooShort": "Password must be at least 8 characters long.",
+                "newPasswordTooWeak": "Password must include upper, lower, number, and special character.",
+                "confirmPasswordRequired": "Please confirm your new password.",
+                "passwordsDoNotMatch": "Passwords don't match."
+            }
+        },
+        "twoFactor": {
+            "title": "Two-factor authentication",
+            "description": "Add an authenticator app for an extra layer of security when signing in.",
+            "setup": {
+                "startButton": "Enable two-factor authentication",
+                "startingButton": "Starting setup...",
+                "scanHint": "Scan this QR code with your authenticator app.",
+                "manualEntryHint": "Or enter this code manually:",
+                "codeLabel": "Verification code",
+                "confirmButton": "Confirm and enable",
+                "confirmingButton": "Confirming...",
+                "invalidCode": "Invalid verification code",
+                "toastEnabled": "Two-factor authentication is now enabled.",
+                "validation": {
+                    "codeRequired": "Please enter the code from your authenticator app."
+                }
+            },
+            "disable": {
+                "description": "Enter your current password to turn off two-factor authentication.",
+                "currentPasswordLabel": "Current password",
+                "disableButton": "Disable two-factor authentication",
+                "disablingButton": "Disabling...",
+                "invalidPassword": "Your current password is incorrect.",
+                "toastDisabled": "Two-factor authentication is now disabled.",
+                "validation": {
+                    "passwordRequired": "Please enter your current password."
+                }
+            }
+        },
+        "deleteDialog": {
+            "title": "Delete account",
+            "description1": "This will permanently deactivate your account. You have 30 days to recover it before all your data is erased.",
+            "description2": "Enter your password to confirm you are the account owner.",
+            "emailLabel": "Email",
+            "passwordLabel": "Password",
+            "passwordPlaceholder": "Enter your password",
+            "confirmButton": "Delete account",
+            "invalidPasswordToast": "Invalid password. Please try again.",
+            "genericErrorToast": "Failed to delete your account. Please try again later."
+        }
+    },
+    "SettingsAppearance": {
+        "metadataTitle": "Appearance Settings",
+        "sectionTitle": "Appearance",
+        "sectionDescription": "Customize the appearance of the app. Automatically switch between day and night themes.",
+        "form": {
+            "fontLabel": "Font",
+            "fontDescription": "Set the font you want to use in the dashboard.",
+            "themeLabel": "Theme",
+            "themeDescription": "Select the theme for the dashboard.",
+            "themeSystem": "System",
+            "themeLight": "Light",
+            "themeDark": "Dark",
+            "submitDefault": "Update preferences",
+            "submitPending": "Updating...",
+            "loadError": "Unable to load your preferences. Refresh the page and try again.",
+            "toastUpdated": "Preferences updated"
+        }
+    },
+    "SettingsNotifications": {
+        "metadataTitle": "Notification Settings",
+        "sectionTitle": "Notifications",
+        "sectionDescription": "Configure how you receive notifications.",
+        "form": {
+            "emailNotificationsTitle": "Email notifications",
+            "productUpdatesLabel": "Product updates",
+            "productUpdatesDescription": "Receive occasional emails about new features and product news.",
+            "securityLabel": "Security emails",
+            "securityDescription": "Receive emails about your account security. Always on.",
+            "toastUpdated": "Notification preferences updated.",
+            "loadError": "Couldn't load your notification preferences. Please try again."
+        }
+    },
+    "SettingsDisplay": {
+        "metadataTitle": "Display Settings",
+        "sectionTitle": "Display",
+        "sectionDescription": "Adjust text size and motion.",
+        "form": {
+            "textSizeLabel": "Text size",
+            "textSizeDescription": "Adjust how large text appears throughout the app.",
+            "textSizeSMALL": "Small",
+            "textSizeDEFAULT": "Default",
+            "textSizeLARGE": "Large",
+            "reduceMotionLabel": "Reduce motion",
+            "reduceMotionDescription": "Minimize animations and transitions.",
+            "toastUpdated": "Display preferences updated.",
+            "loadError": "Couldn't load your display preferences. Please try again."
+        }
+    }
+}

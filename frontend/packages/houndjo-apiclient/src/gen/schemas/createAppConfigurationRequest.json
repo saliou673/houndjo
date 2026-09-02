@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "properties": {
+        "category": {
+            "type": "string",
+            "enum": ["CURRENCY", "TWO_FACTOR", "PAYMENT_MODE"]
+        },
+        "code": { "type": "string", "maxLength": 50, "minLength": 0 },
+        "label": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" }
+    },
+    "required": ["category", "code", "label"],
+    "x-readme-ref-name": "CreateAppConfigurationRequest"
+}

@@ -1,0 +1,693 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "retry": "Retry",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "save": "Save",
+        "ok": "OK",
+        "offlineBanner": "You're offline. Some features may be unavailable."
+    },
+    "languageSwitch": {
+        "toggleLabel": "Toggle language",
+        "english": "English",
+        "french": "French"
+    },
+    "auth": {
+        "signIn": {
+            "title": "Sign in",
+            "subtitle": "Enter your email and password to continue.",
+            "emailLabel": "Email",
+            "emailPlaceholder": "name@example.com",
+            "passwordLabel": "Password",
+            "passwordPlaceholder": "********",
+            "rememberMe": "Keep me signed in",
+            "submit": "Sign in",
+            "emailRequired": "Please enter your email",
+            "emailInvalid": "Please enter a valid email address",
+            "passwordRequired": "Please enter your password",
+            "passwordTooShort": "Password must be at least 7 characters long",
+            "invalidCredentials": "Invalid email or password",
+            "noAccount": "Don't have an account?",
+            "signUpLink": "Sign up",
+            "forgotPassword": "Forgot password?"
+        },
+        "forgotPassword": {
+            "title": "Reset your password",
+            "subtitle": "We'll email you a code to set a new password.",
+            "emailLabel": "Email",
+            "emailPlaceholder": "name@example.com",
+            "submit": "Send reset code",
+            "emailRequired": "Please enter your email",
+            "emailInvalid": "Please enter a valid email address",
+            "noAccount": "No account found with this email address.",
+            "sentTitle": "Check your email",
+            "sentSubtitle": "If an account exists, we sent a reset code to {{email}}.",
+            "enterCodeLink": "I have a code",
+            "backToSignIn": "Back to sign in"
+        },
+        "resetPassword": {
+            "title": "Set a new password",
+            "subtitle": "Enter the code we emailed you and choose a new password.",
+            "codeLabel": "Reset code",
+            "codePlaceholder": "Paste the code from your email",
+            "newPasswordLabel": "New password",
+            "confirmPasswordLabel": "Confirm new password",
+            "passwordPlaceholder": "********",
+            "submit": "Reset password",
+            "codeRequired": "Please enter your reset code",
+            "passwordRequired": "Please enter a new password",
+            "passwordTooShort": "Password must be at least 8 characters long",
+            "passwordTooWeak": "Password must include upper, lower, number, and special character",
+            "confirmPasswordRequired": "Please confirm your new password",
+            "passwordsDoNotMatch": "Passwords don't match.",
+            "invalidCode": "That reset code is invalid or has expired.",
+            "backToSignIn": "Back to sign in"
+        },
+        "invitation": {
+            "title": "Complete your invitation",
+            "subtitle": "Choose a password to finish setting up your account.",
+            "newPasswordLabel": "Password",
+            "confirmPasswordLabel": "Confirm password",
+            "passwordPlaceholder": "********",
+            "submit": "Complete setup",
+            "passwordRequired": "Please enter a password",
+            "passwordTooShort": "Password must be at least 8 characters long",
+            "passwordTooWeak": "Password must include upper, lower, number, and special character",
+            "confirmPasswordRequired": "Please confirm your password",
+            "passwordsDoNotMatch": "Passwords don't match.",
+            "invalidCode": "That invitation is invalid or has expired. Contact your administrator.",
+            "missingCode": "Invalid or missing invitation link. Please contact your administrator.",
+            "backToSignIn": "Back to sign in"
+        },
+        "signUp": {
+            "title": "Create an account",
+            "subtitle": "Fill in your details to get started.",
+            "firstNameLabel": "First name",
+            "firstNamePlaceholder": "John",
+            "lastNameLabel": "Last name",
+            "lastNamePlaceholder": "Doe",
+            "emailLabel": "Email",
+            "emailPlaceholder": "name@example.com",
+            "passwordLabel": "Password",
+            "passwordPlaceholder": "********",
+            "confirmPasswordLabel": "Confirm password",
+            "submit": "Create account",
+            "firstNameRequired": "Please enter your first name",
+            "lastNameRequired": "Please enter your last name",
+            "emailRequired": "Please enter your email",
+            "emailInvalid": "Please enter a valid email address",
+            "passwordRequired": "Please enter your password",
+            "passwordTooShort": "Password must be at least 8 characters long",
+            "passwordTooWeak": "Password must include upper, lower, number, and special character",
+            "confirmPasswordRequired": "Please confirm your password",
+            "passwordsDoNotMatch": "Passwords don't match.",
+            "haveAccount": "Already have an account?",
+            "signInLink": "Sign in"
+        },
+        "activate": {
+            "title": "Activate your account",
+            "subtitle": "Enter the code we sent to {{email}} to finish creating your account.",
+            "subtitleGeneric": "Enter the activation code we emailed you to finish creating your account.",
+            "codeLabel": "Activation code",
+            "codePlaceholder": "A1B2",
+            "submit": "Activate account",
+            "codeRequired": "Please enter your activation code",
+            "invalidCode": "That activation code is invalid or has expired.",
+            "resend": "Send me a new code",
+            "noAccount": "No account found with this email address.",
+            "backToSignIn": "Back to sign in"
+        },
+        "twoFactor": {
+            "title": "Two-factor verification",
+            "subtitle": "Enter the code from your authenticator app.",
+            "codeLabel": "Verification code",
+            "codePlaceholder": "123456",
+            "submit": "Verify",
+            "codeLength": "Enter the {{count}}-digit code",
+            "invalidCode": "Invalid verification code"
+        },
+        "logout": {
+            "action": "Sign out"
+        },
+        "toasts": {
+            "signedIn": "Welcome back!",
+            "signedOut": "You have been signed out.",
+            "twoFactorVerified": "Verification successful.",
+            "resetCodeSent": "Reset code sent to {{email}}.",
+            "accountCreated": "Account created. Enter the code we emailed you to finish.",
+            "accountActivated": "Your account is active. You can sign in now.",
+            "activationCodeSent": "We sent you a new activation code.",
+            "twoFactorExpired": "Your verification session has expired. Please sign in again.",
+            "passwordReset": "Your password has been reset. Sign in with your new password.",
+            "invitationCompleted": "Your account is ready. Sign in with your email and new password."
+        }
+    },
+    "settings": {
+        "nav": {
+            "title": "Settings",
+            "description": "Manage your profile, account, and app preferences.",
+            "sectionAccount": "Account",
+            "sectionPreferences": "Preferences",
+            "sectionAdmin": "Admin",
+            "profile": "Profile",
+            "account": "Account",
+            "appearance": "Appearance",
+            "notifications": "Notifications",
+            "display": "Display",
+            "language": "Language",
+            "users": "Users",
+            "roleGroups": "Role groups",
+            "configurations": "Configuration"
+        },
+        "account": {
+            "title": "Account",
+            "description": "Manage your email, password, two-factor authentication, and account deletion.",
+            "sectionSecurity": "Security",
+            "sectionDanger": "Danger zone",
+            "email": "Change email",
+            "password": "Change password",
+            "twoFactor": "Two-factor authentication",
+            "delete": "Delete account",
+            "emailChange": {
+                "description": "Enter a new email address. We'll send a code to confirm it.",
+                "confirmDescription": "Enter the code we sent to {{email}}.",
+                "newEmailLabel": "New email",
+                "newEmailPlaceholder": "name@example.com",
+                "emailInvalid": "Please enter a valid email address",
+                "sendButton": "Send code",
+                "codeLabel": "Confirmation code",
+                "codeLength": "Enter the {{count}}-character code",
+                "confirmButton": "Confirm",
+                "cancelButton": "Use a different email",
+                "invalidCode": "That code is invalid or has expired.",
+                "codeSentToast": "Code sent to {{email}}.",
+                "toastChanged": "Your email has been updated."
+            },
+            "changePassword": {
+                "description": "Choose a strong new password.",
+                "currentPasswordLabel": "Current password",
+                "newPasswordLabel": "New password",
+                "confirmPasswordLabel": "Confirm new password",
+                "currentPasswordRequired": "Please enter your current password",
+                "newPasswordRequired": "Please enter a new password",
+                "newPasswordTooShort": "Password must be at least 8 characters long",
+                "newPasswordTooWeak": "Password must include upper, lower, number, and special character",
+                "confirmPasswordRequired": "Please confirm your new password",
+                "passwordsDoNotMatch": "Passwords don't match.",
+                "invalidCurrentPassword": "Your current password is incorrect.",
+                "submit": "Update password",
+                "toastUpdated": "Your password has been updated."
+            },
+            "twoFactorSetup": {
+                "description": "Add an authenticator app for an extra layer of security when signing in.",
+                "enabledDescription": "Two-factor authentication is protecting your account.",
+                "startButton": "Enable two-factor authentication",
+                "startError": "Couldn't start setup. Please try again.",
+                "scanHint": "Scan this QR code with your authenticator app.",
+                "openAuthenticator": "Open in authenticator app",
+                "manualEntryHint": "Or enter this code manually in your authenticator app:",
+                "codeLabel": "Verification code",
+                "codeRequired": "Please enter the code from your authenticator app",
+                "invalidCode": "Invalid verification code",
+                "confirmButton": "Confirm and enable",
+                "toastEnabled": "Two-factor authentication is now enabled."
+            },
+            "twoFactorDisable": {
+                "description": "Enter your current password to turn off two-factor authentication.",
+                "currentPasswordLabel": "Current password",
+                "passwordRequired": "Please enter your current password",
+                "invalidPassword": "Your current password is incorrect.",
+                "submit": "Disable two-factor authentication",
+                "toastDisabled": "Two-factor authentication is now disabled."
+            },
+            "deleteAccount": {
+                "warningTitle": "This can't be undone",
+                "warningBody": "Deleting your account removes your access immediately. Contact an administrator if you change your mind.",
+                "accountLabel": "Account: {{email}}",
+                "confirmationWord": "DELETE",
+                "confirmationLabel": "Type {{word}} to confirm",
+                "confirmationRequired": "Type {{word}} to confirm account deletion",
+                "submit": "Delete my account",
+                "toastDeleted": "Your account has been deleted."
+            }
+        },
+        "profile": {
+            "fields": {
+                "email": "Email",
+                "firstName": "First name",
+                "lastName": "Last name",
+                "phoneNumber": "Phone number",
+                "birthDate": "Birth date",
+                "gender": "Gender",
+                "genderMale": "Male",
+                "genderFemale": "Female",
+                "address": "Address",
+                "imageUrl": "Profile image URL"
+            },
+            "firstNameRequired": "Please enter your first name",
+            "lastNameRequired": "Please enter your last name",
+            "birthDateInvalid": "Use the YYYY-MM-DD format",
+            "submit": "Save changes",
+            "toastUpdated": "Profile updated.",
+            "loadError": "Couldn't load your profile. Please try again."
+        },
+        "appearance": {
+            "description": "Choose how Houndjo looks on this device.",
+            "system": "System",
+            "light": "Light",
+            "dark": "Dark",
+            "saveError": "Couldn't save your appearance preference. Please try again."
+        },
+        "notifications": {
+            "productUpdatesLabel": "Product updates",
+            "productUpdatesDescription": "Receive occasional emails about new features and product news.",
+            "securityLabel": "Security emails",
+            "securityDescription": "Receive emails about your account security. Always on.",
+            "saveError": "Couldn't save your notification preference. Please try again.",
+            "loadError": "Couldn't load your notification preferences. Please try again."
+        },
+        "display": {
+            "textSizeLabel": "Text size",
+            "textSizeDescription": "Adjust how large text appears throughout the app.",
+            "textSizeSmall": "Small",
+            "textSizeDefault": "Default",
+            "textSizeLarge": "Large",
+            "reduceMotionLabel": "Reduce motion",
+            "reduceMotionDescription": "Minimize animations and transitions.",
+            "saveError": "Couldn't save your display preference. Please try again.",
+            "loadError": "Couldn't load your display preferences. Please try again."
+        },
+        "language": {
+            "description": "Choose the language used throughout the app.",
+            "syncError": "Language changed on this device, but couldn't be saved to your account."
+        }
+    },
+    "users": {
+        "list": {
+            "title": "Users",
+            "description": "Browse and search your organization's users.",
+            "addUser": "Add user",
+            "searchPlaceholder": "Search by email",
+            "errorFallback": "Unable to load users.",
+            "noResults": "No users found.",
+            "previous": "Previous",
+            "next": "Next",
+            "pageIndicator": "Page {{page}} of {{totalPages}}",
+            "deactivate": "Deactivate",
+            "deactivateConfirmTitle": "Deactivate user",
+            "deactivateConfirmMessage": "Are you sure you want to deactivate {{email}}? They will no longer be able to sign in.",
+            "deactivateSuccess": "User deactivated."
+        },
+        "create": {
+            "title": "Add user",
+            "description": "Create a managed user and assign at least one role group.",
+            "fields": {
+                "email": "Email",
+                "firstName": "First name",
+                "lastName": "Last name",
+                "phoneNumber": "Phone number",
+                "birthDate": "Birth date",
+                "gender": "Gender",
+                "address": "Address",
+                "roleGroups": "Role groups"
+            },
+            "roleGroupsEmpty": "No role groups available.",
+            "validation": {
+                "emailRequired": "Email is required.",
+                "emailInvalid": "Enter a valid email address.",
+                "firstNameRequired": "First name is required.",
+                "lastNameRequired": "Last name is required.",
+                "roleGroupRequired": "At least one role group is required."
+            },
+            "submit": "Create user",
+            "toastCreated": "User created."
+        },
+        "edit": {
+            "title": "Edit user",
+            "loadError": "Unable to load this user.",
+            "fields": {
+                "firstName": "First name",
+                "lastName": "Last name",
+                "phoneNumber": "Phone number",
+                "birthDate": "Birth date",
+                "gender": "Gender",
+                "address": "Address"
+            },
+            "validation": {
+                "firstNameRequired": "First name is required.",
+                "lastNameRequired": "Last name is required."
+            },
+            "submit": "Save changes",
+            "toastUpdated": "User updated."
+        },
+        "detail": {
+            "title": "User details",
+            "loadError": "Unable to load this user.",
+            "edit": "Edit user",
+            "fields": {
+                "email": "Email",
+                "name": "Name",
+                "phoneNumber": "Phone number",
+                "birthDate": "Birth date",
+                "gender": "Gender",
+                "address": "Address",
+                "status": "Status"
+            },
+            "roleGroupsLabel": "Role groups",
+            "noRoleGroups": "No role groups assigned.",
+            "manageRoleGroups": "Manage role groups",
+            "permissionsLabel": "Effective permissions",
+            "noPermissions": "No permissions.",
+            "deactivate": "Deactivate user",
+            "deactivateConfirmTitle": "Deactivate user",
+            "deactivateConfirmMessage": "Are you sure you want to deactivate {{email}}? They will no longer be able to sign in.",
+            "deactivateSuccess": "User deactivated."
+        },
+        "roleGroups": {
+            "title": "Role groups",
+            "description": "Assign or revoke role groups for this user.",
+            "loadError": "Unable to load this user.",
+            "empty": "No role groups available.",
+            "submit": "Save changes",
+            "toastUpdated": "Role groups updated."
+        },
+        "status": {
+            "NOT_ACTIVATED": "Not activated",
+            "ACTIVATED": "Activated",
+            "DEACTIVATED": "Deactivated",
+            "LOCKED": "Locked",
+            "BANNED": "Banned"
+        },
+        "gender": {
+            "MALE": "Male",
+            "FEMALE": "Female"
+        }
+    },
+    "roleGroups": {
+        "list": {
+            "title": "Role groups",
+            "description": "Browse and search your organization's role groups.",
+            "addRoleGroup": "Add role group",
+            "searchPlaceholder": "Search by name",
+            "errorFallback": "Unable to load role groups.",
+            "noResults": "No role groups found.",
+            "previous": "Previous",
+            "next": "Next",
+            "pageIndicator": "Page {{page}} of {{totalPages}}"
+        },
+        "detail": {
+            "title": "Role group",
+            "loadError": "Unable to load this role group.",
+            "fields": {
+                "name": "Name",
+                "description": "Description"
+            },
+            "validation": {
+                "nameRequired": "Name is required."
+            },
+            "submit": "Save changes",
+            "toastUpdated": "Role group updated.",
+            "permissionsLabel": "Permissions",
+            "noPermissions": "No permissions assigned.",
+            "managePermissions": "Manage permissions"
+        },
+        "create": {
+            "title": "Add role group",
+            "description": "Create a role group and assign at least one permission.",
+            "fields": {
+                "name": "Name",
+                "description": "Description",
+                "permissions": "Permissions"
+            },
+            "permissionsEmpty": "No permissions available.",
+            "validation": {
+                "nameRequired": "Name is required.",
+                "descriptionRequired": "Description is required.",
+                "permissionRequired": "At least one permission is required."
+            },
+            "submit": "Create role group",
+            "toastCreated": "Role group created."
+        },
+        "permissions": {
+            "title": "Permissions",
+            "description": "Toggle the permissions granted to this role group.",
+            "loadError": "Unable to load this role group.",
+            "empty": "No permissions available.",
+            "submit": "Save changes",
+            "toastUpdated": "Permissions updated."
+        }
+    },
+    "configurations": {
+        "nav": {
+            "title": "Configuration",
+            "description": "Manage application-wide configuration.",
+            "referenceData": "Reference data",
+            "fileStorage": "File storage",
+            "taxRates": "Tax rates",
+            "companyProfile": "Company profile",
+            "security": "Security"
+        },
+        "referenceData": {
+            "title": "Reference data",
+            "description": "Configurable option lists used across the application, such as currencies, payment modes, and 2FA methods.",
+            "addConfiguration": "Add configuration",
+            "searchPlaceholder": "Search by code",
+            "allCategories": "All",
+            "active": "Active",
+            "inactive": "Inactive",
+            "errorFallback": "Unable to load configurations.",
+            "noResults": "No configurations found.",
+            "previous": "Previous",
+            "next": "Next",
+            "pageIndicator": "Page {{page}} of {{totalPages}}",
+            "create": {
+                "title": "Add configuration",
+                "description": "Create a new configuration entry.",
+                "fields": {
+                    "category": "Category",
+                    "code": "Code",
+                    "label": "Label",
+                    "description": "Description"
+                },
+                "activeHint": "New configurations are created as active by default. You can change the status afterward.",
+                "validation": {
+                    "categoryRequired": "Category is required.",
+                    "codeRequired": "Code is required.",
+                    "codeTooLong": "Code must be 50 characters or fewer.",
+                    "labelRequired": "Label is required."
+                },
+                "submit": "Create configuration",
+                "toastCreated": "Configuration created."
+            },
+            "detail": {
+                "title": "Configuration",
+                "loadError": "Unable to load this configuration.",
+                "fields": {
+                    "category": "Category",
+                    "code": "Code",
+                    "label": "Label",
+                    "description": "Description",
+                    "active": "Active"
+                },
+                "validation": {
+                    "codeRequired": "Code is required.",
+                    "codeTooLong": "Code must be 50 characters or fewer.",
+                    "labelRequired": "Label is required."
+                },
+                "submit": "Save changes",
+                "toastUpdated": "Configuration updated.",
+                "delete": "Delete configuration",
+                "deleteConfirmTitle": "Delete configuration",
+                "deleteConfirmMessage": "Delete configuration {{code}}? This action permanently removes the configuration entry from the system. Backend rules still apply - deletion can fail if it's referenced elsewhere.",
+                "toastDeleted": "Configuration deleted."
+            }
+        },
+        "security": {
+            "title": "Security settings",
+            "description": "Configure application-wide security policies.",
+            "loadError": "Unable to load security settings.",
+            "saveError": "Couldn't save security settings. Please try again.",
+            "toastUpdated": "Security settings saved.",
+            "twoFactorSectionTitle": "Two-factor authentication",
+            "twoFactorRequiredLabel": "Require 2FA for all users",
+            "twoFactorRequiredDescription": "When enabled, all users must configure two-factor authentication before they can log in."
+        }
+    },
+    "legal": {
+        "nav": {
+            "sectionTitle": "Legal",
+            "terms": "Terms of Service",
+            "privacy": "Privacy Policy",
+            "cookiePolicy": "Cookie Policy",
+            "contact": "Contact Us",
+            "helpCenter": "Help Center"
+        },
+        "terms": {
+            "title": "Terms of Service",
+            "lastUpdated": "Last updated: March 20, 2026",
+            "sections": [
+                {
+                    "heading": "1. Acceptance of Terms",
+                    "body": "By accessing or using Houndjo, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services."
+                },
+                {
+                    "heading": "2. Use of Services",
+                    "body": "You agree to use our services only for lawful purposes and in accordance with these Terms. You must not use our services to:",
+                    "list": [
+                        "Violate any applicable laws or regulations",
+                        "Infringe on the rights of others",
+                        "Transmit harmful, offensive, or disruptive content",
+                        "Attempt to gain unauthorized access to our systems"
+                    ]
+                },
+                {
+                    "heading": "3. Accounts",
+                    "body": "You are responsible for maintaining the security of your account credentials and for all activity that occurs under your account. Notify us immediately of any unauthorized use."
+                },
+                {
+                    "heading": "4. Intellectual Property",
+                    "body": "Houndjo and its original content, features, and functionality are owned by Houndjo and are protected by international copyright, trademark, and other intellectual property laws."
+                },
+                {
+                    "heading": "5. Termination",
+                    "body": "We reserve the right to suspend or terminate your account at our sole discretion, without notice, for conduct that we believe violates these Terms or is harmful to other users, us, or third parties."
+                },
+                {
+                    "heading": "6. Limitation of Liability",
+                    "body": "To the maximum extent permitted by law, Houndjo shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use our services."
+                },
+                {
+                    "heading": "7. Contact Us",
+                    "body": "If you have any questions about these Terms, please contact us at:"
+                }
+            ]
+        },
+        "privacy": {
+            "title": "Privacy Policy",
+            "lastUpdated": "Last updated: March 20, 2026",
+            "sections": [
+                {
+                    "heading": "1. Information We Collect",
+                    "body": "We collect information you provide directly to us, such as when you create an account, use our services, or contact us for support. This includes:",
+                    "list": [
+                        "Name and email address",
+                        "Account credentials",
+                        "Billing and payment information",
+                        "Usage data and activity logs within our platform"
+                    ]
+                },
+                {
+                    "heading": "2. How We Use Your Information",
+                    "body": "We use the information we collect to operate, maintain, and improve our services, process transactions, send transactional and promotional communications, and comply with legal obligations."
+                },
+                {
+                    "heading": "3. Information Sharing",
+                    "body": "We do not sell, trade, or rent your personal information to third parties. We may share your information with trusted service providers who assist us in operating our platform, subject to confidentiality agreements."
+                },
+                {
+                    "heading": "4. Data Retention",
+                    "body": "We retain your personal information for as long as your account is active or as needed to provide you services. You may request deletion of your data at any time by contacting us."
+                },
+                {
+                    "heading": "5. Security",
+                    "body": "We implement industry-standard security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction."
+                },
+                {
+                    "heading": "6. Contact Us",
+                    "body": "If you have any questions about this Privacy Policy, please contact us at:"
+                }
+            ]
+        },
+        "cookiePolicy": {
+            "title": "Cookie Policy",
+            "lastUpdated": "Last updated: March 20, 2026",
+            "sections": [
+                {
+                    "heading": "1. What Are Cookies",
+                    "body": "Cookies are small text files stored on your device when you visit a website. They help us recognize your browser, remember your preferences, and improve your experience on our platform."
+                },
+                {
+                    "heading": "2. Types of Cookies We Use",
+                    "body": "We use the following categories of cookies:",
+                    "list": [
+                        "Strictly necessary cookies — Required for the platform to function. These include session and authentication cookies.",
+                        "Preference cookies — Store your settings such as language, theme, and display preferences.",
+                        "Analytics cookies — Help us understand how visitors interact with our platform so we can improve it."
+                    ]
+                },
+                {
+                    "heading": "3. How We Use Cookies",
+                    "body": "We use cookies to keep you signed in, remember your preferences across sessions, analyze usage patterns to improve our services, and ensure the security and integrity of your account."
+                },
+                {
+                    "heading": "4. Third-Party Cookies",
+                    "body": "Some cookies may be set by third-party services that appear on our pages. We do not control these cookies and recommend reviewing the privacy policies of those third parties."
+                },
+                {
+                    "heading": "5. Managing Cookies",
+                    "body": "You can control and delete cookies through your browser settings. Please note that disabling certain cookies may affect the functionality of our platform. Refer to your browser's help documentation for instructions on managing cookies."
+                },
+                {
+                    "heading": "6. Contact Us",
+                    "body": "If you have any questions about our use of cookies, please contact us at:"
+                }
+            ]
+        },
+        "contact": {
+            "title": "Contact us",
+            "description": "Have a question, feedback, or need support? Send us a message and we'll get back to you as soon as possible.",
+            "fields": {
+                "name": "Name",
+                "email": "Email",
+                "subject": "Subject",
+                "message": "Message"
+            },
+            "validation": {
+                "nameRequired": "Please enter your name.",
+                "emailRequired": "Please enter your email.",
+                "emailInvalid": "Enter a valid email address.",
+                "subjectRequired": "Please enter a subject.",
+                "messageRequired": "Please enter your message."
+            },
+            "submit": "Send message",
+            "toastSent": "Message sent! We'll get back to you shortly."
+        },
+        "helpCenter": {
+            "title": "Help Center",
+            "comingSoonTitle": "Coming Soon!",
+            "comingSoonBody": "This page has not been created yet.\nStay tuned though!"
+        }
+    },
+    "errors": {
+        "sessionExpired": "Your session has expired. Please sign in again.",
+        "serverError": "Something went wrong on our end. Please try again.",
+        "generic": "Something went wrong.",
+        "boundaryTitle": "Something went wrong",
+        "boundaryHint": "An unexpected error occurred. You can try again.",
+        "boundaryRetry": "Try again",
+        "goBack": "Go Back",
+        "backToHome": "Back to Home",
+        "forbidden": {
+            "title": "Access Forbidden",
+            "description": "You don't have necessary permission\nto view this resource."
+        },
+        "serverErrorScreen": {
+            "title": "Oops! Something went wrong :')",
+            "description": "We apologize for the inconvenience.\nPlease try again later."
+        },
+        "maintenance": {
+            "title": "Website is under maintenance!",
+            "description": "The site is not available at the moment.\nWe'll be back online shortly.",
+            "learnMore": "Learn more"
+        },
+        "notFound": {
+            "title": "Oops! Page Not Found!",
+            "description": "It seems like the page you're looking for\ndoes not exist or might have been removed."
+        },
+        "unauthorized": {
+            "title": "Unauthorized Access",
+            "description": "Your session has ended.\nPlease log in again to continue."
+        }
+    }
+}

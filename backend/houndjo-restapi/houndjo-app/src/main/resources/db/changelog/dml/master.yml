@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: saliou673
+  - include:
+      file: 00001-insert-default-permissions.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 00002-insert-default-role-groups.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 00003-assign-non-admin-permissions.sql
+      relativeToChangelogFile: true

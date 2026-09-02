@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: saliou673
+
+  - include:
+      file: 00001-app-user-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00002-permission-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00003-role-group-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00004-app-user-role-group-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00005-refresh-token-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00006-app-configuration-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00007-two-factor-challenge-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00008-user-preference-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00009-security-settings-create-table.sql
+      relativeToChangelogFile: true

@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <title th:text="#{email.email-changed-old.title}">Your email address has been changed</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="icon" th:href="${baseUrl + '/favicon.ico'}"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .alert {
+            font-size: 14px;
+            color: #c0392b;
+            background-color: #fdf3f2;
+            border: 1px solid #e74c3c;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body>
+<p th:text="#{email.email-changed-old.greeting(${firstName})}">Dear</p>
+<p th:text="#{email.email-changed-old.text1(${newEmail})}">
+    The email address associated with your account has been changed to a new address.
+</p>
+<div class="alert" th:text="#{email.email-changed-old.alert}">
+    If you did not make this change, please contact our support team immediately to secure your account.
+</div>
+<p>
+    <span th:text="#{email.email-changed-old.text2}">Regards,</span>
+    <br/>
+    <em th:text="#{email.signature}">The Houndjo team.</em>
+</p>
+</body>
+</html>

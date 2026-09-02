@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "equals": { "type": "string" },
+        "notEquals": { "type": "string" },
+        "specified": { "type": "boolean" },
+        "in": { "type": "array", "items": { "type": "string" } },
+        "notIn": { "type": "array", "items": { "type": "string" } },
+        "contains": { "type": "string" },
+        "doesNotContain": { "type": "string" }
+    },
+    "x-readme-ref-name": "StringFilter"
+}

@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "properties": {
+        "creationDate": { "type": "string", "format": "date-time" },
+        "lastUpdateDate": { "type": "string", "format": "date-time" },
+        "lastUpdatedBy": { "type": "string" },
+        "id": { "type": "integer", "format": "int64" },
+        "twoFactorRequired": { "type": "boolean" }
+    },
+    "x-readme-ref-name": "SecuritySettings"
+}

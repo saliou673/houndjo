@@ -1,0 +1,6 @@
+{
+    "type": "object",
+    "properties": { "roleGroupId": { "type": "integer", "format": "int64" } },
+    "required": ["roleGroupId"],
+    "x-readme-ref-name": "AssignRoleGroupRequest"
+}

@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "textSize": { "type": "string", "enum": ["SMALL", "DEFAULT", "LARGE"] },
+        "reduceMotion": { "type": "boolean" }
+    },
+    "required": ["textSize"],
+    "x-readme-ref-name": "DisplayPreferences"
+}

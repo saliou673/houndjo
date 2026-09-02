@@ -1,0 +1,50 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <title th:text="#{email.activation.title}">App creation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .login-link {
+            display: inline-block;
+            background-color: #007bff;
+            color: white !important;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .login-link:hover {
+            background-color: #0056b3;
+        }
+
+        .signature {
+            margin-top: 30px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<p th:text="#{email.activation.greeting(${user.firstName})}">Dear</p>
+<p th:text="#{email.creation.text1}">Your account has been created, please click on the URL below to access it:</p>
+<p>
+    <a class="login-link" th:with="url=(@{|${baseUrl}/${loginRoute}|})" th:href="${url}" th:text="${url}">Login link</a>
+</p>
+<p class="signature">
+    <span th:text="#{email.activation.text2}">Regards, </span>
+    <br/>
+    <em th:text="#{email.signature}">App.</em>
+</p>
+</body>
+</html>

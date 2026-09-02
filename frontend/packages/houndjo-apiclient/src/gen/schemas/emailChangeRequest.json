@@ -1,0 +1,8 @@
+{
+    "type": "object",
+    "properties": {
+        "newEmail": { "type": "string", "format": "email", "minLength": 1 }
+    },
+    "required": ["newEmail"],
+    "x-readme-ref-name": "EmailChangeRequest"
+}

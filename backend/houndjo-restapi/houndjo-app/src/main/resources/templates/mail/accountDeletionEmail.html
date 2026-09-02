@@ -1,0 +1,34 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <title th:text="#{email.deletion.title}">Houndjo account deletion requested</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="icon" th:href="${baseUrl + '/favicon.ico'}"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .note {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<p th:text="#{email.deletion.greeting(${user.firstName})}">Dear</p>
+<p th:text="#{email.deletion.text1}">Your account has been deactivated and is not permanently deleted yet.</p>
+<p th:text="#{email.deletion.text2(${recoveryPeriodDays})}">Your account will be permanently deleted in 30 days.</p>
+<p th:text="#{email.deletion.text3}">You can still recover your account before this deadline using the account recovery
+    flow.</p>
+<p class="note" th:text="#{email.deletion.text4}">If you did not request this action, please contact support
+    immediately.</p>
+<p>
+    <span th:text="#{email.deletion.text5}">Regards, </span>
+    <br/>
+    <em th:text="#{email.signature}">Houndjo Team.</em>
+</p>
+</body>
+</html>

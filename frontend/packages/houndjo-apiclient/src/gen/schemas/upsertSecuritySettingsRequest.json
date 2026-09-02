@@ -1,0 +1,5 @@
+{
+    "type": "object",
+    "properties": { "twoFactorRequired": { "type": "boolean" } },
+    "x-readme-ref-name": "UpsertSecuritySettingsRequest"
+}

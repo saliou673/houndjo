@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "timestamp": { "type": "string", "format": "date-time" },
+        "status": { "type": "integer", "format": "int32" },
+        "message": { "type": "string" },
+        "errors": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+        }
+    },
+    "x-readme-ref-name": "ValidationErrorResponseDTO"
+}

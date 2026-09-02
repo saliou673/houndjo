@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "properties": {
+        "items": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "code": { "type": "string" },
+                    "description": { "type": "string" }
+                },
+                "x-readme-ref-name": "Permission"
+            }
+        },
+        "page": { "type": "integer", "format": "int32" },
+        "size": { "type": "integer", "format": "int32" },
+        "totalPages": { "type": "integer", "format": "int32" },
+        "totalItems": { "type": "integer", "format": "int64" }
+    },
+    "required": ["items"],
+    "x-readme-ref-name": "PaginatedResultPermission"
+}

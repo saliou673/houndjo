@@ -1,0 +1,63 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <title th:text="#{email.invitation.title}">Houndjo invitation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .invitation-link {
+            display: inline-block;
+            background-color: #007bff;
+            color: white !important;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .invitation-link:hover {
+            background-color: #0056b3;
+        }
+
+        .note {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .signature {
+            margin-top: 30px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<p th:text="#{email.invitation.greeting(${user.firstName})}">Dear</p>
+<p th:text="#{email.invitation.text1}">An Houndjo account has been created for you by an administrator. Click the
+    link
+    below to set your password and access your account:</p>
+<p>
+    <a class="invitation-link"
+       th:with="url=(@{|${baseUrl}/${managedUserInvitationRoute}?code=${user.resetCode}|})"
+       th:href="${url}"
+       th:text="${url}">Invitation link</a>
+</p>
+<p class="note" th:text="#{email.invitation.note(${codeLifetimeAmount}, ${codeLifetimeUnit})}">This link will expire in
+    1 day. After that, please contact your administrator.</p>
+<p class="signature">
+    <span th:text="#{email.invitation.text2}">Regards, </span>
+    <br/>
+    <em th:text="#{email.signature}">Houndjo.</em>
+</p>
+</body>
+</html>

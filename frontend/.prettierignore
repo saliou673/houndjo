@@ -1,0 +1,15 @@
+# Ignore everything by default
+/*
+
+# Allow frontend workspace files
+!houndjo-web/
+!houndjo-apiclient/
+
+# Ignore dependencies and build output
+houndjo-web/node_modules/
+houndjo-web/.next/
+houndjo-apiclient/node_modules/
+houndjo-apiclient/dist/
+
+# Ignore auto-generated API client
+houndjo-apiclient/src/gen/

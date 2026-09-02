@@ -1,0 +1,139 @@
+{
+    "type": "object",
+    "properties": {
+        "items": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "creationDate": { "type": "string", "format": "date-time" },
+                    "lastUpdateDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastUpdatedBy": { "type": "string" },
+                    "id": { "type": "integer", "format": "int64" },
+                    "email": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^[\\w!#$%&'*+/=?`{|}~^.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$"
+                    },
+                    "phoneNumber": { "type": "string" },
+                    "firstName": { "type": "string", "minLength": 1 },
+                    "lastName": { "type": "string", "minLength": 1 },
+                    "birthDate": { "type": "string", "format": "date" },
+                    "gender": { "type": "string", "enum": ["MALE", "FEMALE"] },
+                    "address": { "type": "string" },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "NOT_ACTIVATED",
+                            "ACTIVATED",
+                            "DEACTIVATED",
+                            "LOCKED",
+                            "BANNED"
+                        ]
+                    },
+                    "languageKey": { "type": "string" },
+                    "imageUrl": { "type": "string" },
+                    "permissions": {
+                        "type": "array",
+                        "items": { "type": "string" }
+                    },
+                    "roleGroups": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "creationDate": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "lastUpdateDate": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "lastUpdatedBy": { "type": "string" },
+                                "id": { "type": "integer", "format": "int64" },
+                                "name": { "type": "string" },
+                                "description": { "type": "string" },
+                                "permissions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "code": { "type": "string" },
+                                            "description": { "type": "string" }
+                                        },
+                                        "x-readme-ref-name": "Permission"
+                                    }
+                                }
+                            },
+                            "x-readme-ref-name": "RoleGroup"
+                        }
+                    },
+                    "preferences": {
+                        "type": "object",
+                        "properties": {
+                            "appearance": {
+                                "type": "object",
+                                "properties": {
+                                    "theme": {
+                                        "type": "string",
+                                        "enum": ["LIGHT", "DARK", "SYSTEM"]
+                                    },
+                                    "font": {
+                                        "type": "string",
+                                        "enum": ["INTER", "MANROPE", "SYSTEM"]
+                                    }
+                                },
+                                "required": ["font", "theme"],
+                                "x-readme-ref-name": "AppearancePreferences"
+                            },
+                            "notifications": {
+                                "type": "object",
+                                "properties": {
+                                    "productUpdatesEnabled": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "x-readme-ref-name": "NotificationPreferences"
+                            },
+                            "display": {
+                                "type": "object",
+                                "properties": {
+                                    "textSize": {
+                                        "type": "string",
+                                        "enum": ["SMALL", "DEFAULT", "LARGE"]
+                                    },
+                                    "reduceMotion": { "type": "boolean" }
+                                },
+                                "required": ["textSize"],
+                                "x-readme-ref-name": "DisplayPreferences"
+                            }
+                        },
+                        "required": ["appearance", "display", "notifications"],
+                        "x-readme-ref-name": "UserPreferences"
+                    }
+                },
+                "required": [
+                    "birthDate",
+                    "email",
+                    "firstName",
+                    "gender",
+                    "lastName",
+                    "permissions",
+                    "preferences",
+                    "roleGroups"
+                ],
+                "x-readme-ref-name": "UserDetails"
+            }
+        },
+        "page": { "type": "integer", "format": "int32" },
+        "size": { "type": "integer", "format": "int32" },
+        "totalPages": { "type": "integer", "format": "int32" },
+        "totalItems": { "type": "integer", "format": "int64" }
+    },
+    "required": ["items"],
+    "x-readme-ref-name": "PaginatedResultUserDetails"
+}

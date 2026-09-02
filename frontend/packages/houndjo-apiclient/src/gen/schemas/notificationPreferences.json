@@ -1,0 +1,5 @@
+{
+    "type": "object",
+    "properties": { "productUpdatesEnabled": { "type": "boolean" } },
+    "x-readme-ref-name": "NotificationPreferences"
+}

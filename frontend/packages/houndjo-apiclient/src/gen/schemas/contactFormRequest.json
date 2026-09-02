@@ -1,0 +1,16 @@
+{
+    "type": "object",
+    "properties": {
+        "name": { "type": "string", "maxLength": 100, "minLength": 0 },
+        "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 255,
+            "minLength": 0
+        },
+        "subject": { "type": "string", "maxLength": 150, "minLength": 0 },
+        "message": { "type": "string", "maxLength": 5000, "minLength": 0 }
+    },
+    "required": ["email", "message", "name", "subject"],
+    "x-readme-ref-name": "ContactFormRequest"
+}

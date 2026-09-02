@@ -1,0 +1,5 @@
+{
+    "type": "object",
+    "properties": { "hasPermission": { "type": "boolean" } },
+    "x-readme-ref-name": "PermissionCheckResponse"
+}

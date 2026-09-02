@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:18-alpine3.23
+    container_name: houndjo-db
+    environment:
+      POSTGRES_DB: houndjodb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - houndjo_db_pg_data:/var/lib/postgresql/
+
+    restart: unless-stopped
+
+  maildev:
+    image: maildev/maildev:2.2.1
+    container_name: houndjo-maildev
+    ports:
+      - "1025:1025" # SMTP
+      - "1080:1080" # Web UI
+
+volumes:
+  houndjo_db_pg_data:

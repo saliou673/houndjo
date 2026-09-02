@@ -1,0 +1,26 @@
+{
+    "type": "object",
+    "properties": {
+        "email": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[\\w!#$%&'*+/=?`{|}~^.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$"
+        },
+        "firstName": { "type": "string", "minLength": 1 },
+        "lastName": { "type": "string", "minLength": 1 },
+        "birthDate": { "type": "string", "format": "date" },
+        "gender": { "type": "string", "enum": ["MALE", "FEMALE"] },
+        "phoneNumber": { "type": "string" },
+        "address": { "type": "string" },
+        "languageKey": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "roleGroupNames": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 1,
+            "uniqueItems": true
+        }
+    },
+    "required": ["email", "firstName", "lastName", "roleGroupNames"],
+    "x-readme-ref-name": "CreateAdminUserRequest"
+}

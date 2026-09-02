@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <title th:text="#{email.subscription-payment-succeeded.title}">Houndjo subscription confirmed</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .action-link {
+            display: inline-block;
+            background-color: #007bff;
+            color: white !important;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<p th:text="#{email.subscription-payment-succeeded.greeting(${user.firstName})}">Dear</p>
+<p th:text="#{email.subscription-payment-succeeded.text1(${subscription.planTitle})}">Your subscription is now active.</p>
+<p th:text="#{email.subscription-payment-succeeded.text2(${subscription.pricePaid}, ${subscription.currencyCode})}">Your bill is attached to this email.</p>
+<p>
+    <a class="action-link" th:href="${baseUrl}" th:text="#{email.subscription-payment-succeeded.action}">Open Houndjo</a>
+</p>
+<p th:text="#{email.subscription-payment-succeeded.text3}">Keep this attached bill for your records.</p>
+<p>
+    <span th:text="#{email.deletion.text5}">Regards, </span>
+    <br/>
+    <em th:text="#{email.signature}">Houndjo Team.</em>
+</p>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+    "type": "object",
+    "properties": {
+        "equals": {
+            "type": "string",
+            "enum": ["CURRENCY", "TWO_FACTOR", "PAYMENT_MODE"]
+        },
+        "notEquals": {
+            "type": "string",
+            "enum": ["CURRENCY", "TWO_FACTOR", "PAYMENT_MODE"]
+        },
+        "specified": { "type": "boolean" },
+        "in": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": ["CURRENCY", "TWO_FACTOR", "PAYMENT_MODE"]
+            }
+        },
+        "notIn": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": ["CURRENCY", "TWO_FACTOR", "PAYMENT_MODE"]
+            }
+        }
+    },
+    "x-readme-ref-name": "AppConfigurationCategoryFilter"
+}

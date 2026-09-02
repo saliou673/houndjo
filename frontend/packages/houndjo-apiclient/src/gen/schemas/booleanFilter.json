@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "properties": {
+        "equals": { "type": "boolean" },
+        "notEquals": { "type": "boolean" },
+        "specified": { "type": "boolean" },
+        "in": { "type": "array", "items": { "type": "boolean" } },
+        "notIn": { "type": "array", "items": { "type": "boolean" } }
+    },
+    "x-readme-ref-name": "BooleanFilter"
+}

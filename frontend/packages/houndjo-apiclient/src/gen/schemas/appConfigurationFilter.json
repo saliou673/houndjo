@@ -1,0 +1,154 @@
+{
+    "type": "object",
+    "properties": {
+        "creationDate": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "string", "format": "date-time" },
+                "notEquals": { "type": "string", "format": "date-time" },
+                "specified": { "type": "boolean" },
+                "in": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "date-time" }
+                },
+                "notIn": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "date-time" }
+                },
+                "greaterThan": { "type": "string", "format": "date-time" },
+                "lessThan": { "type": "string", "format": "date-time" },
+                "greaterThanOrEqual": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "lessThanOrEqual": { "type": "string", "format": "date-time" }
+            },
+            "x-readme-ref-name": "InstantFilter"
+        },
+        "lastUpdateDate": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "string", "format": "date-time" },
+                "notEquals": { "type": "string", "format": "date-time" },
+                "specified": { "type": "boolean" },
+                "in": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "date-time" }
+                },
+                "notIn": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "date-time" }
+                },
+                "greaterThan": { "type": "string", "format": "date-time" },
+                "lessThan": { "type": "string", "format": "date-time" },
+                "greaterThanOrEqual": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "lessThanOrEqual": { "type": "string", "format": "date-time" }
+            },
+            "x-readme-ref-name": "InstantFilter"
+        },
+        "lastUpdatedBy": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "string" },
+                "notEquals": { "type": "string" },
+                "specified": { "type": "boolean" },
+                "in": { "type": "array", "items": { "type": "string" } },
+                "notIn": { "type": "array", "items": { "type": "string" } },
+                "contains": { "type": "string" },
+                "doesNotContain": { "type": "string" }
+            },
+            "x-readme-ref-name": "StringFilter"
+        },
+        "id": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "integer", "format": "int64" },
+                "notEquals": { "type": "integer", "format": "int64" },
+                "specified": { "type": "boolean" },
+                "in": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int64" }
+                },
+                "notIn": {
+                    "type": "array",
+                    "items": { "type": "integer", "format": "int64" }
+                },
+                "greaterThan": { "type": "integer", "format": "int64" },
+                "lessThan": { "type": "integer", "format": "int64" },
+                "greaterThanOrEqual": { "type": "integer", "format": "int64" },
+                "lessThanOrEqual": { "type": "integer", "format": "int64" }
+            },
+            "x-readme-ref-name": "LongFilter"
+        },
+        "category": {
+            "type": "object",
+            "properties": {
+                "equals": {
+                    "type": "string",
+                    "enum": ["CURRENCY", "TWO_FACTOR", "PAYMENT_MODE"]
+                },
+                "notEquals": {
+                    "type": "string",
+                    "enum": ["CURRENCY", "TWO_FACTOR", "PAYMENT_MODE"]
+                },
+                "specified": { "type": "boolean" },
+                "in": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": ["CURRENCY", "TWO_FACTOR", "PAYMENT_MODE"]
+                    }
+                },
+                "notIn": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": ["CURRENCY", "TWO_FACTOR", "PAYMENT_MODE"]
+                    }
+                }
+            },
+            "x-readme-ref-name": "AppConfigurationCategoryFilter"
+        },
+        "code": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "string" },
+                "notEquals": { "type": "string" },
+                "specified": { "type": "boolean" },
+                "in": { "type": "array", "items": { "type": "string" } },
+                "notIn": { "type": "array", "items": { "type": "string" } },
+                "contains": { "type": "string" },
+                "doesNotContain": { "type": "string" }
+            },
+            "x-readme-ref-name": "StringFilter"
+        },
+        "label": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "string" },
+                "notEquals": { "type": "string" },
+                "specified": { "type": "boolean" },
+                "in": { "type": "array", "items": { "type": "string" } },
+                "notIn": { "type": "array", "items": { "type": "string" } },
+                "contains": { "type": "string" },
+                "doesNotContain": { "type": "string" }
+            },
+            "x-readme-ref-name": "StringFilter"
+        },
+        "active": {
+            "type": "object",
+            "properties": {
+                "equals": { "type": "boolean" },
+                "notEquals": { "type": "boolean" },
+                "specified": { "type": "boolean" },
+                "in": { "type": "array", "items": { "type": "boolean" } },
+                "notIn": { "type": "array", "items": { "type": "boolean" } }
+            },
+            "x-readme-ref-name": "BooleanFilter"
+        }
+    },
+    "x-readme-ref-name": "AppConfigurationFilter"
+}

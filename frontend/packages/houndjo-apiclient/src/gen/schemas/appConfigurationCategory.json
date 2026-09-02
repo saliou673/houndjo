@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "properties": {
+        "value": {
+            "type": "string",
+            "enum": ["CURRENCY", "TWO_FACTOR", "PAYMENT_MODE"]
+        },
+        "description": { "type": "string" }
+    },
+    "x-readme-ref-name": "AppConfigurationCategory"
+}

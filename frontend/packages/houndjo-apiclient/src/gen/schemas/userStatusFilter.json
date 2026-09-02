@@ -1,0 +1,53 @@
+{
+    "type": "object",
+    "properties": {
+        "equals": {
+            "type": "string",
+            "enum": [
+                "NOT_ACTIVATED",
+                "ACTIVATED",
+                "DEACTIVATED",
+                "LOCKED",
+                "BANNED"
+            ]
+        },
+        "notEquals": {
+            "type": "string",
+            "enum": [
+                "NOT_ACTIVATED",
+                "ACTIVATED",
+                "DEACTIVATED",
+                "LOCKED",
+                "BANNED"
+            ]
+        },
+        "specified": { "type": "boolean" },
+        "in": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "NOT_ACTIVATED",
+                    "ACTIVATED",
+                    "DEACTIVATED",
+                    "LOCKED",
+                    "BANNED"
+                ]
+            }
+        },
+        "notIn": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "NOT_ACTIVATED",
+                    "ACTIVATED",
+                    "DEACTIVATED",
+                    "LOCKED",
+                    "BANNED"
+                ]
+            }
+        }
+    },
+    "x-readme-ref-name": "UserStatusFilter"
+}

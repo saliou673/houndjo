@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "email": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[\\w!#$%&'*+/=?`{|}~^.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$"
+        },
+        "password": { "type": "string", "minLength": 1 }
+    },
+    "required": ["email", "password"],
+    "x-readme-ref-name": "RecoverAccountRequest"
+}

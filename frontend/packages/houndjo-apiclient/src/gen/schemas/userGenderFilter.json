@@ -1,0 +1,17 @@
+{
+    "type": "object",
+    "properties": {
+        "equals": { "type": "string", "enum": ["MALE", "FEMALE"] },
+        "notEquals": { "type": "string", "enum": ["MALE", "FEMALE"] },
+        "specified": { "type": "boolean" },
+        "in": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["MALE", "FEMALE"] }
+        },
+        "notIn": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["MALE", "FEMALE"] }
+        }
+    },
+    "x-readme-ref-name": "UserGenderFilter"
+}

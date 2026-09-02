@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "theme": { "type": "string", "enum": ["LIGHT", "DARK", "SYSTEM"] },
+        "font": { "type": "string", "enum": ["INTER", "MANROPE", "SYSTEM"] }
+    },
+    "required": ["font", "theme"],
+    "x-readme-ref-name": "AppearancePreferences"
+}

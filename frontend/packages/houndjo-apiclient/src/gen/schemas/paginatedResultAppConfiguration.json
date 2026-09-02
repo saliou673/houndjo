@@ -1,0 +1,35 @@
+{
+    "type": "object",
+    "properties": {
+        "items": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "creationDate": { "type": "string", "format": "date-time" },
+                    "lastUpdateDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastUpdatedBy": { "type": "string" },
+                    "id": { "type": "integer", "format": "int64" },
+                    "category": {
+                        "type": "string",
+                        "enum": ["CURRENCY", "TWO_FACTOR", "PAYMENT_MODE"]
+                    },
+                    "code": { "type": "string" },
+                    "label": { "type": "string" },
+                    "description": { "type": "string" },
+                    "active": { "type": "boolean" }
+                },
+                "x-readme-ref-name": "AppConfiguration"
+            }
+        },
+        "page": { "type": "integer", "format": "int32" },
+        "size": { "type": "integer", "format": "int32" },
+        "totalPages": { "type": "integer", "format": "int32" },
+        "totalItems": { "type": "integer", "format": "int64" }
+    },
+    "required": ["items"],
+    "x-readme-ref-name": "PaginatedResultAppConfiguration"
+}

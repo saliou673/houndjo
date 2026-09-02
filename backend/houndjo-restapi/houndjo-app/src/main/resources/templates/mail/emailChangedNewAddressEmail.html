@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <title th:text="#{email.email-changed-new.title}">Your new email address is confirmed</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="icon" th:href="${baseUrl + '/favicon.ico'}"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .success {
+            font-size: 14px;
+            color: #1e8449;
+            background-color: #eafaf1;
+            border: 1px solid #27ae60;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body>
+<p th:text="#{email.email-changed-new.greeting(${firstName})}">Dear</p>
+<p th:text="#{email.email-changed-new.text1}">
+    Your new email address has been confirmed and is now active on your account.
+</p>
+<div class="success" th:text="#{email.email-changed-new.success}">
+    You can now sign in using this email address.
+</div>
+<p>
+    <span th:text="#{email.email-changed-new.text2}">Regards,</span>
+    <br/>
+    <em th:text="#{email.signature}">The Houndjo team.</em>
+</p>
+</body>
+</html>

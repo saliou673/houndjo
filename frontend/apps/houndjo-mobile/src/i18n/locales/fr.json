@@ -1,0 +1,693 @@
+{
+    "common": {
+        "loading": "Chargement...",
+        "retry": "Réessayer",
+        "cancel": "Annuler",
+        "confirm": "Confirmer",
+        "save": "Enregistrer",
+        "ok": "OK",
+        "offlineBanner": "Vous êtes hors ligne. Certaines fonctionnalités peuvent être indisponibles."
+    },
+    "languageSwitch": {
+        "toggleLabel": "Changer de langue",
+        "english": "Anglais",
+        "french": "Français"
+    },
+    "auth": {
+        "signIn": {
+            "title": "Connexion",
+            "subtitle": "Saisissez votre e-mail et votre mot de passe pour continuer.",
+            "emailLabel": "E-mail",
+            "emailPlaceholder": "nom@exemple.com",
+            "passwordLabel": "Mot de passe",
+            "passwordPlaceholder": "********",
+            "rememberMe": "Rester connecté",
+            "submit": "Se connecter",
+            "emailRequired": "Veuillez saisir votre e-mail",
+            "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+            "passwordRequired": "Veuillez saisir votre mot de passe",
+            "passwordTooShort": "Le mot de passe doit contenir au moins 7 caractères",
+            "invalidCredentials": "E-mail ou mot de passe incorrect",
+            "noAccount": "Vous n'avez pas de compte ?",
+            "signUpLink": "S'inscrire",
+            "forgotPassword": "Mot de passe oublié ?"
+        },
+        "forgotPassword": {
+            "title": "Réinitialiser votre mot de passe",
+            "subtitle": "Nous vous enverrons un code par e-mail pour définir un nouveau mot de passe.",
+            "emailLabel": "E-mail",
+            "emailPlaceholder": "nom@exemple.com",
+            "submit": "Envoyer le code",
+            "emailRequired": "Veuillez saisir votre e-mail",
+            "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+            "noAccount": "Aucun compte ne correspond à cette adresse e-mail.",
+            "sentTitle": "Consultez vos e-mails",
+            "sentSubtitle": "Si un compte existe, nous avons envoyé un code à {{email}}.",
+            "enterCodeLink": "J'ai un code",
+            "backToSignIn": "Retour à la connexion"
+        },
+        "resetPassword": {
+            "title": "Définir un nouveau mot de passe",
+            "subtitle": "Saisissez le code reçu par e-mail et choisissez un nouveau mot de passe.",
+            "codeLabel": "Code de réinitialisation",
+            "codePlaceholder": "Collez le code reçu par e-mail",
+            "newPasswordLabel": "Nouveau mot de passe",
+            "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+            "passwordPlaceholder": "********",
+            "submit": "Réinitialiser le mot de passe",
+            "codeRequired": "Veuillez saisir votre code de réinitialisation",
+            "passwordRequired": "Veuillez saisir un nouveau mot de passe",
+            "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+            "passwordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial",
+            "confirmPasswordRequired": "Veuillez confirmer votre nouveau mot de passe",
+            "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+            "invalidCode": "Ce code de réinitialisation est invalide ou a expiré.",
+            "backToSignIn": "Retour à la connexion"
+        },
+        "invitation": {
+            "title": "Finaliser votre invitation",
+            "subtitle": "Choisissez un mot de passe pour terminer la configuration de votre compte.",
+            "newPasswordLabel": "Mot de passe",
+            "confirmPasswordLabel": "Confirmer le mot de passe",
+            "passwordPlaceholder": "********",
+            "submit": "Terminer la configuration",
+            "passwordRequired": "Veuillez saisir un mot de passe",
+            "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+            "passwordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial",
+            "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+            "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+            "invalidCode": "Cette invitation est invalide ou a expiré. Contactez votre administrateur.",
+            "missingCode": "Lien d'invitation invalide ou manquant. Veuillez contacter votre administrateur.",
+            "backToSignIn": "Retour à la connexion"
+        },
+        "signUp": {
+            "title": "Créer un compte",
+            "subtitle": "Renseignez vos informations pour commencer.",
+            "firstNameLabel": "Prénom",
+            "firstNamePlaceholder": "Jean",
+            "lastNameLabel": "Nom",
+            "lastNamePlaceholder": "Dupont",
+            "emailLabel": "E-mail",
+            "emailPlaceholder": "nom@exemple.com",
+            "passwordLabel": "Mot de passe",
+            "passwordPlaceholder": "********",
+            "confirmPasswordLabel": "Confirmer le mot de passe",
+            "submit": "Créer un compte",
+            "firstNameRequired": "Veuillez saisir votre prénom",
+            "lastNameRequired": "Veuillez saisir votre nom",
+            "emailRequired": "Veuillez saisir votre e-mail",
+            "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+            "passwordRequired": "Veuillez saisir votre mot de passe",
+            "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+            "passwordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial",
+            "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+            "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+            "haveAccount": "Vous avez déjà un compte ?",
+            "signInLink": "Se connecter"
+        },
+        "activate": {
+            "title": "Activer votre compte",
+            "subtitle": "Saisissez le code envoyé à {{email}} pour terminer la création de votre compte.",
+            "subtitleGeneric": "Saisissez le code d'activation reçu par e-mail pour terminer la création de votre compte.",
+            "codeLabel": "Code d'activation",
+            "codePlaceholder": "A1B2",
+            "submit": "Activer le compte",
+            "codeRequired": "Veuillez saisir votre code d'activation",
+            "invalidCode": "Ce code d'activation est invalide ou a expiré.",
+            "resend": "Envoyez-moi un nouveau code",
+            "noAccount": "Aucun compte ne correspond à cette adresse e-mail.",
+            "backToSignIn": "Retour à la connexion"
+        },
+        "twoFactor": {
+            "title": "Vérification en deux étapes",
+            "subtitle": "Saisissez le code de votre application d'authentification.",
+            "codeLabel": "Code de vérification",
+            "codePlaceholder": "123456",
+            "submit": "Vérifier",
+            "codeLength": "Saisissez le code à {{count}} chiffres",
+            "invalidCode": "Code de vérification invalide"
+        },
+        "logout": {
+            "action": "Se déconnecter"
+        },
+        "toasts": {
+            "signedIn": "Content de vous revoir !",
+            "signedOut": "Vous avez été déconnecté.",
+            "twoFactorVerified": "Vérification réussie.",
+            "resetCodeSent": "Code de réinitialisation envoyé à {{email}}.",
+            "accountCreated": "Compte créé. Saisissez le code reçu par e-mail pour terminer.",
+            "accountActivated": "Votre compte est actif. Vous pouvez maintenant vous connecter.",
+            "activationCodeSent": "Nous vous avons envoyé un nouveau code d'activation.",
+            "twoFactorExpired": "Votre session de vérification a expiré. Veuillez vous reconnecter.",
+            "passwordReset": "Votre mot de passe a été réinitialisé. Connectez-vous avec le nouveau.",
+            "invitationCompleted": "Votre compte est prêt. Connectez-vous avec votre e-mail et votre nouveau mot de passe."
+        }
+    },
+    "settings": {
+        "nav": {
+            "title": "Paramètres",
+            "description": "Gérez votre profil, votre compte et les préférences de l'application.",
+            "sectionAccount": "Compte",
+            "sectionPreferences": "Préférences",
+            "sectionAdmin": "Administration",
+            "profile": "Profil",
+            "account": "Compte",
+            "appearance": "Apparence",
+            "notifications": "Notifications",
+            "display": "Affichage",
+            "language": "Langue",
+            "users": "Utilisateurs",
+            "roleGroups": "Groupes de rôles",
+            "configurations": "Configuration"
+        },
+        "account": {
+            "title": "Compte",
+            "description": "Gérez votre e-mail, votre mot de passe, l'authentification à deux facteurs et la suppression du compte.",
+            "sectionSecurity": "Sécurité",
+            "sectionDanger": "Zone de danger",
+            "email": "Modifier l'e-mail",
+            "password": "Modifier le mot de passe",
+            "twoFactor": "Authentification à deux facteurs",
+            "delete": "Supprimer le compte",
+            "emailChange": {
+                "description": "Saisissez une nouvelle adresse e-mail. Nous vous enverrons un code pour la confirmer.",
+                "confirmDescription": "Saisissez le code envoyé à {{email}}.",
+                "newEmailLabel": "Nouvel e-mail",
+                "newEmailPlaceholder": "nom@exemple.com",
+                "emailInvalid": "Veuillez saisir une adresse e-mail valide",
+                "sendButton": "Envoyer le code",
+                "codeLabel": "Code de confirmation",
+                "codeLength": "Saisissez le code à {{count}} caractères",
+                "confirmButton": "Confirmer",
+                "cancelButton": "Utiliser une autre adresse e-mail",
+                "invalidCode": "Ce code est invalide ou a expiré.",
+                "codeSentToast": "Code envoyé à {{email}}.",
+                "toastChanged": "Votre e-mail a été mis à jour."
+            },
+            "changePassword": {
+                "description": "Choisissez un nouveau mot de passe robuste.",
+                "currentPasswordLabel": "Mot de passe actuel",
+                "newPasswordLabel": "Nouveau mot de passe",
+                "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+                "currentPasswordRequired": "Veuillez saisir votre mot de passe actuel",
+                "newPasswordRequired": "Veuillez saisir un nouveau mot de passe",
+                "newPasswordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+                "newPasswordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial",
+                "confirmPasswordRequired": "Veuillez confirmer votre nouveau mot de passe",
+                "passwordsDoNotMatch": "Les mots de passe ne correspondent pas.",
+                "invalidCurrentPassword": "Votre mot de passe actuel est incorrect.",
+                "submit": "Mettre à jour le mot de passe",
+                "toastUpdated": "Votre mot de passe a été mis à jour."
+            },
+            "twoFactorSetup": {
+                "description": "Ajoutez une application d'authentification pour une sécurité renforcée lors de la connexion.",
+                "enabledDescription": "L'authentification à deux facteurs protège votre compte.",
+                "startButton": "Activer l'authentification à deux facteurs",
+                "startError": "Impossible de démarrer la configuration. Veuillez réessayer.",
+                "scanHint": "Scannez ce code QR avec votre application d'authentification.",
+                "openAuthenticator": "Ouvrir dans l'application d'authentification",
+                "manualEntryHint": "Ou saisissez ce code manuellement dans votre application d'authentification :",
+                "codeLabel": "Code de vérification",
+                "codeRequired": "Veuillez saisir le code de votre application d'authentification",
+                "invalidCode": "Code de vérification invalide",
+                "confirmButton": "Confirmer et activer",
+                "toastEnabled": "L'authentification à deux facteurs est maintenant activée."
+            },
+            "twoFactorDisable": {
+                "description": "Saisissez votre mot de passe actuel pour désactiver l'authentification à deux facteurs.",
+                "currentPasswordLabel": "Mot de passe actuel",
+                "passwordRequired": "Veuillez saisir votre mot de passe actuel",
+                "invalidPassword": "Votre mot de passe actuel est incorrect.",
+                "submit": "Désactiver l'authentification à deux facteurs",
+                "toastDisabled": "L'authentification à deux facteurs est maintenant désactivée."
+            },
+            "deleteAccount": {
+                "warningTitle": "Cette action est irréversible",
+                "warningBody": "La suppression de votre compte retire immédiatement votre accès. Contactez un administrateur si vous changez d'avis.",
+                "accountLabel": "Compte : {{email}}",
+                "confirmationWord": "SUPPRIMER",
+                "confirmationLabel": "Saisissez {{word}} pour confirmer",
+                "confirmationRequired": "Saisissez {{word}} pour confirmer la suppression du compte",
+                "submit": "Supprimer mon compte",
+                "toastDeleted": "Votre compte a été supprimé."
+            }
+        },
+        "profile": {
+            "fields": {
+                "email": "E-mail",
+                "firstName": "Prénom",
+                "lastName": "Nom",
+                "phoneNumber": "Numéro de téléphone",
+                "birthDate": "Date de naissance",
+                "gender": "Genre",
+                "genderMale": "Homme",
+                "genderFemale": "Femme",
+                "address": "Adresse",
+                "imageUrl": "URL de l'image de profil"
+            },
+            "firstNameRequired": "Veuillez saisir votre prénom",
+            "lastNameRequired": "Veuillez saisir votre nom",
+            "birthDateInvalid": "Utilisez le format AAAA-MM-JJ",
+            "submit": "Enregistrer les modifications",
+            "toastUpdated": "Profil mis à jour.",
+            "loadError": "Impossible de charger votre profil. Veuillez réessayer."
+        },
+        "appearance": {
+            "description": "Choisissez l'apparence de Houndjo sur cet appareil.",
+            "system": "Système",
+            "light": "Clair",
+            "dark": "Sombre",
+            "saveError": "Impossible d'enregistrer votre préférence d'apparence. Veuillez réessayer."
+        },
+        "notifications": {
+            "productUpdatesLabel": "Nouveautés produit",
+            "productUpdatesDescription": "Recevez occasionnellement des e-mails sur les nouvelles fonctionnalités et l'actualité du produit.",
+            "securityLabel": "E-mails de sécurité",
+            "securityDescription": "Recevez des e-mails sur la sécurité de votre compte. Toujours actif.",
+            "saveError": "Impossible d'enregistrer votre préférence de notification. Veuillez réessayer.",
+            "loadError": "Impossible de charger vos préférences de notification. Veuillez réessayer."
+        },
+        "display": {
+            "textSizeLabel": "Taille du texte",
+            "textSizeDescription": "Ajustez la taille du texte dans toute l'application.",
+            "textSizeSmall": "Petite",
+            "textSizeDefault": "Par défaut",
+            "textSizeLarge": "Grande",
+            "reduceMotionLabel": "Réduire les animations",
+            "reduceMotionDescription": "Minimise les animations et les transitions.",
+            "saveError": "Impossible d'enregistrer votre préférence d'affichage. Veuillez réessayer.",
+            "loadError": "Impossible de charger vos préférences d'affichage. Veuillez réessayer."
+        },
+        "language": {
+            "description": "Choisissez la langue utilisée dans l'application.",
+            "syncError": "Langue modifiée sur cet appareil, mais impossible de l'enregistrer sur votre compte."
+        }
+    },
+    "users": {
+        "list": {
+            "title": "Utilisateurs",
+            "description": "Parcourez et recherchez les utilisateurs de votre organisation.",
+            "addUser": "Ajouter un utilisateur",
+            "searchPlaceholder": "Rechercher par e-mail",
+            "errorFallback": "Impossible de charger les utilisateurs.",
+            "noResults": "Aucun utilisateur trouvé.",
+            "previous": "Précédent",
+            "next": "Suivant",
+            "pageIndicator": "Page {{page}} sur {{totalPages}}",
+            "deactivate": "Désactiver",
+            "deactivateConfirmTitle": "Désactiver l'utilisateur",
+            "deactivateConfirmMessage": "Êtes-vous sûr de vouloir désactiver {{email}} ? Cette personne ne pourra plus se connecter.",
+            "deactivateSuccess": "Utilisateur désactivé."
+        },
+        "create": {
+            "title": "Ajouter un utilisateur",
+            "description": "Créez un utilisateur géré et assignez-lui au moins un groupe de rôles.",
+            "fields": {
+                "email": "E-mail",
+                "firstName": "Prénom",
+                "lastName": "Nom",
+                "phoneNumber": "Numéro de téléphone",
+                "birthDate": "Date de naissance",
+                "gender": "Genre",
+                "address": "Adresse",
+                "roleGroups": "Groupes de rôles"
+            },
+            "roleGroupsEmpty": "Aucun groupe de rôles disponible.",
+            "validation": {
+                "emailRequired": "L'e-mail est requis.",
+                "emailInvalid": "Saisissez une adresse e-mail valide.",
+                "firstNameRequired": "Le prénom est requis.",
+                "lastNameRequired": "Le nom est requis.",
+                "roleGroupRequired": "Au moins un groupe de rôles est requis."
+            },
+            "submit": "Créer l'utilisateur",
+            "toastCreated": "Utilisateur créé."
+        },
+        "edit": {
+            "title": "Modifier l'utilisateur",
+            "loadError": "Impossible de charger cet utilisateur.",
+            "fields": {
+                "firstName": "Prénom",
+                "lastName": "Nom",
+                "phoneNumber": "Numéro de téléphone",
+                "birthDate": "Date de naissance",
+                "gender": "Genre",
+                "address": "Adresse"
+            },
+            "validation": {
+                "firstNameRequired": "Le prénom est requis.",
+                "lastNameRequired": "Le nom est requis."
+            },
+            "submit": "Enregistrer les modifications",
+            "toastUpdated": "Utilisateur mis à jour."
+        },
+        "detail": {
+            "title": "Détails de l'utilisateur",
+            "loadError": "Impossible de charger cet utilisateur.",
+            "edit": "Modifier l'utilisateur",
+            "fields": {
+                "email": "E-mail",
+                "name": "Nom",
+                "phoneNumber": "Numéro de téléphone",
+                "birthDate": "Date de naissance",
+                "gender": "Genre",
+                "address": "Adresse",
+                "status": "Statut"
+            },
+            "roleGroupsLabel": "Groupes de rôles",
+            "noRoleGroups": "Aucun groupe de rôles assigné.",
+            "manageRoleGroups": "Gérer les groupes de rôles",
+            "permissionsLabel": "Permissions effectives",
+            "noPermissions": "Aucune permission.",
+            "deactivate": "Désactiver l'utilisateur",
+            "deactivateConfirmTitle": "Désactiver l'utilisateur",
+            "deactivateConfirmMessage": "Êtes-vous sûr de vouloir désactiver {{email}} ? Cette personne ne pourra plus se connecter.",
+            "deactivateSuccess": "Utilisateur désactivé."
+        },
+        "roleGroups": {
+            "title": "Groupes de rôles",
+            "description": "Assignez ou révoquez des groupes de rôles pour cet utilisateur.",
+            "loadError": "Impossible de charger cet utilisateur.",
+            "empty": "Aucun groupe de rôles disponible.",
+            "submit": "Enregistrer les modifications",
+            "toastUpdated": "Groupes de rôles mis à jour."
+        },
+        "status": {
+            "NOT_ACTIVATED": "Non activé",
+            "ACTIVATED": "Activé",
+            "DEACTIVATED": "Désactivé",
+            "LOCKED": "Verrouillé",
+            "BANNED": "Banni"
+        },
+        "gender": {
+            "MALE": "Homme",
+            "FEMALE": "Femme"
+        }
+    },
+    "roleGroups": {
+        "list": {
+            "title": "Groupes de rôles",
+            "description": "Parcourez et recherchez les groupes de rôles de votre organisation.",
+            "addRoleGroup": "Ajouter un groupe de rôles",
+            "searchPlaceholder": "Rechercher par nom",
+            "errorFallback": "Impossible de charger les groupes de rôles.",
+            "noResults": "Aucun groupe de rôles trouvé.",
+            "previous": "Précédent",
+            "next": "Suivant",
+            "pageIndicator": "Page {{page}} sur {{totalPages}}"
+        },
+        "detail": {
+            "title": "Groupe de rôles",
+            "loadError": "Impossible de charger ce groupe de rôles.",
+            "fields": {
+                "name": "Nom",
+                "description": "Description"
+            },
+            "validation": {
+                "nameRequired": "Le nom est requis."
+            },
+            "submit": "Enregistrer les modifications",
+            "toastUpdated": "Groupe de rôles mis à jour.",
+            "permissionsLabel": "Permissions",
+            "noPermissions": "Aucune permission assignée.",
+            "managePermissions": "Gérer les permissions"
+        },
+        "create": {
+            "title": "Ajouter un groupe de rôles",
+            "description": "Créez un groupe de rôles et assignez-lui au moins une permission.",
+            "fields": {
+                "name": "Nom",
+                "description": "Description",
+                "permissions": "Permissions"
+            },
+            "permissionsEmpty": "Aucune permission disponible.",
+            "validation": {
+                "nameRequired": "Le nom est requis.",
+                "descriptionRequired": "La description est requise.",
+                "permissionRequired": "Au moins une permission est requise."
+            },
+            "submit": "Créer le groupe de rôles",
+            "toastCreated": "Groupe de rôles créé."
+        },
+        "permissions": {
+            "title": "Permissions",
+            "description": "Activez ou désactivez les permissions accordées à ce groupe de rôles.",
+            "loadError": "Impossible de charger ce groupe de rôles.",
+            "empty": "Aucune permission disponible.",
+            "submit": "Enregistrer les modifications",
+            "toastUpdated": "Permissions mises à jour."
+        }
+    },
+    "configurations": {
+        "nav": {
+            "title": "Configuration",
+            "description": "Gérez la configuration globale de l'application.",
+            "referenceData": "Données de référence",
+            "fileStorage": "Stockage de fichiers",
+            "taxRates": "Taux de taxe",
+            "companyProfile": "Profil de l'entreprise",
+            "security": "Sécurité"
+        },
+        "referenceData": {
+            "title": "Données de référence",
+            "description": "Listes d'options configurables utilisées dans toute l'application, comme les devises, les modes de paiement et les méthodes de 2FA.",
+            "addConfiguration": "Ajouter une configuration",
+            "searchPlaceholder": "Rechercher par code",
+            "allCategories": "Toutes",
+            "active": "Actif",
+            "inactive": "Inactif",
+            "errorFallback": "Impossible de charger les configurations.",
+            "noResults": "Aucune configuration trouvée.",
+            "previous": "Précédent",
+            "next": "Suivant",
+            "pageIndicator": "Page {{page}} sur {{totalPages}}",
+            "create": {
+                "title": "Ajouter une configuration",
+                "description": "Créez une nouvelle entrée de configuration.",
+                "fields": {
+                    "category": "Catégorie",
+                    "code": "Code",
+                    "label": "Libellé",
+                    "description": "Description"
+                },
+                "activeHint": "Les nouvelles configurations sont créées actives par défaut. Vous pouvez modifier le statut ultérieurement.",
+                "validation": {
+                    "categoryRequired": "La catégorie est requise.",
+                    "codeRequired": "Le code est requis.",
+                    "codeTooLong": "Le code doit comporter 50 caractères maximum.",
+                    "labelRequired": "Le libellé est requis."
+                },
+                "submit": "Créer la configuration",
+                "toastCreated": "Configuration créée."
+            },
+            "detail": {
+                "title": "Configuration",
+                "loadError": "Impossible de charger cette configuration.",
+                "fields": {
+                    "category": "Catégorie",
+                    "code": "Code",
+                    "label": "Libellé",
+                    "description": "Description",
+                    "active": "Actif"
+                },
+                "validation": {
+                    "codeRequired": "Le code est requis.",
+                    "codeTooLong": "Le code doit comporter 50 caractères maximum.",
+                    "labelRequired": "Le libellé est requis."
+                },
+                "submit": "Enregistrer les modifications",
+                "toastUpdated": "Configuration mise à jour.",
+                "delete": "Supprimer la configuration",
+                "deleteConfirmTitle": "Supprimer la configuration",
+                "deleteConfirmMessage": "Supprimer la configuration {{code}} ? Cette action retire définitivement l'entrée de configuration du système. Les règles du serveur s'appliquent toujours - la suppression peut échouer si elle est référencée ailleurs.",
+                "toastDeleted": "Configuration supprimée."
+            }
+        },
+        "security": {
+            "title": "Paramètres de sécurité",
+            "description": "Configurez les politiques de sécurité globales de l'application.",
+            "loadError": "Impossible de charger les paramètres de sécurité.",
+            "saveError": "Impossible d'enregistrer les paramètres de sécurité. Veuillez réessayer.",
+            "toastUpdated": "Paramètres de sécurité enregistrés.",
+            "twoFactorSectionTitle": "Authentification à deux facteurs",
+            "twoFactorRequiredLabel": "Exiger la 2FA pour tous les utilisateurs",
+            "twoFactorRequiredDescription": "Lorsque cette option est activée, tous les utilisateurs doivent configurer l'authentification à deux facteurs avant de pouvoir se connecter."
+        }
+    },
+    "legal": {
+        "nav": {
+            "sectionTitle": "Mentions légales",
+            "terms": "Conditions d'utilisation",
+            "privacy": "Politique de confidentialité",
+            "cookiePolicy": "Politique de cookies",
+            "contact": "Nous contacter",
+            "helpCenter": "Centre d'aide"
+        },
+        "terms": {
+            "title": "Conditions d'utilisation",
+            "lastUpdated": "Dernière mise à jour : 20 mars 2026",
+            "sections": [
+                {
+                    "heading": "1. Acceptation des conditions",
+                    "body": "En accédant à Houndjo ou en l'utilisant, vous acceptez d'être lié par les présentes conditions d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser nos services."
+                },
+                {
+                    "heading": "2. Utilisation des services",
+                    "body": "Vous vous engagez à utiliser nos services uniquement à des fins légales et conformément aux présentes conditions. Vous ne devez pas utiliser nos services pour :",
+                    "list": [
+                        "Enfreindre les lois ou réglementations applicables",
+                        "Porter atteinte aux droits d'autrui",
+                        "Transmettre du contenu nuisible, offensant ou perturbateur",
+                        "Tenter d'accéder sans autorisation à nos systèmes"
+                    ]
+                },
+                {
+                    "heading": "3. Comptes",
+                    "body": "Vous êtes responsable de la sécurité des identifiants de votre compte et de toute activité qui se produit sous votre compte. Signalez-nous immédiatement toute utilisation non autorisée."
+                },
+                {
+                    "heading": "4. Propriété intellectuelle",
+                    "body": "Houndjo ainsi que son contenu original, ses fonctionnalités et ses caractéristiques sont la propriété de Houndjo et sont protégés par les lois internationales sur le droit d'auteur, les marques et autres droits de propriété intellectuelle."
+                },
+                {
+                    "heading": "5. Résiliation",
+                    "body": "Nous nous réservons le droit de suspendre ou de résilier votre compte à notre seule discrétion, sans préavis, pour tout comportement que nous estimons contraire aux présentes conditions ou préjudiciable aux autres utilisateurs, à nous-mêmes ou à des tiers."
+                },
+                {
+                    "heading": "6. Limitation de responsabilité",
+                    "body": "Dans toute la mesure permise par la loi, Houndjo ne pourra être tenu responsable des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs résultant de votre utilisation ou de votre incapacité à utiliser nos services."
+                },
+                {
+                    "heading": "7. Nous contacter",
+                    "body": "Si vous avez des questions concernant ces conditions, veuillez nous contacter à :"
+                }
+            ]
+        },
+        "privacy": {
+            "title": "Politique de confidentialité",
+            "lastUpdated": "Dernière mise à jour : 20 mars 2026",
+            "sections": [
+                {
+                    "heading": "1. Informations que nous collectons",
+                    "body": "Nous collectons les informations que vous nous fournissez directement, par exemple lorsque vous créez un compte, utilisez nos services ou nous contactez pour obtenir de l'aide. Cela inclut :",
+                    "list": [
+                        "Nom et adresse e-mail",
+                        "Identifiants du compte",
+                        "Informations de facturation et de paiement",
+                        "Données d'utilisation et journaux d'activité sur notre plateforme"
+                    ]
+                },
+                {
+                    "heading": "2. Comment nous utilisons vos informations",
+                    "body": "Nous utilisons les informations collectées pour exploiter, maintenir et améliorer nos services, traiter les transactions, envoyer des communications transactionnelles et promotionnelles, et respecter nos obligations légales."
+                },
+                {
+                    "heading": "3. Partage des informations",
+                    "body": "Nous ne vendons, n'échangeons ni ne louons vos informations personnelles à des tiers. Nous pouvons partager vos informations avec des prestataires de confiance qui nous aident à exploiter notre plateforme, dans le cadre d'accords de confidentialité."
+                },
+                {
+                    "heading": "4. Conservation des données",
+                    "body": "Nous conservons vos informations personnelles aussi longtemps que votre compte est actif ou que cela est nécessaire pour vous fournir nos services. Vous pouvez demander la suppression de vos données à tout moment en nous contactant."
+                },
+                {
+                    "heading": "5. Sécurité",
+                    "body": "Nous mettons en œuvre des mesures de sécurité conformes aux standards du secteur pour protéger vos informations personnelles contre tout accès non autorisé, altération, divulgation ou destruction."
+                },
+                {
+                    "heading": "6. Nous contacter",
+                    "body": "Si vous avez des questions concernant cette politique de confidentialité, veuillez nous contacter à :"
+                }
+            ]
+        },
+        "cookiePolicy": {
+            "title": "Politique de cookies",
+            "lastUpdated": "Dernière mise à jour : 20 mars 2026",
+            "sections": [
+                {
+                    "heading": "1. Qu'est-ce qu'un cookie",
+                    "body": "Les cookies sont de petits fichiers texte stockés sur votre appareil lorsque vous visitez un site web. Ils nous permettent de reconnaître votre navigateur, de mémoriser vos préférences et d'améliorer votre expérience sur notre plateforme."
+                },
+                {
+                    "heading": "2. Types de cookies que nous utilisons",
+                    "body": "Nous utilisons les catégories de cookies suivantes :",
+                    "list": [
+                        "Cookies strictement nécessaires — Indispensables au fonctionnement de la plateforme. Cela inclut les cookies de session et d'authentification.",
+                        "Cookies de préférence — Enregistrent vos paramètres tels que la langue, le thème et les préférences d'affichage.",
+                        "Cookies analytiques — Nous aident à comprendre comment les visiteurs interagissent avec notre plateforme afin de l'améliorer."
+                    ]
+                },
+                {
+                    "heading": "3. Comment nous utilisons les cookies",
+                    "body": "Nous utilisons les cookies pour vous maintenir connecté, mémoriser vos préférences d'une session à l'autre, analyser les habitudes d'utilisation afin d'améliorer nos services, et garantir la sécurité et l'intégrité de votre compte."
+                },
+                {
+                    "heading": "4. Cookies tiers",
+                    "body": "Certains cookies peuvent être déposés par des services tiers présents sur nos pages. Nous ne contrôlons pas ces cookies et vous recommandons de consulter les politiques de confidentialité de ces tiers."
+                },
+                {
+                    "heading": "5. Gestion des cookies",
+                    "body": "Vous pouvez contrôler et supprimer les cookies via les paramètres de votre navigateur. Notez que la désactivation de certains cookies peut affecter le fonctionnement de notre plateforme. Consultez la documentation d'aide de votre navigateur pour savoir comment gérer les cookies."
+                },
+                {
+                    "heading": "6. Nous contacter",
+                    "body": "Si vous avez des questions concernant notre utilisation des cookies, veuillez nous contacter à :"
+                }
+            ]
+        },
+        "contact": {
+            "title": "Nous contacter",
+            "description": "Une question, un commentaire, ou besoin d'aide ? Envoyez-nous un message et nous vous répondrons dans les plus brefs délais.",
+            "fields": {
+                "name": "Nom",
+                "email": "E-mail",
+                "subject": "Sujet",
+                "message": "Message"
+            },
+            "validation": {
+                "nameRequired": "Veuillez saisir votre nom.",
+                "emailRequired": "Veuillez saisir votre e-mail.",
+                "emailInvalid": "Saisissez une adresse e-mail valide.",
+                "subjectRequired": "Veuillez saisir un sujet.",
+                "messageRequired": "Veuillez saisir votre message."
+            },
+            "submit": "Envoyer le message",
+            "toastSent": "Message envoyé ! Nous vous répondrons rapidement."
+        },
+        "helpCenter": {
+            "title": "Centre d'aide",
+            "comingSoonTitle": "Bientôt disponible !",
+            "comingSoonBody": "Cette page n'a pas encore été créée.\nRestez à l'écoute !"
+        }
+    },
+    "errors": {
+        "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter.",
+        "serverError": "Une erreur est survenue de notre côté. Veuillez réessayer.",
+        "generic": "Une erreur est survenue.",
+        "boundaryTitle": "Une erreur est survenue",
+        "boundaryHint": "Une erreur inattendue s'est produite. Vous pouvez réessayer.",
+        "boundaryRetry": "Réessayer",
+        "goBack": "Retour",
+        "backToHome": "Retour à l'accueil",
+        "forbidden": {
+            "title": "Accès interdit",
+            "description": "Vous n'avez pas les autorisations nécessaires\npour accéder à cette ressource."
+        },
+        "serverErrorScreen": {
+            "title": "Oups ! Une erreur est survenue :')",
+            "description": "Nous sommes désolés pour la gêne occasionnée.\nVeuillez réessayer plus tard."
+        },
+        "maintenance": {
+            "title": "Le site est en maintenance !",
+            "description": "Le site n'est pas disponible pour le moment.\nNous serons bientôt de retour.",
+            "learnMore": "En savoir plus"
+        },
+        "notFound": {
+            "title": "Oups ! Page introuvable !",
+            "description": "Il semble que la page que vous recherchez\nn'existe pas ou a peut-être été supprimée."
+        },
+        "unauthorized": {
+            "title": "Accès non autorisé",
+            "description": "Votre session a pris fin.\nVeuillez vous reconnecter pour continuer."
+        }
+    }
+}

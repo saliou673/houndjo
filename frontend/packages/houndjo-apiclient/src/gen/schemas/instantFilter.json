@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+        "equals": { "type": "string", "format": "date-time" },
+        "notEquals": { "type": "string", "format": "date-time" },
+        "specified": { "type": "boolean" },
+        "in": {
+            "type": "array",
+            "items": { "type": "string", "format": "date-time" }
+        },
+        "notIn": {
+            "type": "array",
+            "items": { "type": "string", "format": "date-time" }
+        },
+        "greaterThan": { "type": "string", "format": "date-time" },
+        "lessThan": { "type": "string", "format": "date-time" },
+        "greaterThanOrEqual": { "type": "string", "format": "date-time" },
+        "lessThanOrEqual": { "type": "string", "format": "date-time" }
+    },
+    "x-readme-ref-name": "InstantFilter"
+}

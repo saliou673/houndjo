@@ -1,0 +1,422 @@
+{
+    "LanguageSwitch": {
+        "toggleLabel": "Changer de langue",
+        "english": "Anglais",
+        "french": "Français"
+    },
+    "Settings": {
+        "pageTitle": "Paramètres",
+        "description": "Gérez les paramètres de votre compte et vos préférences d'e-mail.",
+        "nav": {
+            "profile": "Profil",
+            "account": "Compte",
+            "appearance": "Apparence",
+            "notifications": "Notifications",
+            "display": "Affichage"
+        }
+    },
+    "Sidebar": {
+        "groups": {
+            "general": "Général",
+            "other": "Autre"
+        },
+        "nav": {
+            "dashboard": "Tableau de bord",
+            "users": "Utilisateurs",
+            "roleGroups": "Groupes de rôles",
+            "configuration": "Configuration",
+            "referenceData": "Données de référence",
+            "security": "Sécurité",
+            "settings": "Paramètres",
+            "helpCenter": "Centre d'aide"
+        }
+    },
+    "SettingsProfile": {
+        "pageTitle": "Paramètres",
+        "sectionTitle": "Profil",
+        "sectionDescription": "Consultez les informations de profil actuellement associées à votre compte.",
+        "summaryTitle": "Résumé du profil",
+        "summaryDescription": "Consultez les informations de compte actuellement enregistrées pour votre profil.",
+        "fields": {
+            "email": "E-mail",
+            "status": "Statut",
+            "firstName": "Prénom",
+            "lastName": "Nom",
+            "birthDate": "Date de naissance",
+            "gender": "Genre",
+            "phoneNumber": "Numéro de téléphone",
+            "language": "Langue",
+            "address": "Adresse"
+        },
+        "notProvided": "Non renseigné",
+        "errorTitle": "Impossible de charger le profil",
+        "errorDescription": "Actualisez la page et réessayez."
+    },
+    "UserEnums": {
+        "gender": {
+            "MALE": "Homme",
+            "FEMALE": "Femme"
+        },
+        "status": {
+            "NOT_ACTIVATED": "Non activé",
+            "ACTIVATED": "Activé",
+            "DEACTIVATED": "Désactivé",
+            "LOCKED": "Verrouillé",
+            "BANNED": "Banni"
+        }
+    },
+    "DataTable": {
+        "reset": "Réinitialiser",
+        "noResultsFound": "Aucun résultat.",
+        "clearFilters": "Effacer les filtres",
+        "nSelected": "{count} sélectionné(s)",
+        "toggleColumns": "Afficher les colonnes",
+        "view": "Affichage",
+        "rowsPerPage": "Lignes par page",
+        "pageOf": "Page {page} sur {total}",
+        "goToFirstPage": "Aller à la première page",
+        "goToPreviousPage": "Aller à la page précédente",
+        "goToNextPage": "Aller à la page suivante",
+        "goToLastPage": "Aller à la dernière page",
+        "goToPage": "Aller à la page {page}"
+    },
+    "Users": {
+        "pageTitle": "Utilisateurs",
+        "title": "Liste des utilisateurs",
+        "description": "Gérez vos utilisateurs et leurs rôles ici.",
+        "addUser": "Ajouter un utilisateur",
+        "table": {
+            "columns": {
+                "name": "Nom",
+                "email": "E-mail",
+                "phoneNumber": "Numéro de téléphone",
+                "roleGroups": "Groupes de rôles",
+                "gender": "Genre",
+                "status": "Statut"
+            },
+            "selectAll": "Tout sélectionner",
+            "selectRow": "Sélectionner la ligne",
+            "loading": "Chargement des utilisateurs...",
+            "errorFallback": "Impossible de charger les utilisateurs.",
+            "noResults": "Aucun résultat.",
+            "searchPlaceholder": "Filtrer par e-mail...",
+            "filters": {
+                "status": "Statut",
+                "gender": "Genre",
+                "roleGroup": "Groupe de rôles"
+            }
+        },
+        "rowActions": {
+            "openMenu": "Ouvrir le menu",
+            "edit": "Modifier",
+            "delete": "Supprimer"
+        },
+        "bulkActions": {
+            "deleteSelected": "Supprimer les utilisateurs sélectionnés",
+            "clearSelection": "Effacer la sélection",
+            "clearSelectionTitle": "Effacer la sélection (Échap)",
+            "entityLabel": "{count, plural, one {utilisateur} other {utilisateurs}}",
+            "selectedWord": "{count, plural, one {sélectionné} other {sélectionnés}}",
+            "announcement": "{count, plural, one {# utilisateur sélectionné. La barre d'actions groupées est disponible.} other {# utilisateurs sélectionnés. La barre d'actions groupées est disponible.}}",
+            "toolbarAriaLabel": "{count, plural, one {Actions groupées pour # utilisateur sélectionné} other {Actions groupées pour # utilisateurs sélectionnés}}",
+            "selectedCountAriaLabel": "{count, plural, one {# sélectionné} other {# sélectionnés}}"
+        },
+        "deleteDialog": {
+            "title": "Supprimer l'utilisateur",
+            "confirmMessage": "Voulez-vous vraiment supprimer <bold>{email}</bold> ? Cette action supprimera définitivement cet utilisateur géré du système. Cette opération est irréversible.",
+            "emailLabel": "E-mail de l'utilisateur :",
+            "emailPlaceholder": "Saisissez l'e-mail de l'utilisateur pour confirmer la suppression.",
+            "warningTitle": "Attention !",
+            "warningDescription": "Soyez prudent, cette opération ne peut pas être annulée.",
+            "confirmButton": "Supprimer",
+            "successToast": "Utilisateur supprimé."
+        },
+        "multiDeleteDialog": {
+            "title": "{count, plural, one {Supprimer # utilisateur} other {Supprimer # utilisateurs}}",
+            "description": "Voulez-vous vraiment supprimer les utilisateurs sélectionnés ? Cette opération est irréversible.",
+            "confirmLabel": "Confirmez en saisissant « {word} » :",
+            "placeholder": "Saisissez « {word} » pour confirmer.",
+            "typeToConfirmError": "Veuillez saisir « {word} » pour confirmer.",
+            "successToast": "{count, plural, one {# utilisateur supprimé.} other {# utilisateurs supprimés.}}",
+            "partialToast": "{deleted} utilisateur(s) supprimé(s) sur {total} sélectionné(s)."
+        },
+        "form": {
+            "addTitle": "Ajouter un utilisateur",
+            "editTitle": "Modifier l'utilisateur",
+            "addDescription": "Créez un utilisateur géré et attribuez-lui au moins un groupe de rôles.",
+            "editDescription": "Modifiez le profil de l'utilisateur géré et les groupes de rôles attribués. L'e-mail ne peut pas être modifié.",
+            "fields": {
+                "email": "E-mail",
+                "emailPlaceholder": "jean.dupont@exemple.com",
+                "emailEditNote": "La modification de l'e-mail n'est pas prise en charge par l'API d'administration des utilisateurs.",
+                "firstName": "Prénom",
+                "firstNamePlaceholder": "Jean",
+                "lastName": "Nom",
+                "lastNamePlaceholder": "Dupont",
+                "birthDate": "Date de naissance",
+                "gender": "Genre",
+                "genderPlaceholder": "Sélectionnez un genre",
+                "phoneNumber": "Numéro de téléphone",
+                "phoneNumberPlaceholder": "+33601020304",
+                "address": "Adresse",
+                "addressPlaceholder": "221B Baker Street",
+                "languageKey": "Clé de langue",
+                "languageKeyPlaceholder": "fr",
+                "imageUrl": "URL de l'image",
+                "imageUrlPlaceholder": "https://exemple.com/avatar.png",
+                "roleGroups": "Groupes de rôles"
+            },
+            "roleGroupsLoading": "Chargement des groupes de rôles...",
+            "roleGroupsEmpty": "Aucun groupe de rôles disponible.",
+            "roleGroupsDescriptionEdit": "Attribuez ou révoquez des groupes de rôles pour cet utilisateur.",
+            "roleGroupsDescriptionAdd": "Un groupe de rôles est requis lors de la création d'un utilisateur géré.",
+            "submitAdd": "Créer l'utilisateur",
+            "submitEdit": "Enregistrer les modifications",
+            "toastCreated": "Utilisateur créé.",
+            "toastUpdated": "Utilisateur mis à jour.",
+            "validation": {
+                "emailRequired": "L'e-mail est requis.",
+                "firstNameRequired": "Le prénom est requis.",
+                "lastNameRequired": "Le nom est requis.",
+                "roleGroupRequired": "Au moins un groupe de rôles est requis."
+            }
+        }
+    },
+    "RoleGroups": {
+        "pageTitle": "Groupes de rôles",
+        "title": "Groupes de rôles",
+        "description": "Gérez les groupes de rôles et leurs permissions attribuées.",
+        "addRoleGroup": "Ajouter un groupe de rôles",
+        "table": {
+            "columns": {
+                "name": "Nom",
+                "description": "Description",
+                "permissions": "Permissions"
+            },
+            "loading": "Chargement des groupes de rôles...",
+            "errorFallback": "Impossible de charger les groupes de rôles.",
+            "noResults": "Aucun résultat.",
+            "searchPlaceholder": "Filtrer par nom..."
+        },
+        "rowActions": {
+            "openMenu": "Ouvrir le menu",
+            "edit": "Modifier",
+            "delete": "Supprimer"
+        },
+        "deleteDialog": {
+            "title": "Supprimer le groupe de rôles",
+            "confirmMessage": "Voulez-vous vraiment supprimer <bold>{name}</bold> ? Cette opération est irréversible. La suppression échouera si le groupe de rôles est encore attribué à des utilisateurs.",
+            "confirmButton": "Supprimer",
+            "successToast": "Groupe de rôles supprimé."
+        },
+        "form": {
+            "addTitle": "Ajouter un groupe de rôles",
+            "editTitle": "Modifier le groupe de rôles",
+            "addDescription": "Créez un groupe de rôles et attribuez-lui au moins une permission.",
+            "editDescription": "Modifiez le nom, la description et les permissions attribuées du groupe de rôles.",
+            "fields": {
+                "name": "Nom",
+                "namePlaceholder": "ex. Admin, Éditeur",
+                "description": "Description",
+                "descriptionPlaceholder": "Décrivez le groupe de rôles...",
+                "permissions": "Permissions"
+            },
+            "permissionsLoading": "Chargement des permissions...",
+            "permissionsEmpty": "Aucune permission disponible.",
+            "permissionsDescription": "Sélectionnez les permissions accordées par ce groupe de rôles.",
+            "submitAdd": "Créer le groupe de rôles",
+            "submitEdit": "Enregistrer les modifications",
+            "toastCreated": "Groupe de rôles créé.",
+            "toastUpdated": "Groupe de rôles mis à jour.",
+            "validation": {
+                "nameRequired": "Le nom est requis.",
+                "permissionRequired": "Sélectionnez au moins une permission."
+            }
+        }
+    },
+    "SettingsAccount": {
+        "metadataTitle": "Paramètres du compte",
+        "sectionTitle": "Compte",
+        "sectionDescription": "Mettez à jour les informations personnelles et de compte enregistrées pour votre utilisateur.",
+        "dangerZoneTitle": "Zone de danger",
+        "dangerZoneDescription": "La suppression de votre compte est réversible pendant 30 jours. Passé ce délai, toutes vos données seront définitivement effacées.",
+        "deleteAccountButton": "Supprimer le compte",
+        "form": {
+            "fields": {
+                "firstName": "Prénom",
+                "firstNamePlaceholder": "Saisissez votre prénom",
+                "lastName": "Nom",
+                "lastNamePlaceholder": "Saisissez votre nom",
+                "email": "E-mail",
+                "emailDescription": "L'e-mail est géré séparément et ne peut pas être modifié depuis cette page.",
+                "phoneNumber": "Numéro de téléphone",
+                "phoneNumberPlaceholder": "Saisissez votre numéro de téléphone",
+                "phoneNumberDescription": "Ajoutez un numéro de contact pour les communications liées au compte.",
+                "birthDate": "Date de naissance",
+                "birthDatePlaceholder": "Sélectionnez votre date de naissance",
+                "birthDateDescription": "Utilisée dans le cadre de votre profil de compte.",
+                "gender": "Genre",
+                "genderPlaceholder": "Sélectionnez le genre",
+                "genderDescription": "Cette valeur est enregistrée sur votre compte.",
+                "genderMale": "Homme",
+                "genderFemale": "Femme",
+                "language": "Langue",
+                "languagePlaceholder": "Sélectionnez une langue",
+                "languageDescription": "Définit la langue préférée pour l'interface de l'application.",
+                "languageEnglish": "Anglais",
+                "languageFrench": "Français",
+                "imageUrl": "URL de l'image de profil",
+                "imageUrlPlaceholder": "https://exemple.com/avatar.png",
+                "imageUrlDescription": "Utilisez une URL d'image publique pour votre avatar.",
+                "address": "Adresse",
+                "addressPlaceholder": "Saisissez votre adresse",
+                "addressDescription": "Cette adresse est enregistrée sur votre profil de compte."
+            },
+            "submitDefault": "Mettre à jour le compte",
+            "submitPending": "Enregistrement des modifications...",
+            "loadError": "Impossible de charger les informations du compte. Actualisez la page et réessayez.",
+            "toastUpdated": "Compte mis à jour",
+            "validation": {
+                "firstNameRequired": "Veuillez saisir votre prénom.",
+                "firstNameMax": "Le prénom ne doit pas dépasser 100 caractères.",
+                "lastNameRequired": "Veuillez saisir votre nom.",
+                "lastNameMax": "Le nom ne doit pas dépasser 100 caractères.",
+                "emailInvalid": "Veuillez saisir une adresse e-mail valide.",
+                "phoneNumberMax": "Le numéro de téléphone ne doit pas dépasser 50 caractères.",
+                "birthDateRequired": "Veuillez sélectionner votre date de naissance.",
+                "genderRequired": "Veuillez sélectionner votre genre.",
+                "addressMax": "L'adresse ne doit pas dépasser 500 caractères.",
+                "languageMax": "La langue ne doit pas dépasser 20 caractères.",
+                "imageUrlInvalid": "Veuillez saisir une URL d'image valide."
+            }
+        },
+        "emailChange": {
+            "title": "Changer l'adresse e-mail",
+            "description": "Un code de confirmation à 4 chiffres sera envoyé à votre nouvelle adresse e-mail pour vérifier sa propriété. Vous serez déconnecté après le changement.",
+            "newEmailLabel": "Nouvelle adresse e-mail",
+            "newEmailPlaceholder": "votre-nouvel-email@exemple.com",
+            "sendButton": "Envoyer le code de confirmation",
+            "sendingButton": "Envoi du code...",
+            "codeSentToast": "Un code à 4 chiffres a été envoyé à {email}.",
+            "confirmTitle": "Confirmez votre nouvel e-mail",
+            "confirmDescription": "Saisissez le code à 4 chiffres envoyé à <bold>{email}</bold>.",
+            "codeLabel": "Code de confirmation",
+            "cancelButton": "Annuler",
+            "confirmButton": "Confirmer",
+            "confirmingButton": "Confirmation...",
+            "changedTitle": "E-mail modifié",
+            "changedDescription": "Votre e-mail a été mis à jour avec succès vers <bold>{email}</bold>. Vous serez déconnecté et redirigé vers la page de connexion dans <bold>{countdown}s</bold>.",
+            "signInNowButton": "Se connecter maintenant",
+            "validation": {
+                "newEmailInvalid": "Veuillez saisir une adresse e-mail valide.",
+                "codeLength": "Veuillez saisir le code à 4 chiffres."
+            }
+        },
+        "changePassword": {
+            "title": "Modifier le mot de passe",
+            "description": "Choisissez un nouveau mot de passe robuste pour votre compte.",
+            "currentPasswordLabel": "Mot de passe actuel",
+            "newPasswordLabel": "Nouveau mot de passe",
+            "confirmPasswordLabel": "Confirmer le nouveau mot de passe",
+            "submitDefault": "Mettre à jour le mot de passe",
+            "submitPending": "Mise à jour du mot de passe...",
+            "toastUpdated": "Votre mot de passe a été mis à jour.",
+            "invalidCurrentPassword": "Votre mot de passe actuel est incorrect.",
+            "validation": {
+                "currentPasswordRequired": "Veuillez saisir votre mot de passe actuel.",
+                "newPasswordTooShort": "Le mot de passe doit contenir au moins 8 caractères.",
+                "newPasswordTooWeak": "Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial.",
+                "confirmPasswordRequired": "Veuillez confirmer votre nouveau mot de passe.",
+                "passwordsDoNotMatch": "Les mots de passe ne correspondent pas."
+            }
+        },
+        "twoFactor": {
+            "title": "Authentification à deux facteurs",
+            "description": "Ajoutez une application d'authentification pour une sécurité renforcée lors de la connexion.",
+            "setup": {
+                "startButton": "Activer l'authentification à deux facteurs",
+                "startingButton": "Démarrage de la configuration...",
+                "scanHint": "Scannez ce code QR avec votre application d'authentification.",
+                "manualEntryHint": "Ou saisissez ce code manuellement :",
+                "codeLabel": "Code de vérification",
+                "confirmButton": "Confirmer et activer",
+                "confirmingButton": "Confirmation...",
+                "invalidCode": "Code de vérification invalide",
+                "toastEnabled": "L'authentification à deux facteurs est maintenant activée.",
+                "validation": {
+                    "codeRequired": "Veuillez saisir le code de votre application d'authentification."
+                }
+            },
+            "disable": {
+                "description": "Saisissez votre mot de passe actuel pour désactiver l'authentification à deux facteurs.",
+                "currentPasswordLabel": "Mot de passe actuel",
+                "disableButton": "Désactiver l'authentification à deux facteurs",
+                "disablingButton": "Désactivation...",
+                "invalidPassword": "Votre mot de passe actuel est incorrect.",
+                "toastDisabled": "L'authentification à deux facteurs est maintenant désactivée.",
+                "validation": {
+                    "passwordRequired": "Veuillez saisir votre mot de passe actuel."
+                }
+            }
+        },
+        "deleteDialog": {
+            "title": "Supprimer le compte",
+            "description1": "Cette action désactivera définitivement votre compte. Vous disposez de 30 jours pour le récupérer avant que toutes vos données ne soient effacées.",
+            "description2": "Saisissez votre mot de passe pour confirmer que vous êtes le propriétaire du compte.",
+            "emailLabel": "E-mail",
+            "passwordLabel": "Mot de passe",
+            "passwordPlaceholder": "Saisissez votre mot de passe",
+            "confirmButton": "Supprimer le compte",
+            "invalidPasswordToast": "Mot de passe invalide. Veuillez réessayer.",
+            "genericErrorToast": "Échec de la suppression de votre compte. Veuillez réessayer plus tard."
+        }
+    },
+    "SettingsAppearance": {
+        "metadataTitle": "Paramètres d'apparence",
+        "sectionTitle": "Apparence",
+        "sectionDescription": "Personnalisez l'apparence de l'application. Basculez automatiquement entre les thèmes jour et nuit.",
+        "form": {
+            "fontLabel": "Police",
+            "fontDescription": "Définissez la police que vous souhaitez utiliser dans le tableau de bord.",
+            "themeLabel": "Thème",
+            "themeDescription": "Sélectionnez le thème du tableau de bord.",
+            "themeSystem": "Système",
+            "themeLight": "Clair",
+            "themeDark": "Sombre",
+            "submitDefault": "Mettre à jour les préférences",
+            "submitPending": "Mise à jour...",
+            "loadError": "Impossible de charger vos préférences. Actualisez la page et réessayez.",
+            "toastUpdated": "Préférences mises à jour"
+        }
+    },
+    "SettingsNotifications": {
+        "metadataTitle": "Paramètres de notification",
+        "sectionTitle": "Notifications",
+        "sectionDescription": "Configurez la façon dont vous recevez les notifications.",
+        "form": {
+            "emailNotificationsTitle": "Notifications par e-mail",
+            "productUpdatesLabel": "Nouveautés produit",
+            "productUpdatesDescription": "Recevez occasionnellement des e-mails sur les nouvelles fonctionnalités et l'actualité du produit.",
+            "securityLabel": "E-mails de sécurité",
+            "securityDescription": "Recevez des e-mails sur la sécurité de votre compte. Toujours actif.",
+            "toastUpdated": "Préférences de notification mises à jour.",
+            "loadError": "Impossible de charger vos préférences de notification. Veuillez réessayer."
+        }
+    },
+    "SettingsDisplay": {
+        "metadataTitle": "Paramètres d'affichage",
+        "sectionTitle": "Affichage",
+        "sectionDescription": "Ajustez la taille du texte et les animations.",
+        "form": {
+            "textSizeLabel": "Taille du texte",
+            "textSizeDescription": "Ajustez la taille du texte dans toute l'application.",
+            "textSizeSMALL": "Petite",
+            "textSizeDEFAULT": "Par défaut",
+            "textSizeLARGE": "Grande",
+            "reduceMotionLabel": "Réduire les animations",
+            "reduceMotionDescription": "Minimise les animations et les transitions.",
+            "toastUpdated": "Préférences d'affichage mises à jour.",
+            "loadError": "Impossible de charger vos préférences d'affichage. Veuillez réessayer."
+        }
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "properties": {
+        "firstName": { "type": "string", "minLength": 1 },
+        "lastName": { "type": "string", "minLength": 1 },
+        "phoneNumber": { "type": "string" },
+        "birthDate": { "type": "string", "format": "date" },
+        "gender": { "type": "string", "enum": ["MALE", "FEMALE"] },
+        "address": { "type": "string" },
+        "languageKey": { "type": "string" },
+        "imageUrl": { "type": "string" }
+    },
+    "required": ["firstName", "lastName"],
+    "x-readme-ref-name": "UpdateUserRequest"
+}

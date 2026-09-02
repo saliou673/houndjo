@@ -1,0 +1,76 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <title th:text="#{email.contact.admin.title(${contactForm.subject})}">New contact form submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .form-content {
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 16px 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .form-content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .form-content td {
+            padding: 6px 0;
+            vertical-align: top;
+        }
+
+        .label {
+            font-weight: bold;
+            width: 120px;
+            color: #555;
+        }
+
+        .message-body {
+            white-space: pre-wrap;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 12px;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+<p th:text="#{email.contact.admin.intro}">A new contact form has been submitted:</p>
+
+<div class="form-content">
+    <table>
+        <tr>
+            <td class="label" th:text="#{email.contact.field.name}">Name</td>
+            <td th:text="${contactForm.senderName}">John Doe</td>
+        </tr>
+        <tr>
+            <td class="label" th:text="#{email.contact.field.email}">Email</td>
+            <td><a th:href="'mailto:' + ${contactForm.senderEmail}" th:text="${contactForm.senderEmail}">john@example.com</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="label" th:text="#{email.contact.field.subject}">Subject</td>
+            <td th:text="${contactForm.subject}">My subject</td>
+        </tr>
+    </table>
+    <p><strong th:text="#{email.contact.field.message}">Message</strong></p>
+    <div class="message-body" th:text="${contactForm.message}">Message content here.</div>
+</div>
+
+<p>
+    <span th:text="#{email.contact.admin.footer}">This message was sent via the Houndjo contact form.</span>
+    <br/>
+    <em th:text="#{email.signature}">Houndjo Team.</em>
+</p>
+</body>
+</html>

@@ -1,0 +1,161 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./theme.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+        scrollbar-width: thin;
+        scrollbar-color: var(--border) transparent;
+    }
+    html {
+        @apply overflow-x-hidden;
+    }
+    body {
+        @apply min-h-svh w-full bg-background text-foreground has-[div[data-variant='inset']]:bg-sidebar;
+    }
+
+    /* Override Radix scroll locking for sticky headers */
+    body[data-scroll-locked] {
+        overflow: unset !important;
+    }
+
+    /* Cursor pointer for buttons */
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+
+    /* Prevent focus zoom on mobile devices */
+    @media screen and (max-width: 767px) {
+        input,
+        select,
+        textarea {
+            font-size: 16px !important;
+        }
+    }
+}
+
+@utility container {
+    margin-inline: auto;
+    padding-inline: 2rem;
+}
+
+@utility no-scrollbar {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+@utility faded-bottom {
+    @apply after:pointer-events-none after:absolute after:start-0 after:bottom-0 after:hidden after:h-32 after:w-full after:rounded-b-2xl after:bg-[linear-gradient(180deg,transparent_10%,var(--background)_70%)] md:after:block;
+}
+
+/* styles.css */
+.CollapsibleContent {
+    overflow: hidden;
+}
+.CollapsibleContent[data-state="open"] {
+    animation: slideDown 300ms ease-out;
+}
+.CollapsibleContent[data-state="closed"] {
+    animation: slideUp 300ms ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        height: 0;
+    }
+    to {
+        height: var(--radix-collapsible-content-height);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        height: var(--radix-collapsible-content-height);
+    }
+    to {
+        height: 0;
+    }
+}
+
+/* ── Landing page CSS variables ─────────────────────────────────── */
+
+:root {
+    --lp-dot: rgba(0, 0, 0, 0.055);
+}
+
+.dark {
+    --lp-dot: rgba(255, 255, 255, 0.055);
+}
+
+/* ── Landing page animations ────────────────────────────────────── */
+
+@keyframes orb-float {
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+    }
+    33% {
+        transform: translate(-50%, -55%) scale(1.08);
+        opacity: 1;
+    }
+    66% {
+        transform: translate(-50%, -45%) scale(0.94);
+        opacity: 0.75;
+    }
+}
+
+@keyframes orb-float-slow {
+    0%,
+    100% {
+        transform: scale(1) translate(0, 0);
+    }
+    50% {
+        transform: scale(1.12) translate(20px, -25px);
+    }
+}
+
+@keyframes orb-float-delay {
+    0%,
+    100% {
+        transform: scale(1) translate(0, 0);
+    }
+    50% {
+        transform: scale(1.1) translate(-15px, 20px);
+    }
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+@utility animate-orb {
+    animation: orb-float 10s ease-in-out infinite;
+}
+
+@utility animate-orb-slow {
+    animation: orb-float-slow 14s ease-in-out infinite;
+}
+
+@utility animate-orb-delay {
+    animation: orb-float-delay 12s ease-in-out infinite;
+    animation-delay: 3s;
+}
+
+@utility animate-marquee {
+    animation: marquee 25s linear infinite;
+}

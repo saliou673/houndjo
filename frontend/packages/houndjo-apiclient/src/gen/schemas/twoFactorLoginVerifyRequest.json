@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "challengeId": { "type": "string", "minLength": 1 },
+        "code": { "type": "string", "minLength": 1 }
+    },
+    "required": ["challengeId", "code"],
+    "x-readme-ref-name": "TwoFactorLoginVerifyRequest"
+}
