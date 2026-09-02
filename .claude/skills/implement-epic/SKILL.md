@@ -1,7 +1,7 @@
 ---
 name: "implement-epic"
-description: "Recursively implement every open sub-issue under a houndjo GitHub epic issue: picks the next actionable sub-issue in order, creates a stacked branch, implements it as a senior Java/Spring (hexagonal) + Next.js/Expo developer, commits, opens a PR against the previous branch in the stack, then repeats for the next issue."
-argument-hint: "<epic-issue-number-or-url>"
+description: "Recursively implement every open sub-issue under a houndjo GitHub epic milestone: picks the next actionable sub-issue in order, creates a stacked branch, implements it as a senior Java/Spring (hexagonal) + Next.js/Expo developer, commits, opens a PR against the previous branch in the stack, then repeats for the next issue."
+argument-hint: "<epic-milestone-number-or-title>"
 metadata:
   author: "houndjo"
 user-invocable: true
@@ -14,11 +14,16 @@ disable-model-invocation: true
 $ARGUMENTS
 ```
 
-This is the parent **epic** issue — a number (`62`), `#62`, or a full GitHub URL. If empty, ask the user for it before doing anything else.
+This is the parent epic — either a **milestone** (the current convention: its number, its title
+or a distinctive substring of it like `E1`/`organization`/`Progress Tracking`, or a full GitHub
+milestone URL) or, for epics predating that convention, an **epic issue number** (`62`, `#62`,
+or a full issue URL). If empty, ask the user for it before doing anything else. A bare number is
+ambiguous between the two — step 1 resolves which one it is before doing anything else; don't
+assume.
 
-Repo: `saliou673/spring-next-saas-starter` (use `gh` with `--repo saliou673/spring-next-saas-starter`, or omit `--repo` when running from this repo root, which already points at that remote).
+Repo: `saliou673/houndjo` (use `gh` with `--repo saliou673/houndjo`, or omit `--repo` when running from this repo root, which already points at that remote).
 
-This skill is a loop: resolve the epic → pick the next actionable sub-issue → implement it end-to-end → commit → PR → repeat, until nothing actionable remains. Invoking this skill is the user's standing authorization to branch, commit, push, and open PRs for each issue it handles — don't re-confirm those mechanical steps per issue. Do stop and ask the user (plain question, or `AskUserQuestion` for multiple-choice) whenever an issue's requirements are genuinely ambiguous, underspecified, or admit more than one reasonable implementation — never guess on business rules.
+This skill is a loop: resolve the epic milestone → pick the next actionable sub-issue in it → implement it end-to-end → commit → PR → repeat, until nothing actionable remains. Invoking this skill is the user's standing authorization to branch, commit, push, and open PRs for each issue it handles — don't re-confirm those mechanical steps per issue. Do stop and ask the user (plain question, or `AskUserQuestion` for multiple-choice) whenever an issue's requirements are genuinely ambiguous, underspecified, or admit more than one reasonable implementation — never guess on business rules.
 
 Never kill or restart the user's running dev servers (backend `mvn spring-boot:run`, frontend `pnpm dev`) while verifying a change — check if one is already up before starting your own, and leave it running afterward. Never add a `Co-Authored-By` (or any assistant co-author) trailer to commits in this repo.
 
@@ -37,42 +42,125 @@ Remembered project preference: this app is bilingual (English/French) via `next-
 
 ## 1. Resolve the epic and build the ordered sub-issue list
 
+This repo has **two** epic conventions in play — don't assume which one `$ARGUMENTS` means,
+resolve it explicitly:
+
+- A **milestone** (current convention, used for the backlog-derived epics: E-M, E0…E9, Future).
+- A **legacy epic issue** with native GitHub sub-issues (older epics that predate milestones,
+  e.g. `#62`), carrying the `epic` label plus a scoped label like `epic:account-settings`.
+
+**Disambiguating `$ARGUMENTS`:**
+- A full URL resolves unambiguously from its path (`/milestone/<n>` vs `/issues/<n>`).
+- Non-numeric text can only be a milestone — go straight to "Milestone-based epics" below and
+  match it against milestone titles.
+- A bare number `<n>` is ambiguous — a milestone #n and an issue #n are different things in
+  GitHub. Check both before proceeding:
+  ```
+  gh api repos/saliou673/houndjo/milestones/<n>          # exists? -> candidate milestone
+  gh issue view <n> --repo saliou673/houndjo --json number,title,labels   # exists? -> candidate issue
+  ```
+  - Milestone `<n>` exists, and issue `<n>` either doesn't exist or isn't `epic`-labeled →
+    resolve as **milestone `<n>`**.
+  - No milestone `<n>`, but issue `<n>` exists and carries the `epic` label → resolve as
+    **legacy epic issue `<n>`**.
+  - Both a milestone `<n>` and an `epic`-labeled issue `<n>` exist → genuinely ambiguous, ask
+    the user which one they meant before doing anything else.
+  - Neither exists → tell the user `<n>` isn't a milestone or an epic issue in this repo, and
+    stop.
+
+### Milestone-based epics (current convention)
+
 ```
-gh issue view <epic-number> --repo saliou673/spring-next-saas-starter --json number,title,body,labels,state
+gh api repos/saliou673/houndjo/milestones --jq '.[] | "\(.number)\t\(.title)"'
+gh issue list --repo saliou673/houndjo --milestone "<exact milestone title>" --state all \
+  --json number,title,state,labels,body --limit 200
+```
+
+- If `$ARGUMENTS`/the resolved value is a milestone number, look up its title via the first
+  command. Otherwise match text against milestone titles: exact match first, then a
+  case-insensitive substring match (`E1` and `organization` both resolve to
+  `E1 — Organization & Members`). If more than one milestone matches the substring, list the
+  candidates and ask the user to disambiguate rather than guessing.
+- Sort the resulting issue list **ascending by issue number**. Issues in this backlog were
+  created in dependency order, so ascending number is the intended build order within (and
+  across) milestones — do not re-sort by title or any other field.
+- Extract, per issue, in order: issue number, title, its `type:*` label(s) (`type:backend`,
+  `type:frontend-web`, `type:frontend-mobile`, `type:fullstack`, `type:qa`, `type:architecture`
+  — this is the ticket's `Type`), and open/closed state. Titles are prefixed with the ticket
+  code (e.g. `[E1-2] Invite teachers/admins (organization-scoped)`), not a platform tag — the
+  platform comes from the `type:*` label, not from parsing the title.
+- Every issue body opens with `**Epic:** <milestone title>` and `**Depends on:** <— or #N
+  (ticket-code), #M (ticket-code), ...>`. Parse the `Depends on` line into a set of prerequisite
+  issue numbers now — step 2 needs it. `—` means no prerequisites.
+
+### Legacy epic issues (pre-milestone epics, e.g. `#62`)
+
+```
+gh issue view <epic-number> --repo saliou673/houndjo --json number,title,body,labels,state
 gh api graphql -f query='
-query { repository(owner:"saliou673", name:"spring-next-saas-starter") {
+query { repository(owner:"saliou673", name:"houndjo") {
   issue(number: <epic-number>) { title body subIssues(first:50) { nodes { number title state } } }
 }}'
 ```
 
-- Epics in this repo carry the `epic` label plus a scoped label like `epic:account-settings` or `epic:error-states`; the epic body is usually a one- or two-line description, not a checklist — GitHub's native **sub-issues** (`subIssues` in the query above) are the authoritative ordered list of implementable issues, not a body checklist.
-- Extract, per sub-issue, in order: issue number, title (titles are prefixed with scope tags like `[Web]`, `[Mobile]`, `[Backend]`, or a combination like `[Backend][Web][Mobile]` — this is the ticket's `Type`), and open/closed state.
-- If a sub-issue's own labels show it belongs to a *different* `epic:*` label than the parent (a cross-epic tracking link), note it but don't implement it here — treat it like any other epic's issue and skip it in this run.
+- The epic body is usually a one- or two-line description, not a checklist — GitHub's native
+  **sub-issues** (`subIssues` in the query above) are the authoritative ordered list of
+  implementable issues, not a body checklist and not a milestone.
+- Extract, per sub-issue, in order: issue number, title (titles are prefixed with scope tags
+  like `[Web]`, `[Mobile]`, `[Backend]`, or a combination like `[Backend][Web][Mobile]` — this
+  is the ticket's `Type`), and open/closed state. There is no `Depends on` set to parse for
+  these — ordering is purely the native sub-issue order.
+- If a sub-issue's own labels show it belongs to a *different* `epic:*` label than the parent (a
+  cross-epic tracking link), note it but don't implement it here — treat it like any other
+  epic's issue and skip it in this run.
 
 ## 2. Pick the next actionable sub-issue
 
 Walk the ordered list top to bottom. For each issue:
 
 1. **Closed issue → skip.** Already done.
-2. **Open issue, but already has work in flight → skip.** Check both:
+2. **(Milestone-based epics only) Open issue whose `Depends on` set includes an issue that is
+   still open → skip for now.** A prerequisite from *this same milestone* will naturally already
+   be closed once you've walked past it earlier in this same loop. A prerequisite from an
+   *earlier* milestone (e.g. an E1 ticket depending on an E0 ticket) is out of scope for this
+   run — if it isn't closed, stop and tell the user which cross-epic prerequisite is missing
+   rather than implementing out of order. (Legacy epic issues have no `Depends on` set — native
+   sub-issue order is the only ordering signal, skip this check for them.)
+3. **Open issue, but already has work in flight → skip.** Check both:
    ```
    git branch -a --list "<issue-number>-*"
-   gh pr list --repo saliou673/spring-next-saas-starter --search "<issue-number> in:body" --state all --json number,title,headRefName,baseRefName,state
+   gh pr list --repo saliou673/houndjo --search "<issue-number> in:body" --state all --json number,title,headRefName,baseRefName,state
    ```
    If a branch and/or PR already exists for this issue number, treat it as handled — move to the next issue. Do not reimplement or touch it.
-3. **Open issue, no existing branch/PR → this is the target issue.** Stop walking, proceed to step 3.
+4. **Open issue, dependencies satisfied, no existing branch/PR → this is the target issue.** Stop walking, proceed to step 3.
 
-If you reach the end of the list with no target issue, **stop the recursion**: report to the user which issues were skipped (closed / already in flight) and confirm the epic has no remaining actionable work.
+If you reach the end of the list with no target issue, **stop the recursion**: report to the user which issues were skipped (closed / blocked on a dependency / already in flight) and confirm the epic has no remaining actionable work.
 
 ## 3. Read the issue in full
 
 ```
-gh issue view <issue-number> --repo saliou673/spring-next-saas-starter --json title,body,labels
+gh issue view <issue-number> --repo saliou673/houndjo --json title,body,labels,milestone
 ```
 
-Issue bodies in this repo are short: a description paragraph (often naming the specific existing file it should mirror or extend, e.g. "matching `frontend/apps/houndjo-web/app/errors/forbidden`") and a trailing `Part of #<epic>` line — there's no separate `Acceptance criteria` section, so the description *is* the spec. When it references a sibling web/mobile screen or an existing backend endpoint as the thing to mirror, read that referenced file before writing any code — it's the real acceptance criteria.
+Issue bodies in this backlog are detailed, self-contained specs: after the `**Epic:**` /
+`**Depends on:**` header, expect a `Description`, then — depending on the ticket — a domain
+`Model`, a Liquibase `DDL` block (table/column names, constraints, indexes to use verbatim), an
+`API` section (exact endpoint paths, request/response DTO field lists, permission codes),
+explicit `Acceptance criteria`, and `Tests` describing the assertions the integration test must
+make. Treat every field name, endpoint path, DTO shape, and SQL identifier given in the body as
+authoritative — don't improvise names. A trailing note points back to `CLAUDE.md` for the
+conventions that apply across every ticket (hexagonal layout, camelCase→snake_case column
+mapping, DTO/controller rules, Definition of Done) instead of repeating them per issue — read
+`CLAUDE.md`'s "Product context" section once if you haven't already this run.
 
-If, after reading the issue and the file(s) it points at, there's a genuine open question (ambiguous field type, unclear relationship, multiple valid UX choices, a missing dependency that isn't actually ready) — **ask the user now**, before writing any code. Otherwise proceed.
+(An older issue that predates this convention may instead be a short pointer-style body naming a
+sibling file to mirror, with no separate `Acceptance criteria` section — in that case the
+description *is* the spec, and the referenced file is the real acceptance criteria; read it
+before writing any code.)
+
+If, after reading the issue in full, there's a genuine open question (ambiguous field type,
+unclear relationship, multiple valid UX choices, a missing dependency that isn't actually ready)
+— **ask the user now**, before writing any code. Otherwise proceed.
 
 ## 4. Create the branch (stacked)
 
@@ -85,7 +173,11 @@ If, after reading the issue and the file(s) it points at, there's a genuine open
 
 ## 5. Implement
 
-Determine backend/web/mobile scope from the issue title's bracket tags (`[Backend]`, `[Web]`, `[Mobile]`, or a combination).
+Determine backend/web/mobile scope from the issue's `type:*` label(s): `type:backend` →
+backend, `type:frontend-web` → web, `type:frontend-mobile` → mobile, `type:fullstack` → both
+backend and frontend as the ticket body's `API`/screens sections dictate, `type:architecture` →
+docs/ADR only (no code slice below applies), `type:qa` → verification/regression work, not new
+domain code. (Legacy bracket-tag issues: map `[Backend]`/`[Web]`/`[Mobile]` the same way.)
 
 **Backend (Java / Spring Boot, hexagonal — `backend/houndjo-restapi`)**
 Follow the RoleGroup slice exactly, layer by layer:
@@ -104,7 +196,13 @@ Follow the `role-groups` feature template: `src/features/<module>/index.tsx`, `c
 Follow the existing `(app)/settings/*` screens as the template for a feature screen wired to `expo-router` and the shared `houndjo-apiclient` hooks.
 - All visible UI text via `react-i18next`'s `useTranslation`, with matching keys added to both `src/i18n/locales/en.json` and `src/i18n/locales/fr.json`.
 
-**Multi-scope tickets** (title has more than one bracket tag, e.g. `[Backend][Web][Mobile]`): do the backend slice first (so the API exists to generate the client against), then web, then mobile, as separate commits (see below) — this matches this repo's history for cross-cutting tickets (see PR #116, #117).
+**Multi-scope tickets:** in this backlog, backend/web/mobile work for the same feature is
+normally already split into separate sibling tickets (e.g. E1-1 backend, E1-3 web, E1-5 mobile),
+so most issues you pick here are single-scope. A `type:fullstack` ticket, or a legacy issue with
+more than one bracket tag (`[Backend][Web][Mobile]`), is the exception: do the backend slice
+first (so the API exists to generate the client against), then web, then mobile, as separate
+commits (see below) — this matches this repo's history for cross-cutting tickets (see PR #116,
+#117).
 
 ## 6. Verify before committing
 
@@ -129,7 +227,7 @@ Use `<type>(<scope>): <subject>` from `docs/coding-convention.md`, scopes like `
 
 ```
 git push -u origin <issue-number>-<slug>
-gh pr create --repo saliou673/spring-next-saas-starter \
+gh pr create --repo saliou673/houndjo \
   --base <base-branch> --head <issue-number>-<slug> \
   --title "<issue title, unchanged>" \
   --label enhancement \
@@ -147,7 +245,17 @@ EOF
 )"
 ```
 
-Mirror the real style used in this repo's PRs (see PR #113, #116 for reference): concrete `## Summary` bullets, an optional `## Design notes` / `## Why ...` / `## Backward compatibility` section when there's a non-obvious tradeoff worth explaining, a `## Verification` checklist with actual results (not placeholders), and a trailing plain `Closes #N` line. Carry over any scope-specific label already used on the parent epic's other sub-issues (e.g. `mobile`) in addition to `enhancement` if applicable — check `gh label list` / sibling issues' labels rather than assuming.
+Mirror the real style used in this repo's PRs (see PR #113, #116 for reference): concrete `## Summary` bullets, an optional `## Design notes` / `## Why ...` / `## Backward compatibility` section when there's a non-obvious tradeoff worth explaining, a `## Verification` checklist with actual results (not placeholders), and a trailing plain `Closes #N` line.
+
+- **Milestone-based epic:** carry over the issue's own `epic:*` and `type:*` labels onto the PR
+  in addition to `enhancement` (`--label epic:E1 --label type:backend ...`), and set the same
+  milestone on the PR so it shows up under the epic in GitHub's milestone view:
+  ```
+  gh pr edit <pr-number> --repo saliou673/houndjo --milestone "<same milestone title as the issue>"
+  ```
+- **Legacy epic issue:** carry over any scope-specific label already used on the parent epic's
+  other sub-issues (e.g. `mobile`) in addition to `enhancement` if applicable — check
+  `gh label list` / sibling issues' labels rather than assuming. No milestone to set.
 
 ## 9. Recurse
 
