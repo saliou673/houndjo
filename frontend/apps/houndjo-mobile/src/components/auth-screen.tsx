@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -29,7 +29,7 @@ export function AuthScreen({ title, subtitle, children }: AuthScreenProps) {
             )}
             {children}
           </View>
-          <AvoidKeyboard />
+          {Platform.OS === 'ios' && <AvoidKeyboard />}
         </ScrollView>
       </SafeAreaView>
     </ThemedView>
