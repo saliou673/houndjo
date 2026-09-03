@@ -14,3 +14,6 @@ databaseChangeLog:
   - include:
       file: 00004-insert-organization-permission.sql
       relativeToChangelogFile: true
+  - include:
+      file: 00005-insert-membership-permissions.sql
+      relativeToChangelogFile: true
