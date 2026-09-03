@@ -13,6 +13,7 @@ import com.houndjo.domain.ports.in.AuthenticationUseCase;
 import com.houndjo.domain.ports.out.JwtTokenPort;
 import com.houndjo.domain.ports.out.TwoFactorProviderPort;
 import com.houndjo.domain.ports.out.persistenceport.AuthTokenPersistencePort;
+import com.houndjo.domain.ports.out.persistenceport.MembershipPersistencePort;
 import com.houndjo.domain.ports.out.persistenceport.SecuritySettingsPersistencePort;
 import com.houndjo.domain.ports.out.persistenceport.TwoFactorChallengePersistencePort;
 import com.houndjo.domain.ports.out.persistenceport.UserPersistencePort;
@@ -39,6 +40,7 @@ public class AuthenticationService implements AuthenticationUseCase {
 
     private final JwtTokenPort jwtTokenPort;
     private final AuthTokenPersistencePort authTokenPersistencePort;
+    private final MembershipPersistencePort membershipPersistencePort;
     private final UserPersistencePort userPersistencePort;
     private final TwoFactorChallengePersistencePort twoFactorChallengePersistencePort;
     private final List<TwoFactorProviderPort> twoFactorProviders;
@@ -81,8 +83,8 @@ public class AuthenticationService implements AuthenticationUseCase {
 
         Instant newExpiryDate = jwtTokenPort.calculateTokenValidity(authToken.getRememberMe());
 
-        String accessToken =
-                jwtTokenPort.generateAccessToken(user.getUserCredentials().getEmail(), authorities, newExpiryDate);
+        String accessToken = jwtTokenPort.generateAccessToken(
+                user.getUserCredentials().getEmail(), authorities, newExpiryDate, defaultOrganizationId(user));
 
         authToken.updateAccessToken(accessToken);
         authToken.updateExpiryDate(newExpiryDate.plus(30, ChronoUnit.DAYS));
@@ -97,9 +99,10 @@ public class AuthenticationService implements AuthenticationUseCase {
     }
 
     public LoginResult.Complete completeLogin(AuthenticatedUser authenticatedUser, String email, boolean rememberMe) {
+        User user = userPersistencePort.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
         Instant expiryDate = jwtTokenPort.calculateTokenValidity(rememberMe);
         String accessToken = jwtTokenPort.generateAccessToken(
-                authenticatedUser.email(), authenticatedUser.authorities(), expiryDate);
+                authenticatedUser.email(), authenticatedUser.authorities(), expiryDate, defaultOrganizationId(user));
         String refreshToken = generateAndSaveRefreshToken(email, accessToken, expiryDate, rememberMe);
         return new LoginResult.Complete(new JwtToken(accessToken, refreshToken));
     }
@@ -151,5 +154,12 @@ public class AuthenticationService implements AuthenticationUseCase {
 
         authTokenPersistencePort.save(authToken);
         return tokenValue;
+    }
+
+    private Long defaultOrganizationId(User user) {
+        return membershipPersistencePort.findActiveByUserId(user.getId()).stream()
+                .map(membership -> membership.getOrganizationId())
+                .findFirst()
+                .orElse(null);
     }
 }
