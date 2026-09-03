@@ -38,3 +38,7 @@ databaseChangeLog:
   - include:
       file: 00009-security-settings-create-table.sql
       relativeToChangelogFile: true
+
+  - include:
+      file: 00010-organization-create-table.sql
+      relativeToChangelogFile: true

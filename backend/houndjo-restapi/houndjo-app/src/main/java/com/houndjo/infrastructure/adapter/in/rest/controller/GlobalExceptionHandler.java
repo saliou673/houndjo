@@ -154,6 +154,13 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.CONFLICT, "Role Group Error", resolveMessage(ex));
     }
 
+    @ExceptionHandler(OrganizationNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ValidationErrorResponseDTO> handleOrganizationNotFound(OrganizationNotFoundException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Organization Error", resolveMessage(ex));
+    }
+
     private static void logError(Exception ex) {
         log.error("Error occurred: {}", ex.getMessage(), ex);
     }
