@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, Switch, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
@@ -11,6 +11,8 @@ import {
 import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { ThemedText } from '@/components/themed-text';
+import { Spinner } from '@/components/ui/spinner';
+import { Switch } from '@/components/ui/switch';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 
@@ -52,7 +54,7 @@ export default function NotificationsScreen() {
       <Stack.Screen options={{ title: t('settings.nav.notifications') }} />
       <SettingsListScreen>
         {isLoading ? (
-          <ActivityIndicator />
+          <Spinner />
         ) : isError || !preferences ? (
           <ThemedText themeColor="danger">{t('settings.notifications.loadError')}</ThemedText>
         ) : (

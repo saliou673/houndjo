@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.houndjo.domain.models.auth.JwtToken;
 import com.houndjo.domain.models.auth.TwoFactorMethodType;
+import com.houndjo.domain.models.organization.Organization;
+import com.houndjo.domain.ports.in.OrganizationUseCase;
 import com.houndjo.infrastructure.adapter.in.rest.controller.dto.TwoFactorChallengeResponse;
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.LoginRequest;
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.TwoFactorLoginVerifyRequest;
@@ -16,6 +18,7 @@ import com.houndjo.infrastructure.adapter.out.persistence.repository.TwoFactorCh
 import com.houndjo.integration.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 class AuthenticationControllerTest extends IntegrationTest {
@@ -27,6 +30,12 @@ class AuthenticationControllerTest extends IntegrationTest {
 
     @Autowired
     private TwoFactorChallengeJpaRepository twoFactorChallengeRepository;
+
+    @Autowired
+    private OrganizationUseCase organizationUseCase;
+
+    @Autowired
+    private JwtDecoder jwtDecoder;
 
     @Test
     void shouldAuthorizeUserWithoutRememberMe() throws Exception {
@@ -84,6 +93,24 @@ class AuthenticationControllerTest extends IntegrationTest {
         assertThat(refreshedToken.accessToken()).isNotBlank();
         assertThat(refreshedToken.refreshToken()).isNotBlank();
         assertThat(refreshedToken.accessToken()).isNotEqualTo(initialToken.accessToken());
+    }
+
+    @Test
+    void shouldIncludeDefaultActiveOrganizationInLoginAndRefreshTokens() throws Exception {
+        var user = createDefaultUser();
+        Organization organization = organizationUseCase.registerSchool(
+                Organization.create("Ecole Al Nour", "contact@al-nour.test", null, null, null, null), user.getId());
+        LoginRequest login = new LoginRequest(DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD, false);
+
+        JwtToken initialToken = post(LOGIN_ROUTE, login, JwtToken.class, status().isOk());
+        Long initialOrganizationId =
+                jwtDecoder.decode(initialToken.accessToken()).getClaim("orgId");
+        JwtToken refreshedToken = postText(REFRESH_ROUTE, initialToken.refreshToken(), JwtToken.class, status().isOk());
+        Long refreshedOrganizationId =
+                jwtDecoder.decode(refreshedToken.accessToken()).getClaim("orgId");
+
+        assertThat(initialOrganizationId).isEqualTo(organization.getId());
+        assertThat(refreshedOrganizationId).isEqualTo(organization.getId());
     }
 
     @Test
