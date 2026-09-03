@@ -6,7 +6,7 @@ import {
 import { useMemo } from 'react';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { Colors } from '@/theme/colors';
+import { Colors } from '@/constants/theme';
 import { Mode, ModeProvider, ModeStorage } from '@/providers/mode-provider';
 
 type Props = {
@@ -51,12 +51,12 @@ const NavigationTheme = ({ children }: { children: React.ReactNode }) => {
         ...DarkTheme,
         colors: {
           ...DarkTheme.colors,
-          primary: Colors.dark.primary,
+          primary: Colors.dark.text,
           background: Colors.dark.background,
-          card: Colors.dark.card,
+          card: Colors.dark.backgroundElement,
           text: Colors.dark.text,
-          border: Colors.dark.border,
-          notification: Colors.dark.red,
+          border: Colors.dark.backgroundSelected,
+          notification: Colors.dark.danger,
         },
       };
     }
@@ -65,12 +65,12 @@ const NavigationTheme = ({ children }: { children: React.ReactNode }) => {
       ...DefaultTheme,
       colors: {
         ...DefaultTheme.colors,
-        primary: Colors.light.primary,
+        primary: Colors.light.text,
         background: Colors.light.background,
-        card: Colors.light.card,
+        card: Colors.light.backgroundElement,
         text: Colors.light.text,
-        border: Colors.light.border,
-        notification: Colors.light.red,
+        border: Colors.light.backgroundSelected,
+        notification: Colors.light.danger,
       },
     };
   }, [colorScheme]);

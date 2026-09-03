@@ -1,6 +1,7 @@
-import { useColorScheme as useRNColorScheme } from 'react-native';
+import { Appearance } from 'react-native';
 
 import { useModeContext } from '@/providers/mode-provider';
+import { resolveColorScheme } from '@/theme/color-scheme';
 
 /**
  * The one place the app's colour scheme is decided.
@@ -17,6 +18,7 @@ import { useModeContext } from '@/providers/mode-provider';
  * indexing with a two-value union.
  */
 export function useColorScheme(): 'light' | 'dark' {
-  const system = useRNColorScheme() === 'dark' ? 'dark' : 'light';
-  return useModeContext()?.scheme ?? system;
+  return (
+    useModeContext()?.scheme ?? resolveColorScheme(Appearance.getColorScheme())
+  );
 }

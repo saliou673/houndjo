@@ -4,9 +4,12 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { Appearance, useColorScheme as useRNColorScheme } from 'react-native';
+
+import { resolveColorScheme } from '@/theme/color-scheme';
 
 export type Mode = 'light' | 'dark' | 'system';
 
@@ -76,7 +79,8 @@ export const ModeProvider = ({
   defaultMode = 'system',
 }: Props) => {
   const [mode, setModeState] = useState<Mode>(defaultMode);
-  const systemScheme = useRNColorScheme() === 'dark' ? 'dark' : 'light';
+  const systemScheme = resolveColorScheme(useRNColorScheme());
+  const hasExplicitMode = useRef(false);
 
   // Rehydrate once. A missing, malformed or unreadable value leaves the default
   // in place — persistence is a convenience and must never be able to break boot.
@@ -92,7 +96,9 @@ export const ModeProvider = ({
     Promise.resolve()
       .then(() => storage.getItem(storageKey))
       .then((saved) => {
-        if (cancelled || !isMode(saved)) return;
+        // A server preference or user action may arrive while storage is being
+        // read. Never let stale device state win that race.
+        if (cancelled || hasExplicitMode.current || !isMode(saved)) return;
         setModeState(saved);
         syncNativeAppearance(saved);
       })
@@ -105,6 +111,7 @@ export const ModeProvider = ({
 
   const setMode = useCallback(
     (next: Mode) => {
+      hasExplicitMode.current = true;
       setModeState(next);
       syncNativeAppearance(next);
 

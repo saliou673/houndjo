@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useColorScheme as useRNColorScheme } from 'react-native';
+import { Appearance } from 'react-native';
 
 import { useModeContext } from '@/providers/mode-provider';
+import { resolveColorScheme } from '@/theme/color-scheme';
 
 /**
  * To support static rendering, this value needs to be re-calculated on the client side for web.
@@ -22,8 +23,8 @@ export function useColorScheme(): 'light' | 'dark' {
     setHasHydrated(true);
   }, []);
 
-  const system = useRNColorScheme() === 'dark' ? 'dark' : 'light';
-  const scheme = useModeContext()?.scheme ?? system;
+  const scheme =
+    useModeContext()?.scheme ?? resolveColorScheme(Appearance.getColorScheme());
 
   if (hasHydrated) {
     return scheme;

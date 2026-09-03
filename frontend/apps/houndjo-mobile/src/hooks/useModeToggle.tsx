@@ -1,4 +1,7 @@
+import { Appearance } from 'react-native';
+
 import { Mode, useModeContext } from '@/providers/mode-provider';
+import { resolveColorScheme } from '@/theme/color-scheme';
 
 interface UseModeToggleReturn {
   isDark: boolean;
@@ -7,6 +10,8 @@ interface UseModeToggleReturn {
   currentMode: 'light' | 'dark';
   toggleMode: () => void;
 }
+
+const ignoreModeChange = (_mode: Mode) => {};
 
 /**
  * Reads and writes the app-wide theme mode held by `ModeProvider`.
@@ -19,16 +24,11 @@ interface UseModeToggleReturn {
  */
 export function useModeToggle(): UseModeToggleReturn {
   const context = useModeContext();
-
-  if (!context) {
-    throw new Error(
-      'useModeToggle requires a <ModeProvider>. Wrap your app in the ' +
-        '<ThemeProvider> in providers/theme-provider, which mounts one, or ' +
-        'mount <ModeProvider> from providers/mode-provider yourself.'
-    );
-  }
-
-  const { mode, setMode, scheme } = context;
+  const { mode, setMode, scheme } = context ?? {
+    mode: 'system',
+    setMode: ignoreModeChange,
+    scheme: resolveColorScheme(Appearance.getColorScheme()),
+  };
 
   const toggleMode = () => {
     switch (mode) {

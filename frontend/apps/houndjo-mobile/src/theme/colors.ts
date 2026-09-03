@@ -4,11 +4,11 @@ const lightColors = {
   foreground: '#000000',
 
   // Card colors
-  card: '#F2F2F7',
+  card: '#F0F0F3',
   cardForeground: '#000000',
 
   // Popover colors
-  popover: '#F2F2F7',
+  popover: '#F0F0F3',
   popoverForeground: '#000000',
 
   // Primary colors
@@ -16,7 +16,7 @@ const lightColors = {
   primaryForeground: '#FFFFFF',
 
   // Secondary colors
-  secondary: '#F2F2F7',
+  secondary: '#F0F0F3',
   secondaryForeground: '#18181b',
 
   // Muted colors
@@ -24,7 +24,7 @@ const lightColors = {
   mutedForeground: '#71717a',
 
   // Accent colors
-  accent: '#F2F2F7',
+  accent: '#F0F0F3',
   accentForeground: '#18181b',
 
   // Destructive colors
@@ -32,7 +32,7 @@ const lightColors = {
   destructiveForeground: '#FFFFFF',
 
   // Border and input
-  border: '#C6C6C8',
+  border: '#E0E1E6',
   input: '#e4e4e7',
   ring: '#a1a1aa',
 
@@ -90,11 +90,11 @@ const darkColors = {
   foreground: '#FFFFFF',
 
   // Card colors
-  card: '#1C1C1E',
+  card: '#212225',
   cardForeground: '#FFFFFF',
 
   // Popover colors
-  popover: '#18181b',
+  popover: '#212225',
   popoverForeground: '#FFFFFF',
 
   // Primary colors
@@ -102,7 +102,7 @@ const darkColors = {
   primaryForeground: '#18181b',
 
   // Secondary colors
-  secondary: '#1C1C1E',
+  secondary: '#212225',
   secondaryForeground: '#FFFFFF',
 
   // Muted colors
@@ -110,7 +110,7 @@ const darkColors = {
   mutedForeground: '#a1a1aa',
 
   // Accent colors
-  accent: '#1C1C1E',
+  accent: '#212225',
   accentForeground: '#FFFFFF',
 
   // Destructive colors
@@ -118,7 +118,7 @@ const darkColors = {
   destructiveForeground: '#FFFFFF',
 
   // Border and input - using alpha values for better blending
-  border: '#38383A',
+  border: '#2E3135',
   input: 'rgba(255, 255, 255, 0.15)',
   ring: '#71717a',
 
@@ -173,29 +173,4 @@ const darkColors = {
 export const Colors = {
   light: lightColors,
   dark: darkColors,
-};
-
-// Export individual color schemes for easier access
-export { darkColors, lightColors };
-
-// Utility type for color keys
-export type ColorKeys = keyof typeof lightColors;
-
-// Helper function to get color with opacity (useful for React Native)
-export const withOpacity = (color: string, opacity: number) => {
-  // Handle rgba colors
-  if (color.startsWith('rgba')) {
-    return color;
-  }
-
-  // Handle hex colors
-  if (color.startsWith('#')) {
-    const hex = color.replace('#', '');
-    const r = parseInt(hex.substr(0, 2), 16);
-    const g = parseInt(hex.substr(2, 2), 16);
-    const b = parseInt(hex.substr(4, 2), 16);
-    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-  }
-
-  return color;
 };
