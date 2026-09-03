@@ -1,4 +1,5 @@
 import { Text } from '@/components/ui/text';
+import { useColor } from '@/hooks/useColor';
 import { AlertCircle, Check, Info, X } from 'lucide-react-native';
 import React, {
   createContext,
@@ -10,7 +11,6 @@ import React, {
 import {
   AccessibilityInfo,
   Dimensions,
-  Platform,
   TouchableOpacity,
   View,
   ViewStyle,
@@ -28,6 +28,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export type ToastVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
 
@@ -72,6 +73,15 @@ export function Toast({
 }: ToastProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const insets = useSafeAreaInsets();
+
+  const backgroundColor = useColor('card');
+  const foregroundColor = useColor('cardForeground');
+  const mutedTextColor = useColor('mutedForeground');
+  const successColor = useColor('green');
+  const errorColor = useColor('red');
+  const warningColor = useColor('orange');
+  const infoColor = useColor('blue');
 
   useEffect(() => {
     AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
@@ -91,10 +101,6 @@ export function Toast({
   const height = useSharedValue(DYNAMIC_ISLAND_HEIGHT);
   const borderRadius = useSharedValue(18.5);
   const contentOpacity = useSharedValue(0);
-
-  // Dynamic Island colors (dark theme optimized)
-  const backgroundColor = '#1C1C1E'; // iOS Dynamic Island background
-  const mutedTextColor = '#8E8E93'; // iOS secondary text color
 
   useEffect(() => {
     const hasContentToShow = Boolean(title || description || action);
@@ -140,15 +146,15 @@ export function Toast({
   const getVariantColor = () => {
     switch (variant) {
       case 'success':
-        return '#30D158'; // iOS green
+        return successColor;
       case 'error':
-        return '#FF453A'; // iOS red
+        return errorColor;
       case 'warning':
-        return '#FF9F0A'; // iOS orange
+        return warningColor;
       case 'info':
-        return '#007AFF'; // iOS blue
+        return infoColor;
       default:
-        return '#8E8E93'; // iOS gray
+        return mutedTextColor;
     }
   };
 
@@ -232,8 +238,7 @@ export function Toast({
     });
 
   const getTopPosition = () => {
-    const statusBarHeight = Platform.OS === 'ios' ? 59 : 20;
-    return statusBarHeight + index * (EXPANDED_HEIGHT + TOAST_MARGIN);
+    return insets.top + TOAST_MARGIN + index * (EXPANDED_HEIGHT + TOAST_MARGIN);
   };
 
   // Animated styles
@@ -264,7 +269,7 @@ export function Toast({
     position: 'absolute',
     top: getTopPosition(),
     alignSelf: 'center',
-    shadowColor: '#000',
+    shadowColor: foregroundColor,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.25,
     shadowRadius: 20,
@@ -316,7 +321,7 @@ export function Toast({
                   <Text
                     variant='subtitle'
                     style={{
-                      color: '#FFFFFF',
+                      color: foregroundColor,
                       fontSize: 15,
                       fontWeight: '600',
                       marginBottom: description ? 2 : 0,
@@ -357,7 +362,7 @@ export function Toast({
                   <Text
                     variant='caption'
                     style={{
-                      color: '#FFFFFF',
+                      color: foregroundColor,
                       fontSize: 12,
                       fontWeight: '600',
                     }}

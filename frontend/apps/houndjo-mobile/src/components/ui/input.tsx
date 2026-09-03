@@ -75,11 +75,11 @@ export const Input = forwardRef<TextInput, InputProps>(
     const getVariantStyle = (): ViewStyle => {
       const baseStyle: ViewStyle = {
         borderRadius: isTextarea ? BORDER_RADIUS : CORNERS,
-        flexDirection: isTextarea ? 'column' : 'row',
-        alignItems: isTextarea ? 'stretch' : 'center',
+        flexDirection: 'column',
+        alignItems: 'stretch',
         minHeight: getHeight(),
         paddingHorizontal: 16,
-        paddingVertical: isTextarea ? 12 : 0,
+        paddingVertical: isTextarea || label ? 12 : 0,
       };
 
       switch (variant) {
@@ -212,63 +212,51 @@ export const Input = forwardRef<TextInput, InputProps>(
               />
             </>
           ) : (
-            // Input Layout (Row)
+            // Input layout: labels sit above the control so long localized
+            // copy can wrap without squeezing the editable value.
             <View
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
+                flexDirection: 'column',
+                alignItems: 'stretch',
                 gap: 8,
               }}
             >
-              {/* Left section - Icon + Label (fixed width to simulate grid column) */}
-              <View
-                style={{
-                  width: label ? 120 : 'auto',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 8,
-                }}
-                pointerEvents='none'
-              >
+              {label && (
+                <Text
+                  variant='caption'
+                  style={[
+                    {
+                      color: error ? danger : muted,
+                    },
+                    labelStyle,
+                  ]}
+                  pointerEvents='none'
+                >
+                  {label}
+                </Text>
+              )}
+
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                 {icon && (
                   <Icon name={icon} size={16} color={error ? danger : muted} />
                 )}
-                {label && (
-                  <Text
-                    variant='caption'
-                    numberOfLines={1}
-                    ellipsizeMode='tail'
-                    style={[
-                      {
-                        color: error ? danger : muted,
-                      },
-                      labelStyle,
-                    ]}
-                    pointerEvents='none'
-                  >
-                    {label}
-                  </Text>
-                )}
-              </View>
+                <View style={{ flex: 1 }}>
+                  <TextInput
+                    ref={ref}
+                    style={[getInputStyle(), inputStyle]}
+                    placeholderTextColor={error ? danger + '99' : muted}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    editable={!disabled}
+                    placeholder={placeholder}
+                    selectionColor={primary}
+                    accessibilityLabel={label}
+                    {...props}
+                  />
+                </View>
 
-              {/* TextInput section - takes remaining space */}
-              <View style={{ flex: 1 }}>
-                <TextInput
-                  ref={ref}
-                  style={[getInputStyle(), inputStyle]}
-                  placeholderTextColor={error ? danger + 99 : muted}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  editable={!disabled}
-                  placeholder={placeholder}
-                  selectionColor={primary}
-                  accessibilityLabel={label}
-                  {...props}
-                />
+                {renderRightComponent()}
               </View>
-
-              {/* Right Component */}
-              {renderRightComponent()}
             </View>
           )}
         </Pressable>
