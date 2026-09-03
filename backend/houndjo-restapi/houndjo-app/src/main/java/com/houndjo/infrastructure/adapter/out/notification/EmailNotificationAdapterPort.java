@@ -55,6 +55,20 @@ public class EmailNotificationAdapterPort implements NotificationSenderPort {
 
     @Override
     @Async
+    public void sendOrganizationInvitationNotification(String email, String invitationCode, String languageKey) {
+        if (StringUtils.isBlank(email)) return;
+        Locale locale = Locale.forLanguageTag(StringUtils.defaultIfBlank(languageKey, "fr"));
+        String subject = messageSource.getMessage("email.organization-invitation.title", null, "Invitation", locale);
+        String body = messageSource.getMessage(
+                "email.organization-invitation.body",
+                new Object[] {invitationCode},
+                "You have been invited to join an organization. Invitation code: {0}",
+                locale);
+        sendEmailSync(email, subject, body);
+    }
+
+    @Override
+    @Async
     public void sendActivationNotification(User user) {
         String templateName = "mail/activationEmail";
         String titleKey = "email.activation.title";

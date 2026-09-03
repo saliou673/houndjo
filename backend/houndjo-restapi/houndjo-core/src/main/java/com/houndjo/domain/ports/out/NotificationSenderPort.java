@@ -16,6 +16,9 @@ import com.houndjo.domain.models.user.User;
  */
 public interface NotificationSenderPort {
 
+    /** Sends an organization-scoped invitation to an email address. */
+    default void sendOrganizationInvitationNotification(String email, String invitationCode, String languageKey) {}
+
     /**
      * Sends an account activation notification to the user.
      * <p>
