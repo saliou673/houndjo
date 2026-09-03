@@ -24,6 +24,7 @@ public class OrganizationService implements OrganizationUseCase {
     public Organization registerSchool(Organization organization) {
         log.debug("Registering organization: name={}", organization.getName());
 
+        organizationPersistencePort.acquireSlugAllocationLock(organization.getSlug());
         organization.assignSlug(resolveUniqueSlug(organization.getSlug()));
         return organizationPersistencePort.save(organization);
     }

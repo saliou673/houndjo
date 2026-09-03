@@ -4,15 +4,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.houndjo.domain.enumerations.OrganizationStatus;
+import com.houndjo.domain.models.organization.Organization;
+import com.houndjo.domain.ports.in.OrganizationUseCase;
 import com.houndjo.infrastructure.adapter.in.rest.controller.dto.OrganizationDTO;
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.RegisterSchoolRequest;
 import com.houndjo.integration.IntegrationTest;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
 class OrganizationControllerTest extends IntegrationTest {
 
     private static final String API = "/api/organizations";
+
+    @Autowired
+    private OrganizationUseCase organizationUseCase;
 
     // region register
 
@@ -65,6 +75,33 @@ class OrganizationControllerTest extends IntegrationTest {
 
     @Test
     @WithMockUser
+    void shouldPreserveUnicodeNamesWhenGeneratingSlug() throws Exception {
+        RegisterSchoolRequest request =
+                new RegisterSchoolRequest("مدرسة النور", "contact@al-nour.test", null, null, null, null);
+
+        OrganizationDTO result = post(API + "/register", request, OrganizationDTO.class, status().isCreated());
+
+        assertThat(result.getSlug()).isEqualTo("مدرسة-النور");
+        assertThat(Organization.slugify("École Al Nour")).isEqualTo("ecole-al-nour");
+        assertThat(Organization.slugify("✨")).isEqualTo("school");
+    }
+
+    @Test
+    void shouldAllocateDistinctSlugsForConcurrentRegistrations() throws Exception {
+        try (var executor = Executors.newFixedThreadPool(2)) {
+            CountDownLatch start = new CountDownLatch(1);
+            Future<Organization> first = executor.submit(() -> registerAfter(start, "first@concurrent.test"));
+            Future<Organization> second = executor.submit(() -> registerAfter(start, "second@concurrent.test"));
+
+            start.countDown();
+
+            assertThat(Set.of(first.get().getSlug(), second.get().getSlug()))
+                    .containsExactlyInAnyOrder("concurrent-school", "concurrent-school-2");
+        }
+    }
+
+    @Test
+    @WithMockUser
     void shouldFailToRegisterSchoolWithBlankName() throws Exception {
         RegisterSchoolRequest request = new RegisterSchoolRequest("", "contact@al-nour.test", null, null, null, null);
 
@@ -76,6 +113,20 @@ class OrganizationControllerTest extends IntegrationTest {
     void shouldFailToRegisterSchoolWithInvalidEmail() throws Exception {
         RegisterSchoolRequest request =
                 new RegisterSchoolRequest("Ecole Al Nour", "not-an-email", null, null, null, null);
+
+        post(API + "/register", request, status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser
+    void shouldRejectValuesLongerThanDatabaseColumns() throws Exception {
+        RegisterSchoolRequest request = new RegisterSchoolRequest(
+                "x".repeat(151),
+                "contact@al-nour.test",
+                "1".repeat(21),
+                "a".repeat(256),
+                "X".repeat(11),
+                "f".repeat(6));
 
         post(API + "/register", request, status().isBadRequest());
     }
@@ -110,4 +161,10 @@ class OrganizationControllerTest extends IntegrationTest {
     }
 
     // endregion
+
+    private Organization registerAfter(CountDownLatch start, String email) throws Exception {
+        start.await();
+        return organizationUseCase.registerSchool(
+                Organization.create("Concurrent School", email, null, null, null, null));
+    }
 }

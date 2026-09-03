@@ -3,6 +3,7 @@ package com.houndjo.infrastructure.adapter.in.rest.controller.requests;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 /**
  * Request to register a new organization (school).
@@ -15,9 +16,9 @@ import jakarta.validation.constraints.NotBlank;
  * @param defaultLanguageKey  optional default language key, defaults to fr
  */
 public record RegisterSchoolRequest(
-        @NotBlank String name,
-        @NotBlank @Email String contactEmail,
-        @Nullable String phoneNumber,
-        @Nullable String address,
-        @Nullable String defaultCurrencyCode,
-        @Nullable String defaultLanguageKey) {}
+        @NotBlank @Size(max = 150) String name,
+        @NotBlank @Email @Size(max = 255) String contactEmail,
+        @Nullable @Size(max = 20) String phoneNumber,
+        @Nullable @Size(max = 255) String address,
+        @Nullable @Size(max = 10) String defaultCurrencyCode,
+        @Nullable @Size(max = 5) String defaultLanguageKey) {}

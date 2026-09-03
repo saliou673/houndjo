@@ -25,6 +25,14 @@ public interface OrganizationPersistencePort {
     boolean existsBySlug(String slug);
 
     /**
+     * Serializes slug allocation for registrations sharing the same base slug.
+     * The lock is held until the surrounding transaction completes.
+     *
+     * @param baseSlug the unsuffixed slug candidate
+     */
+    void acquireSlugAllocationLock(String baseSlug);
+
+    /**
      * Persists or updates an organization.
      *
      * @param organization the organization to save

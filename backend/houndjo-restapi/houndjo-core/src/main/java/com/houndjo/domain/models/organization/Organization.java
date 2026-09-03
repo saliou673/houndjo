@@ -3,7 +3,9 @@ package com.houndjo.domain.models.organization;
 import com.houndjo.domain.constants.DomainConstants;
 import com.houndjo.domain.enumerations.OrganizationStatus;
 import com.houndjo.domain.models.Auditable;
+import java.text.Normalizer;
 import java.time.Instant;
+import java.util.Locale;
 import java.util.regex.Pattern;
 import lombok.Getter;
 
@@ -13,7 +15,9 @@ import lombok.Getter;
 @Getter
 public class Organization extends Auditable<Long> {
 
-    private static final Pattern NON_ALPHANUMERIC = Pattern.compile("[^a-z0-9]+");
+    private static final Pattern DIACRITICS = Pattern.compile("\\p{M}+");
+    private static final Pattern NON_ALPHANUMERIC = Pattern.compile("[^\\p{L}\\p{N}]+");
+    private static final String FALLBACK_SLUG = "school";
 
     private String name;
     private String slug;
@@ -109,7 +113,9 @@ public class Organization extends Auditable<Long> {
      * caller is responsible for resolving collisions before persisting.
      */
     public static String slugify(String name) {
-        String normalized = NON_ALPHANUMERIC.matcher(name.toLowerCase()).replaceAll("-");
+        String decomposed = Normalizer.normalize(name, Normalizer.Form.NFKD).toLowerCase(Locale.ROOT);
+        String withoutDiacritics = DIACRITICS.matcher(decomposed).replaceAll("");
+        String normalized = NON_ALPHANUMERIC.matcher(withoutDiacritics).replaceAll("-");
         int start = 0;
         int end = normalized.length();
         while (start < end && normalized.charAt(start) == '-') {
@@ -118,7 +124,8 @@ public class Organization extends Auditable<Long> {
         while (end > start && normalized.charAt(end - 1) == '-') {
             end--;
         }
-        return normalized.substring(start, end);
+        String slug = normalized.substring(start, end);
+        return slug.isEmpty() ? FALLBACK_SLUG : slug;
     }
 
     /**
