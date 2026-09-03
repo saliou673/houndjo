@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, Pressable, RefreshControl, StyleSheet, TextInput, View } from 'react-native';
+import { FlatList, Pressable, RefreshControl, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { Stack, useRouter, type Href } from 'expo-router';
@@ -8,6 +8,9 @@ import { useGetCurrentUserPermissions, useGetRoleGroupsAsAdmin, type RoleGroup }
 import { SettingsCard } from '@/components/settings-card';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { Button } from '@/components/ui/button';
+import { SearchBar } from '@/components/ui/searchbar';
+import { Spinner } from '@/components/ui/spinner';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -63,7 +66,6 @@ function RoleGroupListItem({ roleGroup, onPress }: { roleGroup: RoleGroup; onPre
 export default function RoleGroupsListScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const theme = useTheme();
 
   const [nameInput, setNameInput] = useState('');
   const [debouncedName, setDebouncedName] = useState('');
@@ -116,36 +118,18 @@ export default function RoleGroupsListScreen() {
                 {t('roleGroups.list.description')}
               </ThemedText>
               {canManageRoleGroups && (
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={() => router.push('/role-groups/create' as Href)}
-                  style={({ pressed }) => [
-                    styles.addButton,
-                    { backgroundColor: theme.text },
-                    pressed && styles.pressed,
-                  ]}>
-                  <ThemedText type="smallBold" style={{ color: theme.background }}>
-                    {t('roleGroups.list.addRoleGroup')}
-                  </ThemedText>
-                </Pressable>
+                <Button size="sm" onPress={() => router.push('/role-groups/create' as Href)}>
+                  {t('roleGroups.list.addRoleGroup')}
+                </Button>
               )}
             </View>
 
-            <TextInput
+            <SearchBar
               value={nameInput}
               onChangeText={setNameInput}
               placeholder={t('roleGroups.list.searchPlaceholder')}
-              placeholderTextColor={theme.textSecondary}
               autoCapitalize="none"
               autoCorrect={false}
-              style={[
-                styles.searchInput,
-                {
-                  backgroundColor: theme.backgroundElement,
-                  borderColor: theme.backgroundSelected,
-                  color: theme.text,
-                },
-              ]}
             />
 
             {isError && (
@@ -155,7 +139,7 @@ export default function RoleGroupsListScreen() {
             )}
 
             {isLoading ? (
-              <ActivityIndicator style={styles.loadingIndicator} />
+              <Spinner style={styles.loadingIndicator} />
             ) : (
               <FlatList
                 data={items}
@@ -178,16 +162,13 @@ export default function RoleGroupsListScreen() {
                 ListFooterComponent={
                   items.length > 0 ? (
                     <View style={styles.pager}>
-                      <Pressable
-                        accessibilityRole="button"
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         disabled={!canGoPrevious}
-                        onPress={() => setPage((current) => Math.max(0, current - 1))}
-                        style={({ pressed }) => [
-                          styles.pagerButton,
-                          (!canGoPrevious || pressed) && styles.pagerButtonDisabled,
-                        ]}>
-                        <ThemedText type="small">{t('roleGroups.list.previous')}</ThemedText>
-                      </Pressable>
+                        onPress={() => setPage((current) => Math.max(0, current - 1))}>
+                        {t('roleGroups.list.previous')}
+                      </Button>
 
                       <ThemedText type="small" themeColor="textSecondary">
                         {t('roleGroups.list.pageIndicator', {
@@ -196,16 +177,13 @@ export default function RoleGroupsListScreen() {
                         })}
                       </ThemedText>
 
-                      <Pressable
-                        accessibilityRole="button"
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         disabled={!canGoNext}
-                        onPress={() => setPage((current) => current + 1)}
-                        style={({ pressed }) => [
-                          styles.pagerButton,
-                          (!canGoNext || pressed) && styles.pagerButtonDisabled,
-                        ]}>
-                        <ThemedText type="small">{t('roleGroups.list.next')}</ThemedText>
-                      </Pressable>
+                        onPress={() => setPage((current) => current + 1)}>
+                        {t('roleGroups.list.next')}
+                      </Button>
                     </View>
                   ) : null
                 }
@@ -239,18 +217,6 @@ const styles = StyleSheet.create({
   },
   headerDescription: {
     flex: 1,
-  },
-  addButton: {
-    borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-  },
-  searchInput: {
-    borderWidth: 1,
-    borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-    fontSize: 16,
   },
   loadingIndicator: {
     marginTop: Spacing.five,
@@ -290,12 +256,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: Spacing.three,
-  },
-  pagerButton: {
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-  },
-  pagerButtonDisabled: {
-    opacity: 0.3,
   },
 });

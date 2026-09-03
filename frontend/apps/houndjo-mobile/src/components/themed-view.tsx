@@ -1,5 +1,6 @@
-import { View, type ViewProps } from 'react-native';
+import { type ViewProps } from 'react-native';
 
+import { View } from '@/components/ui/view';
 import { ThemeColor } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 

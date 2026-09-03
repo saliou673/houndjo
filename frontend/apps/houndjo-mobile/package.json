@@ -15,6 +15,7 @@
     "expo-device": "~56.0.4",
     "expo-font": "~56.0.7",
     "expo-glass-effect": "~56.0.4",
+    "expo-haptics": "~56.0.3",
     "expo-image": "~56.0.11",
     "expo-linking": "~56.0.16",
     "expo-localization": "~56.0.6",
@@ -25,7 +26,9 @@
     "expo-symbols": "~56.0.7",
     "expo-system-ui": "~56.0.5",
     "expo-web-browser": "~56.0.6",
+    "houndjo-apiclient": "workspace:*",
     "i18next": "^26.3.6",
+    "lucide-react-native": "^1.39.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-i18next": "^17.0.11",
@@ -37,8 +40,7 @@
     "react-native-screens": "4.26.2",
     "react-native-svg": "^15.15.4",
     "react-native-web": "~0.21.0",
-    "react-native-worklets": "0.8.3",
-    "houndjo-apiclient": "workspace:*"
+    "react-native-worklets": "0.8.3"
   },
   "devDependencies": {
     "@types/node": "^25.0.2",

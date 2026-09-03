@@ -6,6 +6,7 @@ import { Link, useRouter } from 'expo-router';
 import { useCreatePublicUserAccount, type ValidationErrorResponseDTO } from '@api-client';
 
 import { AuthScreen } from '@/components/auth-screen';
+import { FormError } from '@/components/form-error';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
@@ -168,11 +169,7 @@ export default function SignUpScreen() {
         onSubmitEditing={() => void onSubmit()}
       />
 
-      {formError && (
-        <ThemedText type="small" themeColor="danger">
-          {formError}
-        </ThemedText>
-      )}
+      <FormError message={formError} />
 
       <SubmitButton
         label={t('auth.signUp.submit')}

@@ -1,5 +1,6 @@
-import { Platform, StyleSheet, Text, type TextProps } from 'react-native';
+import { Platform, StyleSheet, type TextProps } from 'react-native';
 
+import { Text } from '@/components/ui/text';
 import { Fonts, ThemeColor } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useTextSize } from '@/context/text-size-provider';
@@ -23,7 +24,7 @@ const SIZES = {
   code: { fontSize: 12 },
 } as const satisfies Record<NonNullable<ThemedTextProps['type']>, { fontSize: number; lineHeight?: number }>;
 
-export function ThemedText({ style, type = 'default', themeColor, ...rest }: ThemedTextProps) {
+export function ThemedText({ style, type = 'default', themeColor, children, ...rest }: ThemedTextProps) {
   const theme = useTheme();
   const { scale } = useTextSize();
 
@@ -48,8 +49,9 @@ export function ThemedText({ style, type = 'default', themeColor, ...rest }: The
         scaledSize,
         style,
       ]}
-      {...rest}
-    />
+      {...rest}>
+      {children}
+    </Text>
   );
 }
 

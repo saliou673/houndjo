@@ -1,14 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  Pressable,
-  RefreshControl,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
+import { FlatList, Pressable, RefreshControl, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
@@ -28,6 +19,10 @@ import { SettingsCard } from '@/components/settings-card';
 import { showToast } from '@/components/toast/toast-store';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { AlertDialog } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { SearchBar } from '@/components/ui/searchbar';
+import { Spinner } from '@/components/ui/spinner';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { extractApiErrorMessage } from '@/lib/api-error';
@@ -104,12 +99,12 @@ function UserListItem({
 export default function UsersListScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const theme = useTheme();
   const queryClient = useQueryClient();
 
   const [emailInput, setEmailInput] = useState('');
   const [debouncedEmail, setDebouncedEmail] = useState('');
   const [page, setPage] = useState(0);
+  const [pendingDeactivation, setPendingDeactivation] = useState<UserDetails | null>(null);
 
   useEffect(() => {
     const timeout = setTimeout(() => setDebouncedEmail(emailInput.trim()), 300);
@@ -171,18 +166,13 @@ export default function UsersListScreen() {
   });
 
   function handleDeactivate(user: UserDetails) {
-    Alert.alert(
-      t('users.list.deactivateConfirmTitle'),
-      t('users.list.deactivateConfirmMessage', { email: user.email }),
-      [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('users.list.deactivate'),
-          style: 'destructive',
-          onPress: () => deactivateUser({ id: user.id ?? 0 }),
-        },
-      ]
-    );
+    setPendingDeactivation(user);
+  }
+
+  function confirmDeactivate() {
+    if (pendingDeactivation) {
+      deactivateUser({ id: pendingDeactivation.id ?? 0 });
+    }
   }
 
   return (
@@ -195,35 +185,19 @@ export default function UsersListScreen() {
               <ThemedText type="small" themeColor="textSecondary" style={styles.headerDescription}>
                 {t('users.list.description')}
               </ThemedText>
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => router.push('/users/create' as Href)}
-                style={({ pressed }) => [
-                  styles.addButton,
-                  { backgroundColor: theme.text },
-                  pressed && styles.pressed,
-                ]}>
-                <ThemedText type="smallBold" style={{ color: theme.background }}>
-                  {t('users.list.addUser')}
-                </ThemedText>
-              </Pressable>
+              <Button
+                size="sm"
+                onPress={() => router.push('/users/create' as Href)}>
+                {t('users.list.addUser')}
+              </Button>
             </View>
 
-            <TextInput
+            <SearchBar
               value={emailInput}
               onChangeText={setEmailInput}
               placeholder={t('users.list.searchPlaceholder')}
-              placeholderTextColor={theme.textSecondary}
               autoCapitalize="none"
               autoCorrect={false}
-              style={[
-                styles.searchInput,
-                {
-                  backgroundColor: theme.backgroundElement,
-                  borderColor: theme.backgroundSelected,
-                  color: theme.text,
-                },
-              ]}
             />
 
             {isError && (
@@ -233,7 +207,7 @@ export default function UsersListScreen() {
             )}
 
             {isLoading ? (
-              <ActivityIndicator style={styles.loadingIndicator} />
+              <Spinner style={styles.loadingIndicator} />
             ) : (
               <FlatList
                 data={items}
@@ -258,16 +232,13 @@ export default function UsersListScreen() {
                 ListFooterComponent={
                   items.length > 0 ? (
                     <View style={styles.pager}>
-                      <Pressable
-                        accessibilityRole="button"
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         disabled={!canGoPrevious}
-                        onPress={() => setPage((current) => Math.max(0, current - 1))}
-                        style={({ pressed }) => [
-                          styles.pagerButton,
-                          (!canGoPrevious || pressed) && styles.pagerButtonDisabled,
-                        ]}>
-                        <ThemedText type="small">{t('users.list.previous')}</ThemedText>
-                      </Pressable>
+                        onPress={() => setPage((current) => Math.max(0, current - 1))}>
+                        {t('users.list.previous')}
+                      </Button>
 
                       <ThemedText type="small" themeColor="textSecondary">
                         {t('users.list.pageIndicator', {
@@ -276,16 +247,13 @@ export default function UsersListScreen() {
                         })}
                       </ThemedText>
 
-                      <Pressable
-                        accessibilityRole="button"
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         disabled={!canGoNext}
-                        onPress={() => setPage((current) => current + 1)}
-                        style={({ pressed }) => [
-                          styles.pagerButton,
-                          (!canGoNext || pressed) && styles.pagerButtonDisabled,
-                        ]}>
-                        <ThemedText type="small">{t('users.list.next')}</ThemedText>
-                      </Pressable>
+                        onPress={() => setPage((current) => current + 1)}>
+                        {t('users.list.next')}
+                      </Button>
                     </View>
                   ) : null
                 }
@@ -294,6 +262,20 @@ export default function UsersListScreen() {
           </View>
         </SafeAreaView>
       </ThemedView>
+
+      <AlertDialog
+        isVisible={!!pendingDeactivation}
+        onClose={() => setPendingDeactivation(null)}
+        title={t('users.list.deactivateConfirmTitle')}
+        description={
+          pendingDeactivation
+            ? t('users.list.deactivateConfirmMessage', { email: pendingDeactivation.email })
+            : undefined
+        }
+        confirmText={t('users.list.deactivate')}
+        cancelText={t('common.cancel')}
+        onConfirm={confirmDeactivate}
+      />
     </>
   );
 }
@@ -319,18 +301,6 @@ const styles = StyleSheet.create({
   },
   headerDescription: {
     flex: 1,
-  },
-  addButton: {
-    borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-  },
-  searchInput: {
-    borderWidth: 1,
-    borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-    fontSize: 16,
   },
   loadingIndicator: {
     marginTop: Spacing.five,
@@ -387,12 +357,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: Spacing.three,
-  },
-  pagerButton: {
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-  },
-  pagerButtonDisabled: {
-    opacity: 0.3,
   },
 });

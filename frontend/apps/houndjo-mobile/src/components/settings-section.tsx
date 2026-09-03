@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { SettingsCard } from '@/components/settings-card';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Separator } from '@/components/ui/separator';
 import { Spacing } from '@/constants/theme';
 
 type SettingsSectionProps = {
@@ -25,7 +25,7 @@ export function SettingsSection({ title, children }: SettingsSectionProps) {
         {rows.map((row, index) => (
           <Fragment key={index}>
             {row}
-            {index < rows.length - 1 && <ThemedView type="backgroundSelected" style={styles.divider} />}
+            {index < rows.length - 1 && <Separator style={styles.divider} />}
           </Fragment>
         ))}
       </SettingsCard>

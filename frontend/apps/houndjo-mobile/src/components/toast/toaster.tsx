@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { StyleSheet, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
     dismissToast,
     subscribeToasts,
     type ToastItem,
     type ToastVariant,
 } from "@/components/toast/toast-store";
+import { Toast, type ToastVariant as BnaToastVariant } from "@/components/ui/toast";
 
-const VARIANT_BACKGROUND: Record<ToastVariant, string> = {
-    error: "#DC2626",
-    info: "#1F2937",
-    success: "#16A34A",
+const VARIANT_TO_BNA: Record<ToastVariant, BnaToastVariant> = {
+    error: "error",
+    info: "info",
+    success: "success",
 };
 
 export function Toaster() {
     const [toasts, setToasts] = useState<ToastItem[]>([]);
-    const insets = useSafeAreaInsets();
 
     useEffect(() => subscribeToasts(setToasts), []);
 
@@ -26,50 +25,29 @@ export function Toaster() {
     }
 
     return (
-        <View
-            pointerEvents="box-none"
-            style={[styles.container, { top: insets.top + 8 }]}
-        >
-            {toasts.map((toast) => (
-                <Animated.View
-                    key={toast.id}
-                    entering={FadeInUp}
-                    exiting={FadeOutUp}
-                    style={[
-                        styles.toast,
-                        { backgroundColor: VARIANT_BACKGROUND[toast.variant] },
-                    ]}
-                >
-                    <Pressable onPress={() => dismissToast(toast.id)}>
-                        <Text style={styles.text}>{toast.message}</Text>
-                    </Pressable>
-                </Animated.View>
-            ))}
-        </View>
+        <GestureHandlerRootView style={styles.container} pointerEvents="box-none">
+            <View pointerEvents="box-none" style={styles.container}>
+                {toasts.map((toast, index) => (
+                    <Toast
+                        key={toast.id}
+                        id={String(toast.id)}
+                        description={toast.message}
+                        variant={VARIANT_TO_BNA[toast.variant]}
+                        index={index}
+                        onDismiss={(id) => dismissToast(Number(id))}
+                    />
+                ))}
+            </View>
+        </GestureHandlerRootView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         position: "absolute",
-        left: 16,
-        right: 16,
-        gap: 8,
+        top: 0,
+        left: 0,
+        right: 0,
         zIndex: 999,
-    },
-    toast: {
-        borderRadius: 10,
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-        shadowColor: "#000000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-        elevation: 4,
-    },
-    text: {
-        color: "#ffffff",
-        fontSize: 14,
-        fontWeight: "600",
     },
 });
