@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, StyleSheet, Switch, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
@@ -18,9 +18,12 @@ import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { AlertDialog } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
+import { Switch } from '@/components/ui/switch';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
 import { extractApiErrorMessage } from '@/lib/api-error';
 
 type FormValues = {
@@ -41,7 +44,6 @@ function mapConfigurationToFormValues(configuration: AppConfiguration): FormValu
 
 export default function ConfigurationDetailScreen() {
   const { t } = useTranslation();
-  const theme = useTheme();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -133,21 +135,11 @@ export default function ConfigurationDetailScreen() {
     }
   }
 
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+
   function handleDelete() {
     if (!configuration) return;
-
-    Alert.alert(
-      t('configurations.referenceData.detail.deleteConfirmTitle'),
-      t('configurations.referenceData.detail.deleteConfirmMessage', { code: configuration.code }),
-      [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('configurations.referenceData.detail.delete'),
-          style: 'destructive',
-          onPress: () => deleteConfiguration({ id: configurationId }),
-        },
-      ]
-    );
+    setIsConfirmingDelete(true);
   }
 
   return (
@@ -155,7 +147,7 @@ export default function ConfigurationDetailScreen() {
       <Stack.Screen options={{ title: configuration?.code || t('configurations.referenceData.detail.title') }} />
       <SettingsListScreen>
         {isConfigurationLoading || !values ? (
-          <ActivityIndicator />
+          <Spinner />
         ) : isConfigurationError || !configuration ? (
           <ThemedText themeColor="danger">{t('configurations.referenceData.detail.loadError')}</ThemedText>
         ) : (
@@ -216,26 +208,26 @@ export default function ConfigurationDetailScreen() {
               />
             </SettingsCard>
 
-            <Pressable
-              accessibilityRole="button"
-              disabled={isDeleting}
-              onPress={handleDelete}
-              style={({ pressed }) => [
-                styles.deleteButton,
-                { backgroundColor: theme.danger },
-                (pressed || isDeleting) && styles.pressed,
-              ]}>
-              {isDeleting ? (
-                <ActivityIndicator color={theme.background} />
-              ) : (
-                <ThemedText type="smallBold" style={{ color: theme.background }}>
-                  {t('configurations.referenceData.detail.delete')}
-                </ThemedText>
-              )}
-            </Pressable>
+            <Button variant="destructive" loading={isDeleting} onPress={handleDelete}>
+              {t('configurations.referenceData.detail.delete')}
+            </Button>
           </>
         )}
       </SettingsListScreen>
+
+      {configuration && (
+        <AlertDialog
+          isVisible={isConfirmingDelete}
+          onClose={() => setIsConfirmingDelete(false)}
+          title={t('configurations.referenceData.detail.deleteConfirmTitle')}
+          description={t('configurations.referenceData.detail.deleteConfirmMessage', {
+            code: configuration.code,
+          })}
+          confirmText={t('configurations.referenceData.detail.delete')}
+          cancelText={t('common.cancel')}
+          onConfirm={() => deleteConfiguration({ id: configurationId })}
+        />
+      )}
     </>
   );
 }
@@ -248,16 +240,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  deleteButton: {
-    marginTop: Spacing.two,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: Spacing.two,
-    paddingVertical: Spacing.three,
-    minHeight: 48,
-  },
-  pressed: {
-    opacity: 0.7,
   },
 });

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Switch, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
@@ -17,9 +17,11 @@ import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { RadioGroup } from '@/components/ui/radio';
+import { Spinner } from '@/components/ui/spinner';
+import { Switch } from '@/components/ui/switch';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
 import { extractApiErrorMessage } from '@/lib/api-error';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,48 +50,6 @@ const INITIAL_VALUES: FormValues = {
   address: '',
   roleGroupNames: [],
 };
-
-function GenderToggle({
-  label,
-  value,
-  onChange,
-  options,
-}: {
-  label: string;
-  value: CreateAdminUserRequestGenderEnumKey | undefined;
-  onChange: (next: CreateAdminUserRequestGenderEnumKey) => void;
-  options: { value: CreateAdminUserRequestGenderEnumKey; label: string }[];
-}) {
-  const theme = useTheme();
-
-  return (
-    <View style={styles.field}>
-      <ThemedText type="smallBold">{label}</ThemedText>
-      <View style={styles.genderRow}>
-        {options.map((option) => {
-          const selected = option.value === value;
-          return (
-            <Pressable
-              key={option.value}
-              accessibilityRole="button"
-              onPress={() => onChange(option.value)}
-              style={[
-                styles.genderOption,
-                {
-                  backgroundColor: selected ? theme.text : theme.backgroundElement,
-                  borderColor: theme.backgroundSelected,
-                },
-              ]}>
-              <ThemedText type="small" style={{ color: selected ? theme.background : theme.text }}>
-                {option.label}
-              </ThemedText>
-            </Pressable>
-          );
-        })}
-      </View>
-    </View>
-  );
-}
 
 export default function CreateUserScreen() {
   const { t } = useTranslation();
@@ -236,21 +196,26 @@ export default function CreateUserScreen() {
             editable={!isPending}
           />
 
-          <GenderToggle
-            label={t('users.create.fields.gender')}
-            value={values.gender}
-            onChange={(next) => updateField('gender', next)}
-            options={[
-              {
-                value: createAdminUserRequestGenderEnum.MALE,
-                label: t('users.gender.MALE'),
-              },
-              {
-                value: createAdminUserRequestGenderEnum.FEMALE,
-                label: t('users.gender.FEMALE'),
-              },
-            ]}
-          />
+          <View style={styles.field}>
+            <ThemedText type="smallBold">{t('users.create.fields.gender')}</ThemedText>
+            <RadioGroup
+              orientation="horizontal"
+              value={values.gender}
+              onValueChange={(next) =>
+                updateField('gender', next as CreateAdminUserRequestGenderEnumKey)
+              }
+              options={[
+                {
+                  value: createAdminUserRequestGenderEnum.MALE,
+                  label: t('users.gender.MALE'),
+                },
+                {
+                  value: createAdminUserRequestGenderEnum.FEMALE,
+                  label: t('users.gender.FEMALE'),
+                },
+              ]}
+            />
+          </View>
 
           <FormTextField
             label={t('users.create.fields.address')}
@@ -265,7 +230,7 @@ export default function CreateUserScreen() {
           <ThemedText type="smallBold">{t('users.create.fields.roleGroups')}</ThemedText>
 
           {isRoleGroupsLoading ? (
-            <ActivityIndicator />
+            <Spinner />
           ) : roleGroupOptions.length === 0 ? (
             <ThemedText type="small" themeColor="textSecondary">
               {t('users.create.roleGroupsEmpty')}
@@ -318,18 +283,6 @@ export default function CreateUserScreen() {
 const styles = StyleSheet.create({
   field: {
     gap: Spacing.one,
-  },
-  genderRow: {
-    flexDirection: 'row',
-    gap: Spacing.two,
-  },
-  genderOption: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderRadius: Spacing.two,
-    paddingVertical: Spacing.two,
   },
   roleGroupList: {
     gap: Spacing.three,

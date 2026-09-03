@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { Stack } from 'expo-router';
@@ -21,6 +21,8 @@ import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SubmitButton } from '@/components/submit-button';
 import { FormTextField } from '@/components/form-text-field';
 import { ThemedText } from '@/components/themed-text';
+import { RadioGroup } from '@/components/ui/radio';
+import { Spinner } from '@/components/ui/spinner';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -87,50 +89,6 @@ function ReadOnlyRow({ label, value }: { label: string; value: string }) {
         {label}
       </ThemedText>
       <ThemedText>{value}</ThemedText>
-    </View>
-  );
-}
-
-function GenderToggle({
-  value,
-  onChange,
-  label,
-  options,
-}: {
-  value: UpdateUserRequestGenderEnumKey;
-  onChange: (next: UpdateUserRequestGenderEnumKey) => void;
-  label: string;
-  options: { value: UpdateUserRequestGenderEnumKey; label: string }[];
-}) {
-  const theme = useTheme();
-
-  return (
-    <View style={styles.field}>
-      <ThemedText type="smallBold">{label}</ThemedText>
-      <View style={styles.genderRow}>
-        {options.map((option) => {
-          const selected = option.value === value;
-          return (
-            <Pressable
-              key={option.value}
-              accessibilityRole="button"
-              onPress={() => onChange(option.value)}
-              style={[
-                styles.genderOption,
-                {
-                  backgroundColor: selected ? theme.text : theme.backgroundElement,
-                  borderColor: theme.backgroundSelected,
-                },
-              ]}>
-              <ThemedText
-                type="small"
-                style={{ color: selected ? theme.background : theme.text }}>
-                {option.label}
-              </ThemedText>
-            </Pressable>
-          );
-        })}
-      </View>
     </View>
   );
 }
@@ -297,7 +255,7 @@ export default function ProfileScreen() {
       <Stack.Screen options={{ title: t('settings.nav.profile') }} />
       <SettingsListScreen>
         {isLoading || !values ? (
-          <ActivityIndicator />
+          <Spinner />
         ) : isError || !user ? (
           <ThemedText themeColor="danger">{t('settings.profile.loadError')}</ThemedText>
         ) : (
@@ -337,21 +295,26 @@ export default function ProfileScreen() {
               editable={!isPending}
             />
 
-            <GenderToggle
-              label={t('settings.profile.fields.gender')}
-              value={values.gender}
-              onChange={(next) => updateField('gender', next)}
-              options={[
-                {
-                  value: updateUserRequestGenderEnum.MALE,
-                  label: t('settings.profile.fields.genderMale'),
-                },
-                {
-                  value: updateUserRequestGenderEnum.FEMALE,
-                  label: t('settings.profile.fields.genderFemale'),
-                },
-              ]}
-            />
+            <View style={styles.field}>
+              <ThemedText type="smallBold">{t('settings.profile.fields.gender')}</ThemedText>
+              <RadioGroup
+                orientation="horizontal"
+                value={values.gender}
+                onValueChange={(next) =>
+                  updateField('gender', next as UpdateUserRequestGenderEnumKey)
+                }
+                options={[
+                  {
+                    value: updateUserRequestGenderEnum.MALE,
+                    label: t('settings.profile.fields.genderMale'),
+                  },
+                  {
+                    value: updateUserRequestGenderEnum.FEMALE,
+                    label: t('settings.profile.fields.genderFemale'),
+                  },
+                ]}
+              />
+            </View>
 
             <FormTextField
               label={t('settings.profile.fields.address')}
@@ -394,18 +357,6 @@ const styles = StyleSheet.create({
   },
   readOnlyRow: {
     gap: Spacing.half,
-  },
-  genderRow: {
-    flexDirection: 'row',
-    gap: Spacing.two,
-  },
-  genderOption: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderRadius: Spacing.two,
-    paddingVertical: Spacing.two,
   },
   dateTrigger: {
     borderWidth: 1,

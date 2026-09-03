@@ -5,6 +5,7 @@ import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCompleteInvitation } from '@api-client';
 
 import { AuthScreen } from '@/components/auth-screen';
+import { FormError } from '@/components/form-error';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
@@ -82,9 +83,7 @@ export default function InvitationScreen() {
   if (!code) {
     return (
       <AuthScreen title={t('auth.invitation.title')}>
-        <ThemedText type="small" themeColor="danger">
-          {t('auth.invitation.missingCode')}
-        </ThemedText>
+        <FormError message={t('auth.invitation.missingCode')} />
         <Link href="/sign-in" replace>
           <ThemedText type="linkPrimary">{t('auth.invitation.backToSignIn')}</ThemedText>
         </Link>
@@ -121,11 +120,7 @@ export default function InvitationScreen() {
         onSubmitEditing={() => void onSubmit()}
       />
 
-      {formError && (
-        <ThemedText type="small" themeColor="danger">
-          {formError}
-        </ThemedText>
-      )}
+      <FormError message={formError} />
 
       <SubmitButton
         label={t('auth.invitation.submit')}
