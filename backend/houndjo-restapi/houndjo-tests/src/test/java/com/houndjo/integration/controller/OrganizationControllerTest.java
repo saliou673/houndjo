@@ -302,8 +302,7 @@ class OrganizationControllerTest extends IntegrationTest {
     private Organization registerAfter(CountDownLatch start, Long creatorUserId) throws Exception {
         start.await();
         return organizationUseCase.registerSchool(
-                Organization.create(
-                        "Concurrent School", "contact@concurrent.test", null, null, null, null),
+                Organization.create("Concurrent School", "contact@concurrent.test", null, null, null, null),
                 creatorUserId);
     }
 }

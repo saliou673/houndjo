@@ -48,13 +48,13 @@ public class MembershipController {
     @PreAuthorize("hasAuthority('membership:update')")
     public MembershipDTO changeMembershipRole(
             @PathVariable Long orgId, @PathVariable Long id, @Valid @RequestBody ChangeMembershipRoleRequest request) {
-        return membershipDtoMapper.toDTO(membershipUseCase.changeRole(id, request.role()));
+        return membershipDtoMapper.toDTO(membershipUseCase.changeRole(orgId, id, request.role()));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('membership:delete')")
     public void revokeMembership(@PathVariable Long orgId, @PathVariable Long id) {
-        membershipUseCase.revoke(id);
+        membershipUseCase.revoke(orgId, id);
     }
 }

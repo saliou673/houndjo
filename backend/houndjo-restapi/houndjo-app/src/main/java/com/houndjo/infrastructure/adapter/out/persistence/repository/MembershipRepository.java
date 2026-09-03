@@ -17,7 +17,9 @@ public interface MembershipRepository extends JpaRepository<MembershipEntity, Lo
 
     Page<MembershipEntity> findByOrganizationId(Long organizationId, Pageable pageable);
 
+    Optional<MembershipEntity> findByIdAndOrganizationId(Long id, Long organizationId);
+
     Optional<MembershipEntity> findByUserIdAndOrganizationId(Long userId, Long organizationId);
 
-    List<MembershipEntity> findByUserIdAndStatus(Long userId, MembershipStatus status);
+    List<MembershipEntity> findByUserIdAndStatusOrderByCreationDateAsc(Long userId, MembershipStatus status);
 }

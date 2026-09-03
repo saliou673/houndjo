@@ -21,12 +21,13 @@ public interface MembershipPersistencePort {
     PagedResult<Membership> findByOrganizationId(Long organizationId, int page, int size);
 
     /**
-     * Finds a membership by its identifier.
+     * Finds a membership by its identifier within an organization.
      *
-     * @param id the membership identifier
+     * @param id             the membership identifier
+     * @param organizationId the owning organization identifier
      * @return the matching membership, or empty if not found
      */
-    Optional<Membership> findById(Long id);
+    Optional<Membership> findByIdAndOrganizationId(Long id, Long organizationId);
 
     /**
      * Finds the membership linking a user to an organization, regardless of status.

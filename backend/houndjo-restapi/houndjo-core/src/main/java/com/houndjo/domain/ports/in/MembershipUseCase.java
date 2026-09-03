@@ -31,16 +31,18 @@ public interface MembershipUseCase {
     /**
      * Changes the organization role of an existing membership.
      *
-     * @param id      the membership identifier
-     * @param newRole the new organization role
+     * @param organizationId the organization identifier from the request path
+     * @param id             the membership identifier
+     * @param newRole        the new organization role
      * @return the updated membership
      */
-    Membership changeRole(Long id, OrganizationRole newRole);
+    Membership changeRole(Long organizationId, Long id, OrganizationRole newRole);
 
     /**
      * Revokes a membership.
      *
-     * @param id the membership identifier
+     * @param organizationId the organization identifier from the request path
+     * @param id             the membership identifier
      */
-    void revoke(Long id);
+    void revoke(Long organizationId, Long id);
 }

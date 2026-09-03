@@ -18,6 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 class MembershipControllerTest extends IntegrationTest {
 
@@ -33,7 +34,7 @@ class MembershipControllerTest extends IntegrationTest {
 
         PaginatedResult<MembershipDTO> result = mockMvc(
                 MockMvcRequestBuilders.get(ORGANIZATION_API + "/" + organization.getId() + "/memberships")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("membership:read"))),
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "membership:read")),
                 new TypeReference<>() {},
                 status().isOk());
 
@@ -51,8 +52,21 @@ class MembershipControllerTest extends IntegrationTest {
         OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
 
         mockMvc.perform(MockMvcRequestBuilders.get(ORGANIZATION_API + "/" + organization.getId() + "/memberships")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_USER"))))
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "ROLE_USER")))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void shouldNotListMembershipsOutsideActiveOrganization() throws Exception {
+        createUser(OWNER_EMAIL);
+        String otherOwner = "owner@other-school.test";
+        createUser(otherOwner);
+        OrganizationDTO activeOrganization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        OrganizationDTO otherOrganization = registerAsOwner(otherOwner, "Other School", "contact@other-school.test");
+
+        mockMvc.perform(MockMvcRequestBuilders.get(ORGANIZATION_API + "/" + otherOrganization.getId() + "/memberships")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, activeOrganization.getId(), "membership:read")))
+                .andExpect(status().isNotFound());
     }
 
     // endregion
@@ -70,13 +84,32 @@ class MembershipControllerTest extends IntegrationTest {
         MembershipDTO result = mockMvc(
                 MockMvcRequestBuilders.patch(ORGANIZATION_API + "/" + organization.getId() + "/memberships/"
                                 + membershipId + "/role")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("membership:update")))
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "membership:update"))
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(request)),
                 MembershipDTO.class,
                 status().isOk());
 
         assertThat(result.role()).isEqualTo(OrganizationRole.SCHOOL_ADMIN);
+    }
+
+    @Test
+    void shouldNotChangeMembershipFromAnotherOrganization() throws Exception {
+        createUser(OWNER_EMAIL);
+        String otherOwner = "owner@other-school.test";
+        createUser(otherOwner);
+        OrganizationDTO activeOrganization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        OrganizationDTO otherOrganization = registerAsOwner(otherOwner, "Other School", "contact@other-school.test");
+        Long otherMembershipId = firstMembershipId(otherOrganization.getId(), otherOwner);
+        ChangeMembershipRoleRequest request = new ChangeMembershipRoleRequest(OrganizationRole.SCHOOL_ADMIN);
+
+        mockMvc.perform(MockMvcRequestBuilders.patch(ORGANIZATION_API + "/" + activeOrganization.getId()
+                                + "/memberships/" + otherMembershipId + "/role")
+                        .with(authenticatedForOrganization(
+                                OWNER_EMAIL, activeOrganization.getId(), "membership:update"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isNotFound());
     }
 
     // endregion
@@ -91,24 +124,44 @@ class MembershipControllerTest extends IntegrationTest {
 
         mockMvc.perform(MockMvcRequestBuilders.delete(
                                 ORGANIZATION_API + "/" + organization.getId() + "/memberships/" + membershipId)
-                        .with(jwt().authorities(new SimpleGrantedAuthority("membership:delete"))))
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "membership:delete")))
                 .andExpect(status().isNoContent());
 
         PaginatedResult<MembershipDTO> result = mockMvc(
                 MockMvcRequestBuilders.get(ORGANIZATION_API + "/" + organization.getId() + "/memberships")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("membership:read"))),
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "membership:read")),
                 new TypeReference<>() {},
                 status().isOk());
 
         assertThat(result.getItems().getFirst().status()).isEqualTo(MembershipStatus.REVOKED);
     }
 
+    @Test
+    void shouldNotRevokeMembershipFromAnotherOrganization() throws Exception {
+        createUser(OWNER_EMAIL);
+        String otherOwner = "owner@other-school.test";
+        createUser(otherOwner);
+        OrganizationDTO activeOrganization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        OrganizationDTO otherOrganization = registerAsOwner(otherOwner, "Other School", "contact@other-school.test");
+        Long otherMembershipId = firstMembershipId(otherOrganization.getId(), otherOwner);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(ORGANIZATION_API + "/" + activeOrganization.getId()
+                                + "/memberships/" + otherMembershipId)
+                        .with(authenticatedForOrganization(
+                                OWNER_EMAIL, activeOrganization.getId(), "membership:delete")))
+                .andExpect(status().isNotFound());
+    }
+
     // endregion
 
     private Long firstMembershipId(Long organizationId) throws Exception {
+        return firstMembershipId(organizationId, OWNER_EMAIL);
+    }
+
+    private Long firstMembershipId(Long organizationId, String email) throws Exception {
         PaginatedResult<MembershipDTO> result = mockMvc(
                 MockMvcRequestBuilders.get(ORGANIZATION_API + "/" + organizationId + "/memberships")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("membership:read"))),
+                        .with(authenticatedForOrganization(email, organizationId, "membership:read")),
                 new TypeReference<>() {},
                 status().isOk());
         return result.getItems().getFirst().id();
@@ -125,6 +178,11 @@ class MembershipControllerTest extends IntegrationTest {
                 .getResponse()
                 .getContentAsString();
         return objectMapper.readValue(response, OrganizationDTO.class);
+    }
+
+    private RequestPostProcessor authenticatedForOrganization(String email, Long organizationId, String authority) {
+        return jwt().jwt(j -> j.subject(email).claim("orgId", organizationId))
+                .authorities(new SimpleGrantedAuthority(authority));
     }
 
     private <T> T mockMvc(MockHttpServletRequestBuilder builder, TypeReference<T> typeReference, ResultMatcher matcher)

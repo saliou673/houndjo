@@ -8,6 +8,8 @@ import java.time.Instant;
  */
 public interface JwtTokenPort {
 
+    String ACTIVE_ORGANIZATION_CLAIM = "orgId";
+
     /**
      * Authenticates a user and returns domain representation.
      *
@@ -22,10 +24,11 @@ public interface JwtTokenPort {
      *
      * @param email       User email (subject)
      * @param authorities User authorities (space-separated roles)
-     * @param expiryDate  Token expiration date
+     * @param expiryDate           Token expiration date
+     * @param activeOrganizationId the user's default active organization, or null when none exists
      * @return The generated JWT access token
      */
-    String generateAccessToken(String email, String authorities, Instant expiryDate);
+    String generateAccessToken(String email, String authorities, Instant expiryDate, Long activeOrganizationId);
 
     /**
      * Calculates token validity based on remember me option.

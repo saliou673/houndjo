@@ -40,10 +40,12 @@ public class MembershipPersistenceAdapter implements MembershipPersistencePort {
     }
 
     @Override
-    public Optional<Membership> findById(Long id) {
+    public Optional<Membership> findByIdAndOrganizationId(Long id, Long organizationId) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> membershipRepository.findById(id).map(membershipMapper::toDomain),
-                "Error fetching membership by id");
+                () -> membershipRepository
+                        .findByIdAndOrganizationId(id, organizationId)
+                        .map(membershipMapper::toDomain),
+                "Error fetching membership by id and organization");
     }
 
     @Override
@@ -58,8 +60,8 @@ public class MembershipPersistenceAdapter implements MembershipPersistencePort {
     @Override
     public List<Membership> findActiveByUserId(Long userId) {
         return AdapterPersistenceUtils.executeDbOperation(
-                () -> membershipMapper.toDomain(
-                        membershipRepository.findByUserIdAndStatus(userId, MembershipStatus.ACTIVE)),
+                () -> membershipMapper.toDomain(membershipRepository.findByUserIdAndStatusOrderByCreationDateAsc(
+                        userId, MembershipStatus.ACTIVE)),
                 "Error fetching active memberships by user");
     }
 
