@@ -1,10 +1,11 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { Button } from '@/components/ui/button';
+import { View } from '@/components/ui/view';
 import { Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
 
 export type ErrorScreenAction = {
   label: string;
@@ -20,8 +21,6 @@ type ErrorScreenProps = {
 };
 
 export function ErrorScreen({ code, title, description, actions }: ErrorScreenProps) {
-  const theme = useTheme();
-
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.container} edges={['bottom']}>
@@ -40,28 +39,15 @@ export function ErrorScreen({ code, title, description, actions }: ErrorScreenPr
 
           {actions && actions.length > 0 && (
             <View style={styles.actions}>
-              {actions.map((action) => {
-                const isPrimary = action.variant !== 'outline';
-                return (
-                  <Pressable
-                    key={action.label}
-                    accessibilityRole="button"
-                    onPress={action.onPress}
-                    style={({ pressed }) => [
-                      styles.button,
-                      isPrimary
-                        ? { backgroundColor: theme.text }
-                        : { borderWidth: 1, borderColor: theme.backgroundSelected },
-                      pressed && styles.pressed,
-                    ]}>
-                    <ThemedText
-                      type="smallBold"
-                      style={isPrimary ? { color: theme.background } : undefined}>
-                      {action.label}
-                    </ThemedText>
-                  </Pressable>
-                );
-              })}
+              {actions.map((action) => (
+                <Button
+                  key={action.label}
+                  label={action.label}
+                  onPress={action.onPress}
+                  variant={action.variant === 'outline' ? 'outline' : 'default'}>
+                  {action.label}
+                </Button>
+              ))}
             </View>
           )}
         </View>
@@ -94,16 +80,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: Spacing.three,
     marginTop: Spacing.four,
-  },
-  button: {
-    borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.two,
-    minHeight: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  pressed: {
-    opacity: 0.7,
   },
 });

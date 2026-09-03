@@ -7,6 +7,7 @@ import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { activateAccount, useRequestActivationCode } from '@api-client';
 
 import { AuthScreen } from '@/components/auth-screen';
+import { FormError } from '@/components/form-error';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
@@ -123,16 +124,12 @@ export default function ActivateScreen() {
         autoComplete="one-time-code"
         autoCorrect={false}
         maxLength={CODE_LENGTH}
-        style={styles.codeInput}
+        inputStyle={styles.codeInput}
         editable={!isPending}
         onSubmitEditing={() => void onSubmit()}
       />
 
-      {formError && (
-        <ThemedText type="small" themeColor="danger">
-          {formError}
-        </ThemedText>
-      )}
+      <FormError message={formError} />
 
       <SubmitButton
         label={t('auth.activate.submit')}

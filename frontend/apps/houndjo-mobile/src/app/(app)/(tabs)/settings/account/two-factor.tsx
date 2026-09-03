@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Linking, Pressable, StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
@@ -14,11 +14,14 @@ import {
   useInit2FactorSetup,
 } from '@api-client';
 
+import { FormError } from '@/components/form-error';
 import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { FormTextField } from '@/components/form-text-field';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { Button } from '@/components/ui/button';
+import { InputOTP } from '@/components/ui/input-otp';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { extractApiErrorMessage } from '@/lib/api-error';
@@ -79,11 +82,11 @@ export default function TwoFactorScreen() {
     }
   }
 
-  async function onConfirmSubmit() {
+  async function onConfirmSubmit(submittedCode: string = code) {
     setCodeError(undefined);
     setFormError(null);
 
-    const trimmed = code.trim();
+    const trimmed = submittedCode.trim();
     if (!trimmed) {
       setCodeError(t('settings.account.twoFactorSetup.codeRequired'));
       return;
@@ -173,11 +176,7 @@ export default function TwoFactorScreen() {
               onSubmitEditing={() => void onDisableSubmit()}
             />
 
-            {formError && (
-              <ThemedText type="small" themeColor="danger">
-                {formError}
-              </ThemedText>
-            )}
+            <FormError message={formError} />
 
             <SubmitButton
               label={t('settings.account.twoFactorDisable.submit')}
@@ -187,11 +186,7 @@ export default function TwoFactorScreen() {
           </SettingsCard>
         ) : !setup ? (
           <SettingsCard>
-            {formError && (
-              <ThemedText type="small" themeColor="danger">
-                {formError}
-              </ThemedText>
-            )}
+            <FormError message={formError} />
             <SubmitButton
               label={t('settings.account.twoFactorSetup.startButton')}
               onPress={() => void onStartSetup()}
@@ -209,11 +204,9 @@ export default function TwoFactorScreen() {
               </View>
             </View>
 
-            <Pressable accessibilityRole="button" onPress={() => void onOpenAuthenticator()}>
-              <ThemedText type="linkPrimary">
-                {t('settings.account.twoFactorSetup.openAuthenticator')}
-              </ThemedText>
-            </Pressable>
+            <Button variant="link" onPress={() => void onOpenAuthenticator()}>
+              {t('settings.account.twoFactorSetup.openAuthenticator')}
+            </Button>
 
             <View style={styles.secretBlock}>
               <ThemedText type="small" themeColor="textSecondary">
@@ -224,24 +217,19 @@ export default function TwoFactorScreen() {
               </ThemedText>
             </View>
 
-            <FormTextField
-              label={t('settings.account.twoFactorSetup.codeLabel')}
-              value={code}
-              onChangeText={setCode}
-              placeholder="123456"
-              error={codeError}
-              keyboardType="number-pad"
-              autoComplete="one-time-code"
-              maxLength={CODE_LENGTH}
-              editable={!isConfirming}
-              onSubmitEditing={() => void onConfirmSubmit()}
-            />
+            <View style={styles.codeBlock}>
+              <ThemedText type="smallBold">{t('settings.account.twoFactorSetup.codeLabel')}</ThemedText>
+              <InputOTP
+                length={CODE_LENGTH}
+                value={code}
+                onChangeText={setCode}
+                onComplete={(value) => void onConfirmSubmit(value)}
+                error={codeError}
+                disabled={isConfirming}
+              />
+            </View>
 
-            {formError && (
-              <ThemedText type="small" themeColor="danger">
-                {formError}
-              </ThemedText>
-            )}
+            <FormError message={formError} />
 
             <SubmitButton
               label={t('settings.account.twoFactorSetup.confirmButton')}
@@ -266,6 +254,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   secretBlock: {
+    gap: Spacing.one,
+  },
+  codeBlock: {
     gap: Spacing.one,
   },
   secret: {

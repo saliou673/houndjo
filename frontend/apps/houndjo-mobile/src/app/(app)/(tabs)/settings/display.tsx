@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Switch, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
@@ -15,9 +15,12 @@ import {
 import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { ThemedText } from '@/components/themed-text';
+import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
+import { Switch } from '@/components/ui/switch';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
+import { useColor } from '@/hooks/useColor';
 import { useTextSize } from '@/context/text-size-provider';
 
 const TEXT_SIZE_ICONS: Record<DisplayPreferencesTextSizeEnumKey, SymbolViewProps['name']> = {
@@ -32,7 +35,8 @@ const TEXT_SIZE_ICONS: Record<DisplayPreferencesTextSizeEnumKey, SymbolViewProps
 // instead: text size and reduced motion, meaningful everywhere.
 export default function DisplayScreen() {
   const { t } = useTranslation();
-  const theme = useTheme();
+  const primaryColor = useColor('primary');
+  const primaryForegroundColor = useColor('primaryForeground');
   const queryClient = useQueryClient();
   const { textSize, setTextSize } = useTextSize();
   const { data: preferences, isLoading, isError } = useGetCurrentUserPreferences();
@@ -114,7 +118,7 @@ export default function DisplayScreen() {
       <Stack.Screen options={{ title: t('settings.nav.display') }} />
       <SettingsListScreen>
         {isLoading ? (
-          <ActivityIndicator />
+          <Spinner />
         ) : isError || !preferences ? (
           <ThemedText themeColor="danger">{t('settings.display.loadError')}</ThemedText>
         ) : (
@@ -127,31 +131,26 @@ export default function DisplayScreen() {
               <View style={styles.optionRow}>
                 {textSizeOptions.map((option) => {
                   const selected = option.value === textSize;
+                  const contentColor = selected ? primaryForegroundColor : primaryColor;
                   return (
-                    <Pressable
+                    <Button
                       key={option.value}
-                      accessibilityRole="button"
+                      variant={selected ? 'default' : 'outline'}
                       disabled={isTextSizePending}
-                      onPress={() => onTextSizeChange(option.value)}
-                      style={[
-                        styles.option,
-                        {
-                          backgroundColor: selected ? theme.text : theme.backgroundSelected,
-                          borderColor: theme.backgroundSelected,
-                        },
-                      ]}>
-                      <SymbolView
-                        name={TEXT_SIZE_ICONS[option.value]}
-                        size={18}
-                        weight="medium"
-                        tintColor={selected ? theme.background : theme.text}
-                      />
-                      <ThemedText
-                        type="small"
-                        style={{ color: selected ? theme.background : theme.text }}>
-                        {option.label}
-                      </ThemedText>
-                    </Pressable>
+                      style={styles.option}
+                      onPress={() => onTextSizeChange(option.value)}>
+                      <View style={styles.optionContent}>
+                        <SymbolView
+                          name={TEXT_SIZE_ICONS[option.value]}
+                          size={18}
+                          weight="medium"
+                          tintColor={contentColor}
+                        />
+                        <ThemedText type="small" style={{ color: contentColor }}>
+                          {option.label}
+                        </ThemedText>
+                      </View>
+                    </Button>
                   );
                 })}
               </View>
@@ -190,12 +189,11 @@ const styles = StyleSheet.create({
   },
   option: {
     flex: 1,
+  },
+  optionContent: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
     gap: Spacing.two,
-    borderWidth: 1,
-    borderRadius: Spacing.three,
-    paddingVertical: Spacing.two,
   },
   switchRow: {
     flexDirection: 'row',

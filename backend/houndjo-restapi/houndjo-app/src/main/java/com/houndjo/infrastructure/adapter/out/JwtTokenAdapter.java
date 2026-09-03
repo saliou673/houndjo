@@ -76,15 +76,18 @@ public class JwtTokenAdapter implements JwtTokenPort {
     }
 
     @Override
-    public String generateAccessToken(String email, String authorities, Instant expiryDate) {
+    public String generateAccessToken(String email, String authorities, Instant expiryDate, Long activeOrganizationId) {
         Instant now = Instant.now();
 
-        JwtClaimsSet claims = JwtClaimsSet.builder()
+        JwtClaimsSet.Builder claimsBuilder = JwtClaimsSet.builder()
                 .issuedAt(now)
                 .expiresAt(expiryDate)
                 .subject(email)
-                .claim(JwtSecurityConstants.AUTHORITIES_KEY, authorities)
-                .build();
+                .claim(JwtSecurityConstants.AUTHORITIES_KEY, authorities);
+        if (activeOrganizationId != null) {
+            claimsBuilder.claim(ACTIVE_ORGANIZATION_CLAIM, activeOrganizationId);
+        }
+        JwtClaimsSet claims = claimsBuilder.build();
 
         JwsHeader jwsHeader = JwsHeader.with(JwtSecurityConstants.JWT_ALGORITHM).build();
         return this.jwtEncoder

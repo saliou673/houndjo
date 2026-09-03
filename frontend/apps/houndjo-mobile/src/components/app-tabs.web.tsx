@@ -13,8 +13,8 @@ import { ExternalLink } from './external-link';
 import { ThemedText } from './themed-text';
 import { ThemedView } from './themed-view';
 
-import { Colors, MaxContentWidth, Spacing } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { MaxContentWidth, Spacing } from '@/constants/theme';
+import { useColor } from '@/hooks/useColor';
 
 export default function AppTabs() {
   return (
@@ -37,6 +37,11 @@ export default function AppTabs() {
   );
 }
 
+// Renders as a plain Pressable rather than BNA's Button: TabTrigger's
+// `asChild` clone relies on receiving the real native event in `onPress`
+// (web navigation is gated by `event`-based mouse-button/modifier checks in
+// expo-router), but Button's onPress signature takes no arguments and
+// discards it - wrapping this in Button silently breaks tab navigation on web.
 export function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps) {
   return (
     <Pressable {...props} style={({ pressed }) => pressed && styles.pressed}>
@@ -52,8 +57,7 @@ export function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps
 }
 
 export function CustomTabList(props: TabListProps) {
-  const scheme = useColorScheme();
-  const colors = Colors[scheme];
+  const primaryColor = useColor('primary');
 
   return (
     <View {...props} style={styles.tabListContainer}>
@@ -68,7 +72,7 @@ export function CustomTabList(props: TabListProps) {
           <Pressable style={styles.externalPressable}>
             <ThemedText type="link">Docs</ThemedText>
             <SymbolView
-              tintColor={colors.text}
+              tintColor={primaryColor}
               name={{ ios: 'arrow.up.right.square', web: 'link' }}
               size={12}
             />

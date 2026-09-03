@@ -5,9 +5,9 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useVerifyLoginChallenge } from '@api-client';
 
 import { AuthScreen } from '@/components/auth-screen';
-import { FormTextField } from '@/components/form-text-field';
+import { FormError } from '@/components/form-error';
 import { SubmitButton } from '@/components/submit-button';
-import { ThemedText } from '@/components/themed-text';
+import { InputOTP } from '@/components/ui/input-otp';
 import { showToast } from '@/components/toast/toast-store';
 import { useAuth } from '@/hooks/use-auth';
 import { extractApiErrorMessage } from '@/lib/api-error';
@@ -28,7 +28,7 @@ export default function TwoFactorScreen() {
     mutation: { meta: { skipGlobalErrorToast: true } },
   });
 
-  async function onSubmit() {
+  async function onSubmit(submittedCode: string = code) {
     setCodeError(undefined);
     setFormError(null);
 
@@ -40,13 +40,13 @@ export default function TwoFactorScreen() {
       return;
     }
 
-    if (code.length !== CODE_LENGTH) {
+    if (submittedCode.length !== CODE_LENGTH) {
       setCodeError(t('auth.twoFactor.codeLength', { count: CODE_LENGTH }));
       return;
     }
 
     try {
-      const tokens = await mutateAsync({ data: { challengeId, code } });
+      const tokens = await mutateAsync({ data: { challengeId, code: submittedCode } });
 
       if (!tokens.accessToken || !tokens.refreshToken) {
         setFormError(t('errors.generic'));
@@ -68,25 +68,16 @@ export default function TwoFactorScreen() {
 
   return (
     <AuthScreen title={t('auth.twoFactor.title')} subtitle={t('auth.twoFactor.subtitle')}>
-      <FormTextField
-        label={t('auth.twoFactor.codeLabel')}
+      <InputOTP
+        length={CODE_LENGTH}
         value={code}
-        onChangeText={(value) => setCode(value.replace(/\D/g, '').slice(0, CODE_LENGTH))}
-        placeholder={t('auth.twoFactor.codePlaceholder')}
+        onChangeText={setCode}
+        onComplete={(value) => void onSubmit(value)}
         error={codeError}
-        autoComplete="one-time-code"
-        autoCorrect={false}
-        keyboardType="number-pad"
-        maxLength={CODE_LENGTH}
-        editable={!isPending}
-        onSubmitEditing={() => void onSubmit()}
+        disabled={isPending}
       />
 
-      {formError && (
-        <ThemedText type="small" themeColor="danger">
-          {formError}
-        </ThemedText>
-      )}
+      <FormError message={formError} />
 
       <SubmitButton
         label={t('auth.twoFactor.submit')}
