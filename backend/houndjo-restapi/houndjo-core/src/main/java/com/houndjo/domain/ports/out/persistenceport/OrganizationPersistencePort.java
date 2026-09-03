@@ -1,6 +1,8 @@
 package com.houndjo.domain.ports.out.persistenceport;
 
 import com.houndjo.domain.models.organization.Organization;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,6 +17,14 @@ public interface OrganizationPersistencePort {
      * @return the matching organization, or empty if not found
      */
     Optional<Organization> findById(Long id);
+
+    /**
+     * Finds all organizations matching the given identifiers.
+     *
+     * @param ids the organization identifiers
+     * @return the matching organizations
+     */
+    List<Organization> findByIds(Collection<Long> ids);
 
     /**
      * Checks whether an organization with the given slug already exists.
