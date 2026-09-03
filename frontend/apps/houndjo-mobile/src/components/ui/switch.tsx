@@ -25,7 +25,9 @@ export function Switch({
   ...props
 }: SwitchProps) {
   const mutedColor = useColor('muted');
+  const mutedForeground = useColor('mutedForeground');
   const primary = useColor('primary');
+  const primaryForeground = useColor('primaryForeground');
   const danger = useColor('red');
   const feedback = useHaptics(haptic);
 
@@ -67,8 +69,8 @@ export function Switch({
         )}
 
         <RNSwitch
-          trackColor={{ false: mutedColor, true: '#7DD87D' }}
-          thumbColor={props.value ? '#ffffff' : '#f4f3f4'}
+          trackColor={{ false: mutedColor, true: primary }}
+          thumbColor={props.value ? primaryForeground : mutedForeground}
           accessibilityLabel={label}
           {...props}
           onValueChange={handleValueChange}
