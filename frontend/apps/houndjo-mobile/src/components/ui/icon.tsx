@@ -15,7 +15,7 @@ export function Icon({
   color,
   size = 24,
   strokeWidth = 1.8,
-  accessible = false,
+  accessible,
   ...rest
 }: Props) {
   const themedColor = useColor('icon', { light: lightColor, dark: darkColor });
@@ -29,7 +29,11 @@ export function Icon({
       size={size}
       strokeWidth={strokeWidth}
       strokeLinecap='round'
-      accessible={accessible}
+      // Only forward `accessible` when the caller sets it explicitly: on web,
+      // react-native-svg passes unknown props straight through to the DOM
+      // <svg>, and `accessible={false}` there isn't a valid HTML attribute -
+      // React logs a warning for it on every render.
+      {...(accessible !== undefined ? { accessible } : {})}
       {...rest}
     />
   );
