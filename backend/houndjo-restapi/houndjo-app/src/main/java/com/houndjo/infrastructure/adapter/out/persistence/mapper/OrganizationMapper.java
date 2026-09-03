@@ -2,6 +2,7 @@ package com.houndjo.infrastructure.adapter.out.persistence.mapper;
 
 import com.houndjo.domain.models.organization.Organization;
 import com.houndjo.infrastructure.adapter.out.persistence.entity.OrganizationEntity;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -37,4 +38,6 @@ public interface OrganizationMapper {
     @Mapping(target = "lastUpdateDate", ignore = true)
     @Mapping(target = "lastUpdatedBy", ignore = true)
     OrganizationEntity toEntity(Organization domain);
+
+    List<Organization> toDomain(List<OrganizationEntity> entities);
 }

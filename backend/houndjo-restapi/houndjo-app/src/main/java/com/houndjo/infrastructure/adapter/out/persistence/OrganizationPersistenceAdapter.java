@@ -5,6 +5,8 @@ import com.houndjo.domain.ports.out.persistenceport.OrganizationPersistencePort;
 import com.houndjo.infrastructure.adapter.out.persistence.mapper.OrganizationMapper;
 import com.houndjo.infrastructure.adapter.out.persistence.repository.OrganizationRepository;
 import jakarta.persistence.EntityManager;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,13 @@ public class OrganizationPersistenceAdapter implements OrganizationPersistencePo
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> organizationRepository.findById(id).map(organizationMapper::toDomain),
                 "Error fetching organization by id");
+    }
+
+    @Override
+    public List<Organization> findByIds(Collection<Long> ids) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> organizationMapper.toDomain(organizationRepository.findAllById(ids)),
+                "Error fetching organizations by ids");
     }
 
     @Override

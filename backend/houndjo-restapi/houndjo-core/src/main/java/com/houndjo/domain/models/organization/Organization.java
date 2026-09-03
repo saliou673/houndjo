@@ -136,6 +136,20 @@ public class Organization extends Auditable<Long> {
         this.slug = slug;
     }
 
+    /**
+     * Applies profile changes. The slug is never re-derived from a renamed {@code name} —
+     * it stays stable once assigned at registration.
+     */
+    public void updateProfile(OrganizationProfileUpdate update) {
+        this.name = update.name();
+        this.contactEmail = update.contactEmail();
+        this.phoneNumber = update.phoneNumber();
+        this.address = update.address();
+        this.defaultCurrencyCode = defaultIfBlank(update.defaultCurrencyCode(), DomainConstants.DEFAULT_CURRENCY_CODE);
+        this.defaultLanguageKey = defaultIfBlank(update.defaultLanguageKey(), DomainConstants.DEFAULT_LANGUAGE);
+        this.timezone = defaultIfBlank(update.timezone(), DomainConstants.DEFAULT_TIMEZONE);
+    }
+
     private static String defaultIfBlank(String value, String defaultValue) {
         return value == null || value.isBlank() ? defaultValue : value;
     }

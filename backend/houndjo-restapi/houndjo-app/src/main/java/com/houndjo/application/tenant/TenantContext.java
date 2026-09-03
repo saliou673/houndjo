@@ -1,6 +1,7 @@
 package com.houndjo.application.tenant;
 
 import com.houndjo.domain.exceptions.MissingTenantException;
+import com.houndjo.domain.ports.out.JwtTokenPort;
 import java.util.Optional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TenantContext {
 
-    public static final String ORGANIZATION_CLAIM = "orgId";
+    public static final String ORGANIZATION_CLAIM = JwtTokenPort.ACTIVE_ORGANIZATION_CLAIM;
 
     /**
      * @return the active organization id, or empty if the current request has none.
