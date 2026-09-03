@@ -238,8 +238,10 @@ export const InputOTP = forwardRef<InputOTPRef, InputOTPProps>(
             accessibilityState={{ disabled, selected: isActive }}
             style={[
               {
-                width: HEIGHT,
-                height: HEIGHT,
+                flexBasis: 0,
+                flexGrow: 1,
+                maxWidth: HEIGHT,
+                aspectRatio: 1,
                 borderRadius: CORNERS,
                 borderWidth: 1,
                 borderColor: error
@@ -290,7 +292,7 @@ export const InputOTP = forwardRef<InputOTPRef, InputOTPProps>(
     });
 
     const renderContent = () => (
-      <View style={containerStyle}>
+      <View style={[{ width: '100%' }, containerStyle]}>
         {/* Hidden TextInput for handling input */}
         <TextInput
           ref={inputRef}
