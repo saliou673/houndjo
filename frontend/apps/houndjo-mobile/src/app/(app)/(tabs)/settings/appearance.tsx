@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Stack } from 'expo-router';
 import { SymbolView, type SymbolViewProps } from 'expo-symbols';
@@ -12,11 +12,13 @@ import {
   type AppearancePreferencesThemeEnumKey,
 } from '@api-client';
 
+import { FormError } from '@/components/form-error';
 import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { ThemedText } from '@/components/themed-text';
+import { Button } from '@/components/ui/button';
 import { Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
+import { useColor } from '@/hooks/useColor';
 import { useModeToggle } from '@/hooks/useModeToggle';
 import { type Mode } from '@/providers/mode-provider';
 
@@ -40,7 +42,8 @@ const API_TO_THEME: Record<AppearancePreferencesThemeEnumKey, Mode> = {
 
 export default function AppearanceScreen() {
   const { t } = useTranslation();
-  const uiColors = useTheme();
+  const primaryColor = useColor('primary');
+  const primaryForegroundColor = useColor('primaryForeground');
   const { mode: theme, setMode: setTheme } = useModeToggle();
 
   const { data: preferences } = useGetCurrentUserPreferences();
@@ -100,40 +103,31 @@ export default function AppearanceScreen() {
           <View style={styles.optionRow}>
             {options.map((option) => {
               const selected = option.value === theme;
+              const contentColor = selected ? primaryForegroundColor : primaryColor;
               return (
-                <Pressable
+                <Button
                   key={option.value}
-                  accessibilityRole="button"
+                  variant={selected ? 'default' : 'outline'}
                   disabled={isPending}
-                  onPress={() => void onSelect(option.value)}
-                  style={[
-                    styles.option,
-                    {
-                      backgroundColor: selected ? uiColors.text : uiColors.backgroundSelected,
-                      borderColor: uiColors.backgroundSelected,
-                    },
-                  ]}>
-                  <SymbolView
-                    name={THEME_ICONS[option.value]}
-                    size={18}
-                    weight="medium"
-                    tintColor={selected ? uiColors.background : uiColors.text}
-                  />
-                  <ThemedText
-                    type="smallBold"
-                    style={{ color: selected ? uiColors.background : uiColors.text }}>
-                    {option.label}
-                  </ThemedText>
-                </Pressable>
+                  style={styles.option}
+                  onPress={() => void onSelect(option.value)}>
+                  <View style={styles.optionContent}>
+                    <SymbolView
+                      name={THEME_ICONS[option.value]}
+                      size={18}
+                      weight="medium"
+                      tintColor={contentColor}
+                    />
+                    <ThemedText type="smallBold" style={{ color: contentColor }}>
+                      {option.label}
+                    </ThemedText>
+                  </View>
+                </Button>
               );
             })}
           </View>
 
-          {formError && (
-            <ThemedText type="small" themeColor="danger">
-              {formError}
-            </ThemedText>
-          )}
+          <FormError message={formError} />
         </SettingsCard>
       </SettingsListScreen>
     </>
@@ -147,11 +141,10 @@ const styles = StyleSheet.create({
   },
   option: {
     flex: 1,
+  },
+  optionContent: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
     gap: Spacing.two,
-    borderWidth: 1,
-    borderRadius: Spacing.three,
-    paddingVertical: Spacing.three,
   },
 });
