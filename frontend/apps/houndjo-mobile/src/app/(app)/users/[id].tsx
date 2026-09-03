@@ -1,4 +1,5 @@
-import { ActivityIndicator, Alert, Pressable, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
@@ -20,6 +21,9 @@ import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
 import { showToast } from '@/components/toast/toast-store';
+import { AlertDialog } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { extractApiErrorMessage } from '@/lib/api-error';
@@ -32,38 +36,6 @@ function ReadOnlyRow({ label, value }: { label: string; value: string }) {
       </ThemedText>
       <ThemedText>{value}</ThemedText>
     </View>
-  );
-}
-
-function DeactivateButton({
-  label,
-  onPress,
-  isPending,
-}: {
-  label: string;
-  onPress: () => void;
-  isPending: boolean;
-}) {
-  const theme = useTheme();
-
-  return (
-    <Pressable
-      accessibilityRole="button"
-      disabled={isPending}
-      onPress={onPress}
-      style={({ pressed }) => [
-        styles.deactivateButton,
-        { backgroundColor: theme.danger },
-        (pressed || isPending) && styles.pressedButton,
-      ]}>
-      {isPending ? (
-        <ActivityIndicator color={theme.background} />
-      ) : (
-        <ThemedText type="smallBold" style={{ color: theme.background }}>
-          {label}
-        </ThemedText>
-      )}
-    </Pressable>
   );
 }
 
@@ -104,21 +76,11 @@ export default function UserDetailScreen() {
     },
   });
 
+  const [isConfirmingDeactivate, setIsConfirmingDeactivate] = useState(false);
+
   function handleDeactivate() {
     if (!user) return;
-
-    Alert.alert(
-      t('users.detail.deactivateConfirmTitle'),
-      t('users.detail.deactivateConfirmMessage', { email: user.email }),
-      [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('users.detail.deactivate'),
-          style: 'destructive',
-          onPress: () => deactivateUser({ id: userId }),
-        },
-      ]
-    );
+    setIsConfirmingDeactivate(true);
   }
 
   const genderLabels: Record<UserDetailsGenderEnumKey, string> = {
@@ -149,7 +111,7 @@ export default function UserDetailScreen() {
       <Stack.Screen options={{ title: fullName || t('users.detail.title') }} />
       <SettingsListScreen>
         {isLoading ? (
-          <ActivityIndicator />
+          <Spinner />
         ) : isError || !user ? (
           <ThemedText themeColor="danger">{t('users.detail.loadError')}</ThemedText>
         ) : (
@@ -179,11 +141,9 @@ export default function UserDetailScreen() {
             />
 
             {user.status !== userDetailsStatusEnum.DEACTIVATED && (
-              <DeactivateButton
-                label={t('users.detail.deactivate')}
-                onPress={handleDeactivate}
-                isPending={isDeactivating}
-              />
+              <Button variant="destructive" loading={isDeactivating} onPress={handleDeactivate}>
+                {t('users.detail.deactivate')}
+              </Button>
             )}
 
             <SettingsCard>
@@ -236,6 +196,18 @@ export default function UserDetailScreen() {
           </>
         )}
       </SettingsListScreen>
+
+      {user && (
+        <AlertDialog
+          isVisible={isConfirmingDeactivate}
+          onClose={() => setIsConfirmingDeactivate(false)}
+          title={t('users.detail.deactivateConfirmTitle')}
+          description={t('users.detail.deactivateConfirmMessage', { email: user.email })}
+          confirmText={t('users.detail.deactivate')}
+          cancelText={t('common.cancel')}
+          onConfirm={() => deactivateUser({ id: userId })}
+        />
+      )}
     </>
   );
 }
@@ -260,17 +232,6 @@ const styles = StyleSheet.create({
   },
   permissionRow: {
     gap: Spacing.half,
-  },
-  deactivateButton: {
-    marginTop: Spacing.two,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: Spacing.two,
-    paddingVertical: Spacing.three,
-    minHeight: 48,
-  },
-  pressedButton: {
-    opacity: 0.7,
   },
   pressed: {
     opacity: 0.7,

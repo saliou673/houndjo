@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
@@ -17,6 +17,7 @@ import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { Spinner } from '@/components/ui/spinner';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -113,7 +114,7 @@ export default function RoleGroupDetailScreen() {
       <Stack.Screen options={{ title: roleGroup?.name || t('roleGroups.detail.title') }} />
       <SettingsListScreen>
         {isRoleGroupLoading || !values ? (
-          <ActivityIndicator />
+          <Spinner />
         ) : isRoleGroupError || !roleGroup ? (
           <ThemedText themeColor="danger">{t('roleGroups.detail.loadError')}</ThemedText>
         ) : (
