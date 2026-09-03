@@ -111,8 +111,8 @@ class TenantContextIsolationTest extends IntegrationTest {
 
     private void assertInvalidOrganizationClaim(Object organizationClaim) throws Exception {
         String response = mockMvc.perform(MockMvcRequestBuilders.get(API)
-                        .with(jwt().jwt(j -> j.subject("invalid-org-user@test.com")
-                                        .claim("orgId", organizationClaim))
+                        .with(jwt().jwt(j ->
+                                        j.subject("invalid-org-user@test.com").claim("orgId", organizationClaim))
                                 .authorities(new SimpleGrantedAuthority("user:read:own")))
                         .header("Accept-Language", "en"))
                 .andExpect(status().isBadRequest())
