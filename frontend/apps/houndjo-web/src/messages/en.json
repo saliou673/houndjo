@@ -418,5 +418,16 @@
             "toastUpdated": "Display preferences updated.",
             "loadError": "Couldn't load your display preferences. Please try again."
         }
+    },
+    "Organizations": {
+        "title": "Organizations",
+        "description": "Create schools, switch context, and manage organization settings.",
+        "switcherTitle": "Your schools",
+        "switcherDescription": "Choose the school you want to manage.",
+        "createTitle": "Create a school",
+        "editTitle": "Organization settings",
+        "fields": { "name": "School name", "contactEmail": "Contact email", "phoneNumber": "Phone number", "address": "Address", "defaultCurrencyCode": "Currency", "defaultLanguageKey": "Default language" },
+        "save": "Save changes",
+        "saving": "Saving..."
     }
 }

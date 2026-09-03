@@ -418,5 +418,16 @@
             "toastUpdated": "Préférences d'affichage mises à jour.",
             "loadError": "Impossible de charger vos préférences d'affichage. Veuillez réessayer."
         }
+    },
+    "Organizations": {
+        "title": "Organisations",
+        "description": "Créez des écoles, changez de contexte et gérez les paramètres de l'organisation.",
+        "switcherTitle": "Vos écoles",
+        "switcherDescription": "Choisissez l'école à gérer.",
+        "createTitle": "Créer une école",
+        "editTitle": "Paramètres de l'organisation",
+        "fields": { "name": "Nom de l'école", "contactEmail": "E-mail de contact", "phoneNumber": "Téléphone", "address": "Adresse", "defaultCurrencyCode": "Devise", "defaultLanguageKey": "Langue par défaut" },
+        "save": "Enregistrer",
+        "saving": "Enregistrement..."
     }
 }
