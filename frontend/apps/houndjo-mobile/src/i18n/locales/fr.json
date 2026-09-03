@@ -690,5 +690,5 @@
             "description": "Votre session a pris fin.\nVeuillez vous reconnecter pour continuer."
         }
     },
-    "organizations": { "title": "Organisations", "description": "Créez et gérez vos écoles.", "schools": "Vos écoles", "empty": "Aucune école pour le moment.", "create": "Créer une école", "edit": "Paramètres de l'organisation", "name": "Nom de l'école", "email": "E-mail de contact", "save": "Enregistrer", "saving": "Enregistrement..." }
+    "organizations": { "title": "Organisations", "description": "Créez et gérez vos écoles.", "schools": "Vos écoles", "empty": "Aucune école pour le moment.", "create": "Créer une école", "edit": "Paramètres de l'organisation", "name": "Nom de l'école", "email": "E-mail de contact", "save": "Enregistrer", "saving": "Enregistrement...", "members": "Membres", "inviteEmail": "E-mail du membre", "invite": "Inviter" }
 }
