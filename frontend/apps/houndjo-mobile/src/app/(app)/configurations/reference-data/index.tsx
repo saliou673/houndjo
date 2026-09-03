@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, FlatList, Pressable, RefreshControl, StyleSheet, TextInput, View } from 'react-native';
+import { FlatList, Pressable, RefreshControl, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { Stack, useRouter, type Href } from 'expo-router';
@@ -14,8 +14,14 @@ import {
 import { SettingsCard } from '@/components/settings-card';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { Button } from '@/components/ui/button';
+import { RadioGroup } from '@/components/ui/radio';
+import { SearchBar } from '@/components/ui/searchbar';
+import { Spinner } from '@/components/ui/spinner';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+
+const ALL_CATEGORIES = '__all__';
 
 const PAGE_SIZE = 20;
 
@@ -67,7 +73,6 @@ function ConfigurationListItem({
 export default function ReferenceDataScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const theme = useTheme();
 
   const [codeInput, setCodeInput] = useState('');
   const [debouncedCode, setDebouncedCode] = useState('');
@@ -126,75 +131,40 @@ export default function ReferenceDataScreen() {
               <ThemedText type="small" themeColor="textSecondary" style={styles.headerDescription}>
                 {t('configurations.referenceData.description')}
               </ThemedText>
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => router.push('/configurations/reference-data/create' as Href)}
-                style={({ pressed }) => [
-                  styles.addButton,
-                  { backgroundColor: theme.text },
-                  pressed && styles.pressed,
-                ]}>
-                <ThemedText type="smallBold" style={{ color: theme.background }}>
-                  {t('configurations.referenceData.addConfiguration')}
-                </ThemedText>
-              </Pressable>
+              <Button
+                size="sm"
+                onPress={() => router.push('/configurations/reference-data/create' as Href)}>
+                {t('configurations.referenceData.addConfiguration')}
+              </Button>
             </View>
 
-            <TextInput
+            <SearchBar
               value={codeInput}
               onChangeText={setCodeInput}
               placeholder={t('configurations.referenceData.searchPlaceholder')}
-              placeholderTextColor={theme.textSecondary}
               autoCapitalize="none"
               autoCorrect={false}
-              style={[
-                styles.searchInput,
-                {
-                  backgroundColor: theme.backgroundElement,
-                  borderColor: theme.backgroundSelected,
-                  color: theme.text,
-                },
-              ]}
             />
 
-            <View style={styles.categoryRow}>
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => setCategory(undefined)}
-                style={[
-                  styles.categoryChip,
-                  {
-                    borderColor: theme.backgroundSelected,
-                    backgroundColor: !category ? theme.text : 'transparent',
-                  },
-                ]}>
-                <ThemedText type="small" style={{ color: !category ? theme.background : theme.text }}>
-                  {t('configurations.referenceData.allCategories')}
-                </ThemedText>
-              </Pressable>
-              {categoryOptions.map((option) => {
-                const selected = category === option.value;
-                return (
-                  <Pressable
-                    key={option.value}
-                    accessibilityRole="button"
-                    onPress={() => setCategory(option.value)}
-                    style={[
-                      styles.categoryChip,
-                      {
-                        borderColor: theme.backgroundSelected,
-                        backgroundColor: selected ? theme.text : 'transparent',
-                      },
-                    ]}>
-                    <ThemedText
-                      type="small"
-                      style={{ color: selected ? theme.background : theme.text }}>
-                      {option.description ?? option.value}
-                    </ThemedText>
-                  </Pressable>
-                );
-              })}
-            </View>
+            <RadioGroup
+              orientation="horizontal"
+              style={styles.categoryRow}
+              value={category ?? ALL_CATEGORIES}
+              onValueChange={(next) =>
+                setCategory(
+                  next === ALL_CATEGORIES ? undefined : (next as AppConfigurationCategoryEnumKey)
+                )
+              }
+              options={[
+                { value: ALL_CATEGORIES, label: t('configurations.referenceData.allCategories') },
+                ...categoryOptions
+                  .filter((option): option is typeof option & { value: string } => !!option.value)
+                  .map((option) => ({
+                    value: option.value,
+                    label: option.description ?? option.value,
+                  })),
+              ]}
+            />
 
             {isError && (
               <ThemedText themeColor="danger" type="small">
@@ -203,7 +173,7 @@ export default function ReferenceDataScreen() {
             )}
 
             {isLoading ? (
-              <ActivityIndicator style={styles.loadingIndicator} />
+              <Spinner style={styles.loadingIndicator} />
             ) : (
               <FlatList
                 data={items}
@@ -228,16 +198,13 @@ export default function ReferenceDataScreen() {
                 ListFooterComponent={
                   items.length > 0 ? (
                     <View style={styles.pager}>
-                      <Pressable
-                        accessibilityRole="button"
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         disabled={!canGoPrevious}
-                        onPress={() => setPage((current) => Math.max(0, current - 1))}
-                        style={({ pressed }) => [
-                          styles.pagerButton,
-                          (!canGoPrevious || pressed) && styles.pagerButtonDisabled,
-                        ]}>
-                        <ThemedText type="small">{t('configurations.referenceData.previous')}</ThemedText>
-                      </Pressable>
+                        onPress={() => setPage((current) => Math.max(0, current - 1))}>
+                        {t('configurations.referenceData.previous')}
+                      </Button>
 
                       <ThemedText type="small" themeColor="textSecondary">
                         {t('configurations.referenceData.pageIndicator', {
@@ -246,16 +213,13 @@ export default function ReferenceDataScreen() {
                         })}
                       </ThemedText>
 
-                      <Pressable
-                        accessibilityRole="button"
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         disabled={!canGoNext}
-                        onPress={() => setPage((current) => current + 1)}
-                        style={({ pressed }) => [
-                          styles.pagerButton,
-                          (!canGoNext || pressed) && styles.pagerButtonDisabled,
-                        ]}>
-                        <ThemedText type="small">{t('configurations.referenceData.next')}</ThemedText>
-                      </Pressable>
+                        onPress={() => setPage((current) => current + 1)}>
+                        {t('configurations.referenceData.next')}
+                      </Button>
                     </View>
                   ) : null
                 }
@@ -290,28 +254,10 @@ const styles = StyleSheet.create({
   headerDescription: {
     flex: 1,
   },
-  addButton: {
-    borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-  },
-  searchInput: {
-    borderWidth: 1,
-    borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-    fontSize: 16,
-  },
   categoryRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: Spacing.one,
-  },
-  categoryChip: {
-    borderWidth: 1,
-    borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.one,
   },
   loadingIndicator: {
     marginTop: Spacing.five,
@@ -354,12 +300,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: Spacing.three,
-  },
-  pagerButton: {
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
-  },
-  pagerButtonDisabled: {
-    opacity: 0.3,
   },
 });
