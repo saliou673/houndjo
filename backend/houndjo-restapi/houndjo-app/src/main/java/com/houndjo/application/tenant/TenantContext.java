@@ -43,9 +43,21 @@ public class TenantContext {
         Object claim = jwt.getClaim(ORGANIZATION_CLAIM);
         return switch (claim) {
             case null -> Optional.empty();
-            case Number number -> Optional.of(number.longValue());
-            case String str when !str.isBlank() -> Optional.of(Long.parseLong(str));
+            case Number number -> positiveOrganizationId(number.longValue());
+            case String str when !str.isBlank() -> parseOrganizationId(str);
             default -> Optional.empty();
         };
+    }
+
+    private Optional<Long> parseOrganizationId(String claim) {
+        try {
+            return positiveOrganizationId(Long.parseLong(claim));
+        } catch (NumberFormatException ignored) {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Long> positiveOrganizationId(long organizationId) {
+        return organizationId > 0 ? Optional.of(organizationId) : Optional.empty();
     }
 }

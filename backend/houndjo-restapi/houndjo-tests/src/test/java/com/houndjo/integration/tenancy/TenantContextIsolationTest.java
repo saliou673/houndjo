@@ -76,6 +76,19 @@ class TenantContextIsolationTest extends IntegrationTest {
         assertThat(error.errors()).containsEntry("message", "No active organization selected for this request.");
     }
 
+    @Test
+    void shouldRejectMalformedStringOrganizationClaimWithBadRequest() throws Exception {
+        assertInvalidOrganizationClaim("not-an-organization-id");
+    }
+
+    @Test
+    void shouldRejectNonPositiveOrganizationClaimsWithBadRequest() throws Exception {
+        assertInvalidOrganizationClaim(0L);
+        assertInvalidOrganizationClaim(-1L);
+        assertInvalidOrganizationClaim("0");
+        assertInvalidOrganizationClaim("-1");
+    }
+
     private Long insertFixtureRecord(long organizationId, String name) {
         return jdbcTemplate.queryForObject(
                 "INSERT INTO tenant_fixture_test (organization_id, name) VALUES (?, ?) RETURNING id",
@@ -94,5 +107,20 @@ class TenantContextIsolationTest extends IntegrationTest {
                 .getContentAsString();
 
         return objectMapper.readValue(response, new TypeReference<>() {});
+    }
+
+    private void assertInvalidOrganizationClaim(Object organizationClaim) throws Exception {
+        String response = mockMvc.perform(MockMvcRequestBuilders.get(API)
+                        .with(jwt().jwt(j -> j.subject("invalid-org-user@test.com")
+                                        .claim("orgId", organizationClaim))
+                                .authorities(new SimpleGrantedAuthority("user:read:own")))
+                        .header("Accept-Language", "en"))
+                .andExpect(status().isBadRequest())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        ValidationErrorResponseDTO error = objectMapper.readValue(response, ValidationErrorResponseDTO.class);
+        assertThat(error.errors()).containsEntry("message", "No active organization selected for this request.");
     }
 }
