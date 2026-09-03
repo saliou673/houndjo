@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
@@ -16,9 +16,9 @@ import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SubmitButton } from '@/components/submit-button';
 import { ThemedText } from '@/components/themed-text';
+import { RadioGroup } from '@/components/ui/radio';
 import { showToast } from '@/components/toast/toast-store';
 import { Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
 import { extractApiErrorMessage } from '@/lib/api-error';
 
 type FormValues = {
@@ -39,7 +39,6 @@ const INITIAL_VALUES: FormValues = {
 
 export default function CreateConfigurationScreen() {
   const { t } = useTranslation();
-  const theme = useTheme();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -113,31 +112,21 @@ export default function CreateConfigurationScreen() {
         <SettingsCard>
           <View style={styles.field}>
             <ThemedText type="smallBold">{t('configurations.referenceData.create.fields.category')}</ThemedText>
-            <View style={styles.categoryRow}>
-              {categoryOptions.map((option) => {
-                const selected = values.category === option.value;
-                return (
-                  <Pressable
-                    key={option.value}
-                    accessibilityRole="button"
-                    disabled={isPending}
-                    onPress={() => updateField('category', option.value)}
-                    style={[
-                      styles.categoryChip,
-                      {
-                        borderColor: theme.backgroundSelected,
-                        backgroundColor: selected ? theme.text : 'transparent',
-                      },
-                    ]}>
-                    <ThemedText
-                      type="small"
-                      style={{ color: selected ? theme.background : theme.text }}>
-                      {option.description ?? option.value}
-                    </ThemedText>
-                  </Pressable>
-                );
-              })}
-            </View>
+            <RadioGroup
+              orientation="horizontal"
+              style={styles.categoryRow}
+              disabled={isPending}
+              value={values.category}
+              onValueChange={(next) =>
+                updateField('category', next as CreateAppConfigurationRequestCategoryEnumKey)
+              }
+              options={categoryOptions
+                .filter((option): option is typeof option & { value: string } => !!option.value)
+                .map((option) => ({
+                  value: option.value,
+                  label: option.description ?? option.value,
+                }))}
+            />
             {fieldErrors.category && (
               <ThemedText type="small" themeColor="danger">
                 {fieldErrors.category}
@@ -200,11 +189,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: Spacing.one,
-  },
-  categoryChip: {
-    borderWidth: 1,
-    borderRadius: Spacing.two,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
   },
 });
