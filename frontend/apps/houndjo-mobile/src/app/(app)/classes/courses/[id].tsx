@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter, type Href } from 'expo-router';
 import {
   getClassByIdQueryKey,
   getCourseByIdQueryKey,
@@ -21,6 +21,7 @@ import {
   type CourseFormFieldErrors,
   type CourseFormValues,
 } from '@/components/course-form-fields';
+import { CoursePaceCard } from '@/components/course-pace-card';
 import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SubmitButton } from '@/components/submit-button';
@@ -160,6 +161,19 @@ export default function CourseDetailScreen() {
                 />
               )}
             </SettingsCard>
+
+            <CoursePaceCard courseId={courseId} courseType={course.type ?? 'QAIDA'} canUpdate={canUpdateCourses} />
+
+            <Button
+              variant="outline"
+              onPress={() =>
+                router.push({
+                  pathname: '/classes/courses/sessions',
+                  params: { courseId: String(courseId) },
+                } as Href)
+              }>
+              {t('classes.sessions.manageAction')}
+            </Button>
 
             {canDeleteCourses && (
               <Button variant="destructive" loading={isDeleting} onPress={() => setIsConfirmingDelete(true)}>

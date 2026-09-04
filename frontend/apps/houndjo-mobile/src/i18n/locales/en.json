@@ -3,6 +3,7 @@
         "loading": "Loading...",
         "retry": "Retry",
         "cancel": "Cancel",
+        "clear": "Clear",
         "confirm": "Confirm",
         "save": "Save",
         "ok": "OK",
@@ -159,6 +160,8 @@
             "users": "Users",
             "roleGroups": "Role groups",
             "classes": "Classes",
+            "students": "Students",
+            "enrollments": "Enrollments",
             "configurations": "Configuration",
             "organizations": "Schools"
         },
@@ -534,6 +537,170 @@
                 "quranScopeInvalid": "The start juz must be before or equal to the end juz.",
                 "bookTitleRequired": "A book title is required."
             }
+        },
+        "pace": {
+            "title": "Pace",
+            "submit": "Save pace",
+            "fields": {
+                "unit": "Unit",
+                "unitPlaceholder": "Select a unit",
+                "amountPerSession": "Amount per session",
+                "sessionsPerWeek": "Sessions per week",
+                "amount": "Amount",
+                "dhorCycleDays": "Dhor cycle (days)"
+            },
+            "unitOptions": {
+                "PAGE": "Page",
+                "VERSE": "Verse",
+                "HIZB": "Hizb",
+                "NISF_HIZB": "Half-hizb",
+                "LESSON": "Lesson",
+                "CHAPTER": "Chapter"
+            },
+            "flows": {
+                "sabak": "Sabak (new lesson)",
+                "sabqi": "Sabqi (recent review)",
+                "dhor": "Dhor (long-term revision)"
+            },
+            "validation": {
+                "flowUnitRequired": "Select a unit for this flow.",
+                "flowAmountRequired": "Enter an amount for this flow.",
+                "dhorCycleDaysRequired": "Enter the Dhor revision cycle length."
+            }
+        },
+        "sessions": {
+            "listTitle": "Session list",
+            "manageAction": "Manage sessions",
+            "addAction": "Add session",
+            "generateAction": "Generate sessions",
+            "errorFallback": "Unable to load sessions.",
+            "noResults": "No sessions yet.",
+            "cancelAction": "Cancel",
+            "cancelConfirmMessage": "Are you sure you want to cancel the session on {{date}}?",
+            "filters": {
+                "fromDate": "From date",
+                "toDate": "To date"
+            },
+            "statusOptions": {
+                "PLANNED": "Planned",
+                "HELD": "Held",
+                "CANCELLED": "Cancelled"
+            },
+            "generateDialog": {
+                "title": "Generate sessions",
+                "description": "Generate recurring sessions between two dates, based on the configured sessions per week.",
+                "fromDate": "From date",
+                "toDate": "To date",
+                "submit": "Generate",
+                "successToast": "{{count}} sessions generated."
+            },
+            "formDialog": {
+                "title": "Add session",
+                "description": "Create a single session for this course.",
+                "sessionDate": "Date",
+                "startTime": "Start time",
+                "endTime": "End time",
+                "submit": "Create session"
+            }
+        }
+    },
+    "students": {
+        "list": {
+            "title": "Students",
+            "description": "Manage your school's students.",
+            "addStudent": "Add student",
+            "searchPlaceholder": "Search by name...",
+            "errorFallback": "Unable to load students.",
+            "noResults": "No students yet.",
+            "birthDate": "Born {{date}}",
+            "previous": "Previous",
+            "next": "Next",
+            "pageIndicator": "Page {{page}} of {{totalPages}}"
+        },
+        "detail": {
+            "title": "Student",
+            "loadError": "Unable to load this student."
+        },
+        "form": {
+            "addTitle": "Add student",
+            "editTitle": "Edit student",
+            "addDescription": "Create a student profile for your school.",
+            "editDescription": "Update the student's profile information.",
+            "fields": {
+                "firstName": "First name",
+                "lastName": "Last name",
+                "birthDate": "Birth date",
+                "gender": "Gender",
+                "genderPlaceholder": "Select gender",
+                "guardianName": "Guardian name",
+                "guardianPhone": "Guardian phone"
+            },
+            "genderOptions": {
+                "MALE": "Male",
+                "FEMALE": "Female"
+            },
+            "submitAdd": "Create student",
+            "submitEdit": "Save changes",
+            "validation": {
+                "firstNameRequired": "First name is required.",
+                "lastNameRequired": "Last name is required."
+            }
+        },
+        "deleteDialog": {
+            "title": "Delete student",
+            "confirmMessage": "Are you sure you want to delete {{name}}? This action cannot be undone.",
+            "confirmButton": "Delete"
+        }
+    },
+    "enrollments": {
+        "list": {
+            "title": "Enrollments",
+            "description": "Enroll students in classes and their courses.",
+            "addEnrollment": "Add enrollment",
+            "filterStatus": "Status",
+            "filterStatusPlaceholder": "All statuses",
+            "statusOptions": {
+                "ACTIVE": "Active",
+                "ENDED": "Ended"
+            },
+            "errorFallback": "Unable to load enrollments.",
+            "noResults": "No enrollments yet.",
+            "courseCount": "{{count}} course",
+            "courseCount_other": "{{count}} courses",
+            "manageCoursesAction": "Manage courses",
+            "endAction": "End",
+            "previous": "Previous",
+            "next": "Next",
+            "pageIndicator": "Page {{page}} of {{totalPages}}"
+        },
+        "form": {
+            "addTitle": "Add enrollment",
+            "addDescription": "Enroll a student in a class and its courses.",
+            "fields": {
+                "student": "Student",
+                "studentPlaceholder": "Select a student",
+                "class": "Class",
+                "classPlaceholder": "Select a class",
+                "courses": "Courses",
+                "coursesPlaceholder": "Select courses",
+                "noCourses": "This class has no courses yet."
+            },
+            "submitAdd": "Enroll student",
+            "validation": {
+                "studentRequired": "Select a student.",
+                "classRequired": "Select a class."
+            }
+        },
+        "endDialog": {
+            "title": "End enrollment",
+            "confirmMessage": "Are you sure you want to end {{name}}'s enrollment in {{className}}?",
+            "confirmButton": "End enrollment"
+        },
+        "coursesDialog": {
+            "title": "Manage courses",
+            "description": "Update the courses {{name}} takes in {{className}}.",
+            "noCourses": "This class has no courses yet.",
+            "submit": "Save changes"
         }
     },
     "configurations": {
