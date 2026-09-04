@@ -51,4 +51,11 @@ public class OrganizationInvitationPersistenceAdapter implements OrganizationInv
     public boolean existsByCode(String c) {
         return repository.existsByInvitationCode(c);
     }
+
+    public boolean existsPendingByOrganizationIdAndEmail(Long organizationId, String email) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> repository.existsByOrganizationIdAndEmailAndStatus(
+                        organizationId, email, InvitationStatus.PENDING),
+                "Error checking pending invitation");
+    }
 }
