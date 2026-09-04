@@ -21,6 +21,8 @@ import com.houndjo.domain.ports.out.persistenceport.CoursePersistencePort;
 import com.houndjo.domain.ports.out.persistenceport.QuranReferencePort;
 import com.houndjo.domain.ports.out.persistenceport.StudentPersistencePort;
 import java.math.BigDecimal;
+import java.util.EnumSet;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class CoursePaceService implements CoursePaceUseCase {
+
+    private static final Set<PaceUnit> QURAN_PACE_UNITS =
+            EnumSet.of(PaceUnit.PAGE, PaceUnit.VERSE, PaceUnit.HIZB, PaceUnit.NISF_HIZB);
 
     private final CoursePacePersistencePort coursePacePersistencePort;
     private final CoursePersistencePort coursePersistencePort;
@@ -59,6 +64,10 @@ public class CoursePaceService implements CoursePaceUseCase {
                 throw new InvalidCoursePaceConfigException(
                         "QURAN courses require sabak, sabqi, dhor and dhorCycleDays");
             }
+            requireQuranUnit("unit", unit);
+            requireQuranUnit("sabak.unit", sabak.unit());
+            requireQuranUnit("sabqi.unit", sabqi.unit());
+            requireQuranUnit("dhor.unit", dhor.unit());
         } else {
             sabak = null;
             sabqi = null;
@@ -120,7 +129,14 @@ public class CoursePaceService implements CoursePaceUseCase {
                 };
         QuranTrackingConfig trackingConfig = (QuranTrackingConfig) course.getTrackingConfig();
         return new PortionCalculator(quranReferencePort)
-                .computeNextPortionFromScopeStart(trackingConfig.fromJuz(), flowPace);
+                .computeNextPortionFromScopeStart(trackingConfig.fromJuz(), trackingConfig.toJuz(), flowPace);
+    }
+
+    private void requireQuranUnit(String field, PaceUnit unit) {
+        if (!QURAN_PACE_UNITS.contains(unit)) {
+            throw new InvalidCoursePaceConfigException(
+                    field + " must be PAGE, VERSE, HIZB or NISF_HIZB for a QURAN course");
+        }
     }
 
     private Course requireCourse(Long courseId, Long organizationId) {

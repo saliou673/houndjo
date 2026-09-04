@@ -30,13 +30,16 @@ public class PortionCalculator {
      * Quran scope.
      *
      * @param fromJuz the first juz of the course's target range
+     * @param toJuz   the last juz of the course's target range
      * @param flow    the pace to apply
      * @return the target portion
      */
-    public QuranPortion computeNextPortionFromScopeStart(int fromJuz, PaceFlow flow) {
+    public QuranPortion computeNextPortionFromScopeStart(int fromJuz, int toJuz, PaceFlow flow) {
         QuranPortion scopeStart = quranReferencePort.portionForJuz(fromJuz);
+        QuranPortion scopeEnd = quranReferencePort.portionForJuz(toJuz);
         VerseReference start = new VerseReference(scopeStart.fromSurah(), scopeStart.fromVerse());
-        return computePortionFrom(start, flow);
+        VerseReference end = new VerseReference(scopeEnd.toSurah(), scopeEnd.toVerse());
+        return computePortionFrom(start, end, flow);
     }
 
     /**
@@ -47,6 +50,12 @@ public class PortionCalculator {
      * @return the target portion
      */
     public QuranPortion computePortionFrom(VerseReference start, PaceFlow flow) {
+        QuranPortion quranEnd = quranReferencePort.portionForJuz(30);
+        VerseReference end = new VerseReference(quranEnd.toSurah(), quranEnd.toVerse());
+        return computePortionFrom(start, end, flow);
+    }
+
+    private QuranPortion computePortionFrom(VerseReference start, VerseReference end, PaceFlow flow) {
         int units = flow.amount()
                 .setScale(0, RoundingMode.CEILING)
                 .max(BigDecimal.ONE)
@@ -54,17 +63,26 @@ public class PortionCalculator {
         return switch (flow.unit()) {
             case PAGE -> {
                 int fromPage = quranReferencePort.pageOf(start.surahNumber(), start.verseNumber());
-                yield quranReferencePort.portionForPageRange(fromPage, fromPage + units - 1);
+                int lastPage = quranReferencePort.pageOf(end.surahNumber(), end.verseNumber());
+                int toPage = (int) Math.min((long) fromPage + units - 1, lastPage);
+                QuranPortion candidate = quranReferencePort.portionForPageRange(fromPage, toPage);
+                yield boundedPortion(start, end, candidate);
             }
-            case VERSE -> versesPortion(start, units);
+            case VERSE -> versesPortion(start, end, units);
             case HIZB -> {
                 int fromHizb = hizbOf(start);
-                yield quranReferencePort.portionForHizbRange(fromHizb, fromHizb + units - 1);
+                int lastHizb = hizbOf(end);
+                int toHizb = (int) Math.min((long) fromHizb + units - 1, lastHizb);
+                QuranPortion candidate = quranReferencePort.portionForHizbRange(fromHizb, toHizb);
+                yield boundedPortion(start, end, candidate);
             }
             case NISF_HIZB -> {
                 int fromQuarter = hizbQuarterOf(start);
-                int quarters = units * 2;
-                yield quranReferencePort.portionForHizbQuarterRange(fromQuarter, fromQuarter + quarters - 1);
+                int lastQuarter = hizbQuarterOf(end);
+                long requestedLastQuarter = (long) fromQuarter + (long) units * 2 - 1;
+                int toQuarter = (int) Math.min(requestedLastQuarter, lastQuarter);
+                QuranPortion candidate = quranReferencePort.portionForHizbQuarterRange(fromQuarter, toQuarter);
+                yield boundedPortion(start, end, candidate);
             }
             case LESSON, CHAPTER ->
                 throw new IllegalArgumentException(
@@ -73,23 +91,18 @@ public class PortionCalculator {
         };
     }
 
-    private QuranPortion versesPortion(VerseReference start, int verseCount) {
-        int surahNumber = start.surahNumber();
-        int verseNumber = start.verseNumber();
-        int remaining = verseCount - 1;
-        while (remaining > 0) {
-            List<Verse> versesOfSurah = quranReferencePort.versesOfSurah(surahNumber);
-            int versesLeftInSurah = versesOfSurah.size() - verseNumber;
-            if (remaining <= versesLeftInSurah) {
-                verseNumber += remaining;
-                remaining = 0;
-            } else {
-                remaining -= versesLeftInSurah;
-                surahNumber += 1;
-                verseNumber = 1;
-            }
-        }
-        List<Verse> range = quranReferencePort.versesBetween(start, new VerseReference(surahNumber, verseNumber));
+    private QuranPortion versesPortion(VerseReference start, VerseReference end, int verseCount) {
+        List<Verse> available = quranReferencePort.versesBetween(start, end);
+        return toPortion(available.subList(0, Math.min(verseCount, available.size())));
+    }
+
+    private QuranPortion boundedPortion(VerseReference start, VerseReference end, QuranPortion candidate) {
+        VerseReference candidateEnd = new VerseReference(candidate.toSurah(), candidate.toVerse());
+        VerseReference boundedEnd = compare(candidateEnd, end) <= 0 ? candidateEnd : end;
+        return toPortion(quranReferencePort.versesBetween(start, boundedEnd));
+    }
+
+    private QuranPortion toPortion(List<Verse> range) {
         Verse first = range.get(0);
         Verse last = range.get(range.size() - 1);
         return new QuranPortion(
@@ -103,6 +116,11 @@ public class PortionCalculator {
                 last.juz(),
                 first.hizb(),
                 last.hizb());
+    }
+
+    private int compare(VerseReference left, VerseReference right) {
+        int surahComparison = Integer.compare(left.surahNumber(), right.surahNumber());
+        return surahComparison != 0 ? surahComparison : Integer.compare(left.verseNumber(), right.verseNumber());
     }
 
     private int hizbOf(VerseReference reference) {

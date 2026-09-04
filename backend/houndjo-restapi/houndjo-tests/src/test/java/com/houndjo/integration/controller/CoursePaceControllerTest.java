@@ -20,6 +20,7 @@ import com.houndjo.infrastructure.adapter.in.rest.controller.requests.CreateCour
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.CreateStudentRequest;
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.RegisterSchoolRequest;
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.SetPaceRequest;
+import com.houndjo.infrastructure.adapter.in.rest.controller.requests.UpdateCourseRequest;
 import com.houndjo.integration.IntegrationTest;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
@@ -98,6 +99,50 @@ class CoursePaceControllerTest extends IntegrationTest {
     }
 
     @Test
+    void shouldValidateNestedQuranFlow() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        ClassDTO schoolClass = createClass(organization.getId());
+        CourseDTO course = createQuranCourse(organization.getId(), schoolClass.id(), 1, 5);
+        SetPaceRequest request = new SetPaceRequest(
+                PaceUnit.PAGE,
+                BigDecimal.ONE,
+                3,
+                new SetPaceRequest.FlowRequest(null, BigDecimal.ONE),
+                new SetPaceRequest.FlowRequest(PaceUnit.PAGE, BigDecimal.ONE),
+                new SetPaceRequest.FlowRequest(PaceUnit.HIZB, BigDecimal.ONE),
+                30);
+
+        mockMvc.perform(MockMvcRequestBuilders.put(COURSES_API + "/" + course.id() + "/pace")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:update"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldRejectNonQuranFlowUnit() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        ClassDTO schoolClass = createClass(organization.getId());
+        CourseDTO course = createQuranCourse(organization.getId(), schoolClass.id(), 1, 5);
+        SetPaceRequest request = new SetPaceRequest(
+                PaceUnit.PAGE,
+                BigDecimal.ONE,
+                3,
+                new SetPaceRequest.FlowRequest(PaceUnit.LESSON, BigDecimal.ONE),
+                new SetPaceRequest.FlowRequest(PaceUnit.PAGE, BigDecimal.ONE),
+                new SetPaceRequest.FlowRequest(PaceUnit.HIZB, BigDecimal.ONE),
+                30);
+
+        mockMvc.perform(MockMvcRequestBuilders.put(COURSES_API + "/" + course.id() + "/pace")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:update"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void shouldSetBookPaceInChapters() throws Exception {
         createUser(OWNER_EMAIL);
         OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
@@ -160,6 +205,40 @@ class CoursePaceControllerTest extends IntegrationTest {
     }
 
     @Test
+    void shouldCountVersesAcrossSurahBoundary() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        ClassDTO schoolClass = createClass(organization.getId());
+        CourseDTO course = createQuranCourse(organization.getId(), schoolClass.id(), 1, 5);
+        StudentDTO student = createStudent(organization.getId());
+        setPace(organization.getId(), course.id(), quranPace(PaceUnit.VERSE, new BigDecimal("8")));
+
+        PortionDTO result = nextPortion(organization.getId(), course.id(), student.id());
+
+        assertThat(result.fromSurah()).isEqualTo(1);
+        assertThat(result.fromVerse()).isEqualTo(1);
+        assertThat(result.toSurah()).isEqualTo(2);
+        assertThat(result.toVerse()).isEqualTo(1);
+    }
+
+    @Test
+    void shouldBoundNextPortionToCourseScope() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        ClassDTO schoolClass = createClass(organization.getId());
+        CourseDTO course = createQuranCourse(organization.getId(), schoolClass.id(), 1, 1);
+        StudentDTO student = createStudent(organization.getId());
+        setPace(organization.getId(), course.id(), quranPace(PaceUnit.PAGE, new BigDecimal("30")));
+
+        PortionDTO result = nextPortion(organization.getId(), course.id(), student.id());
+        QuranPortion juz = quranReferencePort.portionForJuz(1);
+
+        assertThat(result.toSurah()).isEqualTo(juz.toSurah());
+        assertThat(result.toVerse()).isEqualTo(juz.toVerse());
+        assertThat(result.toJuz()).isEqualTo(1);
+    }
+
+    @Test
     void shouldRejectNextPortionForNonQuranCourse() throws Exception {
         createUser(OWNER_EMAIL);
         OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
@@ -175,6 +254,30 @@ class CoursePaceControllerTest extends IntegrationTest {
                                 + student.id() + "&flow=SABAK")
                         .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:read")))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldDiscardPaceWhenCourseTypeChanges() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        ClassDTO schoolClass = createClass(organization.getId());
+        CourseDTO course = createBookCourse(organization.getId(), schoolClass.id());
+        setPace(
+                organization.getId(),
+                course.id(),
+                new SetPaceRequest(PaceUnit.CHAPTER, BigDecimal.ONE, 2, null, null, null, null));
+        UpdateCourseRequest request =
+                new UpdateCourseRequest("Hifz", CourseType.QURAN, null, null, QuranMode.HIFZ, 1, 5, null, null, null);
+
+        mockMvc.perform(MockMvcRequestBuilders.put(CLASSES_API + "/" + schoolClass.id() + "/courses/" + course.id())
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:update"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(MockMvcRequestBuilders.get(COURSES_API + "/" + course.id() + "/pace")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:read")))
+                .andExpect(status().isNotFound());
     }
 
     // endregion
@@ -259,6 +362,20 @@ class CoursePaceControllerTest extends IntegrationTest {
 
     private PaceDTO setPace(Long organizationId, Long courseId, SetPaceRequest request) throws Exception {
         return setPaceAs(organizationId, courseId, request, OWNER_EMAIL);
+    }
+
+    private SetPaceRequest quranPace(PaceUnit flowUnit, BigDecimal flowAmount) {
+        SetPaceRequest.FlowRequest flow = new SetPaceRequest.FlowRequest(flowUnit, flowAmount);
+        return new SetPaceRequest(PaceUnit.PAGE, BigDecimal.ONE, 3, flow, flow, flow, 30);
+    }
+
+    private PortionDTO nextPortion(Long organizationId, Long courseId, Long studentId) throws Exception {
+        return mockMvc(
+                MockMvcRequestBuilders.get(COURSES_API + "/" + courseId + "/pace/next-portion?studentId=" + studentId
+                                + "&flow=SABAK")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organizationId, "course:read")),
+                PortionDTO.class,
+                status().isOk());
     }
 
     private PaceDTO setPaceAs(Long organizationId, Long courseId, SetPaceRequest request, String email)

@@ -13,6 +13,7 @@ import com.houndjo.domain.models.academic.QuranTrackingConfig;
 import com.houndjo.domain.models.academic.TrackingConfig;
 import com.houndjo.domain.models.query.PagedResult;
 import com.houndjo.domain.ports.in.CourseUseCase;
+import com.houndjo.domain.ports.out.persistenceport.CoursePacePersistencePort;
 import com.houndjo.domain.ports.out.persistenceport.CoursePersistencePort;
 import com.houndjo.domain.ports.out.persistenceport.QuranReferencePort;
 import com.houndjo.domain.ports.out.persistenceport.SchoolClassPersistencePort;
@@ -35,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CourseService implements CourseUseCase {
 
     private final CoursePersistencePort coursePersistencePort;
+    private final CoursePacePersistencePort coursePacePersistencePort;
     private final SchoolClassPersistencePort schoolClassPersistencePort;
     private final QuranReferencePort quranReferencePort;
     private final TenantContext tenantContext;
@@ -98,6 +100,7 @@ public class CourseService implements CourseUseCase {
             Integer bookTotalPages) {
         log.debug("Updating course id={}", id);
         Course course = getByIdOrThrow(classId, id);
+        boolean typeChanged = course.getType() != type;
         TrackingConfig trackingConfig = buildTrackingConfig(
                 type,
                 qaidaLessons,
@@ -108,7 +111,11 @@ public class CourseService implements CourseUseCase {
                 bookTotalChapters,
                 bookTotalPages);
         course.update(name, description, trackingConfig);
-        return coursePersistencePort.save(course);
+        Course saved = coursePersistencePort.save(course);
+        if (typeChanged) {
+            coursePacePersistencePort.deleteByCourseIdAndOrganizationId(id, course.getOrganizationId());
+        }
+        return saved;
     }
 
     @Override
