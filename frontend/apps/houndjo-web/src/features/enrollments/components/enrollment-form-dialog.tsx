@@ -67,11 +67,13 @@ type EnrollmentForm = z.infer<ReturnType<typeof createFormSchema>>;
 
 type EnrollmentFormDialogProps = {
     open: boolean;
+    canReadCourses: boolean;
     onOpenChange: (open: boolean) => void;
 };
 
 export function EnrollmentFormDialog({
     open,
+    canReadCourses,
     onOpenChange,
 }: EnrollmentFormDialogProps) {
     const t = useTranslations("Enrollments.form");
@@ -93,9 +95,12 @@ export function EnrollmentFormDialog({
     const classId = form.watch("classId");
     const { data: studentsData } = useGetStudents({ pageable: LIST_PAGEABLE });
     const { data: classesData } = useGetClasses({ pageable: LIST_PAGEABLE });
-    const { data: coursesData } = useGetCourses(classId ?? 0, {
-        pageable: LIST_PAGEABLE,
-    });
+    const { data: coursesData } = useGetCourses(
+        classId ?? 0,
+        { pageable: LIST_PAGEABLE },
+        undefined,
+        { query: { enabled: canReadCourses && classId != null } }
+    );
 
     const students = studentsData?.items ?? [];
     const classes = classesData?.items ?? [];
@@ -217,7 +222,7 @@ export function EnrollmentFormDialog({
                                 </FormItem>
                             )}
                         />
-                        {classId != null && (
+                        {canReadCourses && classId != null && (
                             <FormField
                                 control={form.control}
                                 name="courseIds"

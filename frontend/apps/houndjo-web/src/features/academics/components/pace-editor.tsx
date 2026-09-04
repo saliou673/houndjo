@@ -33,8 +33,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-const UNITS: PaceUnitEnumKey[] = ["PAGE", "VERSE", "HIZB", "NISF_HIZB", "LESSON", "CHAPTER"];
-const FLOW_UNITS: PaceUnitEnumKey[] = ["PAGE", "VERSE", "HIZB", "NISF_HIZB"];
+const QURAN_UNITS: PaceUnitEnumKey[] = ["PAGE", "VERSE", "HIZB", "NISF_HIZB"];
+const BASE_UNITS_BY_COURSE_TYPE: Record<CourseTypeEnumKey, PaceUnitEnumKey[]> = {
+    QURAN: QURAN_UNITS,
+    QAIDA: ["LESSON"],
+    BOOK: ["PAGE", "CHAPTER"],
+};
 
 function createFormSchema(t: ReturnType<typeof useTranslations>) {
     return z
@@ -132,7 +136,7 @@ function FlowFields({
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    {FLOW_UNITS.map((value) => (
+                                    {QURAN_UNITS.map((value) => (
                                         <SelectItem key={value} value={value}>
                                             {t(`unitOptions.${value}`)}
                                         </SelectItem>
@@ -185,6 +189,8 @@ export function PaceEditor({ courseId, courseType, canUpdate }: PaceEditorProps)
     const t = useTranslations("Classes.pace");
     const tValidation = useTranslations("Classes.pace.validation");
     const isQuran = courseType === "QURAN";
+    const baseUnits = BASE_UNITS_BY_COURSE_TYPE[courseType];
+    const defaultUnit: PaceUnitEnumKey = courseType === "QAIDA" ? "LESSON" : "PAGE";
     const queryClient = useQueryClient();
     const { data: pace, isLoading } = useGetPace(courseId);
 
@@ -192,7 +198,7 @@ export function PaceEditor({ courseId, courseType, canUpdate }: PaceEditorProps)
     const form = useForm<PaceForm>({
         resolver: isQuran ? zodResolver(formSchema) : undefined,
         defaultValues: {
-            unit: "PAGE",
+            unit: defaultUnit,
             amountPerSession: 1,
             sessionsPerWeek: 1,
         },
@@ -201,7 +207,10 @@ export function PaceEditor({ courseId, courseType, canUpdate }: PaceEditorProps)
     useEffect(() => {
         if (pace) {
             form.reset({
-                unit: pace.unit ?? "PAGE",
+                unit:
+                    pace.unit && baseUnits.includes(pace.unit)
+                        ? pace.unit
+                        : defaultUnit,
                 amountPerSession: pace.amountPerSession ?? 1,
                 sessionsPerWeek: pace.sessionsPerWeek ?? 1,
                 sabakUnit: pace.sabak?.unit,
@@ -213,7 +222,7 @@ export function PaceEditor({ courseId, courseType, canUpdate }: PaceEditorProps)
                 dhorCycleDays: pace.dhorCycleDays,
             });
         }
-    }, [pace, form]);
+    }, [baseUnits, defaultUnit, pace, form]);
 
     const { mutate: setPace, isPending } = useSetPace({
         mutation: {
@@ -283,7 +292,7 @@ export function PaceEditor({ courseId, courseType, canUpdate }: PaceEditorProps)
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {UNITS.map((value) => (
+                                                {baseUnits.map((value) => (
                                                     <SelectItem key={value} value={value}>
                                                         {t(`unitOptions.${value}`)}
                                                     </SelectItem>

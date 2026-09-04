@@ -22,8 +22,13 @@ export function Enrollments() {
             .map((permission) => permission.code)
             .filter((code): code is string => typeof code === "string")
     );
-    const canCreateEnrollments = permissionCodes.has("enrollment:create");
-    const canUpdateEnrollments = permissionCodes.has("enrollment:update");
+    const canReadClasses = permissionCodes.has("class:read");
+    const canReadStudents = permissionCodes.has("student:read");
+    const canReadCourses = permissionCodes.has("course:read");
+    const canCreateEnrollments =
+        permissionCodes.has("enrollment:create") && canReadClasses && canReadStudents;
+    const canEndEnrollments = permissionCodes.has("enrollment:update");
+    const canManageCourses = canEndEnrollments && canReadCourses;
 
     const [filters, setFilters] = useState<EnrollmentFilters>({});
     const [addOpen, setAddOpen] = useState(false);
@@ -49,20 +54,30 @@ export function Enrollments() {
                 )}
             </div>
 
-            <EnrollmentFiltersBar filters={filters} onChange={setFilters} />
+            <EnrollmentFiltersBar
+                filters={filters}
+                canReadClasses={canReadClasses}
+                canReadStudents={canReadStudents}
+                onChange={setFilters}
+            />
 
             <EnrollmentList
                 filters={filters}
-                canUpdate={canUpdateEnrollments}
+                canManageCourses={canManageCourses}
+                canEnd={canEndEnrollments}
                 onManageCourses={setCoursesRow}
                 onEnd={setEndRow}
             />
 
             {canCreateEnrollments && (
-                <EnrollmentFormDialog open={addOpen} onOpenChange={setAddOpen} />
+                <EnrollmentFormDialog
+                    open={addOpen}
+                    canReadCourses={canReadCourses}
+                    onOpenChange={setAddOpen}
+                />
             )}
 
-            {coursesRow && canUpdateEnrollments && (
+            {coursesRow && canManageCourses && (
                 <EnrollmentCoursesDialog
                     key={`enrollment-courses-${coursesRow.id}`}
                     open={!!coursesRow}
@@ -71,7 +86,7 @@ export function Enrollments() {
                 />
             )}
 
-            {endRow && canUpdateEnrollments && (
+            {endRow && canEndEnrollments && (
                 <EnrollmentEndDialog
                     key={`enrollment-end-${endRow.id}`}
                     open={!!endRow}

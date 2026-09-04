@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useCancelSession, useGetSessions } from "@api-client";
-import { CircleOff } from "lucide-react";
+import { ChevronLeft, ChevronRight, CircleOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -21,7 +21,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-const PAGEABLE = { page: 0, size: 100 };
+const PAGE_SIZE = 25;
 
 type SessionListProps = {
     courseId: number;
@@ -30,16 +30,19 @@ type SessionListProps = {
 
 export function SessionList({ courseId, canUpdate }: SessionListProps) {
     const t = useTranslations("Classes.sessions");
+    const tDataTable = useTranslations("DataTable");
     const queryClient = useQueryClient();
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
+    const [page, setPage] = useState(0);
 
     const { data, isLoading, isError } = useGetSessions(courseId, {
         fromDate: fromDate || undefined,
         toDate: toDate || undefined,
-        pageable: PAGEABLE,
+        pageable: { page, size: PAGE_SIZE },
     });
     const rows = data?.items ?? [];
+    const totalPages = data?.totalPages ?? 0;
 
     const { mutate: cancelSession } = useCancelSession({
         mutation: {
@@ -73,7 +76,10 @@ export function SessionList({ courseId, canUpdate }: SessionListProps) {
                             id="session-from-date"
                             type="date"
                             value={fromDate}
-                            onChange={(event) => setFromDate(event.target.value)}
+                            onChange={(event) => {
+                                setFromDate(event.target.value);
+                                setPage(0);
+                            }}
                         />
                     </div>
                     <div className="space-y-1.5">
@@ -84,7 +90,10 @@ export function SessionList({ courseId, canUpdate }: SessionListProps) {
                             id="session-to-date"
                             type="date"
                             value={toDate}
-                            onChange={(event) => setToDate(event.target.value)}
+                            onChange={(event) => {
+                                setToDate(event.target.value);
+                                setPage(0);
+                            }}
                         />
                     </div>
                 </div>
@@ -100,72 +109,104 @@ export function SessionList({ courseId, canUpdate }: SessionListProps) {
                 )}
 
                 {!isLoading && !isError && rows.length > 0 && (
-                    <div className="overflow-hidden rounded-md border">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>{t("columns.date")}</TableHead>
-                                    <TableHead>{t("columns.time")}</TableHead>
-                                    <TableHead>{t("columns.teacher")}</TableHead>
-                                    <TableHead>{t("columns.status")}</TableHead>
-                                    {canUpdate && (
-                                        <TableHead className="text-end">
-                                            {t("columns.actions")}
-                                        </TableHead>
-                                    )}
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {rows.map((session) => (
-                                    <TableRow key={session.id}>
-                                        <TableCell className="font-medium">
-                                            {session.sessionDate}
-                                        </TableCell>
-                                        <TableCell className="text-muted-foreground">
-                                            {session.startTime && session.endTime
-                                                ? `${session.startTime}–${session.endTime}`
-                                                : "—"}
-                                        </TableCell>
-                                        <TableCell className="text-muted-foreground">
-                                            {session.teacherName ?? "—"}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge
-                                                variant={
-                                                    session.status === "CANCELLED"
-                                                        ? "secondary"
-                                                        : "default"
-                                                }
-                                            >
-                                                {t(`statusOptions.${session.status}`)}
-                                            </Badge>
-                                        </TableCell>
+                    <div className="space-y-3">
+                        <div className="overflow-hidden rounded-md border">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>{t("columns.date")}</TableHead>
+                                        <TableHead>{t("columns.time")}</TableHead>
+                                        <TableHead>{t("columns.teacher")}</TableHead>
+                                        <TableHead>{t("columns.status")}</TableHead>
                                         {canUpdate && (
-                                            <TableCell className="text-end">
-                                                {session.status === "PLANNED" && (
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        aria-label={t("cancelAction")}
-                                                        onClick={() =>
-                                                            cancelSession({
-                                                                courseId,
-                                                                id: session.id ?? 0,
-                                                            })
-                                                        }
-                                                    >
-                                                        <CircleOff
-                                                            size={16}
-                                                            className="text-destructive"
-                                                        />
-                                                    </Button>
-                                                )}
-                                            </TableCell>
+                                            <TableHead className="text-end">
+                                                {t("columns.actions")}
+                                            </TableHead>
                                         )}
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                                </TableHeader>
+                                <TableBody>
+                                    {rows.map((session) => (
+                                        <TableRow key={session.id}>
+                                            <TableCell className="font-medium">
+                                                {session.sessionDate}
+                                            </TableCell>
+                                            <TableCell className="text-muted-foreground">
+                                                {session.startTime && session.endTime
+                                                    ? `${session.startTime}–${session.endTime}`
+                                                    : "—"}
+                                            </TableCell>
+                                            <TableCell className="text-muted-foreground">
+                                                {session.teacherName ?? "—"}
+                                            </TableCell>
+                                            <TableCell>
+                                                <Badge
+                                                    variant={
+                                                        session.status === "CANCELLED"
+                                                            ? "secondary"
+                                                            : "default"
+                                                    }
+                                                >
+                                                    {t(`statusOptions.${session.status}`)}
+                                                </Badge>
+                                            </TableCell>
+                                            {canUpdate && (
+                                                <TableCell className="text-end">
+                                                    {session.status === "PLANNED" && (
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            aria-label={t("cancelAction")}
+                                                            onClick={() =>
+                                                                cancelSession({
+                                                                    courseId,
+                                                                    id: session.id ?? 0,
+                                                                })
+                                                            }
+                                                        >
+                                                            <CircleOff
+                                                                size={16}
+                                                                className="text-destructive"
+                                                            />
+                                                        </Button>
+                                                    )}
+                                                </TableCell>
+                                            )}
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
+                        {totalPages > 1 && (
+                            <div className="flex items-center justify-end gap-2">
+                                <span className="text-sm text-muted-foreground">
+                                    {tDataTable("pageOf", {
+                                        page: page + 1,
+                                        total: totalPages,
+                                    })}
+                                </span>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="icon"
+                                    aria-label={tDataTable("goToPreviousPage")}
+                                    disabled={page === 0}
+                                    onClick={() => setPage((current) => current - 1)}
+                                >
+                                    <ChevronLeft className="size-4 rtl:rotate-180" />
+                                </Button>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="icon"
+                                    aria-label={tDataTable("goToNextPage")}
+                                    disabled={page + 1 >= totalPages}
+                                    onClick={() => setPage((current) => current + 1)}
+                                >
+                                    <ChevronRight className="size-4 rtl:rotate-180" />
+                                </Button>
+                            </div>
+                        )}
                     </div>
                 )}
             </CardContent>

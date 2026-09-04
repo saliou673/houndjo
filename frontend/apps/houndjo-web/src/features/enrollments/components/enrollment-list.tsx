@@ -21,14 +21,16 @@ const PAGEABLE = { page: 0, size: 100 };
 
 type EnrollmentListProps = {
     filters: EnrollmentFilters;
-    canUpdate: boolean;
+    canManageCourses: boolean;
+    canEnd: boolean;
     onManageCourses: (row: EnrollmentRow) => void;
     onEnd: (row: EnrollmentRow) => void;
 };
 
 export function EnrollmentList({
     filters,
-    canUpdate,
+    canManageCourses,
+    canEnd,
     onManageCourses,
     onEnd,
 }: EnrollmentListProps) {
@@ -64,7 +66,7 @@ export function EnrollmentList({
                             <TableHead>{t("columns.class")}</TableHead>
                             <TableHead>{t("columns.courses")}</TableHead>
                             <TableHead>{t("columns.status")}</TableHead>
-                            {canUpdate && (
+                            {(canManageCourses || canEnd) && (
                                 <TableHead className="text-end">
                                     {t("columns.actions")}
                                 </TableHead>
@@ -92,30 +94,33 @@ export function EnrollmentList({
                                         {t(`statusOptions.${row.status}`)}
                                     </Badge>
                                 </TableCell>
-                                {canUpdate && (
+                                {(canManageCourses || canEnd) && (
                                     <TableCell className="text-end">
                                         <div className="flex justify-end gap-2">
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                aria-label={t("manageCoursesAction")}
-                                                onClick={() => onManageCourses(row)}
-                                            >
-                                                <BookOpen size={16} />
-                                            </Button>
-                                            {row.status === "ACTIVE" && (
+                                            {canManageCourses && (
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    aria-label={t("endAction")}
-                                                    onClick={() => onEnd(row)}
+                                                    aria-label={t("manageCoursesAction")}
+                                                    onClick={() => onManageCourses(row)}
                                                 >
-                                                    <CircleOff
-                                                        size={16}
-                                                        className="text-destructive"
-                                                    />
+                                                    <BookOpen size={16} />
                                                 </Button>
                                             )}
+                                            {canEnd &&
+                                                row.status === "ACTIVE" && (
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        aria-label={t("endAction")}
+                                                        onClick={() => onEnd(row)}
+                                                    >
+                                                        <CircleOff
+                                                            size={16}
+                                                            className="text-destructive"
+                                                        />
+                                                    </Button>
+                                                )}
                                         </div>
                                     </TableCell>
                                 )}
@@ -148,17 +153,19 @@ export function EnrollmentList({
                                 {row.className} · {t("columns.courses")}:{" "}
                                 {row.courseIds.length}
                             </p>
-                            {canUpdate && (
+                            {(canManageCourses || canEnd) && (
                                 <div className="flex justify-end gap-2">
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={() => onManageCourses(row)}
-                                    >
-                                        <BookOpen size={16} className="me-1" />{" "}
-                                        {t("manageCoursesAction")}
-                                    </Button>
-                                    {row.status === "ACTIVE" && (
+                                    {canManageCourses && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => onManageCourses(row)}
+                                        >
+                                            <BookOpen size={16} className="me-1" />{" "}
+                                            {t("manageCoursesAction")}
+                                        </Button>
+                                    )}
+                                    {canEnd && row.status === "ACTIVE" && (
                                         <Button
                                             variant="outline"
                                             size="sm"

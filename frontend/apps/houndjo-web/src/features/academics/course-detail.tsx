@@ -28,8 +28,10 @@ export function CourseDetail({ classId, courseId }: CourseDetailProps) {
             .filter((code): code is string => typeof code === "string")
     );
     const canUpdateCourse = permissionCodes.has("course:update");
+    const canReadSession = permissionCodes.has("session:read");
     const canCreateSession = permissionCodes.has("session:create");
     const canUpdateSession = permissionCodes.has("session:update");
+    const canAccessSessions = canReadSession || canCreateSession;
 
     const [addSessionOpen, setAddSessionOpen] = useState(false);
     const [generateOpen, setGenerateOpen] = useState(false);
@@ -68,44 +70,55 @@ export function CourseDetail({ classId, courseId }: CourseDetailProps) {
                 canUpdate={canUpdateCourse}
             />
 
-            <div className="flex flex-wrap items-end justify-between gap-2">
-                <h3 className="text-lg font-semibold">{t("sessionsTitle")}</h3>
-                {canCreateSession && (
-                    <div className="flex gap-2">
-                        <Button
-                            variant="outline"
-                            className="space-x-1"
-                            onClick={() => setGenerateOpen(true)}
-                        >
-                            <span>{t("generateSessions")}</span>{" "}
-                            <RefreshCw size={16} />
-                        </Button>
-                        <Button
-                            className="space-x-1"
-                            onClick={() => setAddSessionOpen(true)}
-                        >
-                            <span>{t("addSession")}</span> <Plus size={18} />
-                        </Button>
+            {canAccessSessions && (
+                <>
+                    <div className="flex flex-wrap items-end justify-between gap-2">
+                        <h3 className="text-lg font-semibold">
+                            {t("sessionsTitle")}
+                        </h3>
+                        {canCreateSession && (
+                            <div className="flex gap-2">
+                                <Button
+                                    variant="outline"
+                                    className="space-x-1"
+                                    onClick={() => setGenerateOpen(true)}
+                                >
+                                    <span>{t("generateSessions")}</span>{" "}
+                                    <RefreshCw size={16} />
+                                </Button>
+                                <Button
+                                    className="space-x-1"
+                                    onClick={() => setAddSessionOpen(true)}
+                                >
+                                    <span>{t("addSession")}</span> <Plus size={18} />
+                                </Button>
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
 
-            <SessionList courseId={courseId} canUpdate={canUpdateSession} />
+                    {canReadSession && (
+                        <SessionList
+                            courseId={courseId}
+                            canUpdate={canUpdateSession}
+                        />
+                    )}
 
-            {canCreateSession && (
-                <SessionFormDialog
-                    courseId={courseId}
-                    open={addSessionOpen}
-                    onOpenChange={setAddSessionOpen}
-                />
-            )}
+                    {canCreateSession && (
+                        <SessionFormDialog
+                            courseId={courseId}
+                            open={addSessionOpen}
+                            onOpenChange={setAddSessionOpen}
+                        />
+                    )}
 
-            {canCreateSession && (
-                <SessionGenerateDialog
-                    courseId={courseId}
-                    open={generateOpen}
-                    onOpenChange={setGenerateOpen}
-                />
+                    {canCreateSession && (
+                        <SessionGenerateDialog
+                            courseId={courseId}
+                            open={generateOpen}
+                            onOpenChange={setGenerateOpen}
+                        />
+                    )}
+                </>
             )}
         </Main>
     );
