@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+        "number": { "type": "integer", "format": "int32" },
+        "verses": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "surahNumber": { "type": "integer", "format": "int32" },
+                    "verseNumber": { "type": "integer", "format": "int32" },
+                    "page": { "type": "integer", "format": "int32" },
+                    "juz": { "type": "integer", "format": "int32" },
+                    "hizb": { "type": "integer", "format": "int32" }
+                },
+                "x-readme-ref-name": "Verse"
+            }
+        }
+    },
+    "x-readme-ref-name": "Page"
+}

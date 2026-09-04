@@ -375,6 +375,29 @@ export type {
     GetCurrentUserPreferencesQueryResponse,
 } from "./GetCurrentUserPreferences.ts";
 export type {
+    GetJuz200,
+    GetJuz403,
+    GetJuz404,
+    GetJuz409,
+    GetJuz500,
+    GetJuzHeaderParams,
+    GetJuzHeaderParamsXAPIVersionEnumKey,
+    GetJuzQuery,
+    GetJuzQueryResponse,
+} from "./GetJuz.ts";
+export type {
+    GetJuzByNumber200,
+    GetJuzByNumber403,
+    GetJuzByNumber404,
+    GetJuzByNumber409,
+    GetJuzByNumber500,
+    GetJuzByNumberHeaderParams,
+    GetJuzByNumberHeaderParamsXAPIVersionEnumKey,
+    GetJuzByNumberPathParams,
+    GetJuzByNumberQuery,
+    GetJuzByNumberQueryResponse,
+} from "./GetJuzByNumber.ts";
+export type {
     GetMemberships200,
     GetMemberships403,
     GetMemberships404,
@@ -410,6 +433,18 @@ export type {
     GetOrganizationByIdQuery,
     GetOrganizationByIdQueryResponse,
 } from "./GetOrganizationById.ts";
+export type {
+    GetPage200,
+    GetPage403,
+    GetPage404,
+    GetPage409,
+    GetPage500,
+    GetPageHeaderParams,
+    GetPageHeaderParamsXAPIVersionEnumKey,
+    GetPagePathParams,
+    GetPageQuery,
+    GetPageQueryResponse,
+} from "./GetPage.ts";
 export type {
     GetPermissionsAsAdmin200,
     GetPermissionsAsAdmin403,
@@ -458,6 +493,17 @@ export type {
     GetSecuritySettingsAsAdminQueryResponse,
 } from "./GetSecuritySettingsAsAdmin.ts";
 export type {
+    GetSurahs200,
+    GetSurahs403,
+    GetSurahs404,
+    GetSurahs409,
+    GetSurahs500,
+    GetSurahsHeaderParams,
+    GetSurahsHeaderParamsXAPIVersionEnumKey,
+    GetSurahsQuery,
+    GetSurahsQueryResponse,
+} from "./GetSurahs.ts";
+export type {
     GetUserAsAdmin200,
     GetUserAsAdmin403,
     GetUserAsAdmin404,
@@ -505,6 +551,18 @@ export type {
     GetUsersAsAdminQueryResponse,
 } from "./GetUsersAsAdmin.ts";
 export type {
+    GetVersesOfSurah200,
+    GetVersesOfSurah403,
+    GetVersesOfSurah404,
+    GetVersesOfSurah409,
+    GetVersesOfSurah500,
+    GetVersesOfSurahHeaderParams,
+    GetVersesOfSurahHeaderParamsXAPIVersionEnumKey,
+    GetVersesOfSurahPathParams,
+    GetVersesOfSurahQuery,
+    GetVersesOfSurahQueryResponse,
+} from "./GetVersesOfSurah.ts";
+export type {
     Init2FactorSetup200,
     Init2FactorSetup403,
     Init2FactorSetup404,
@@ -540,6 +598,7 @@ export type {
     InviteMemberRequest,
     InviteMemberRequestRoleEnumKey,
 } from "./InviteMemberRequest.ts";
+export type { Juz } from "./Juz.ts";
 export type { JwtToken } from "./JwtToken.ts";
 export type {
     List200,
@@ -577,6 +636,7 @@ export type {
     Organization,
     OrganizationStatusEnumKey,
 } from "./Organization.ts";
+export type { Page } from "./Page.ts";
 export type { Pageable } from "./Pageable.ts";
 export type { PaginatedResultAppConfiguration } from "./PaginatedResultAppConfiguration.ts";
 export type { PaginatedResultInvitationDTO } from "./PaginatedResultInvitationDTO.ts";
@@ -713,6 +773,7 @@ export type {
     SendContactFormMutationResponse,
 } from "./SendContactForm.ts";
 export type { StringFilter } from "./StringFilter.ts";
+export type { Surah, SurahRevelationPlaceEnumKey } from "./Surah.ts";
 export type { TwoFactorDisableRequest } from "./TwoFactorDisableRequest.ts";
 export type { TwoFactorLoginVerifyRequest } from "./TwoFactorLoginVerifyRequest.ts";
 export type { TwoFactorSetupConfirmRequest } from "./TwoFactorSetupConfirmRequest.ts";
@@ -869,6 +930,7 @@ export type {
     VerifyLoginChallengeMutationRequest,
     VerifyLoginChallengeMutationResponse,
 } from "./VerifyLoginChallenge.ts";
+export type { Verse } from "./Verse.ts";
 export { acceptHeaderParamsXAPIVersionEnum } from "./Accept.ts";
 export { acceptanceResultRoleEnum } from "./AcceptanceResult.ts";
 export { activateAccountHeaderParamsXAPIVersionEnum } from "./ActivateAccount.ts";
@@ -911,17 +973,22 @@ export { getAppConfigurationsAsAdminHeaderParamsXAPIVersionEnum } from "./GetApp
 export { getCategoriesAsAdminHeaderParamsXAPIVersionEnum } from "./GetCategoriesAsAdmin.ts";
 export { getCurrentUserPermissionsHeaderParamsXAPIVersionEnum } from "./GetCurrentUserPermissions.ts";
 export { getCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./GetCurrentUserPreferences.ts";
+export { getJuzHeaderParamsXAPIVersionEnum } from "./GetJuz.ts";
+export { getJuzByNumberHeaderParamsXAPIVersionEnum } from "./GetJuzByNumber.ts";
 export { getMembershipsHeaderParamsXAPIVersionEnum } from "./GetMemberships.ts";
 export { getMyOrganizationsHeaderParamsXAPIVersionEnum } from "./GetMyOrganizations.ts";
 export { getOrganizationByIdHeaderParamsXAPIVersionEnum } from "./GetOrganizationById.ts";
+export { getPageHeaderParamsXAPIVersionEnum } from "./GetPage.ts";
 export { getPermissionsAsAdminHeaderParamsXAPIVersionEnum } from "./GetPermissionsAsAdmin.ts";
 export { getRoleGroupByIdAsAdminHeaderParamsXAPIVersionEnum } from "./GetRoleGroupByIdAsAdmin.ts";
 export { getRoleGroupsAsAdminHeaderParamsXAPIVersionEnum } from "./GetRoleGroupsAsAdmin.ts";
 export { getSecuritySettingsAsAdminHeaderParamsXAPIVersionEnum } from "./GetSecuritySettingsAsAdmin.ts";
+export { getSurahsHeaderParamsXAPIVersionEnum } from "./GetSurahs.ts";
 export { getUserAsAdminHeaderParamsXAPIVersionEnum } from "./GetUserAsAdmin.ts";
 export { getUserDetailsHeaderParamsXAPIVersionEnum } from "./GetUserDetails.ts";
 export { getUserPermissionsAsAdminHeaderParamsXAPIVersionEnum } from "./GetUserPermissionsAsAdmin.ts";
 export { getUsersAsAdminHeaderParamsXAPIVersionEnum } from "./GetUsersAsAdmin.ts";
+export { getVersesOfSurahHeaderParamsXAPIVersionEnum } from "./GetVersesOfSurah.ts";
 export { init2FactorSetupHeaderParamsXAPIVersionEnum } from "./Init2FactorSetup.ts";
 export { invitationDTORoleEnum } from "./InvitationDTO.ts";
 export { invitationDTOStatusEnum } from "./InvitationDTO.ts";
@@ -942,6 +1009,7 @@ export { revokeHeaderParamsXAPIVersionEnum } from "./Revoke.ts";
 export { revokeMembershipHeaderParamsXAPIVersionEnum } from "./RevokeMembership.ts";
 export { revokeRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./RevokeRoleGroupAsAdmin.ts";
 export { sendContactFormHeaderParamsXAPIVersionEnum } from "./SendContactForm.ts";
+export { surahRevelationPlaceEnum } from "./Surah.ts";
 export { twoFactorSetupRequestTypeEnum } from "./TwoFactorSetupRequest.ts";
 export { updateAccountHeaderParamsXAPIVersionEnum } from "./UpdateAccount.ts";
 export { updateAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./UpdateAppConfigurationAsAdmin.ts";

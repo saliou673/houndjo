@@ -42,6 +42,12 @@ export { getOrganizationById } from "./organization-management/getOrganizationBy
 export { organizationmanagement } from "./organization-management/organizationmanagement.ts";
 export { registerSchool } from "./organization-management/registerSchool.ts";
 export { updateOrganization } from "./organization-management/updateOrganization.ts";
+export { getJuz } from "./quran-reference-data/getJuz.ts";
+export { getJuzByNumber } from "./quran-reference-data/getJuzByNumber.ts";
+export { getPage } from "./quran-reference-data/getPage.ts";
+export { getSurahs } from "./quran-reference-data/getSurahs.ts";
+export { getVersesOfSurah } from "./quran-reference-data/getVersesOfSurah.ts";
+export { quranreferencedata } from "./quran-reference-data/quranreferencedata.ts";
 export { createRoleGroupAsAdmin } from "./role-group-management/createRoleGroupAsAdmin.ts";
 export { deleteRoleGroupAsAdmin } from "./role-group-management/deleteRoleGroupAsAdmin.ts";
 export { getPermissionsAsAdmin } from "./role-group-management/getPermissionsAsAdmin.ts";

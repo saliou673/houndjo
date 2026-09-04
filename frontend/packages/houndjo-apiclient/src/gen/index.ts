@@ -47,6 +47,16 @@ export type { GetOrganizationByIdQueryKey } from "./react-query/organization-man
 export type { GetOrganizationByIdSuspenseQueryKey } from "./react-query/organization-management/useGetOrganizationByIdSuspense.ts";
 export type { RegisterSchoolMutationKey } from "./react-query/organization-management/useRegisterSchool.ts";
 export type { UpdateOrganizationMutationKey } from "./react-query/organization-management/useUpdateOrganization.ts";
+export type { GetJuzQueryKey } from "./react-query/quran-reference-data/useGetJuz.ts";
+export type { GetJuzByNumberQueryKey } from "./react-query/quran-reference-data/useGetJuzByNumber.ts";
+export type { GetJuzByNumberSuspenseQueryKey } from "./react-query/quran-reference-data/useGetJuzByNumberSuspense.ts";
+export type { GetJuzSuspenseQueryKey } from "./react-query/quran-reference-data/useGetJuzSuspense.ts";
+export type { GetPageQueryKey } from "./react-query/quran-reference-data/useGetPage.ts";
+export type { GetPageSuspenseQueryKey } from "./react-query/quran-reference-data/useGetPageSuspense.ts";
+export type { GetSurahsQueryKey } from "./react-query/quran-reference-data/useGetSurahs.ts";
+export type { GetSurahsSuspenseQueryKey } from "./react-query/quran-reference-data/useGetSurahsSuspense.ts";
+export type { GetVersesOfSurahQueryKey } from "./react-query/quran-reference-data/useGetVersesOfSurah.ts";
+export type { GetVersesOfSurahSuspenseQueryKey } from "./react-query/quran-reference-data/useGetVersesOfSurahSuspense.ts";
 export type { CreateRoleGroupAsAdminMutationKey } from "./react-query/role-group-management/useCreateRoleGroupAsAdmin.ts";
 export type { DeleteRoleGroupAsAdminMutationKey } from "./react-query/role-group-management/useDeleteRoleGroupAsAdmin.ts";
 export type { GetPermissionsAsAdminQueryKey } from "./react-query/role-group-management/useGetPermissionsAsAdmin.ts";
@@ -457,6 +467,29 @@ export type {
     GetCurrentUserPreferencesQueryResponse,
 } from "./types/GetCurrentUserPreferences.ts";
 export type {
+    GetJuz200,
+    GetJuz403,
+    GetJuz404,
+    GetJuz409,
+    GetJuz500,
+    GetJuzHeaderParams,
+    GetJuzHeaderParamsXAPIVersionEnumKey,
+    GetJuzQuery,
+    GetJuzQueryResponse,
+} from "./types/GetJuz.ts";
+export type {
+    GetJuzByNumber200,
+    GetJuzByNumber403,
+    GetJuzByNumber404,
+    GetJuzByNumber409,
+    GetJuzByNumber500,
+    GetJuzByNumberHeaderParams,
+    GetJuzByNumberHeaderParamsXAPIVersionEnumKey,
+    GetJuzByNumberPathParams,
+    GetJuzByNumberQuery,
+    GetJuzByNumberQueryResponse,
+} from "./types/GetJuzByNumber.ts";
+export type {
     GetMemberships200,
     GetMemberships403,
     GetMemberships404,
@@ -492,6 +525,18 @@ export type {
     GetOrganizationByIdQuery,
     GetOrganizationByIdQueryResponse,
 } from "./types/GetOrganizationById.ts";
+export type {
+    GetPage200,
+    GetPage403,
+    GetPage404,
+    GetPage409,
+    GetPage500,
+    GetPageHeaderParams,
+    GetPageHeaderParamsXAPIVersionEnumKey,
+    GetPagePathParams,
+    GetPageQuery,
+    GetPageQueryResponse,
+} from "./types/GetPage.ts";
 export type {
     GetPermissionsAsAdmin200,
     GetPermissionsAsAdmin403,
@@ -540,6 +585,17 @@ export type {
     GetSecuritySettingsAsAdminQueryResponse,
 } from "./types/GetSecuritySettingsAsAdmin.ts";
 export type {
+    GetSurahs200,
+    GetSurahs403,
+    GetSurahs404,
+    GetSurahs409,
+    GetSurahs500,
+    GetSurahsHeaderParams,
+    GetSurahsHeaderParamsXAPIVersionEnumKey,
+    GetSurahsQuery,
+    GetSurahsQueryResponse,
+} from "./types/GetSurahs.ts";
+export type {
     GetUserAsAdmin200,
     GetUserAsAdmin403,
     GetUserAsAdmin404,
@@ -587,6 +643,18 @@ export type {
     GetUsersAsAdminQueryResponse,
 } from "./types/GetUsersAsAdmin.ts";
 export type {
+    GetVersesOfSurah200,
+    GetVersesOfSurah403,
+    GetVersesOfSurah404,
+    GetVersesOfSurah409,
+    GetVersesOfSurah500,
+    GetVersesOfSurahHeaderParams,
+    GetVersesOfSurahHeaderParamsXAPIVersionEnumKey,
+    GetVersesOfSurahPathParams,
+    GetVersesOfSurahQuery,
+    GetVersesOfSurahQueryResponse,
+} from "./types/GetVersesOfSurah.ts";
+export type {
     Init2FactorSetup200,
     Init2FactorSetup403,
     Init2FactorSetup404,
@@ -622,6 +690,7 @@ export type {
     InviteMemberRequest,
     InviteMemberRequestRoleEnumKey,
 } from "./types/InviteMemberRequest.ts";
+export type { Juz } from "./types/Juz.ts";
 export type { JwtToken } from "./types/JwtToken.ts";
 export type {
     List200,
@@ -659,6 +728,7 @@ export type {
     Organization,
     OrganizationStatusEnumKey,
 } from "./types/Organization.ts";
+export type { Page } from "./types/Page.ts";
 export type { Pageable } from "./types/Pageable.ts";
 export type { PaginatedResultAppConfiguration } from "./types/PaginatedResultAppConfiguration.ts";
 export type { PaginatedResultInvitationDTO } from "./types/PaginatedResultInvitationDTO.ts";
@@ -795,6 +865,7 @@ export type {
     SendContactFormMutationResponse,
 } from "./types/SendContactForm.ts";
 export type { StringFilter } from "./types/StringFilter.ts";
+export type { Surah, SurahRevelationPlaceEnumKey } from "./types/Surah.ts";
 export type { TwoFactorDisableRequest } from "./types/TwoFactorDisableRequest.ts";
 export type { TwoFactorLoginVerifyRequest } from "./types/TwoFactorLoginVerifyRequest.ts";
 export type { TwoFactorSetupConfirmRequest } from "./types/TwoFactorSetupConfirmRequest.ts";
@@ -951,6 +1022,7 @@ export type {
     VerifyLoginChallengeMutationRequest,
     VerifyLoginChallengeMutationResponse,
 } from "./types/VerifyLoginChallenge.ts";
+export type { Verse } from "./types/Verse.ts";
 export { _delete } from "./client/admin-configuration-management/_delete.ts";
 export { adminconfigurationmanagement } from "./client/admin-configuration-management/adminconfigurationmanagement.ts";
 export { createAppConfigurationAsAdmin } from "./client/admin-configuration-management/createAppConfigurationAsAdmin.ts";
@@ -995,6 +1067,12 @@ export { getOrganizationById } from "./client/organization-management/getOrganiz
 export { organizationmanagement } from "./client/organization-management/organizationmanagement.ts";
 export { registerSchool } from "./client/organization-management/registerSchool.ts";
 export { updateOrganization } from "./client/organization-management/updateOrganization.ts";
+export { getJuz } from "./client/quran-reference-data/getJuz.ts";
+export { getJuzByNumber } from "./client/quran-reference-data/getJuzByNumber.ts";
+export { getPage } from "./client/quran-reference-data/getPage.ts";
+export { getSurahs } from "./client/quran-reference-data/getSurahs.ts";
+export { getVersesOfSurah } from "./client/quran-reference-data/getVersesOfSurah.ts";
+export { quranreferencedata } from "./client/quran-reference-data/quranreferencedata.ts";
 export { createRoleGroupAsAdmin } from "./client/role-group-management/createRoleGroupAsAdmin.ts";
 export { deleteRoleGroupAsAdmin } from "./client/role-group-management/deleteRoleGroupAsAdmin.ts";
 export { getPermissionsAsAdmin } from "./client/role-group-management/getPermissionsAsAdmin.ts";
@@ -1171,6 +1249,36 @@ export { useRegisterSchool } from "./react-query/organization-management/useRegi
 export { updateOrganizationMutationKey } from "./react-query/organization-management/useUpdateOrganization.ts";
 export { updateOrganizationMutationOptions } from "./react-query/organization-management/useUpdateOrganization.ts";
 export { useUpdateOrganization } from "./react-query/organization-management/useUpdateOrganization.ts";
+export { getJuzQueryKey } from "./react-query/quran-reference-data/useGetJuz.ts";
+export { getJuzQueryOptions } from "./react-query/quran-reference-data/useGetJuz.ts";
+export { useGetJuz } from "./react-query/quran-reference-data/useGetJuz.ts";
+export { getJuzByNumberQueryKey } from "./react-query/quran-reference-data/useGetJuzByNumber.ts";
+export { getJuzByNumberQueryOptions } from "./react-query/quran-reference-data/useGetJuzByNumber.ts";
+export { useGetJuzByNumber } from "./react-query/quran-reference-data/useGetJuzByNumber.ts";
+export { getJuzByNumberSuspenseQueryKey } from "./react-query/quran-reference-data/useGetJuzByNumberSuspense.ts";
+export { getJuzByNumberSuspenseQueryOptions } from "./react-query/quran-reference-data/useGetJuzByNumberSuspense.ts";
+export { useGetJuzByNumberSuspense } from "./react-query/quran-reference-data/useGetJuzByNumberSuspense.ts";
+export { getJuzSuspenseQueryKey } from "./react-query/quran-reference-data/useGetJuzSuspense.ts";
+export { getJuzSuspenseQueryOptions } from "./react-query/quran-reference-data/useGetJuzSuspense.ts";
+export { useGetJuzSuspense } from "./react-query/quran-reference-data/useGetJuzSuspense.ts";
+export { getPageQueryKey } from "./react-query/quran-reference-data/useGetPage.ts";
+export { getPageQueryOptions } from "./react-query/quran-reference-data/useGetPage.ts";
+export { useGetPage } from "./react-query/quran-reference-data/useGetPage.ts";
+export { getPageSuspenseQueryKey } from "./react-query/quran-reference-data/useGetPageSuspense.ts";
+export { getPageSuspenseQueryOptions } from "./react-query/quran-reference-data/useGetPageSuspense.ts";
+export { useGetPageSuspense } from "./react-query/quran-reference-data/useGetPageSuspense.ts";
+export { getSurahsQueryKey } from "./react-query/quran-reference-data/useGetSurahs.ts";
+export { getSurahsQueryOptions } from "./react-query/quran-reference-data/useGetSurahs.ts";
+export { useGetSurahs } from "./react-query/quran-reference-data/useGetSurahs.ts";
+export { getSurahsSuspenseQueryKey } from "./react-query/quran-reference-data/useGetSurahsSuspense.ts";
+export { getSurahsSuspenseQueryOptions } from "./react-query/quran-reference-data/useGetSurahsSuspense.ts";
+export { useGetSurahsSuspense } from "./react-query/quran-reference-data/useGetSurahsSuspense.ts";
+export { getVersesOfSurahQueryKey } from "./react-query/quran-reference-data/useGetVersesOfSurah.ts";
+export { getVersesOfSurahQueryOptions } from "./react-query/quran-reference-data/useGetVersesOfSurah.ts";
+export { useGetVersesOfSurah } from "./react-query/quran-reference-data/useGetVersesOfSurah.ts";
+export { getVersesOfSurahSuspenseQueryKey } from "./react-query/quran-reference-data/useGetVersesOfSurahSuspense.ts";
+export { getVersesOfSurahSuspenseQueryOptions } from "./react-query/quran-reference-data/useGetVersesOfSurahSuspense.ts";
+export { useGetVersesOfSurahSuspense } from "./react-query/quran-reference-data/useGetVersesOfSurahSuspense.ts";
 export { createRoleGroupAsAdminMutationKey } from "./react-query/role-group-management/useCreateRoleGroupAsAdmin.ts";
 export { createRoleGroupAsAdminMutationOptions } from "./react-query/role-group-management/useCreateRoleGroupAsAdmin.ts";
 export { useCreateRoleGroupAsAdmin } from "./react-query/role-group-management/useCreateRoleGroupAsAdmin.ts";
@@ -1312,17 +1420,22 @@ export { getAppConfigurationsAsAdminHeaderParamsXAPIVersionEnum } from "./types/
 export { getCategoriesAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetCategoriesAsAdmin.ts";
 export { getCurrentUserPermissionsHeaderParamsXAPIVersionEnum } from "./types/GetCurrentUserPermissions.ts";
 export { getCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./types/GetCurrentUserPreferences.ts";
+export { getJuzHeaderParamsXAPIVersionEnum } from "./types/GetJuz.ts";
+export { getJuzByNumberHeaderParamsXAPIVersionEnum } from "./types/GetJuzByNumber.ts";
 export { getMembershipsHeaderParamsXAPIVersionEnum } from "./types/GetMemberships.ts";
 export { getMyOrganizationsHeaderParamsXAPIVersionEnum } from "./types/GetMyOrganizations.ts";
 export { getOrganizationByIdHeaderParamsXAPIVersionEnum } from "./types/GetOrganizationById.ts";
+export { getPageHeaderParamsXAPIVersionEnum } from "./types/GetPage.ts";
 export { getPermissionsAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetPermissionsAsAdmin.ts";
 export { getRoleGroupByIdAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetRoleGroupByIdAsAdmin.ts";
 export { getRoleGroupsAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetRoleGroupsAsAdmin.ts";
 export { getSecuritySettingsAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetSecuritySettingsAsAdmin.ts";
+export { getSurahsHeaderParamsXAPIVersionEnum } from "./types/GetSurahs.ts";
 export { getUserAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetUserAsAdmin.ts";
 export { getUserDetailsHeaderParamsXAPIVersionEnum } from "./types/GetUserDetails.ts";
 export { getUserPermissionsAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetUserPermissionsAsAdmin.ts";
 export { getUsersAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetUsersAsAdmin.ts";
+export { getVersesOfSurahHeaderParamsXAPIVersionEnum } from "./types/GetVersesOfSurah.ts";
 export { init2FactorSetupHeaderParamsXAPIVersionEnum } from "./types/Init2FactorSetup.ts";
 export { invitationDTORoleEnum } from "./types/InvitationDTO.ts";
 export { invitationDTOStatusEnum } from "./types/InvitationDTO.ts";
@@ -1343,6 +1456,7 @@ export { revokeHeaderParamsXAPIVersionEnum } from "./types/Revoke.ts";
 export { revokeMembershipHeaderParamsXAPIVersionEnum } from "./types/RevokeMembership.ts";
 export { revokeRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./types/RevokeRoleGroupAsAdmin.ts";
 export { sendContactFormHeaderParamsXAPIVersionEnum } from "./types/SendContactForm.ts";
+export { surahRevelationPlaceEnum } from "./types/Surah.ts";
 export { twoFactorSetupRequestTypeEnum } from "./types/TwoFactorSetupRequest.ts";
 export { updateAccountHeaderParamsXAPIVersionEnum } from "./types/UpdateAccount.ts";
 export { updateAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./types/UpdateAppConfigurationAsAdmin.ts";
