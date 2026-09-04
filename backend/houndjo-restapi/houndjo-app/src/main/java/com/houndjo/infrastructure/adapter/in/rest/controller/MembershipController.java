@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RestController
 @Tag(name = "Membership management")
-@PreAuthorize("hasAuthority('membership:read')")
+@PreAuthorize("@authz.hasOrgRole('SCHOOL_OWNER', 'SCHOOL_ADMIN')")
 @RequestMapping(path = "/api/organizations/{orgId}/memberships", version = "1.0")
 @RequiredArgsConstructor
 public class MembershipController {
@@ -45,7 +45,8 @@ public class MembershipController {
     }
 
     @PatchMapping("/{id}/role")
-    @PreAuthorize("hasAuthority('membership:update')")
+    @PreAuthorize("@authz.hasOrgRole('SCHOOL_OWNER', 'SCHOOL_ADMIN') "
+            + "and (#request.role().name() != 'SCHOOL_OWNER' or @authz.hasOrgRole('SCHOOL_OWNER'))")
     public MembershipDTO changeMembershipRole(
             @PathVariable Long orgId, @PathVariable Long id, @Valid @RequestBody ChangeMembershipRoleRequest request) {
         return membershipDtoMapper.toDTO(membershipUseCase.changeRole(orgId, id, request.role()));
@@ -53,7 +54,7 @@ public class MembershipController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAuthority('membership:delete')")
+    @PreAuthorize("@authz.hasOrgRole('SCHOOL_OWNER', 'SCHOOL_ADMIN')")
     public void revokeMembership(@PathVariable Long orgId, @PathVariable Long id) {
         membershipUseCase.revoke(orgId, id);
     }
