@@ -16,42 +16,48 @@ public class CourseDtoMapper {
 
     public CourseDTO toDTO(Course course) {
         return switch (course.getTrackingConfig()) {
-            case QuranTrackingConfig quran -> new CourseDTO(
-                    course.getId(),
-                    course.getClassId(),
-                    course.getName(),
-                    course.getType(),
-                    course.getDescription(),
-                    quran.mode(),
-                    new QuranScopeDTO(quran.fromJuz(), quran.toJuz()),
-                    null,
-                    null,
-                    null,
-                    course.getCreationDate());
-            case QaidaTrackingConfig ignored -> new CourseDTO(
-                    course.getId(),
-                    course.getClassId(),
-                    course.getName(),
-                    course.getType(),
-                    course.getDescription(),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    course.getCreationDate());
-            case BookTrackingConfig book -> new CourseDTO(
-                    course.getId(),
-                    course.getClassId(),
-                    course.getName(),
-                    course.getType(),
-                    course.getDescription(),
-                    null,
-                    null,
-                    book.bookTitle(),
-                    book.totalChapters(),
-                    book.totalPages(),
-                    course.getCreationDate());
+            case QuranTrackingConfig quran ->
+                new CourseDTO(
+                        course.getId(),
+                        course.getClassId(),
+                        course.getName(),
+                        course.getType(),
+                        course.getDescription(),
+                        null,
+                        quran.mode(),
+                        new QuranScopeDTO(quran.fromJuz(), quran.toJuz()),
+                        null,
+                        null,
+                        null,
+                        course.getCreationDate());
+            case QaidaTrackingConfig qaida ->
+                new CourseDTO(
+                        course.getId(),
+                        course.getClassId(),
+                        course.getName(),
+                        course.getType(),
+                        course.getDescription(),
+                        qaida.lessons(),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        course.getCreationDate());
+            case BookTrackingConfig book ->
+                new CourseDTO(
+                        course.getId(),
+                        course.getClassId(),
+                        course.getName(),
+                        course.getType(),
+                        course.getDescription(),
+                        null,
+                        null,
+                        null,
+                        book.bookTitle(),
+                        book.totalChapters(),
+                        book.totalPages(),
+                        course.getCreationDate());
         };
     }
 }

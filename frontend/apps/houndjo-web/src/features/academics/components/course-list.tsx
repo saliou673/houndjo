@@ -1,8 +1,8 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { useGetCourses } from "@api-client";
 import { Pencil, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,15 +20,21 @@ const PAGEABLE = { pageable: { page: 0, size: 100 } };
 
 type CourseListProps = {
     classId: number;
-    canManage: boolean;
+    canUpdate: boolean;
+    canDelete: boolean;
     onEdit: (row: CourseRow) => void;
     onDelete: (row: CourseRow) => void;
 };
 
-function courseSummary(row: CourseRow, t: ReturnType<typeof useTranslations>): string {
+function courseSummary(
+    row: CourseRow,
+    t: ReturnType<typeof useTranslations>
+): string {
     if (row.type === "QURAN") {
         return t("summary.quran", {
-            mode: row.quranMode ? t(`typeOptions.quranMode.${row.quranMode}`) : "",
+            mode: row.quranMode
+                ? t(`typeOptions.quranMode.${row.quranMode}`)
+                : "",
             fromJuz: row.quranScopeFromJuz ?? "?",
             toJuz: row.quranScopeToJuz ?? "?",
         });
@@ -39,7 +45,13 @@ function courseSummary(row: CourseRow, t: ReturnType<typeof useTranslations>): s
     return "";
 }
 
-export function CourseList({ classId, canManage, onEdit, onDelete }: CourseListProps) {
+export function CourseList({
+    classId,
+    canUpdate,
+    canDelete,
+    onEdit,
+    onDelete,
+}: CourseListProps) {
     const t = useTranslations("Classes.courseList");
     const { data, isLoading, isError } = useGetCourses(classId, PAGEABLE);
     const rows = (data?.items ?? []).map(mapCourseToRow);
@@ -53,7 +65,9 @@ export function CourseList({ classId, canManage, onEdit, onDelete }: CourseListP
     }
 
     if (rows.length === 0) {
-        return <p className="text-sm text-muted-foreground">{t("noResults")}</p>;
+        return (
+            <p className="text-sm text-muted-foreground">{t("noResults")}</p>
+        );
     }
 
     return (
@@ -66,40 +80,57 @@ export function CourseList({ classId, canManage, onEdit, onDelete }: CourseListP
                             <TableHead>{t("columns.name")}</TableHead>
                             <TableHead>{t("columns.type")}</TableHead>
                             <TableHead>{t("columns.details")}</TableHead>
-                            {canManage && (
-                                <TableHead className="text-end">{t("columns.actions")}</TableHead>
+                            {(canUpdate || canDelete) && (
+                                <TableHead className="text-end">
+                                    {t("columns.actions")}
+                                </TableHead>
                             )}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {rows.map((row) => (
                             <TableRow key={row.id}>
-                                <TableCell className="font-medium">{row.name}</TableCell>
+                                <TableCell className="font-medium">
+                                    {row.name}
+                                </TableCell>
                                 <TableCell>
-                                    <Badge variant="secondary">{t(`typeOptions.${row.type}`)}</Badge>
+                                    <Badge variant="secondary">
+                                        {t(`typeOptions.${row.type}`)}
+                                    </Badge>
                                 </TableCell>
                                 <TableCell className="text-muted-foreground">
                                     {courseSummary(row, t)}
                                 </TableCell>
-                                {canManage && (
+                                {(canUpdate || canDelete) && (
                                     <TableCell className="text-end">
                                         <div className="flex justify-end gap-2">
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                aria-label={t("editAction")}
-                                                onClick={() => onEdit(row)}
-                                            >
-                                                <Pencil size={16} />
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                aria-label={t("deleteAction")}
-                                                onClick={() => onDelete(row)}
-                                            >
-                                                <Trash2 size={16} className="text-destructive" />
-                                            </Button>
+                                            {canUpdate && (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    aria-label={t("editAction")}
+                                                    onClick={() => onEdit(row)}
+                                                >
+                                                    <Pencil size={16} />
+                                                </Button>
+                                            )}
+                                            {canDelete && (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    aria-label={t(
+                                                        "deleteAction"
+                                                    )}
+                                                    onClick={() =>
+                                                        onDelete(row)
+                                                    }
+                                                >
+                                                    <Trash2
+                                                        size={16}
+                                                        className="text-destructive"
+                                                    />
+                                                </Button>
+                                            )}
                                         </div>
                                     </TableCell>
                                 )}
@@ -116,20 +147,43 @@ export function CourseList({ classId, canManage, onEdit, onDelete }: CourseListP
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-base">
                                 {row.name}
-                                <Badge variant="secondary">{t(`typeOptions.${row.type}`)}</Badge>
+                                <Badge variant="secondary">
+                                    {t(`typeOptions.${row.type}`)}
+                                </Badge>
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-2">
-                            <p className="text-sm text-muted-foreground">{courseSummary(row, t)}</p>
-                            {canManage && (
+                            <p className="text-sm text-muted-foreground">
+                                {courseSummary(row, t)}
+                            </p>
+                            {(canUpdate || canDelete) && (
                                 <div className="flex justify-end gap-2">
-                                    <Button variant="outline" size="sm" onClick={() => onEdit(row)}>
-                                        <Pencil size={16} className="me-1" /> {t("editAction")}
-                                    </Button>
-                                    <Button variant="outline" size="sm" onClick={() => onDelete(row)}>
-                                        <Trash2 size={16} className="me-1 text-destructive" />{" "}
-                                        {t("deleteAction")}
-                                    </Button>
+                                    {canUpdate && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => onEdit(row)}
+                                        >
+                                            <Pencil
+                                                size={16}
+                                                className="me-1"
+                                            />{" "}
+                                            {t("editAction")}
+                                        </Button>
+                                    )}
+                                    {canDelete && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => onDelete(row)}
+                                        >
+                                            <Trash2
+                                                size={16}
+                                                className="me-1 text-destructive"
+                                            />{" "}
+                                            {t("deleteAction")}
+                                        </Button>
+                                    )}
                                 </div>
                             )}
                         </CardContent>

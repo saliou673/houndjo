@@ -4,6 +4,7 @@ import com.houndjo.domain.enumerations.CourseType;
 import com.houndjo.domain.enumerations.QuranMode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.Instant;
+import java.util.List;
 
 /**
  * Response DTO representing a course. Only the fields relevant to {@code type} are populated;
@@ -14,6 +15,7 @@ import java.time.Instant;
  * @param name               display name
  * @param type                course typology
  * @param description        optional description
+ * @param qaidaLessons       ordered curriculum for {@code QAIDA} courses
  * @param quranMode          populated for {@code QURAN} courses
  * @param quranScope         populated for {@code QURAN} courses
  * @param bookTitle          populated for {@code BOOK} courses
@@ -28,6 +30,7 @@ public record CourseDTO(
         String name,
         CourseType type,
         String description,
+        List<String> qaidaLessons,
         QuranMode quranMode,
         QuranScopeDTO quranScope,
         String bookTitle,

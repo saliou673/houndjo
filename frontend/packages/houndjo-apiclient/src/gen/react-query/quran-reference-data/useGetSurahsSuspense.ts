@@ -25,7 +25,7 @@ import type {
 } from "../../types/GetSurahs.ts";
 
 export const getSurahsSuspenseQueryKey = () =>
-    [{ url: "/api/quran/surahs" }] as const;
+    [{ url: "/api/v1/quran/surahs" }] as const;
 
 export type GetSurahsSuspenseQueryKey = ReturnType<
     typeof getSurahsSuspenseQueryKey
@@ -55,7 +55,7 @@ export function getSurahsSuspenseQueryOptions(
 }
 
 /**
- * {@link /api/quran/surahs}
+ * {@link /api/v1/quran/surahs}
  */
 export function useGetSurahsSuspense<
     TData = GetSurahsQueryResponse,

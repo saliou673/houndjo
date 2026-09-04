@@ -30,7 +30,11 @@ public class SchoolClassPersistenceAdapter implements SchoolClassPersistencePort
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> {
                     Page<SchoolClassEntity> entityPage = schoolClassRepository.findByOrganizationId(
-                            organizationId, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "creationDate")));
+                            organizationId,
+                            PageRequest.of(
+                                    page,
+                                    size,
+                                    Sort.by(Sort.Order.asc("displayOrder"), Sort.Order.desc("creationDate"))));
                     List<SchoolClass> items = schoolClassMapper.toDomain(entityPage.getContent());
                     return new PagedResult<>(
                             items, entityPage.getTotalElements(), page, size, entityPage.getTotalPages());

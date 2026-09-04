@@ -18,12 +18,12 @@ import type {
 } from "../../types/GetJuz.ts";
 
 function getGetJuzUrl() {
-    const res = { method: "GET", url: `/api/quran/juz` as const };
+    const res = { method: "GET", url: `/api/v1/quran/juz` as const };
     return res;
 }
 
 /**
- * {@link /api/quran/juz}
+ * {@link /api/v1/quran/juz}
  */
 export async function getJuz(
     headers?: GetJuzHeaderParams,

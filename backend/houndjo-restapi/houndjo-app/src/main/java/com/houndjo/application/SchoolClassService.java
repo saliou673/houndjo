@@ -27,7 +27,8 @@ public class SchoolClassService implements SchoolClassUseCase {
     @Override
     @Transactional(readOnly = true)
     public PagedResult<SchoolClass> findAll(int page, int size) {
-        return schoolClassPersistencePort.findByOrganizationId(tenantContext.requireCurrentOrganizationId(), page, size);
+        return schoolClassPersistencePort.findByOrganizationId(
+                tenantContext.requireCurrentOrganizationId(), page, size);
     }
 
     @Override

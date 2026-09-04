@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { useTranslations } from "next-intl";
 import { useGetClasses } from "@api-client";
 import { Pencil, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -19,12 +19,18 @@ import { mapClassToRow, type ClassRow } from "../data/schema";
 const PAGEABLE = { pageable: { page: 0, size: 100 } };
 
 type ClassListProps = {
-    canManage: boolean;
+    canUpdate: boolean;
+    canDelete: boolean;
     onEdit: (row: ClassRow) => void;
     onDelete: (row: ClassRow) => void;
 };
 
-export function ClassList({ canManage, onEdit, onDelete }: ClassListProps) {
+export function ClassList({
+    canUpdate,
+    canDelete,
+    onEdit,
+    onDelete,
+}: ClassListProps) {
     const t = useTranslations("Classes.list");
     const { data, isLoading, isError } = useGetClasses(PAGEABLE);
     const rows = (data?.items ?? []).map(mapClassToRow);
@@ -38,7 +44,9 @@ export function ClassList({ canManage, onEdit, onDelete }: ClassListProps) {
     }
 
     if (rows.length === 0) {
-        return <p className="text-sm text-muted-foreground">{t("noResults")}</p>;
+        return (
+            <p className="text-sm text-muted-foreground">{t("noResults")}</p>
+        );
     }
 
     return (
@@ -51,14 +59,21 @@ export function ClassList({ canManage, onEdit, onDelete }: ClassListProps) {
                             <TableHead>{t("columns.name")}</TableHead>
                             <TableHead>{t("columns.description")}</TableHead>
                             <TableHead>{t("columns.courseCount")}</TableHead>
-                            {canManage && <TableHead className="text-end">{t("columns.actions")}</TableHead>}
+                            {(canUpdate || canDelete) && (
+                                <TableHead className="text-end">
+                                    {t("columns.actions")}
+                                </TableHead>
+                            )}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {rows.map((row) => (
                             <TableRow key={row.id}>
                                 <TableCell className="font-medium">
-                                    <Link href={`/classes/${row.id}`} className="hover:underline">
+                                    <Link
+                                        href={`/classes/${row.id}`}
+                                        className="hover:underline"
+                                    >
                                         {row.name}
                                     </Link>
                                 </TableCell>
@@ -66,25 +81,36 @@ export function ClassList({ canManage, onEdit, onDelete }: ClassListProps) {
                                     {row.description ?? "—"}
                                 </TableCell>
                                 <TableCell>{row.courseCount}</TableCell>
-                                {canManage && (
+                                {(canUpdate || canDelete) && (
                                     <TableCell className="text-end">
                                         <div className="flex justify-end gap-2">
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                aria-label={t("editAction")}
-                                                onClick={() => onEdit(row)}
-                                            >
-                                                <Pencil size={16} />
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                aria-label={t("deleteAction")}
-                                                onClick={() => onDelete(row)}
-                                            >
-                                                <Trash2 size={16} className="text-destructive" />
-                                            </Button>
+                                            {canUpdate && (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    aria-label={t("editAction")}
+                                                    onClick={() => onEdit(row)}
+                                                >
+                                                    <Pencil size={16} />
+                                                </Button>
+                                            )}
+                                            {canDelete && (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    aria-label={t(
+                                                        "deleteAction"
+                                                    )}
+                                                    onClick={() =>
+                                                        onDelete(row)
+                                                    }
+                                                >
+                                                    <Trash2
+                                                        size={16}
+                                                        className="text-destructive"
+                                                    />
+                                                </Button>
+                                            )}
                                         </div>
                                     </TableCell>
                                 )}
@@ -100,27 +126,51 @@ export function ClassList({ canManage, onEdit, onDelete }: ClassListProps) {
                     <Card key={row.id}>
                         <CardHeader>
                             <CardTitle className="text-base">
-                                <Link href={`/classes/${row.id}`} className="hover:underline">
+                                <Link
+                                    href={`/classes/${row.id}`}
+                                    className="hover:underline"
+                                >
                                     {row.name}
                                 </Link>
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-2">
                             {row.description && (
-                                <p className="text-sm text-muted-foreground">{row.description}</p>
+                                <p className="text-sm text-muted-foreground">
+                                    {row.description}
+                                </p>
                             )}
                             <p className="text-sm text-muted-foreground">
                                 {t("columns.courseCount")}: {row.courseCount}
                             </p>
-                            {canManage && (
+                            {(canUpdate || canDelete) && (
                                 <div className="flex justify-end gap-2">
-                                    <Button variant="outline" size="sm" onClick={() => onEdit(row)}>
-                                        <Pencil size={16} className="me-1" /> {t("editAction")}
-                                    </Button>
-                                    <Button variant="outline" size="sm" onClick={() => onDelete(row)}>
-                                        <Trash2 size={16} className="me-1 text-destructive" />{" "}
-                                        {t("deleteAction")}
-                                    </Button>
+                                    {canUpdate && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => onEdit(row)}
+                                        >
+                                            <Pencil
+                                                size={16}
+                                                className="me-1"
+                                            />{" "}
+                                            {t("editAction")}
+                                        </Button>
+                                    )}
+                                    {canDelete && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => onDelete(row)}
+                                        >
+                                            <Trash2
+                                                size={16}
+                                                className="me-1 text-destructive"
+                                            />{" "}
+                                            {t("deleteAction")}
+                                        </Button>
+                                    )}
                                 </div>
                             )}
                         </CardContent>

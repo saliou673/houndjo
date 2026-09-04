@@ -7,14 +7,35 @@ export function createCourseFormSchema(t: ReturnType<typeof useTranslations>) {
             name: z.string().trim().min(1, t("nameRequired")).max(150),
             type: z.enum(["QAIDA", "QURAN", "BOOK"]),
             description: z.string().optional(),
+            qaidaLessons: z.string().optional(),
             quranMode: z.enum(["NAZIRA", "HIFZ"]).optional(),
             quranScopeFromJuz: z.number().int().min(1).max(30).optional(),
             quranScopeToJuz: z.number().int().min(1).max(30).optional(),
             bookTitle: z.string().trim().max(150).optional(),
-            bookTotalChapters: z.number().int().positive().optional(),
-            bookTotalPages: z.number().int().positive().optional(),
+            bookTotalChapters: z.number().int().min(1).max(32767).optional(),
+            bookTotalPages: z.number().int().min(1).max(32767).optional(),
         })
         .superRefine((values, ctx) => {
+            if (values.type === "QAIDA") {
+                const lessons = values.qaidaLessons
+                    ?.split(/\r?\n/)
+                    .map((lesson) => lesson.trim())
+                    .filter(Boolean);
+                if (!lessons?.length) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: t("qaidaLessonsRequired"),
+                        path: ["qaidaLessons"],
+                    });
+                } else if (lessons.some((lesson) => lesson.length > 150)) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: t("qaidaLessonTooLong"),
+                        path: ["qaidaLessons"],
+                    });
+                }
+            }
+
             if (values.type === "QURAN") {
                 if (!values.quranMode) {
                     ctx.addIssue({

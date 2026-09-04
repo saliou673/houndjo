@@ -27,7 +27,7 @@ import type {
 
 export const getJuzByNumberSuspenseQueryKey = (
     number: GetJuzByNumberPathParams["number"]
-) => [{ url: "/api/quran/juz/:number", params: { number: number } }] as const;
+) => [{ url: "/api/v1/quran/juz/:number", params: { number: number } }] as const;
 
 export type GetJuzByNumberSuspenseQueryKey = ReturnType<
     typeof getJuzByNumberSuspenseQueryKey
@@ -62,7 +62,7 @@ export function getJuzByNumberSuspenseQueryOptions(
 }
 
 /**
- * {@link /api/quran/juz/:number}
+ * {@link /api/v1/quran/juz/:number}
  */
 export function useGetJuzByNumberSuspense<
     TData = GetJuzByNumberQueryResponse,

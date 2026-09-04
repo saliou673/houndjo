@@ -31,6 +31,7 @@ export type CourseRow = {
     name: string;
     type: CourseTypeEnumKey;
     description: string | null;
+    qaidaLessons: string[];
     quranMode: CourseQuranModeEnumKey | null;
     quranScopeFromJuz: number | null;
     quranScopeToJuz: number | null;
@@ -47,6 +48,7 @@ export function mapCourseToRow(course: Course): CourseRow {
         name: course.name ?? "",
         type: course.type ?? "QAIDA",
         description: course.description ?? null,
+        qaidaLessons: course.qaidaLessons ?? [],
         quranMode: course.quranMode ?? null,
         quranScopeFromJuz: course.quranScope?.fromJuz ?? null,
         quranScopeToJuz: course.quranScope?.toJuz ?? null,

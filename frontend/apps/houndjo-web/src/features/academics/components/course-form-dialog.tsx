@@ -4,7 +4,11 @@ import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCreateCourse, useUpdateCourse, type CourseTypeEnumKey } from "@api-client";
+import {
+    useCreateCourse,
+    useUpdateCourse,
+    type CourseTypeEnumKey,
+} from "@api-client";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
@@ -34,7 +38,10 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { createCourseFormSchema, type CourseForm } from "../data/course-form-schema";
+import {
+    createCourseFormSchema,
+    type CourseForm,
+} from "../data/course-form-schema";
 import { type CourseRow } from "../data/schema";
 import { QuranScopeFields } from "./quran-scope-fields";
 
@@ -52,6 +59,7 @@ function getDefaultValues(currentRow?: CourseRow): CourseForm {
         name: currentRow?.name ?? "",
         type: currentRow?.type ?? "QAIDA",
         description: currentRow?.description ?? "",
+        qaidaLessons: currentRow?.qaidaLessons.join("\n") ?? "",
         quranMode: currentRow?.quranMode ?? undefined,
         quranScopeFromJuz: currentRow?.quranScopeFromJuz ?? undefined,
         quranScopeToJuz: currentRow?.quranScopeToJuz ?? undefined,
@@ -71,7 +79,10 @@ export function CourseFormDialog({
     const tValidation = useTranslations("Classes.courseForm.validation");
     const isEdit = !!currentRow;
     const queryClient = useQueryClient();
-    const formSchema = useMemo(() => createCourseFormSchema(tValidation), [tValidation]);
+    const formSchema = useMemo(
+        () => createCourseFormSchema(tValidation),
+        [tValidation]
+    );
 
     const form = useForm<CourseForm>({
         resolver: zodResolver(formSchema),
@@ -88,7 +99,12 @@ export function CourseFormDialog({
 
     const invalidateCourses = async () => {
         await queryClient.invalidateQueries({
-            queryKey: [{ url: "/api/v1/classes/:classId/courses", params: { classId } }],
+            queryKey: [
+                {
+                    url: "/api/v1/classes/:classId/courses",
+                    params: { classId },
+                },
+            ],
         });
     };
 
@@ -122,12 +138,24 @@ export function CourseFormDialog({
             name: values.name.trim(),
             type: values.type,
             description: values.description?.trim() || undefined,
+            qaidaLessons:
+                values.type === "QAIDA"
+                    ? values.qaidaLessons
+                          ?.split(/\r?\n/)
+                          .map((lesson) => lesson.trim())
+                          .filter(Boolean)
+                    : undefined,
             quranMode: values.type === "QURAN" ? values.quranMode : undefined,
-            quranScopeFromJuz: values.type === "QURAN" ? values.quranScopeFromJuz : undefined,
-            quranScopeToJuz: values.type === "QURAN" ? values.quranScopeToJuz : undefined,
-            bookTitle: values.type === "BOOK" ? values.bookTitle?.trim() : undefined,
-            bookTotalChapters: values.type === "BOOK" ? values.bookTotalChapters : undefined,
-            bookTotalPages: values.type === "BOOK" ? values.bookTotalPages : undefined,
+            quranScopeFromJuz:
+                values.type === "QURAN" ? values.quranScopeFromJuz : undefined,
+            quranScopeToJuz:
+                values.type === "QURAN" ? values.quranScopeToJuz : undefined,
+            bookTitle:
+                values.type === "BOOK" ? values.bookTitle?.trim() : undefined,
+            bookTotalChapters:
+                values.type === "BOOK" ? values.bookTotalChapters : undefined,
+            bookTotalPages:
+                values.type === "BOOK" ? values.bookTotalPages : undefined,
         };
 
         if (isEdit) {
@@ -152,7 +180,9 @@ export function CourseFormDialog({
         >
             <DialogContent className="flex max-h-[90vh] flex-col overflow-y-auto sm:max-w-lg">
                 <DialogHeader className="text-start">
-                    <DialogTitle>{isEdit ? t("editTitle") : t("addTitle")}</DialogTitle>
+                    <DialogTitle>
+                        {isEdit ? t("editTitle") : t("addTitle")}
+                    </DialogTitle>
                     <DialogDescription>
                         {isEdit ? t("editDescription") : t("addDescription")}
                     </DialogDescription>
@@ -170,7 +200,10 @@ export function CourseFormDialog({
                                 <FormItem>
                                     <FormLabel>{t("fields.name")}</FormLabel>
                                     <FormControl>
-                                        <Input {...field} disabled={isPending} />
+                                        <Input
+                                            {...field}
+                                            disabled={isPending}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -194,7 +227,10 @@ export function CourseFormDialog({
                                         </FormControl>
                                         <SelectContent>
                                             {COURSE_TYPES.map((value) => (
-                                                <SelectItem key={value} value={value}>
+                                                <SelectItem
+                                                    key={value}
+                                                    value={value}
+                                                >
                                                     {t(`typeOptions.${value}`)}
                                                 </SelectItem>
                                             ))}
@@ -209,14 +245,47 @@ export function CourseFormDialog({
                             name="description"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>{t("fields.description")}</FormLabel>
+                                    <FormLabel>
+                                        {t("fields.description")}
+                                    </FormLabel>
                                     <FormControl>
-                                        <Textarea {...field} disabled={isPending} rows={3} />
+                                        <Textarea
+                                            {...field}
+                                            disabled={isPending}
+                                            rows={3}
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+
+                        {type === "QAIDA" && (
+                            <div className="space-y-4 rounded-md border p-3">
+                                <FormField
+                                    control={form.control}
+                                    name="qaidaLessons"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                {t("fields.qaidaLessons")}
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Textarea
+                                                    {...field}
+                                                    disabled={isPending}
+                                                    rows={6}
+                                                    placeholder={t(
+                                                        "fields.qaidaLessonsPlaceholder"
+                                                    )}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                        )}
 
                         {type === "QURAN" && (
                             <div className="space-y-4 rounded-md border p-3">
@@ -225,7 +294,9 @@ export function CourseFormDialog({
                                     name="quranMode"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>{t("fields.quranMode")}</FormLabel>
+                                            <FormLabel>
+                                                {t("fields.quranMode")}
+                                            </FormLabel>
                                             <Select
                                                 disabled={isPending}
                                                 value={field.value}
@@ -234,16 +305,22 @@ export function CourseFormDialog({
                                                 <FormControl>
                                                     <SelectTrigger className="w-full">
                                                         <SelectValue
-                                                            placeholder={t("fields.quranModePlaceholder")}
+                                                            placeholder={t(
+                                                                "fields.quranModePlaceholder"
+                                                            )}
                                                         />
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent>
                                                     <SelectItem value="NAZIRA">
-                                                        {t("quranModeOptions.NAZIRA")}
+                                                        {t(
+                                                            "quranModeOptions.NAZIRA"
+                                                        )}
                                                     </SelectItem>
                                                     <SelectItem value="HIFZ">
-                                                        {t("quranModeOptions.HIFZ")}
+                                                        {t(
+                                                            "quranModeOptions.HIFZ"
+                                                        )}
                                                     </SelectItem>
                                                 </SelectContent>
                                             </Select>
@@ -251,7 +328,10 @@ export function CourseFormDialog({
                                         </FormItem>
                                     )}
                                 />
-                                <QuranScopeFields control={form.control} disabled={isPending} />
+                                <QuranScopeFields
+                                    control={form.control}
+                                    disabled={isPending}
+                                />
                             </div>
                         )}
 
@@ -262,9 +342,14 @@ export function CourseFormDialog({
                                     name="bookTitle"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>{t("fields.bookTitle")}</FormLabel>
+                                            <FormLabel>
+                                                {t("fields.bookTitle")}
+                                            </FormLabel>
                                             <FormControl>
-                                                <Input {...field} disabled={isPending} />
+                                                <Input
+                                                    {...field}
+                                                    disabled={isPending}
+                                                />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -276,18 +361,31 @@ export function CourseFormDialog({
                                         name="bookTotalChapters"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>{t("fields.bookTotalChapters")}</FormLabel>
+                                                <FormLabel>
+                                                    {t(
+                                                        "fields.bookTotalChapters"
+                                                    )}
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="number"
                                                         min={1}
+                                                        max={32767}
                                                         disabled={isPending}
-                                                        value={field.value ?? ""}
+                                                        value={
+                                                            field.value ?? ""
+                                                        }
                                                         onChange={(event) =>
                                                             field.onChange(
-                                                                event.target.value === ""
+                                                                event.target
+                                                                    .value ===
+                                                                    ""
                                                                     ? undefined
-                                                                    : Number(event.target.value)
+                                                                    : Number(
+                                                                          event
+                                                                              .target
+                                                                              .value
+                                                                      )
                                                             )
                                                         }
                                                     />
@@ -301,18 +399,29 @@ export function CourseFormDialog({
                                         name="bookTotalPages"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>{t("fields.bookTotalPages")}</FormLabel>
+                                                <FormLabel>
+                                                    {t("fields.bookTotalPages")}
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="number"
                                                         min={1}
+                                                        max={32767}
                                                         disabled={isPending}
-                                                        value={field.value ?? ""}
+                                                        value={
+                                                            field.value ?? ""
+                                                        }
                                                         onChange={(event) =>
                                                             field.onChange(
-                                                                event.target.value === ""
+                                                                event.target
+                                                                    .value ===
+                                                                    ""
                                                                     ? undefined
-                                                                    : Number(event.target.value)
+                                                                    : Number(
+                                                                          event
+                                                                              .target
+                                                                              .value
+                                                                      )
                                                             )
                                                         }
                                                     />

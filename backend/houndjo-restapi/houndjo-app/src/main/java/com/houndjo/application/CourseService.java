@@ -16,6 +16,9 @@ import com.houndjo.domain.ports.in.CourseUseCase;
 import com.houndjo.domain.ports.out.persistenceport.CoursePersistencePort;
 import com.houndjo.domain.ports.out.persistenceport.QuranReferencePort;
 import com.houndjo.domain.ports.out.persistenceport.SchoolClassPersistencePort;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -56,6 +59,7 @@ public class CourseService implements CourseUseCase {
             String name,
             String description,
             CourseType type,
+            List<String> qaidaLessons,
             QuranMode quranMode,
             Integer quranScopeFromJuz,
             Integer quranScopeToJuz,
@@ -65,7 +69,14 @@ public class CourseService implements CourseUseCase {
         Long organizationId = tenantContext.requireCurrentOrganizationId();
         requireClass(classId, organizationId);
         TrackingConfig trackingConfig = buildTrackingConfig(
-                type, quranMode, quranScopeFromJuz, quranScopeToJuz, bookTitle, bookTotalChapters, bookTotalPages);
+                type,
+                qaidaLessons,
+                quranMode,
+                quranScopeFromJuz,
+                quranScopeToJuz,
+                bookTitle,
+                bookTotalChapters,
+                bookTotalPages);
         log.debug("Creating course: organizationId={} classId={} name={} type={}", organizationId, classId, name, type);
         Course course = Course.create(organizationId, classId, name, description, trackingConfig);
         return coursePersistencePort.save(course);
@@ -78,6 +89,7 @@ public class CourseService implements CourseUseCase {
             String name,
             String description,
             CourseType type,
+            List<String> qaidaLessons,
             QuranMode quranMode,
             Integer quranScopeFromJuz,
             Integer quranScopeToJuz,
@@ -87,7 +99,14 @@ public class CourseService implements CourseUseCase {
         log.debug("Updating course id={}", id);
         Course course = getByIdOrThrow(classId, id);
         TrackingConfig trackingConfig = buildTrackingConfig(
-                type, quranMode, quranScopeFromJuz, quranScopeToJuz, bookTitle, bookTotalChapters, bookTotalPages);
+                type,
+                qaidaLessons,
+                quranMode,
+                quranScopeFromJuz,
+                quranScopeToJuz,
+                bookTitle,
+                bookTotalChapters,
+                bookTotalPages);
         course.update(name, description, trackingConfig);
         return coursePersistencePort.save(course);
     }
@@ -97,6 +116,19 @@ public class CourseService implements CourseUseCase {
         log.debug("Deleting course id={}", id);
         getByIdOrThrow(classId, id);
         coursePersistencePort.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<Long, Integer> countByClassIds(List<Long> classIds) {
+        if (classIds.isEmpty()) {
+            return Map.of();
+        }
+        return coursePersistencePort
+                .countByClassIdsAndOrganizationId(classIds, tenantContext.requireCurrentOrganizationId())
+                .entrySet()
+                .stream()
+                .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey, entry -> Math.toIntExact(entry.getValue())));
     }
 
     private Course getByIdOrThrow(Long classId, Long id) {
@@ -115,6 +147,7 @@ public class CourseService implements CourseUseCase {
 
     private TrackingConfig buildTrackingConfig(
             CourseType type,
+            List<String> qaidaLessons,
             QuranMode quranMode,
             Integer quranScopeFromJuz,
             Integer quranScopeToJuz,
@@ -131,7 +164,12 @@ public class CourseService implements CourseUseCase {
                 quranReferencePort.portionForJuz(quranScopeToJuz);
                 yield new QuranTrackingConfig(quranMode, quranScopeFromJuz, quranScopeToJuz);
             }
-            case QAIDA -> new QaidaTrackingConfig();
+            case QAIDA -> {
+                if (qaidaLessons == null || qaidaLessons.isEmpty()) {
+                    throw new InvalidCourseConfigException(CourseType.QAIDA, "qaidaLessons");
+                }
+                yield new QaidaTrackingConfig(qaidaLessons);
+            }
             case BOOK -> {
                 if (bookTitle == null || bookTitle.isBlank()) {
                     throw new InvalidCourseConfigException(CourseType.BOOK, "bookTitle");

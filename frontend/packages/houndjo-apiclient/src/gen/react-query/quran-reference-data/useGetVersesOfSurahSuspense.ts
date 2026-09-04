@@ -29,7 +29,7 @@ export const getVersesOfSurahSuspenseQueryKey = (
     number: GetVersesOfSurahPathParams["number"]
 ) =>
     [
-        { url: "/api/quran/surahs/:number/verses", params: { number: number } },
+        { url: "/api/v1/quran/surahs/:number/verses", params: { number: number } },
     ] as const;
 
 export type GetVersesOfSurahSuspenseQueryKey = ReturnType<
@@ -65,7 +65,7 @@ export function getVersesOfSurahSuspenseQueryOptions(
 }
 
 /**
- * {@link /api/quran/surahs/:number/verses}
+ * {@link /api/v1/quran/surahs/:number/verses}
  */
 export function useGetVersesOfSurahSuspense<
     TData = GetVersesOfSurahQueryResponse,
