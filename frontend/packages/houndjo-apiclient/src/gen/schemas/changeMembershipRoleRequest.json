@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "properties": {
+        "role": {
+            "type": "string",
+            "enum": ["SCHOOL_OWNER", "SCHOOL_ADMIN", "TEACHER"]
+        }
+    },
+    "required": ["role"],
+    "x-readme-ref-name": "ChangeMembershipRoleRequest"
+}

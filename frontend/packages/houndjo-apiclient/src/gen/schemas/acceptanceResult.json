@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "properties": {
+        "organizationId": { "type": "integer", "format": "int64" },
+        "role": {
+            "type": "string",
+            "enum": ["SCHOOL_OWNER", "SCHOOL_ADMIN", "TEACHER"]
+        }
+    },
+    "x-readme-ref-name": "AcceptanceResult"
+}
