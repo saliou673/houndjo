@@ -26,7 +26,7 @@ import type {
 } from "../../types/GetPage.ts";
 
 export const getPageSuspenseQueryKey = (number: GetPagePathParams["number"]) =>
-    [{ url: "/api/quran/pages/:number", params: { number: number } }] as const;
+    [{ url: "/api/v1/quran/pages/:number", params: { number: number } }] as const;
 
 export type GetPageSuspenseQueryKey = ReturnType<
     typeof getPageSuspenseQueryKey
@@ -56,7 +56,7 @@ export function getPageSuspenseQueryOptions(
 }
 
 /**
- * {@link /api/quran/pages/:number}
+ * {@link /api/v1/quran/pages/:number}
  */
 export function useGetPageSuspense<
     TData = GetPageQueryResponse,

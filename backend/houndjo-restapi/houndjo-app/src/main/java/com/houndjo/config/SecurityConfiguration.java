@@ -44,7 +44,7 @@ public class SecurityConfiguration {
             new PublicRoute(POST, "/api/auth/2fa/verify"),
             new PublicRoute(POST, "/api/contact"),
             new PublicRoute(POST, "/api/organizations/invitations/accept"),
-            new PublicRoute(GET, "/api/quran/**"));
+            new PublicRoute(GET, "/api/v1/quran/**"));
 
     @Bean
     public PasswordEncoder passwordEncoder() {

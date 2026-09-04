@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
  */
 class QuranReferenceControllerTest extends IntegrationTest {
 
-    private static final String API = "/api/quran";
+    private static final String API = "/api/v1/quran";
 
     @Test
     void shouldListAllSurahsAnonymously() throws Exception {
