@@ -78,6 +78,7 @@ class QuranReferencePersistenceAdapterTest extends IntegrationTest {
     @Test
     void shouldThrowWhenSurahNumberDoesNotExist() {
         assertThatThrownBy(() -> quranReferencePort.getSurah(115)).isInstanceOf(SurahNotFoundException.class);
+        assertThatThrownBy(() -> quranReferencePort.getSurah(65537)).isInstanceOf(SurahNotFoundException.class);
         assertThatThrownBy(() -> quranReferencePort.versesOfSurah(0)).isInstanceOf(SurahNotFoundException.class);
     }
 
@@ -107,7 +108,10 @@ class QuranReferencePersistenceAdapterTest extends IntegrationTest {
     void shouldThrowWhenPageOrJuzOutOfRange() {
         assertThatThrownBy(() -> quranReferencePort.portionForPageRange(1, 605))
                 .isInstanceOf(PageNotFoundException.class);
+        assertThatThrownBy(() -> quranReferencePort.portionForPageRange(65537, 65537))
+                .isInstanceOf(PageNotFoundException.class);
         assertThatThrownBy(() -> quranReferencePort.portionForJuz(31)).isInstanceOf(JuzNotFoundException.class);
+        assertThatThrownBy(() -> quranReferencePort.portionForJuz(65537)).isInstanceOf(JuzNotFoundException.class);
     }
 
     @Test
@@ -119,6 +123,7 @@ class QuranReferencePersistenceAdapterTest extends IntegrationTest {
     @Test
     void shouldThrowWhenVerseDoesNotExist() {
         assertThatThrownBy(() -> quranReferencePort.pageOf(1, 8)).isInstanceOf(VerseNotFoundException.class);
+        assertThatThrownBy(() -> quranReferencePort.pageOf(65538, 255)).isInstanceOf(VerseNotFoundException.class);
     }
 
     @Test
