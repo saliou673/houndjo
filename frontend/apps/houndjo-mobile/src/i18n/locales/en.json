@@ -158,6 +158,7 @@
             "language": "Language",
             "users": "Users",
             "roleGroups": "Role groups",
+            "classes": "Classes",
             "configurations": "Configuration",
             "organizations": "Schools"
         },
@@ -437,6 +438,102 @@
             "empty": "No permissions available.",
             "submit": "Save changes",
             "toastUpdated": "Permissions updated."
+        }
+    },
+    "classes": {
+        "list": {
+            "title": "Classes",
+            "description": "Manage your school's grade/class levels.",
+            "addClass": "Add class",
+            "errorFallback": "Unable to load classes.",
+            "noResults": "No classes found.",
+            "courseCount": "{{count}} course",
+            "courseCount_other": "{{count}} courses",
+            "previous": "Previous",
+            "next": "Next",
+            "pageIndicator": "Page {{page}} of {{totalPages}}"
+        },
+        "detail": {
+            "title": "Class",
+            "loadError": "Unable to load this class.",
+            "fields": {
+                "name": "Name",
+                "description": "Description"
+            },
+            "validation": {
+                "nameRequired": "Name is required."
+            },
+            "submit": "Save changes",
+            "delete": "Delete class",
+            "deleteConfirmTitle": "Delete class",
+            "deleteConfirmMessage": "Are you sure you want to delete {{name}}? This action cannot be undone.",
+            "coursesTitle": "Courses",
+            "addCourse": "Add course"
+        },
+        "create": {
+            "title": "Add class",
+            "description": "Create a grade/class level for your school.",
+            "fields": {
+                "name": "Name",
+                "description": "Description"
+            },
+            "validation": {
+                "nameRequired": "Name is required."
+            },
+            "submit": "Create class"
+        },
+        "courseList": {
+            "noResults": "No courses yet.",
+            "summary": {
+                "quran": "{{mode}} · Juz {{fromJuz}}–{{toJuz}}"
+            }
+        },
+        "courseDeleteDialog": {
+            "title": "Delete course",
+            "confirmMessage": "Are you sure you want to delete {{name}}? This action cannot be undone.",
+            "confirmButton": "Delete"
+        },
+        "courseForm": {
+            "addTitle": "Add course",
+            "editTitle": "Edit course",
+            "addDescription": "Create a course for this class. The available fields depend on the course type.",
+            "submitAdd": "Create course",
+            "submitEdit": "Save changes",
+            "fields": {
+                "name": "Name",
+                "type": "Type",
+                "description": "Description",
+                "qaidaLessons": "Lessons (one per line)",
+                "qaidaLessonsPlaceholder": "Arabic letters\nShort vowels\nLong vowels",
+                "quranMode": "Mode",
+                "quranModePlaceholder": "Select a mode",
+                "quranScopeFromJuz": "From juz",
+                "quranScopeToJuz": "To juz",
+                "quranScopePlaceholder": "Select a juz",
+                "juzOption": "Juz {{number}}",
+                "bookTitle": "Book title",
+                "bookTotalChapters": "Total chapters",
+                "bookTotalPages": "Total pages"
+            },
+            "typeOptions": {
+                "QAIDA": "Qaida",
+                "QURAN": "Quran",
+                "BOOK": "Book"
+            },
+            "quranModeOptions": {
+                "NAZIRA": "Reading (Nazira)",
+                "HIFZ": "Memorization (Hifz)"
+            },
+            "validation": {
+                "nameRequired": "Name is required.",
+                "qaidaLessonsRequired": "Add at least one Qaida lesson.",
+                "qaidaLessonTooLong": "Each Qaida lesson must be 150 characters or fewer.",
+                "bookCountInvalid": "Enter a whole number from 1 to 32767.",
+                "quranModeRequired": "Select a mode for a Quran course.",
+                "quranScopeRequired": "Select both a start and end juz.",
+                "quranScopeInvalid": "The start juz must be before or equal to the end juz.",
+                "bookTitleRequired": "A book title is required."
+            }
         }
     },
     "configurations": {

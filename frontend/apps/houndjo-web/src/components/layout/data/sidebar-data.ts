@@ -15,6 +15,7 @@ import {
     SlidersHorizontal,
     Tag,
     ShieldAlert,
+    GraduationCap,
 } from "lucide-react";
 import { type useTranslations } from "next-intl";
 import { type SidebarData } from "../types";
@@ -61,6 +62,12 @@ export function getSidebarNavGroups(
                     url: "/role-groups",
                     icon: ShieldCheck,
                     requiredPermission: "role-group:read",
+                },
+                {
+                    title: t("nav.classes"),
+                    url: "/classes",
+                    icon: GraduationCap,
+                    requiredPermission: "class:read",
                 },
                 {
                     title: t("nav.configuration"),

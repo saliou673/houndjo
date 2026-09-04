@@ -1,0 +1,25 @@
+{
+    "type": "object",
+    "properties": {
+        "id": { "type": "integer", "format": "int64" },
+        "classId": { "type": "integer", "format": "int64" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["QAIDA", "QURAN", "BOOK"] },
+        "description": { "type": "string" },
+        "qaidaLessons": { "type": "array", "items": { "type": "string", "maxLength": 150, "minLength": 1 } },
+        "quranMode": { "type": "string", "enum": ["NAZIRA", "HIFZ"] },
+        "quranScope": {
+            "type": "object",
+            "properties": {
+                "fromJuz": { "type": "integer", "format": "int32" },
+                "toJuz": { "type": "integer", "format": "int32" }
+            },
+            "x-readme-ref-name": "QuranScope"
+        },
+        "bookTitle": { "type": "string" },
+        "bookTotalChapters": { "type": "integer", "format": "int32" },
+        "bookTotalPages": { "type": "integer", "format": "int32" },
+        "creationDate": { "type": "string", "format": "date-time" }
+    },
+    "x-readme-ref-name": "Course"
+}

@@ -16,6 +16,7 @@ export default function SettingsHomeScreen() {
   const canReadRoleGroups = (permissions ?? []).some(
     (permission) => permission.code === 'role-group:read'
   );
+  const canReadClasses = (permissions ?? []).some((permission) => permission.code === 'class:read');
   const canManageConfigurations = (permissions ?? []).some(
     (permission) => permission.code === 'config:manage'
   );
@@ -108,6 +109,13 @@ export default function SettingsHomeScreen() {
               href="/role-groups"
               title={t('settings.nav.roleGroups')}
               icon={{ ios: 'checkmark.shield', android: 'verified_user', web: 'verified_user' }}
+            />
+          )}
+          {canReadClasses && (
+            <SettingsRow
+              href="/classes"
+              title={t('settings.nav.classes')}
+              icon={{ ios: 'graduationcap', android: 'school', web: 'school' }}
             />
           )}
           {canManageConfigurations && (

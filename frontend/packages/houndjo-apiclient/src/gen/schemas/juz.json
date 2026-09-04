@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "number": { "type": "integer", "format": "int32" },
+        "fromSurah": { "type": "integer", "format": "int32" },
+        "fromVerse": { "type": "integer", "format": "int32" },
+        "toSurah": { "type": "integer", "format": "int32" },
+        "toVerse": { "type": "integer", "format": "int32" },
+        "fromPage": { "type": "integer", "format": "int32" },
+        "toPage": { "type": "integer", "format": "int32" }
+    },
+    "x-readme-ref-name": "Juz"
+}
