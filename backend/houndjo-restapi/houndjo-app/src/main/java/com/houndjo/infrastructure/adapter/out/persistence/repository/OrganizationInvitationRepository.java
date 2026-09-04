@@ -15,4 +15,6 @@ public interface OrganizationInvitationRepository extends JpaRepository<Organiza
             Long organizationId, InvitationStatus status, Pageable pageable);
 
     boolean existsByInvitationCode(String code);
+
+    boolean existsByOrganizationIdAndEmailAndStatus(Long organizationId, String email, InvitationStatus status);
 }

@@ -1,5 +1,6 @@
 package com.houndjo.application;
 
+import com.houndjo.application.tenant.TenantContext;
 import com.houndjo.config.ApplicationProperties;
 import com.houndjo.domain.enumerations.OrganizationRole;
 import com.houndjo.domain.enumerations.UserGroupConstants;
@@ -30,12 +31,17 @@ public class OrganizationInvitationService implements OrganizationInvitationUseC
     private final PasswordHasherPort passwordHasher;
     private final NotificationSenderPort notificationSender;
     private final ApplicationProperties properties;
+    private final TenantContext tenantContext;
 
     @Override
     public OrganizationInvitation invite(Long organizationId, String email, OrganizationRole role) {
+        requireActiveOrganization(organizationId);
         Organization org = organizationPersistence
                 .findById(organizationId)
                 .orElseThrow(() -> new OrganizationNotFoundException(organizationId));
+        if (invitationPersistence.existsPendingByOrganizationIdAndEmail(organizationId, email)) {
+            throw new InvitationAlreadyPendingException(email);
+        }
         String code;
         do {
             code = UUID.randomUUID()
@@ -75,7 +81,9 @@ public class OrganizationInvitationService implements OrganizationInvitationUseC
                 .ifPresentOrElse(
                         existing -> {
                             existing.activate();
-                            existing.changeRole(invitation.getRole());
+                            if (invitation.getRole().ordinal() < existing.getRole().ordinal()) {
+                                existing.changeRole(invitation.getRole());
+                            }
                             membershipPersistence.save(existing);
                         },
                         () -> membershipPersistence.save(com.houndjo.domain.models.membership.Membership.create(
@@ -86,14 +94,15 @@ public class OrganizationInvitationService implements OrganizationInvitationUseC
     }
 
     private User createUser(OrganizationInvitation invitation, String password) {
+        if (password == null || password.isBlank()) {
+            throw new InvitationPasswordRequiredException();
+        }
         String local = invitation.getEmail().substring(0, invitation.getEmail().indexOf('@'));
-        String rawPassword =
-                password == null || password.isBlank() ? UUID.randomUUID().toString() : password;
         User user = User.create(
                 new UserInfo(local, "User", null, null, null, null, "fr", null),
                 new UserCredentials(
                         invitation.getEmail(),
-                        passwordHasher.hash(rawPassword),
+                        passwordHasher.hash(password),
                         null,
                         null,
                         null,
@@ -108,15 +117,23 @@ public class OrganizationInvitationService implements OrganizationInvitationUseC
 
     @Override
     public PagedResult<OrganizationInvitation> listPending(Long organizationId, int page, int size) {
+        requireActiveOrganization(organizationId);
         return invitationPersistence.findPendingByOrganizationId(organizationId, page, size);
     }
 
     @Override
     public void revoke(Long organizationId, Long invitationId) {
+        requireActiveOrganization(organizationId);
         OrganizationInvitation i = invitationPersistence
                 .findByIdAndOrganizationId(invitationId, organizationId)
-                .orElseThrow(() -> new InvitationNotFoundException(String.valueOf(invitationId)));
+                .orElseThrow(() -> new InvitationNotFoundException(invitationId));
         i.revoke();
         invitationPersistence.save(i);
+    }
+
+    private void requireActiveOrganization(Long organizationId) {
+        if (!tenantContext.requireCurrentOrganizationId().equals(organizationId)) {
+            throw new OrganizationNotFoundException(organizationId);
+        }
     }
 }
