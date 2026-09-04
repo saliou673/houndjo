@@ -1,5 +1,6 @@
 package com.houndjo.infrastructure.adapter.out.persistence;
 
+import com.houndjo.domain.exceptions.HizbNotFoundException;
 import com.houndjo.domain.exceptions.JuzNotFoundException;
 import com.houndjo.domain.exceptions.PageNotFoundException;
 import com.houndjo.domain.exceptions.SurahNotFoundException;
@@ -132,6 +133,56 @@ public class QuranReferencePersistenceAdapter implements QuranReferencePort {
                             last.getHizb().intValue());
                 },
                 "Error computing portion for juz");
+    }
+
+    @Override
+    public QuranPortion portionForHizbRange(int fromHizb, int toHizb) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> {
+                    QuranVerseEntity first = quranVerseRepository
+                            .findFirstByHizbOrderBySurahNumberAscVerseNumberAsc((short) fromHizb)
+                            .orElseThrow(() -> new HizbNotFoundException(fromHizb));
+                    QuranVerseEntity last = quranVerseRepository
+                            .findFirstByHizbOrderBySurahNumberDescVerseNumberDesc((short) toHizb)
+                            .orElseThrow(() -> new HizbNotFoundException(toHizb));
+                    return new QuranPortion(
+                            first.getSurahNumber().intValue(),
+                            first.getVerseNumber().intValue(),
+                            last.getSurahNumber().intValue(),
+                            last.getVerseNumber().intValue(),
+                            first.getPage().intValue(),
+                            last.getPage().intValue(),
+                            first.getJuz().intValue(),
+                            last.getJuz().intValue(),
+                            fromHizb,
+                            toHizb);
+                },
+                "Error computing portion for hizb range");
+    }
+
+    @Override
+    public QuranPortion portionForHizbQuarterRange(int fromQuarter, int toQuarter) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> {
+                    QuranVerseEntity first = quranVerseRepository
+                            .findFirstByHizbQuarterOrderBySurahNumberAscVerseNumberAsc((short) fromQuarter)
+                            .orElseThrow(() -> new HizbNotFoundException(fromQuarter));
+                    QuranVerseEntity last = quranVerseRepository
+                            .findFirstByHizbQuarterOrderBySurahNumberDescVerseNumberDesc((short) toQuarter)
+                            .orElseThrow(() -> new HizbNotFoundException(toQuarter));
+                    return new QuranPortion(
+                            first.getSurahNumber().intValue(),
+                            first.getVerseNumber().intValue(),
+                            last.getSurahNumber().intValue(),
+                            last.getVerseNumber().intValue(),
+                            first.getPage().intValue(),
+                            last.getPage().intValue(),
+                            first.getJuz().intValue(),
+                            last.getJuz().intValue(),
+                            first.getHizb().intValue(),
+                            last.getHizb().intValue());
+                },
+                "Error computing portion for hizb quarter range");
     }
 
     @Override
