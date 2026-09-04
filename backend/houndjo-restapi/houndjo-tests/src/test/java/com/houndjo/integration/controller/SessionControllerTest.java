@@ -6,8 +6,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.houndjo.domain.enumerations.CourseType;
+import com.houndjo.domain.enumerations.OrganizationRole;
 import com.houndjo.domain.enumerations.PaceUnit;
 import com.houndjo.domain.enumerations.SessionStatus;
+import com.houndjo.domain.models.membership.Membership;
+import com.houndjo.domain.ports.out.persistenceport.MembershipPersistencePort;
 import com.houndjo.infrastructure.adapter.in.rest.controller.dto.ClassDTO;
 import com.houndjo.infrastructure.adapter.in.rest.controller.dto.CourseDTO;
 import com.houndjo.infrastructure.adapter.in.rest.controller.dto.OrganizationDTO;
@@ -18,11 +21,13 @@ import com.houndjo.infrastructure.adapter.in.rest.controller.requests.CreateSess
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.GenerateSessionsRequest;
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.RegisterSchoolRequest;
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.SetPaceRequest;
+import com.houndjo.infrastructure.adapter.in.rest.controller.requests.UpdateSessionRequest;
 import com.houndjo.infrastructure.adapter.out.query.PaginatedResult;
 import com.houndjo.integration.IntegrationTest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -35,6 +40,9 @@ class SessionControllerTest extends IntegrationTest {
     private static final String COURSES_API = "/api/v1/courses";
     private static final String ORGANIZATION_API = "/api/organizations";
     private static final String OWNER_EMAIL = "owner@al-nour.test";
+
+    @Autowired
+    private MembershipPersistencePort membershipPersistencePort;
 
     // region create
 
@@ -58,6 +66,65 @@ class SessionControllerTest extends IntegrationTest {
         assertThat(result.courseId()).isEqualTo(course.id());
         assertThat(result.sessionDate()).isEqualTo(LocalDate.of(2026, 3, 2));
         assertThat(result.status()).isEqualTo(SessionStatus.PLANNED);
+    }
+
+    @Test
+    void shouldAssignActiveTeacherFromCourseOrganization() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        ClassDTO schoolClass = createClass(organization.getId());
+        CourseDTO course = createBookCourse(organization.getId(), schoolClass.id());
+        Long teacherId = createUser("teacher@al-nour.test").getId();
+        membershipPersistencePort.save(Membership.create(teacherId, organization.getId(), OrganizationRole.TEACHER));
+
+        CreateSessionRequest request = new CreateSessionRequest(LocalDate.of(2026, 3, 2), null, null, teacherId);
+        SessionDTO result = mockMvc(
+                MockMvcRequestBuilders.post(COURSES_API + "/" + course.id() + "/sessions")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "session:create"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)),
+                SessionDTO.class,
+                status().isCreated());
+
+        assertThat(result.teacherUserId()).isEqualTo(teacherId);
+        assertThat(result.teacherName()).isEqualTo("Mamadou Diallo");
+    }
+
+    @Test
+    void shouldRejectTeacherFromAnotherOrganization() throws Exception {
+        createUser(OWNER_EMAIL);
+        String otherOwnerEmail = "owner@other-school.test";
+        Long otherOwnerId = createUser(otherOwnerEmail).getId();
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        registerAsOwner(otherOwnerEmail, "Other School", "contact@other-school.test");
+        ClassDTO schoolClass = createClass(organization.getId());
+        CourseDTO course = createBookCourse(organization.getId(), schoolClass.id());
+        CreateSessionRequest request = new CreateSessionRequest(LocalDate.of(2026, 3, 2), null, null, otherOwnerId);
+
+        mockMvc.perform(MockMvcRequestBuilders.post(COURSES_API + "/" + course.id() + "/sessions")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "session:create"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldRejectCrossOrganizationTeacherOnUpdate() throws Exception {
+        createUser(OWNER_EMAIL);
+        String otherOwnerEmail = "owner@other-school.test";
+        Long otherOwnerId = createUser(otherOwnerEmail).getId();
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        registerAsOwner(otherOwnerEmail, "Other School", "contact@other-school.test");
+        ClassDTO schoolClass = createClass(organization.getId());
+        CourseDTO course = createBookCourse(organization.getId(), schoolClass.id());
+        SessionDTO session = createSession(organization.getId(), course.id(), LocalDate.of(2026, 3, 2));
+        UpdateSessionRequest request = new UpdateSessionRequest(LocalDate.of(2026, 3, 2), null, null, otherOwnerId);
+
+        mockMvc.perform(MockMvcRequestBuilders.put(COURSES_API + "/" + course.id() + "/sessions/" + session.id())
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "session:update"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
     }
 
     // endregion
@@ -88,6 +155,21 @@ class SessionControllerTest extends IntegrationTest {
 
         assertThat(generated).hasSize(6);
         assertThat(generated).allMatch(s -> s.status() == SessionStatus.PLANNED);
+    }
+
+    @Test
+    void shouldRejectMoreThanSevenSessionsPerWeek() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        ClassDTO schoolClass = createClass(organization.getId());
+        CourseDTO course = createBookCourse(organization.getId(), schoolClass.id());
+        SetPaceRequest request = new SetPaceRequest(PaceUnit.CHAPTER, BigDecimal.ONE, 8, null, null, null, null);
+
+        mockMvc.perform(MockMvcRequestBuilders.put(COURSES_API + "/" + course.id() + "/pace")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:update"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
     }
 
     // endregion

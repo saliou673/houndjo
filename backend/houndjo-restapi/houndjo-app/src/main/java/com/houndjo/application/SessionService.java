@@ -1,8 +1,11 @@
 package com.houndjo.application;
 
 import com.houndjo.application.tenant.TenantContext;
+import com.houndjo.domain.enumerations.MembershipStatus;
+import com.houndjo.domain.enumerations.OrganizationRole;
 import com.houndjo.domain.exceptions.CourseNotFoundException;
 import com.houndjo.domain.exceptions.CoursePaceNotFoundException;
+import com.houndjo.domain.exceptions.InvalidSessionTeacherException;
 import com.houndjo.domain.exceptions.SessionNotFoundException;
 import com.houndjo.domain.models.pace.CoursePace;
 import com.houndjo.domain.models.query.PagedResult;
@@ -11,6 +14,7 @@ import com.houndjo.domain.models.session.SessionFilter;
 import com.houndjo.domain.ports.in.SessionUseCase;
 import com.houndjo.domain.ports.out.persistenceport.CoursePacePersistencePort;
 import com.houndjo.domain.ports.out.persistenceport.CoursePersistencePort;
+import com.houndjo.domain.ports.out.persistenceport.MembershipPersistencePort;
 import com.houndjo.domain.ports.out.persistenceport.SessionPersistencePort;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -33,6 +37,7 @@ public class SessionService implements SessionUseCase {
     private final SessionPersistencePort sessionPersistencePort;
     private final CoursePersistencePort coursePersistencePort;
     private final CoursePacePersistencePort coursePacePersistencePort;
+    private final MembershipPersistencePort membershipPersistencePort;
     private final TenantContext tenantContext;
 
     @Override
@@ -54,6 +59,7 @@ public class SessionService implements SessionUseCase {
             Long courseId, LocalDate sessionDate, LocalTime startTime, LocalTime endTime, Long teacherUserId) {
         Long organizationId = tenantContext.requireCurrentOrganizationId();
         requireCourse(courseId, organizationId);
+        requireTeacher(teacherUserId, organizationId);
         log.debug(
                 "Creating session: organizationId={} courseId={} sessionDate={}",
                 organizationId,
@@ -86,6 +92,7 @@ public class SessionService implements SessionUseCase {
             Long courseId, Long id, LocalDate sessionDate, LocalTime startTime, LocalTime endTime, Long teacherUserId) {
         log.debug("Updating session id={}", id);
         Session session = getByIdOrThrow(courseId, id);
+        requireTeacher(teacherUserId, session.getOrganizationId());
         session.update(sessionDate, startTime, endTime, teacherUserId);
         return sessionPersistencePort.save(session);
     }
@@ -110,5 +117,16 @@ public class SessionService implements SessionUseCase {
         coursePersistencePort
                 .findByIdAndOrganizationId(courseId, organizationId)
                 .orElseThrow(() -> new CourseNotFoundException(courseId));
+    }
+
+    private void requireTeacher(Long teacherUserId, Long organizationId) {
+        if (teacherUserId == null) {
+            return;
+        }
+        membershipPersistencePort
+                .findByUserIdAndOrganizationId(teacherUserId, organizationId)
+                .filter(membership -> membership.getStatus() == MembershipStatus.ACTIVE)
+                .filter(membership -> membership.getRole() == OrganizationRole.TEACHER)
+                .orElseThrow(() -> new InvalidSessionTeacherException(teacherUserId));
     }
 }

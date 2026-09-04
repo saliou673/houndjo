@@ -4,6 +4,7 @@ import com.houndjo.domain.enumerations.PaceUnit;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
@@ -23,7 +24,7 @@ import java.math.BigDecimal;
 public record SetPaceRequest(
         @NotNull PaceUnit unit,
         @NotNull @DecimalMin(value = "0.01") BigDecimal amountPerSession,
-        @Positive int sessionsPerWeek,
+        @Positive @Max(7) int sessionsPerWeek,
         @Nullable @Valid FlowRequest sabak,
         @Nullable @Valid FlowRequest sabqi,
         @Nullable @Valid FlowRequest dhor,
