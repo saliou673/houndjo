@@ -53,9 +53,4 @@ public class OrganizationInvitationController {
     public void revoke(@PathVariable Long orgId, @PathVariable Long id) {
         useCase.revoke(orgId, id);
     }
-
-    @PostMapping("/accept")
-    public OrganizationInvitation.AcceptanceResult accept(@Valid @RequestBody AcceptInvitationRequest request) {
-        return useCase.accept(request.code(), request.password());
-    }
 }

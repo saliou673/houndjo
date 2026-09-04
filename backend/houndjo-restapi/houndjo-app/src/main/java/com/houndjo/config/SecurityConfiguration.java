@@ -43,7 +43,7 @@ public class SecurityConfiguration {
             new PublicRoute(POST, "/api/accounts/invitation/complete"),
             new PublicRoute(POST, "/api/auth/2fa/verify"),
             new PublicRoute(POST, "/api/contact"),
-            new PublicRoute(POST, "/api/organizations/*/invitations/accept"));
+            new PublicRoute(POST, "/api/organizations/invitations/accept"));
 
     @Bean
     public PasswordEncoder passwordEncoder() {
