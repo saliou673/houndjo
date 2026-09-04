@@ -14,6 +14,7 @@ import jakarta.validation.constraints.Size;
  */
 public record AcceptInvitationRequest(
         @NotBlank String code,
+
         @Pattern(regexp = Constants.PASSWORD_REGEX_PATTERN, message = "Invalid password")
-                @Size(min = 8, message = "Password must be at least 8 characters")
-                String password) {}
+        @Size(min = 8, message = "Password must be at least 8 characters")
+        String password) {}

@@ -5,9 +5,6 @@ package com.houndjo.domain.exceptions;
  */
 public class InvitationAlreadyPendingException extends FunctionalException {
     public InvitationAlreadyPendingException(String email) {
-        super(
-                "error.invitation.already-pending",
-                "An invitation is already pending for " + email + ".",
-                email);
+        super("error.invitation.already-pending", "An invitation is already pending for " + email + ".", email);
     }
 }

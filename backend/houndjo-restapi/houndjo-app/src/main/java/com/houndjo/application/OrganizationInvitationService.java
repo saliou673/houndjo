@@ -81,7 +81,8 @@ public class OrganizationInvitationService implements OrganizationInvitationUseC
                 .ifPresentOrElse(
                         existing -> {
                             existing.activate();
-                            if (invitation.getRole().ordinal() < existing.getRole().ordinal()) {
+                            if (invitation.getRole().ordinal()
+                                    < existing.getRole().ordinal()) {
                                 existing.changeRole(invitation.getRole());
                             }
                             membershipPersistence.save(existing);
