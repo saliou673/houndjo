@@ -2,6 +2,7 @@ package com.houndjo.infrastructure.adapter.in.rest.controller.requests;
 
 import com.houndjo.domain.enumerations.PaceUnit;
 import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -23,9 +24,9 @@ public record SetPaceRequest(
         @NotNull PaceUnit unit,
         @NotNull @DecimalMin(value = "0.01") BigDecimal amountPerSession,
         @Positive int sessionsPerWeek,
-        @Nullable FlowRequest sabak,
-        @Nullable FlowRequest sabqi,
-        @Nullable FlowRequest dhor,
+        @Nullable @Valid FlowRequest sabak,
+        @Nullable @Valid FlowRequest sabqi,
+        @Nullable @Valid FlowRequest dhor,
         @Nullable @Positive Integer dhorCycleDays) {
 
     /**

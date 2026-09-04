@@ -24,4 +24,12 @@ public interface CoursePacePersistencePort {
      * @return the saved pace
      */
     CoursePace save(CoursePace coursePace);
+
+    /**
+     * Deletes the pace configuration of a course within an organization.
+     *
+     * @param courseId       the course identifier
+     * @param organizationId the owning organization identifier
+     */
+    void deleteByCourseIdAndOrganizationId(Long courseId, Long organizationId);
 }

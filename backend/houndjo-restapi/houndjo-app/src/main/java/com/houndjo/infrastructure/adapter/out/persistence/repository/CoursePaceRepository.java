@@ -12,4 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface CoursePaceRepository extends JpaRepository<CoursePaceEntity, Long> {
 
     Optional<CoursePaceEntity> findByCourseIdAndOrganizationId(Long courseId, Long organizationId);
+
+    @Transactional
+    void deleteByCourseIdAndOrganizationId(Long courseId, Long organizationId);
 }

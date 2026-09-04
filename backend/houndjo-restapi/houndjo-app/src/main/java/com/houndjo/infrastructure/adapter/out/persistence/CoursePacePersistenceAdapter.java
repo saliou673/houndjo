@@ -35,4 +35,12 @@ public class CoursePacePersistenceAdapter implements CoursePacePersistencePort {
                 () -> coursePaceMapper.toDomain(coursePaceRepository.save(coursePaceMapper.toEntity(coursePace))),
                 "Error saving course pace");
     }
+
+    @Override
+    @Transactional
+    public void deleteByCourseIdAndOrganizationId(Long courseId, Long organizationId) {
+        AdapterPersistenceUtils.executeDbOperation(
+                () -> coursePaceRepository.deleteByCourseIdAndOrganizationId(courseId, organizationId),
+                "Error deleting course pace");
+    }
 }

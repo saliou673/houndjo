@@ -1,12 +1,16 @@
 package com.houndjo.integration.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.houndjo.domain.enumerations.CourseType;
 import com.houndjo.domain.enumerations.EnrollmentStatus;
+import com.houndjo.domain.exceptions.DuplicateActiveEnrollmentException;
+import com.houndjo.domain.models.enrollment.Enrollment;
+import com.houndjo.domain.ports.out.persistenceport.EnrollmentPersistencePort;
 import com.houndjo.infrastructure.adapter.in.rest.controller.dto.ClassDTO;
 import com.houndjo.infrastructure.adapter.in.rest.controller.dto.CourseDTO;
 import com.houndjo.infrastructure.adapter.in.rest.controller.dto.EnrollmentDTO;
@@ -20,9 +24,11 @@ import com.houndjo.infrastructure.adapter.in.rest.controller.requests.RegisterSc
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.UpdateEnrollmentCoursesRequest;
 import com.houndjo.infrastructure.adapter.out.query.PaginatedResult;
 import com.houndjo.integration.IntegrationTest;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -36,6 +42,9 @@ class EnrollmentControllerTest extends IntegrationTest {
     private static final String STUDENTS_API = "/api/v1/students";
     private static final String ORGANIZATION_API = "/api/organizations";
     private static final String OWNER_EMAIL = "owner@al-nour.test";
+
+    @Autowired
+    private EnrollmentPersistencePort enrollmentPersistencePort;
 
     // region enroll
 
@@ -83,6 +92,21 @@ class EnrollmentControllerTest extends IntegrationTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    void shouldTranslateActiveEnrollmentConstraintViolation() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        ClassDTO schoolClass = createClass(organization.getId());
+        StudentDTO student = createStudent(organization.getId());
+        enroll(organization.getId(), student.id(), schoolClass.id(), Set.of());
+
+        Enrollment duplicate =
+                Enrollment.create(organization.getId(), student.id(), schoolClass.id(), Set.of(), LocalDate.now());
+
+        assertThatThrownBy(() -> enrollmentPersistencePort.save(duplicate))
+                .isInstanceOf(DuplicateActiveEnrollmentException.class);
     }
 
     @Test
