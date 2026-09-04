@@ -18,12 +18,12 @@ import type {
 } from "../../types/GetSurahs.ts";
 
 function getGetSurahsUrl() {
-    const res = { method: "GET", url: `/api/quran/surahs` as const };
+    const res = { method: "GET", url: `/api/v1/quran/surahs` as const };
     return res;
 }
 
 /**
- * {@link /api/quran/surahs}
+ * {@link /api/v1/quran/surahs}
  */
 export async function getSurahs(
     headers?: GetSurahsHeaderParams,

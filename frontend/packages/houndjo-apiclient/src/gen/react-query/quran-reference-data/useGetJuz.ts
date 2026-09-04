@@ -24,7 +24,7 @@ import type {
     GetJuz500,
 } from "../../types/GetJuz.ts";
 
-export const getJuzQueryKey = () => [{ url: "/api/quran/juz" }] as const;
+export const getJuzQueryKey = () => [{ url: "/api/v1/quran/juz" }] as const;
 
 export type GetJuzQueryKey = ReturnType<typeof getJuzQueryKey>;
 
@@ -50,7 +50,7 @@ export function getJuzQueryOptions(
 }
 
 /**
- * {@link /api/quran/juz}
+ * {@link /api/v1/quran/juz}
  */
 export function useGetJuz<
     TData = GetJuzQueryResponse,

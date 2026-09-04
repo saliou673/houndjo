@@ -7,6 +7,7 @@ import com.houndjo.domain.models.quran.VerseReference;
 import com.houndjo.domain.ports.in.QuranReferenceUseCase;
 import com.houndjo.domain.ports.out.persistenceport.QuranReferencePort;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class QuranReferenceService implements QuranReferenceUseCase {
 
     private static final int TOTAL_JUZ_COUNT = 30;
-    private static final int FIRST_VERSE_NUMBER = 1;
-
     private final QuranReferencePort quranReferencePort;
 
     @Override
@@ -37,8 +36,8 @@ public class QuranReferenceService implements QuranReferenceUseCase {
     }
 
     @Override
-    public int firstPageOfSurah(int surahNumber) {
-        return quranReferencePort.pageOf(surahNumber, FIRST_VERSE_NUMBER);
+    public Map<Integer, Integer> firstPagesOfSurahs() {
+        return quranReferencePort.firstPagesOfSurahs();
     }
 
     @Override
