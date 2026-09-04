@@ -24,6 +24,7 @@
             "dashboard": "Dashboard",
             "users": "Users",
             "roleGroups": "Role Groups",
+            "classes": "Classes",
             "configuration": "Configuration",
             "referenceData": "Reference Data",
             "security": "Security",
@@ -231,6 +232,129 @@
             "validation": {
                 "nameRequired": "Name is required.",
                 "permissionRequired": "Select at least one permission."
+            }
+        }
+    },
+    "Classes": {
+        "pageTitle": "Classes",
+        "title": "Classes",
+        "description": "Manage your school's grade/class levels.",
+        "addClass": "Add class",
+        "list": {
+            "columns": {
+                "name": "Name",
+                "description": "Description",
+                "courseCount": "Courses",
+                "actions": "Actions"
+            },
+            "loading": "Loading classes...",
+            "errorFallback": "Unable to load classes.",
+            "noResults": "No classes yet.",
+            "editAction": "Edit",
+            "deleteAction": "Delete"
+        },
+        "deleteDialog": {
+            "title": "Delete Class",
+            "confirmMessage": "Are you sure you want to delete <bold>{name}</bold>? This action cannot be undone.",
+            "confirmButton": "Delete",
+            "successToast": "Class deleted."
+        },
+        "form": {
+            "addTitle": "Add New Class",
+            "editTitle": "Edit Class",
+            "addDescription": "Create a grade/class level for your school.",
+            "editDescription": "Update the class name, description, and display order.",
+            "fields": {
+                "name": "Name",
+                "namePlaceholder": "e.g. CP1, Groupe Hifz A",
+                "description": "Description",
+                "descriptionPlaceholder": "Describe the class...",
+                "displayOrder": "Display order"
+            },
+            "submitAdd": "Create class",
+            "submitEdit": "Save changes",
+            "toastCreated": "Class created.",
+            "toastUpdated": "Class updated.",
+            "validation": {
+                "nameRequired": "Name is required."
+            }
+        },
+        "detail": {
+            "pageTitle": "Class detail",
+            "loading": "Loading class...",
+            "errorFallback": "Unable to load this class.",
+            "coursesTitle": "Courses",
+            "addCourse": "Add course"
+        },
+        "courseList": {
+            "columns": {
+                "name": "Name",
+                "type": "Type",
+                "details": "Details",
+                "actions": "Actions"
+            },
+            "loading": "Loading courses...",
+            "errorFallback": "Unable to load courses.",
+            "noResults": "No courses yet.",
+            "editAction": "Edit",
+            "deleteAction": "Delete",
+            "typeOptions": {
+                "QAIDA": "Qaida",
+                "QURAN": "Quran",
+                "BOOK": "Book",
+                "quranMode": {
+                    "NAZIRA": "Reading",
+                    "HIFZ": "Memorization"
+                }
+            },
+            "summary": {
+                "quran": "{mode} · Juz {fromJuz}–{toJuz}"
+            }
+        },
+        "courseDeleteDialog": {
+            "title": "Delete Course",
+            "confirmMessage": "Are you sure you want to delete <bold>{name}</bold>? This action cannot be undone.",
+            "confirmButton": "Delete",
+            "successToast": "Course deleted."
+        },
+        "courseForm": {
+            "addTitle": "Add New Course",
+            "editTitle": "Edit Course",
+            "addDescription": "Create a course for this class. The available fields depend on the course type.",
+            "editDescription": "Update the course. The available fields depend on the course type.",
+            "fields": {
+                "name": "Name",
+                "type": "Type",
+                "description": "Description",
+                "quranMode": "Mode",
+                "quranModePlaceholder": "Select a mode",
+                "quranScopeFromJuz": "From juz",
+                "quranScopeToJuz": "To juz",
+                "quranScopePlaceholder": "Select a juz",
+                "juzOption": "Juz {number}",
+                "bookTitle": "Book title",
+                "bookTotalChapters": "Total chapters",
+                "bookTotalPages": "Total pages"
+            },
+            "typeOptions": {
+                "QAIDA": "Qaida",
+                "QURAN": "Quran",
+                "BOOK": "Book"
+            },
+            "quranModeOptions": {
+                "NAZIRA": "Reading (Nazira)",
+                "HIFZ": "Memorization (Hifz)"
+            },
+            "submitAdd": "Create course",
+            "submitEdit": "Save changes",
+            "toastCreated": "Course created.",
+            "toastUpdated": "Course updated.",
+            "validation": {
+                "nameRequired": "Name is required.",
+                "quranModeRequired": "Select a mode for a Quran course.",
+                "quranScopeRequired": "Select both a start and end juz.",
+                "quranScopeInvalid": "The start juz must be before or equal to the end juz.",
+                "bookTitleRequired": "A book title is required."
             }
         }
     },
