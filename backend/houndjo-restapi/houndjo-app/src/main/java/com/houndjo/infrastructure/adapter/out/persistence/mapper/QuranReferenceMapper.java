@@ -20,4 +20,6 @@ public interface QuranReferenceMapper {
     Verse toDomain(QuranVerseEntity entity);
 
     List<Verse> toDomainVerses(List<QuranVerseEntity> entities);
+
+    List<Surah> toDomainSurahs(List<QuranSurahEntity> entities);
 }

@@ -117,6 +117,7 @@ export type {
     CheckUserPermissionAsAdminQueryParams,
     CheckUserPermissionAsAdminQueryResponse,
 } from "./CheckUserPermissionAsAdmin.ts";
+export type { Class } from "./Class.ts";
 export type {
     CompleteInvitation200,
     CompleteInvitation403,
@@ -155,6 +156,11 @@ export type {
 } from "./ConfirmEmailChange.ts";
 export type { ContactFormRequest } from "./ContactFormRequest.ts";
 export type {
+    Course,
+    CourseQuranModeEnumKey,
+    CourseTypeEnumKey,
+} from "./Course.ts";
+export type {
     CreateAdminUserRequest,
     CreateAdminUserRequestGenderEnumKey,
 } from "./CreateAdminUserRequest.ts";
@@ -174,6 +180,37 @@ export type {
     CreateAppConfigurationRequest,
     CreateAppConfigurationRequestCategoryEnumKey,
 } from "./CreateAppConfigurationRequest.ts";
+export type {
+    CreateClass201,
+    CreateClass403,
+    CreateClass404,
+    CreateClass409,
+    CreateClass500,
+    CreateClassHeaderParams,
+    CreateClassHeaderParamsXAPIVersionEnumKey,
+    CreateClassMutation,
+    CreateClassMutationRequest,
+    CreateClassMutationResponse,
+} from "./CreateClass.ts";
+export type { CreateClassRequest } from "./CreateClassRequest.ts";
+export type {
+    CreateCourse201,
+    CreateCourse403,
+    CreateCourse404,
+    CreateCourse409,
+    CreateCourse500,
+    CreateCourseHeaderParams,
+    CreateCourseHeaderParamsXAPIVersionEnumKey,
+    CreateCourseMutation,
+    CreateCourseMutationRequest,
+    CreateCourseMutationResponse,
+    CreateCoursePathParams,
+} from "./CreateCourse.ts";
+export type {
+    CreateCourseRequest,
+    CreateCourseRequestQuranModeEnumKey,
+    CreateCourseRequestTypeEnumKey,
+} from "./CreateCourseRequest.ts";
 export type {
     CreatePublicUserAccount201,
     CreatePublicUserAccount403,
@@ -227,6 +264,30 @@ export type {
     DeleteMutationResponse,
     DeletePathParams,
 } from "./Delete.ts";
+export type {
+    DeleteClass204,
+    DeleteClass403,
+    DeleteClass404,
+    DeleteClass409,
+    DeleteClass500,
+    DeleteClassHeaderParams,
+    DeleteClassHeaderParamsXAPIVersionEnumKey,
+    DeleteClassMutation,
+    DeleteClassMutationResponse,
+    DeleteClassPathParams,
+} from "./DeleteClass.ts";
+export type {
+    DeleteCourse204,
+    DeleteCourse403,
+    DeleteCourse404,
+    DeleteCourse409,
+    DeleteCourse500,
+    DeleteCourseHeaderParams,
+    DeleteCourseHeaderParamsXAPIVersionEnumKey,
+    DeleteCourseMutation,
+    DeleteCourseMutationResponse,
+    DeleteCoursePathParams,
+} from "./DeleteCourse.ts";
 export type {
     DeleteCurrentAccount204,
     DeleteCurrentAccount403,
@@ -353,6 +414,55 @@ export type {
     GetCategoriesAsAdminQueryResponse,
 } from "./GetCategoriesAsAdmin.ts";
 export type {
+    GetClassById200,
+    GetClassById403,
+    GetClassById404,
+    GetClassById409,
+    GetClassById500,
+    GetClassByIdHeaderParams,
+    GetClassByIdHeaderParamsXAPIVersionEnumKey,
+    GetClassByIdPathParams,
+    GetClassByIdQuery,
+    GetClassByIdQueryResponse,
+} from "./GetClassById.ts";
+export type {
+    GetClasses200,
+    GetClasses403,
+    GetClasses404,
+    GetClasses409,
+    GetClasses500,
+    GetClassesHeaderParams,
+    GetClassesHeaderParamsXAPIVersionEnumKey,
+    GetClassesQuery,
+    GetClassesQueryParams,
+    GetClassesQueryResponse,
+} from "./GetClasses.ts";
+export type {
+    GetCourseById200,
+    GetCourseById403,
+    GetCourseById404,
+    GetCourseById409,
+    GetCourseById500,
+    GetCourseByIdHeaderParams,
+    GetCourseByIdHeaderParamsXAPIVersionEnumKey,
+    GetCourseByIdPathParams,
+    GetCourseByIdQuery,
+    GetCourseByIdQueryResponse,
+} from "./GetCourseById.ts";
+export type {
+    GetCourses200,
+    GetCourses403,
+    GetCourses404,
+    GetCourses409,
+    GetCourses500,
+    GetCoursesHeaderParams,
+    GetCoursesHeaderParamsXAPIVersionEnumKey,
+    GetCoursesPathParams,
+    GetCoursesQuery,
+    GetCoursesQueryParams,
+    GetCoursesQueryResponse,
+} from "./GetCourses.ts";
+export type {
     GetCurrentUserPermissions200,
     GetCurrentUserPermissions403,
     GetCurrentUserPermissions404,
@@ -374,6 +484,29 @@ export type {
     GetCurrentUserPreferencesQuery,
     GetCurrentUserPreferencesQueryResponse,
 } from "./GetCurrentUserPreferences.ts";
+export type {
+    GetJuz200,
+    GetJuz403,
+    GetJuz404,
+    GetJuz409,
+    GetJuz500,
+    GetJuzHeaderParams,
+    GetJuzHeaderParamsXAPIVersionEnumKey,
+    GetJuzQuery,
+    GetJuzQueryResponse,
+} from "./GetJuz.ts";
+export type {
+    GetJuzByNumber200,
+    GetJuzByNumber403,
+    GetJuzByNumber404,
+    GetJuzByNumber409,
+    GetJuzByNumber500,
+    GetJuzByNumberHeaderParams,
+    GetJuzByNumberHeaderParamsXAPIVersionEnumKey,
+    GetJuzByNumberPathParams,
+    GetJuzByNumberQuery,
+    GetJuzByNumberQueryResponse,
+} from "./GetJuzByNumber.ts";
 export type {
     GetMemberships200,
     GetMemberships403,
@@ -410,6 +543,18 @@ export type {
     GetOrganizationByIdQuery,
     GetOrganizationByIdQueryResponse,
 } from "./GetOrganizationById.ts";
+export type {
+    GetPage200,
+    GetPage403,
+    GetPage404,
+    GetPage409,
+    GetPage500,
+    GetPageHeaderParams,
+    GetPageHeaderParamsXAPIVersionEnumKey,
+    GetPagePathParams,
+    GetPageQuery,
+    GetPageQueryResponse,
+} from "./GetPage.ts";
 export type {
     GetPermissionsAsAdmin200,
     GetPermissionsAsAdmin403,
@@ -458,6 +603,17 @@ export type {
     GetSecuritySettingsAsAdminQueryResponse,
 } from "./GetSecuritySettingsAsAdmin.ts";
 export type {
+    GetSurahs200,
+    GetSurahs403,
+    GetSurahs404,
+    GetSurahs409,
+    GetSurahs500,
+    GetSurahsHeaderParams,
+    GetSurahsHeaderParamsXAPIVersionEnumKey,
+    GetSurahsQuery,
+    GetSurahsQueryResponse,
+} from "./GetSurahs.ts";
+export type {
     GetUserAsAdmin200,
     GetUserAsAdmin403,
     GetUserAsAdmin404,
@@ -505,6 +661,18 @@ export type {
     GetUsersAsAdminQueryResponse,
 } from "./GetUsersAsAdmin.ts";
 export type {
+    GetVersesOfSurah200,
+    GetVersesOfSurah403,
+    GetVersesOfSurah404,
+    GetVersesOfSurah409,
+    GetVersesOfSurah500,
+    GetVersesOfSurahHeaderParams,
+    GetVersesOfSurahHeaderParamsXAPIVersionEnumKey,
+    GetVersesOfSurahPathParams,
+    GetVersesOfSurahQuery,
+    GetVersesOfSurahQueryResponse,
+} from "./GetVersesOfSurah.ts";
+export type {
     Init2FactorSetup200,
     Init2FactorSetup403,
     Init2FactorSetup404,
@@ -540,6 +708,7 @@ export type {
     InviteMemberRequest,
     InviteMemberRequestRoleEnumKey,
 } from "./InviteMemberRequest.ts";
+export type { Juz } from "./Juz.ts";
 export type { JwtToken } from "./JwtToken.ts";
 export type {
     List200,
@@ -577,8 +746,11 @@ export type {
     Organization,
     OrganizationStatusEnumKey,
 } from "./Organization.ts";
+export type { Page } from "./Page.ts";
 export type { Pageable } from "./Pageable.ts";
 export type { PaginatedResultAppConfiguration } from "./PaginatedResultAppConfiguration.ts";
+export type { PaginatedResultClass } from "./PaginatedResultClass.ts";
+export type { PaginatedResultCourse } from "./PaginatedResultCourse.ts";
 export type { PaginatedResultInvitationDTO } from "./PaginatedResultInvitationDTO.ts";
 export type { PaginatedResultMembership } from "./PaginatedResultMembership.ts";
 export type { PaginatedResultPermission } from "./PaginatedResultPermission.ts";
@@ -588,6 +760,7 @@ export type { PasswordChangeRequest } from "./PasswordChangeRequest.ts";
 export type { PasswordResetRequest } from "./PasswordResetRequest.ts";
 export type { Permission } from "./Permission.ts";
 export type { PermissionCheckResponse } from "./PermissionCheckResponse.ts";
+export type { QuranScope } from "./QuranScope.ts";
 export type {
     RecoverAccount200,
     RecoverAccount403,
@@ -713,6 +886,7 @@ export type {
     SendContactFormMutationResponse,
 } from "./SendContactForm.ts";
 export type { StringFilter } from "./StringFilter.ts";
+export type { Surah, SurahRevelationPlaceEnumKey } from "./Surah.ts";
 export type { TwoFactorDisableRequest } from "./TwoFactorDisableRequest.ts";
 export type { TwoFactorLoginVerifyRequest } from "./TwoFactorLoginVerifyRequest.ts";
 export type { TwoFactorSetupConfirmRequest } from "./TwoFactorSetupConfirmRequest.ts";
@@ -760,6 +934,38 @@ export type {
     UpdateByCategoryAndCodePathParams,
     UpdateByCategoryAndCodePathParamsCategoryEnumKey,
 } from "./UpdateByCategoryAndCode.ts";
+export type {
+    UpdateClass200,
+    UpdateClass403,
+    UpdateClass404,
+    UpdateClass409,
+    UpdateClass500,
+    UpdateClassHeaderParams,
+    UpdateClassHeaderParamsXAPIVersionEnumKey,
+    UpdateClassMutation,
+    UpdateClassMutationRequest,
+    UpdateClassMutationResponse,
+    UpdateClassPathParams,
+} from "./UpdateClass.ts";
+export type { UpdateClassRequest } from "./UpdateClassRequest.ts";
+export type {
+    UpdateCourse200,
+    UpdateCourse403,
+    UpdateCourse404,
+    UpdateCourse409,
+    UpdateCourse500,
+    UpdateCourseHeaderParams,
+    UpdateCourseHeaderParamsXAPIVersionEnumKey,
+    UpdateCourseMutation,
+    UpdateCourseMutationRequest,
+    UpdateCourseMutationResponse,
+    UpdateCoursePathParams,
+} from "./UpdateCourse.ts";
+export type {
+    UpdateCourseRequest,
+    UpdateCourseRequestQuranModeEnumKey,
+    UpdateCourseRequestTypeEnumKey,
+} from "./UpdateCourseRequest.ts";
 export type {
     UpdateCurrentUserPreferences200,
     UpdateCurrentUserPreferences403,
@@ -869,6 +1075,7 @@ export type {
     VerifyLoginChallengeMutationRequest,
     VerifyLoginChallengeMutationResponse,
 } from "./VerifyLoginChallenge.ts";
+export type { Verse } from "./Verse.ts";
 export { acceptHeaderParamsXAPIVersionEnum } from "./Accept.ts";
 export { acceptanceResultRoleEnum } from "./AcceptanceResult.ts";
 export { activateAccountHeaderParamsXAPIVersionEnum } from "./ActivateAccount.ts";
@@ -889,14 +1096,22 @@ export { checkUserPermissionAsAdminHeaderParamsXAPIVersionEnum } from "./CheckUs
 export { completeInvitationHeaderParamsXAPIVersionEnum } from "./CompleteInvitation.ts";
 export { confirm2FactorSetupHeaderParamsXAPIVersionEnum } from "./Confirm2FactorSetup.ts";
 export { confirmEmailChangeHeaderParamsXAPIVersionEnum } from "./ConfirmEmailChange.ts";
+export { courseQuranModeEnum } from "./Course.ts";
+export { courseTypeEnum } from "./Course.ts";
 export { createAdminUserRequestGenderEnum } from "./CreateAdminUserRequest.ts";
 export { createAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./CreateAppConfigurationAsAdmin.ts";
 export { createAppConfigurationRequestCategoryEnum } from "./CreateAppConfigurationRequest.ts";
+export { createClassHeaderParamsXAPIVersionEnum } from "./CreateClass.ts";
+export { createCourseHeaderParamsXAPIVersionEnum } from "./CreateCourse.ts";
+export { createCourseRequestQuranModeEnum } from "./CreateCourseRequest.ts";
+export { createCourseRequestTypeEnum } from "./CreateCourseRequest.ts";
 export { createPublicUserAccountHeaderParamsXAPIVersionEnum } from "./CreatePublicUserAccount.ts";
 export { createRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./CreateRoleGroupAsAdmin.ts";
 export { createUserAsAdminHeaderParamsXAPIVersionEnum } from "./CreateUserAsAdmin.ts";
 export { createUserRequestGenderEnum } from "./CreateUserRequest.ts";
 export { deleteHeaderParamsXAPIVersionEnum } from "./Delete.ts";
+export { deleteClassHeaderParamsXAPIVersionEnum } from "./DeleteClass.ts";
+export { deleteCourseHeaderParamsXAPIVersionEnum } from "./DeleteCourse.ts";
 export { deleteCurrentAccountHeaderParamsXAPIVersionEnum } from "./DeleteCurrentAccount.ts";
 export { deleteRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./DeleteRoleGroupAsAdmin.ts";
 export { deleteUserAsAdminHeaderParamsXAPIVersionEnum } from "./DeleteUserAsAdmin.ts";
@@ -909,19 +1124,28 @@ export { getAppConfigurationByIdAsAdminHeaderParamsXAPIVersionEnum } from "./Get
 export { getAppConfigurationsHeaderParamsXAPIVersionEnum } from "./GetAppConfigurations.ts";
 export { getAppConfigurationsAsAdminHeaderParamsXAPIVersionEnum } from "./GetAppConfigurationsAsAdmin.ts";
 export { getCategoriesAsAdminHeaderParamsXAPIVersionEnum } from "./GetCategoriesAsAdmin.ts";
+export { getClassByIdHeaderParamsXAPIVersionEnum } from "./GetClassById.ts";
+export { getClassesHeaderParamsXAPIVersionEnum } from "./GetClasses.ts";
+export { getCourseByIdHeaderParamsXAPIVersionEnum } from "./GetCourseById.ts";
+export { getCoursesHeaderParamsXAPIVersionEnum } from "./GetCourses.ts";
 export { getCurrentUserPermissionsHeaderParamsXAPIVersionEnum } from "./GetCurrentUserPermissions.ts";
 export { getCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./GetCurrentUserPreferences.ts";
+export { getJuzHeaderParamsXAPIVersionEnum } from "./GetJuz.ts";
+export { getJuzByNumberHeaderParamsXAPIVersionEnum } from "./GetJuzByNumber.ts";
 export { getMembershipsHeaderParamsXAPIVersionEnum } from "./GetMemberships.ts";
 export { getMyOrganizationsHeaderParamsXAPIVersionEnum } from "./GetMyOrganizations.ts";
 export { getOrganizationByIdHeaderParamsXAPIVersionEnum } from "./GetOrganizationById.ts";
+export { getPageHeaderParamsXAPIVersionEnum } from "./GetPage.ts";
 export { getPermissionsAsAdminHeaderParamsXAPIVersionEnum } from "./GetPermissionsAsAdmin.ts";
 export { getRoleGroupByIdAsAdminHeaderParamsXAPIVersionEnum } from "./GetRoleGroupByIdAsAdmin.ts";
 export { getRoleGroupsAsAdminHeaderParamsXAPIVersionEnum } from "./GetRoleGroupsAsAdmin.ts";
 export { getSecuritySettingsAsAdminHeaderParamsXAPIVersionEnum } from "./GetSecuritySettingsAsAdmin.ts";
+export { getSurahsHeaderParamsXAPIVersionEnum } from "./GetSurahs.ts";
 export { getUserAsAdminHeaderParamsXAPIVersionEnum } from "./GetUserAsAdmin.ts";
 export { getUserDetailsHeaderParamsXAPIVersionEnum } from "./GetUserDetails.ts";
 export { getUserPermissionsAsAdminHeaderParamsXAPIVersionEnum } from "./GetUserPermissionsAsAdmin.ts";
 export { getUsersAsAdminHeaderParamsXAPIVersionEnum } from "./GetUsersAsAdmin.ts";
+export { getVersesOfSurahHeaderParamsXAPIVersionEnum } from "./GetVersesOfSurah.ts";
 export { init2FactorSetupHeaderParamsXAPIVersionEnum } from "./Init2FactorSetup.ts";
 export { invitationDTORoleEnum } from "./InvitationDTO.ts";
 export { invitationDTOStatusEnum } from "./InvitationDTO.ts";
@@ -942,11 +1166,16 @@ export { revokeHeaderParamsXAPIVersionEnum } from "./Revoke.ts";
 export { revokeMembershipHeaderParamsXAPIVersionEnum } from "./RevokeMembership.ts";
 export { revokeRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./RevokeRoleGroupAsAdmin.ts";
 export { sendContactFormHeaderParamsXAPIVersionEnum } from "./SendContactForm.ts";
+export { surahRevelationPlaceEnum } from "./Surah.ts";
 export { twoFactorSetupRequestTypeEnum } from "./TwoFactorSetupRequest.ts";
 export { updateAccountHeaderParamsXAPIVersionEnum } from "./UpdateAccount.ts";
 export { updateAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./UpdateAppConfigurationAsAdmin.ts";
 export { updateByCategoryAndCodeHeaderParamsXAPIVersionEnum } from "./UpdateByCategoryAndCode.ts";
 export { updateByCategoryAndCodePathParamsCategoryEnum } from "./UpdateByCategoryAndCode.ts";
+export { updateClassHeaderParamsXAPIVersionEnum } from "./UpdateClass.ts";
+export { updateCourseHeaderParamsXAPIVersionEnum } from "./UpdateCourse.ts";
+export { updateCourseRequestQuranModeEnum } from "./UpdateCourseRequest.ts";
+export { updateCourseRequestTypeEnum } from "./UpdateCourseRequest.ts";
 export { updateCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./UpdateCurrentUserPreferences.ts";
 export { updateOrganizationHeaderParamsXAPIVersionEnum } from "./UpdateOrganization.ts";
 export { updateRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./UpdateRoleGroupAsAdmin.ts";

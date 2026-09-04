@@ -14,7 +14,10 @@ import com.houndjo.infrastructure.adapter.out.persistence.mapper.QuranReferenceM
 import com.houndjo.infrastructure.adapter.out.persistence.repository.QuranSurahRepository;
 import com.houndjo.infrastructure.adapter.out.persistence.repository.QuranVerseRepository;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,6 +37,24 @@ public class QuranReferencePersistenceAdapter implements QuranReferencePort {
     private final QuranSurahRepository quranSurahRepository;
     private final QuranVerseRepository quranVerseRepository;
     private final QuranReferenceMapper quranReferenceMapper;
+
+    @Override
+    public List<Surah> listSurahs() {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> quranReferenceMapper.toDomainSurahs(
+                        quranSurahRepository.findAll(Sort.by(Sort.Direction.ASC, "number"))),
+                "Error fetching all surahs");
+    }
+
+    @Override
+    public Map<Integer, Integer> firstPagesOfSurahs() {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> quranVerseRepository.findFirstPagesBySurah().stream()
+                        .collect(Collectors.toUnmodifiableMap(
+                                row -> row.getSurahNumber().intValue(),
+                                row -> row.getFirstPage().intValue())),
+                "Error fetching first pages of surahs");
+    }
 
     @Override
     public Surah getSurah(int number) {

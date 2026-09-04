@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Pull Requests"
+  short_description: "Review PRs and post inline findings"
+  default_prompt: "Use $review-pull-requests to review pull requests 123-125 and post inline comments for actionable findings."

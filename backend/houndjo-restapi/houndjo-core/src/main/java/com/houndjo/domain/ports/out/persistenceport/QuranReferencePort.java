@@ -5,6 +5,7 @@ import com.houndjo.domain.models.quran.Surah;
 import com.houndjo.domain.models.quran.Verse;
 import com.houndjo.domain.models.quran.VerseReference;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Read-only persistence port over the immutable, global Quran reference data (surahs and
@@ -12,6 +13,16 @@ import java.util.List;
  * progress tracking.
  */
 public interface QuranReferencePort {
+
+    /**
+     * Returns every surah, ordered by number.
+     */
+    List<Surah> listSurahs();
+
+    /**
+     * Returns the first Mushaf page of every surah, keyed by surah number.
+     */
+    Map<Integer, Integer> firstPagesOfSurahs();
 
     /**
      * Returns the surah with the given number.

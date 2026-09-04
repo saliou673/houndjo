@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "number": { "type": "integer", "format": "int32" },
+        "nameArabic": { "type": "string" },
+        "nameTransliteration": { "type": "string" },
+        "name": { "type": "string" },
+        "revelationPlace": { "type": "string", "enum": ["MECCAN", "MEDINAN"] },
+        "verseCount": { "type": "integer", "format": "int32" },
+        "firstPage": { "type": "integer", "format": "int32" }
+    },
+    "x-readme-ref-name": "Surah"
+}
