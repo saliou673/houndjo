@@ -1,0 +1,16 @@
+{
+    "type": "object",
+    "properties": {
+        "name": { "type": "string", "maxLength": 150, "minLength": 0 },
+        "type": { "type": "string", "enum": ["QAIDA", "QURAN", "BOOK"] },
+        "description": { "type": "string" },
+        "quranMode": { "type": "string", "enum": ["NAZIRA", "HIFZ"] },
+        "quranScopeFromJuz": { "type": "integer", "format": "int32" },
+        "quranScopeToJuz": { "type": "integer", "format": "int32" },
+        "bookTitle": { "type": "string" },
+        "bookTotalChapters": { "type": "integer", "format": "int32" },
+        "bookTotalPages": { "type": "integer", "format": "int32" }
+    },
+    "required": ["name", "type"],
+    "x-readme-ref-name": "CreateCourseRequest"
+}
