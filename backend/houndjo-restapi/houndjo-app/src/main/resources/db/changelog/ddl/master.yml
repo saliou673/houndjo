@@ -50,3 +50,7 @@ databaseChangeLog:
   - include:
       file: 00012-organization-invitation-create-table.sql
       relativeToChangelogFile: true
+
+  - include:
+      file: 00013-quran-reference-create-table.sql
+      relativeToChangelogFile: true
