@@ -60,7 +60,10 @@ public class SchoolClassController {
     @PreAuthorize("hasAuthority('class:update') and @authz.hasOrgRole('SCHOOL_OWNER', 'SCHOOL_ADMIN', 'TEACHER')")
     public ClassDTO updateClass(@PathVariable Long id, @Valid @RequestBody UpdateClassRequest request) {
         return classDtoMapper.toDTO(schoolClassUseCase.update(
-                id, request.name(), request.description(), request.displayOrder() == null ? 0 : request.displayOrder()));
+                id,
+                request.name(),
+                request.description(),
+                request.displayOrder() == null ? 0 : request.displayOrder()));
     }
 
     @DeleteMapping("/{id}")
