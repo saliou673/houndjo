@@ -1,6 +1,8 @@
 package com.houndjo.infrastructure.adapter.out.persistence;
 
 import com.houndjo.domain.enumerations.EnrollmentStatus;
+import com.houndjo.domain.exceptions.DataBaseException;
+import com.houndjo.domain.exceptions.DuplicateActiveEnrollmentException;
 import com.houndjo.domain.models.enrollment.Enrollment;
 import com.houndjo.domain.models.enrollment.EnrollmentFilter;
 import com.houndjo.domain.models.query.PagedResult;
@@ -11,6 +13,8 @@ import com.houndjo.infrastructure.adapter.out.persistence.repository.EnrollmentR
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -74,8 +78,26 @@ public class EnrollmentPersistenceAdapter implements EnrollmentPersistencePort {
     @Override
     @Transactional
     public Enrollment save(Enrollment enrollment) {
-        return AdapterPersistenceUtils.executeDbOperation(
-                () -> enrollmentMapper.toDomain(enrollmentRepository.save(enrollmentMapper.toEntity(enrollment))),
-                "Error saving enrollment");
+        try {
+            EnrollmentEntity saved = enrollmentRepository.saveAndFlush(enrollmentMapper.toEntity(enrollment));
+            return enrollmentMapper.toDomain(saved);
+        } catch (DataIntegrityViolationException ex) {
+            if (hasConstraint(ex, "uq_enrollment_active")) {
+                throw new DuplicateActiveEnrollmentException(enrollment.getStudentId(), enrollment.getClassId());
+            }
+            throw new DataBaseException("Error saving enrollment", ex);
+        }
+    }
+
+    private boolean hasConstraint(Throwable throwable, String constraintName) {
+        Throwable current = throwable;
+        while (current != null) {
+            if (current instanceof ConstraintViolationException violation
+                    && constraintName.equals(violation.getConstraintName())) {
+                return true;
+            }
+            current = current.getCause();
+        }
+        return false;
     }
 }
