@@ -428,9 +428,10 @@
         "editTitle": "Organization settings",
         "fields": { "name": "School name", "contactEmail": "Contact email", "phoneNumber": "Phone number", "address": "Address", "defaultCurrencyCode": "Currency", "defaultLanguageKey": "Default language" },
         "save": "Save changes",
-        "saving": "Saving..."
+        "saving": "Saving...",
+        "savedToast": "Organization saved successfully"
     },
     "Members": {
-        "title": "Members", "description": "Manage the people in your school.", "noOrganization": "No school selected", "selectOrganization": "Select a school before managing members.", "inviteTitle": "Invite a member", "email": "Email", "role": "Role", "invite": "Send invitation", "membersTitle": "Members", "pendingTitle": "Pending invitations", "revoke": "Revoke", "confirmRevoke": "Revoke this membership?", "empty": "No members found.", "roles": { "SCHOOL_OWNER": "Owner", "SCHOOL_ADMIN": "Administrator", "TEACHER": "Teacher" }
+        "title": "Members", "description": "Manage the people in your school.", "noOrganization": "No school selected", "selectOrganization": "Select a school before managing members.", "inviteTitle": "Invite a member", "email": "Email", "role": "Role", "invite": "Send invitation", "membersTitle": "Members", "pendingTitle": "Pending invitations", "revoke": "Revoke", "confirmRevoke": "Revoke this membership?", "confirmOwnerPromotion": "Grant this member full ownership of the organization?", "empty": "No members found.", "inviteSentToast": "Invitation sent", "roleChangedToast": "Role updated", "revokedToast": "Membership revoked", "roles": { "SCHOOL_OWNER": "Owner", "SCHOOL_ADMIN": "Administrator", "TEACHER": "Teacher" }
     }
 }

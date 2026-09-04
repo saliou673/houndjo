@@ -1,0 +1,20 @@
+{
+    "type": "object",
+    "properties": {
+        "id": { "type": "integer", "format": "int64" },
+        "userId": { "type": "integer", "format": "int64" },
+        "userEmail": { "type": "string" },
+        "userFullName": { "type": "string" },
+        "organizationId": { "type": "integer", "format": "int64" },
+        "role": {
+            "type": "string",
+            "enum": ["SCHOOL_OWNER", "SCHOOL_ADMIN", "TEACHER"]
+        },
+        "status": {
+            "type": "string",
+            "enum": ["ACTIVE", "INVITED", "REVOKED"]
+        },
+        "creationDate": { "type": "string", "format": "date-time" }
+    },
+    "x-readme-ref-name": "Membership"
+}

@@ -1,0 +1,19 @@
+{
+    "type": "object",
+    "properties": {
+        "creationDate": { "type": "string", "format": "date-time" },
+        "lastUpdateDate": { "type": "string", "format": "date-time" },
+        "lastUpdatedBy": { "type": "string" },
+        "id": { "type": "integer", "format": "int64" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "contactEmail": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "address": { "type": "string" },
+        "defaultCurrencyCode": { "type": "string" },
+        "defaultLanguageKey": { "type": "string" },
+        "timezone": { "type": "string" },
+        "status": { "type": "string", "enum": ["ACTIVE", "SUSPENDED"] }
+    },
+    "x-readme-ref-name": "Organization"
+}

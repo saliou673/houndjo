@@ -14,4 +14,6 @@ public interface OrganizationInvitationPersistencePort {
     PagedResult<OrganizationInvitation> findPendingByOrganizationId(Long organizationId, int page, int size);
 
     boolean existsByCode(String code);
+
+    boolean existsPendingByOrganizationIdAndEmail(Long organizationId, String email);
 }
