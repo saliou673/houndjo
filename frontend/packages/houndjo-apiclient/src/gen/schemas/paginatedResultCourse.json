@@ -16,7 +16,7 @@
                     "description": { "type": "string" },
                     "qaidaLessons": {
                         "type": "array",
-                        "items": { "type": "string", "maxLength": 150, "minLength": 1 }
+                        "items": { "type": "string" }
                     },
                     "quranMode": {
                         "type": "string",

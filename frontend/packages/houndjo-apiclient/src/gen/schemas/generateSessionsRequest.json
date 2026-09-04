@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "fromDate": { "type": "string", "format": "date" },
+        "toDate": { "type": "string", "format": "date" }
+    },
+    "required": ["fromDate", "toDate"],
+    "x-readme-ref-name": "GenerateSessionsRequest"
+}

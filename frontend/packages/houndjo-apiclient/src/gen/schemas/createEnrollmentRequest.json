@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "properties": {
+        "studentId": { "type": "integer", "format": "int64" },
+        "classId": { "type": "integer", "format": "int64" },
+        "courseIds": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "uniqueItems": true
+        }
+    },
+    "required": ["classId", "studentId"],
+    "x-readme-ref-name": "CreateEnrollmentRequest"
+}

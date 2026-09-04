@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "firstName": { "type": "string", "maxLength": 255, "minLength": 0 },
+        "lastName": { "type": "string", "maxLength": 255, "minLength": 0 },
+        "birthDate": { "type": "string", "format": "date" },
+        "gender": { "type": "string", "enum": ["MALE", "FEMALE"] },
+        "guardianName": { "type": "string", "maxLength": 255, "minLength": 0 },
+        "guardianPhone": { "type": "string", "maxLength": 20, "minLength": 0 }
+    },
+    "required": ["firstName", "lastName"],
+    "x-readme-ref-name": "UpdateStudentRequest"
+}

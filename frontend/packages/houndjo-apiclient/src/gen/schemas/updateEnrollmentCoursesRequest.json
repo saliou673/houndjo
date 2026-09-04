@@ -1,0 +1,16 @@
+{
+    "type": "object",
+    "properties": {
+        "addCourseIds": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "uniqueItems": true
+        },
+        "removeCourseIds": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int64" },
+            "uniqueItems": true
+        }
+    },
+    "x-readme-ref-name": "UpdateEnrollmentCoursesRequest"
+}

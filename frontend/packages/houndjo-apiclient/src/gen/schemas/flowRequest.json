@@ -1,0 +1,12 @@
+{
+    "type": "object",
+    "properties": {
+        "unit": {
+            "type": "string",
+            "enum": ["PAGE", "VERSE", "HIZB", "NISF_HIZB", "LESSON", "CHAPTER"]
+        },
+        "amount": { "type": "number", "minimum": 0.01 }
+    },
+    "required": ["amount", "unit"],
+    "x-readme-ref-name": "FlowRequest"
+}

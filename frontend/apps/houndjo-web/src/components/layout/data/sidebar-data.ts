@@ -16,6 +16,8 @@ import {
     Tag,
     ShieldAlert,
     GraduationCap,
+    UserRound,
+    ClipboardList,
 } from "lucide-react";
 import { type useTranslations } from "next-intl";
 import { type SidebarData } from "../types";
@@ -68,6 +70,18 @@ export function getSidebarNavGroups(
                     url: "/classes",
                     icon: GraduationCap,
                     requiredPermission: "class:read",
+                },
+                {
+                    title: t("nav.students"),
+                    url: "/students",
+                    icon: UserRound,
+                    requiredPermission: "student:read",
+                },
+                {
+                    title: t("nav.enrollments"),
+                    url: "/enrollments",
+                    icon: ClipboardList,
+                    requiredPermission: "enrollment:read",
                 },
                 {
                     title: t("nav.configuration"),

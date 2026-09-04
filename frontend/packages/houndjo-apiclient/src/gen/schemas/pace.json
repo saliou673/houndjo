@@ -1,0 +1,68 @@
+{
+    "type": "object",
+    "properties": {
+        "courseId": { "type": "integer", "format": "int64" },
+        "unit": {
+            "type": "string",
+            "enum": ["PAGE", "VERSE", "HIZB", "NISF_HIZB", "LESSON", "CHAPTER"]
+        },
+        "amountPerSession": { "type": "number" },
+        "sessionsPerWeek": { "type": "integer", "format": "int32" },
+        "sabak": {
+            "type": "object",
+            "properties": {
+                "unit": {
+                    "type": "string",
+                    "enum": [
+                        "PAGE",
+                        "VERSE",
+                        "HIZB",
+                        "NISF_HIZB",
+                        "LESSON",
+                        "CHAPTER"
+                    ]
+                },
+                "amount": { "type": "number" }
+            },
+            "x-readme-ref-name": "PaceFlow"
+        },
+        "sabqi": {
+            "type": "object",
+            "properties": {
+                "unit": {
+                    "type": "string",
+                    "enum": [
+                        "PAGE",
+                        "VERSE",
+                        "HIZB",
+                        "NISF_HIZB",
+                        "LESSON",
+                        "CHAPTER"
+                    ]
+                },
+                "amount": { "type": "number" }
+            },
+            "x-readme-ref-name": "PaceFlow"
+        },
+        "dhor": {
+            "type": "object",
+            "properties": {
+                "unit": {
+                    "type": "string",
+                    "enum": [
+                        "PAGE",
+                        "VERSE",
+                        "HIZB",
+                        "NISF_HIZB",
+                        "LESSON",
+                        "CHAPTER"
+                    ]
+                },
+                "amount": { "type": "number" }
+            },
+            "x-readme-ref-name": "PaceFlow"
+        },
+        "dhorCycleDays": { "type": "integer", "format": "int32" }
+    },
+    "x-readme-ref-name": "Pace"
+}

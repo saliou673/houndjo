@@ -26,7 +26,9 @@ import type {
 } from "../../types/GetPage.ts";
 
 export const getPageQueryKey = (number: GetPagePathParams["number"]) =>
-    [{ url: "/api/v1/quran/pages/:number", params: { number: number } }] as const;
+    [
+        { url: "/api/v1/quran/pages/:number", params: { number: number } },
+    ] as const;
 
 export type GetPageQueryKey = ReturnType<typeof getPageQueryKey>;
 

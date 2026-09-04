@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "properties": {
+        "sessionDate": { "type": "string", "format": "date" },
+        "startTime": { "type": "string" },
+        "endTime": { "type": "string" },
+        "teacherUserId": { "type": "integer", "format": "int64" }
+    },
+    "required": ["sessionDate"],
+    "x-readme-ref-name": "CreateSessionRequest"
+}

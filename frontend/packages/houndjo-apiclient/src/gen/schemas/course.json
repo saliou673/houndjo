@@ -6,7 +6,7 @@
         "name": { "type": "string" },
         "type": { "type": "string", "enum": ["QAIDA", "QURAN", "BOOK"] },
         "description": { "type": "string" },
-        "qaidaLessons": { "type": "array", "items": { "type": "string", "maxLength": 150, "minLength": 1 } },
+        "qaidaLessons": { "type": "array", "items": { "type": "string" } },
         "quranMode": { "type": "string", "enum": ["NAZIRA", "HIFZ"] },
         "quranScope": {
             "type": "object",
