@@ -90,31 +90,34 @@ export default function SettingsHomeScreen() {
           />
         </SettingsSection>
 
-        {(canReadUsers || canReadRoleGroups || canManageConfigurations) && (
-          <SettingsSection title={t('settings.nav.sectionAdmin')}>
-            {canReadUsers && (
-              <SettingsRow
-                href="/users"
-                title={t('settings.nav.users')}
-                icon={{ ios: 'person.2', android: 'group', web: 'group' }}
-              />
-            )}
-            {canReadRoleGroups && (
-              <SettingsRow
-                href="/role-groups"
-                title={t('settings.nav.roleGroups')}
-                icon={{ ios: 'checkmark.shield', android: 'verified_user', web: 'verified_user' }}
-              />
-            )}
-            {canManageConfigurations && (
-              <SettingsRow
-                href="/configurations"
-                title={t('settings.nav.configurations')}
-                icon={{ ios: 'slider.horizontal.3', android: 'tune', web: 'tune' }}
-              />
-            )}
-          </SettingsSection>
-        )}
+        <SettingsSection title={t('settings.nav.sectionAdmin')}>
+          <SettingsRow
+            href="/organizations"
+            title={t('settings.nav.organizations')}
+            icon={{ ios: 'building.2', android: 'apartment', web: 'apartment' }}
+          />
+          {canReadUsers && (
+            <SettingsRow
+              href="/users"
+              title={t('settings.nav.users')}
+              icon={{ ios: 'person.2', android: 'group', web: 'group' }}
+            />
+          )}
+          {canReadRoleGroups && (
+            <SettingsRow
+              href="/role-groups"
+              title={t('settings.nav.roleGroups')}
+              icon={{ ios: 'checkmark.shield', android: 'verified_user', web: 'verified_user' }}
+            />
+          )}
+          {canManageConfigurations && (
+            <SettingsRow
+              href="/configurations"
+              title={t('settings.nav.configurations')}
+              icon={{ ios: 'slider.horizontal.3', android: 'tune', web: 'tune' }}
+            />
+          )}
+        </SettingsSection>
 
         <SettingsSection>
           <LogoutButton />

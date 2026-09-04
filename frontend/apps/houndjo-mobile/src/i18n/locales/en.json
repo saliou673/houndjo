@@ -158,7 +158,8 @@
             "language": "Language",
             "users": "Users",
             "roleGroups": "Role groups",
-            "configurations": "Configuration"
+            "configurations": "Configuration",
+            "organizations": "Schools"
         },
         "account": {
             "title": "Account",
@@ -690,5 +691,5 @@
             "description": "Your session has ended.\nPlease log in again to continue."
         }
     },
-    "organizations": { "title": "Organizations", "description": "Create and manage your schools.", "schools": "Your schools", "empty": "No schools yet.", "create": "Create a school", "edit": "Organization settings", "name": "School name", "email": "Contact email", "save": "Save", "saving": "Saving...", "members": "Members", "inviteEmail": "Member email", "invite": "Invite" }
+    "organizations": { "title": "Organizations", "description": "Create and manage your schools.", "schools": "Your schools", "empty": "No schools yet.", "create": "Create a school", "edit": "Organization settings", "name": "School name", "email": "Contact email", "save": "Save", "saving": "Saving...", "savedToast": "Organization saved", "members": "Members", "inviteEmail": "Member email", "invite": "Invite", "inviteSentToast": "Invitation sent", "pendingInvitations": "Pending invitations" }
 }

@@ -1,2 +1,18 @@
 import { Stack } from 'expo-router';
-export default function OrganizationsLayout() { return <Stack screenOptions={{ headerShown: true }} />; }
+
+import { useTheme } from '@/hooks/use-theme';
+
+export default function OrganizationsLayout() {
+  const theme = useTheme();
+
+  return (
+    <Stack
+      screenOptions={{
+        headerStyle: { backgroundColor: theme.background },
+        headerTintColor: theme.text,
+        headerShadowVisible: false,
+        contentStyle: { backgroundColor: theme.background },
+      }}
+    />
+  );
+}
