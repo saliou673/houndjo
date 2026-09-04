@@ -27,6 +27,13 @@ export type { UpdateUserAsAdminMutationKey } from "./react-query/admin-user-mana
 export type { AuthenticateMutationKey } from "./react-query/authentication-management/useAuthenticate.ts";
 export type { LogoutMutationKey } from "./react-query/authentication-management/useLogout.ts";
 export type { RefreshTokenMutationKey } from "./react-query/authentication-management/useRefreshToken.ts";
+export type { CreateClassMutationKey } from "./react-query/class-management/useCreateClass.ts";
+export type { DeleteClassMutationKey } from "./react-query/class-management/useDeleteClass.ts";
+export type { GetClassByIdQueryKey } from "./react-query/class-management/useGetClassById.ts";
+export type { GetClassByIdSuspenseQueryKey } from "./react-query/class-management/useGetClassByIdSuspense.ts";
+export type { GetClassesQueryKey } from "./react-query/class-management/useGetClasses.ts";
+export type { GetClassesSuspenseQueryKey } from "./react-query/class-management/useGetClassesSuspense.ts";
+export type { UpdateClassMutationKey } from "./react-query/class-management/useUpdateClass.ts";
 export type { GetAppConfigurationByCategoryAndCodeQueryKey } from "./react-query/configuration-management/useGetAppConfigurationByCategoryAndCode.ts";
 export type { GetAppConfigurationByCategoryAndCodeSuspenseQueryKey } from "./react-query/configuration-management/useGetAppConfigurationByCategoryAndCodeSuspense.ts";
 export type { GetAppConfigurationsQueryKey } from "./react-query/configuration-management/useGetAppConfigurations.ts";
@@ -209,6 +216,7 @@ export type {
     CheckUserPermissionAsAdminQueryParams,
     CheckUserPermissionAsAdminQueryResponse,
 } from "./types/CheckUserPermissionAsAdmin.ts";
+export type { Class } from "./types/Class.ts";
 export type {
     CompleteInvitation200,
     CompleteInvitation403,
@@ -267,6 +275,19 @@ export type {
     CreateAppConfigurationRequestCategoryEnumKey,
 } from "./types/CreateAppConfigurationRequest.ts";
 export type {
+    CreateClass201,
+    CreateClass403,
+    CreateClass404,
+    CreateClass409,
+    CreateClass500,
+    CreateClassHeaderParams,
+    CreateClassHeaderParamsXAPIVersionEnumKey,
+    CreateClassMutation,
+    CreateClassMutationRequest,
+    CreateClassMutationResponse,
+} from "./types/CreateClass.ts";
+export type { CreateClassRequest } from "./types/CreateClassRequest.ts";
+export type {
     CreatePublicUserAccount201,
     CreatePublicUserAccount403,
     CreatePublicUserAccount404,
@@ -319,6 +340,18 @@ export type {
     DeleteMutationResponse,
     DeletePathParams,
 } from "./types/Delete.ts";
+export type {
+    DeleteClass204,
+    DeleteClass403,
+    DeleteClass404,
+    DeleteClass409,
+    DeleteClass500,
+    DeleteClassHeaderParams,
+    DeleteClassHeaderParamsXAPIVersionEnumKey,
+    DeleteClassMutation,
+    DeleteClassMutationResponse,
+    DeleteClassPathParams,
+} from "./types/DeleteClass.ts";
 export type {
     DeleteCurrentAccount204,
     DeleteCurrentAccount403,
@@ -444,6 +477,30 @@ export type {
     GetCategoriesAsAdminQuery,
     GetCategoriesAsAdminQueryResponse,
 } from "./types/GetCategoriesAsAdmin.ts";
+export type {
+    GetClassById200,
+    GetClassById403,
+    GetClassById404,
+    GetClassById409,
+    GetClassById500,
+    GetClassByIdHeaderParams,
+    GetClassByIdHeaderParamsXAPIVersionEnumKey,
+    GetClassByIdPathParams,
+    GetClassByIdQuery,
+    GetClassByIdQueryResponse,
+} from "./types/GetClassById.ts";
+export type {
+    GetClasses200,
+    GetClasses403,
+    GetClasses404,
+    GetClasses409,
+    GetClasses500,
+    GetClassesHeaderParams,
+    GetClassesHeaderParamsXAPIVersionEnumKey,
+    GetClassesQuery,
+    GetClassesQueryParams,
+    GetClassesQueryResponse,
+} from "./types/GetClasses.ts";
 export type {
     GetCurrentUserPermissions200,
     GetCurrentUserPermissions403,
@@ -731,6 +788,7 @@ export type {
 export type { Page } from "./types/Page.ts";
 export type { Pageable } from "./types/Pageable.ts";
 export type { PaginatedResultAppConfiguration } from "./types/PaginatedResultAppConfiguration.ts";
+export type { PaginatedResultClass } from "./types/PaginatedResultClass.ts";
 export type { PaginatedResultInvitationDTO } from "./types/PaginatedResultInvitationDTO.ts";
 export type { PaginatedResultMembership } from "./types/PaginatedResultMembership.ts";
 export type { PaginatedResultPermission } from "./types/PaginatedResultPermission.ts";
@@ -914,6 +972,20 @@ export type {
     UpdateByCategoryAndCodePathParamsCategoryEnumKey,
 } from "./types/UpdateByCategoryAndCode.ts";
 export type {
+    UpdateClass200,
+    UpdateClass403,
+    UpdateClass404,
+    UpdateClass409,
+    UpdateClass500,
+    UpdateClassHeaderParams,
+    UpdateClassHeaderParamsXAPIVersionEnumKey,
+    UpdateClassMutation,
+    UpdateClassMutationRequest,
+    UpdateClassMutationResponse,
+    UpdateClassPathParams,
+} from "./types/UpdateClass.ts";
+export type { UpdateClassRequest } from "./types/UpdateClassRequest.ts";
+export type {
     UpdateCurrentUserPreferences200,
     UpdateCurrentUserPreferences403,
     UpdateCurrentUserPreferences404,
@@ -1048,6 +1120,12 @@ export { authenticate } from "./client/authentication-management/authenticate.ts
 export { authenticationmanagement } from "./client/authentication-management/authenticationmanagement.ts";
 export { logout } from "./client/authentication-management/logout.ts";
 export { refreshToken } from "./client/authentication-management/refreshToken.ts";
+export { classmanagement } from "./client/class-management/classmanagement.ts";
+export { createClass } from "./client/class-management/createClass.ts";
+export { deleteClass } from "./client/class-management/deleteClass.ts";
+export { getClassById } from "./client/class-management/getClassById.ts";
+export { getClasses } from "./client/class-management/getClasses.ts";
+export { updateClass } from "./client/class-management/updateClass.ts";
 export { configurationmanagement } from "./client/configuration-management/configurationmanagement.ts";
 export { getAppConfigurationByCategoryAndCode } from "./client/configuration-management/getAppConfigurationByCategoryAndCode.ts";
 export { getAppConfigurations } from "./client/configuration-management/getAppConfigurations.ts";
@@ -1189,6 +1267,27 @@ export { useLogout } from "./react-query/authentication-management/useLogout.ts"
 export { refreshTokenMutationKey } from "./react-query/authentication-management/useRefreshToken.ts";
 export { refreshTokenMutationOptions } from "./react-query/authentication-management/useRefreshToken.ts";
 export { useRefreshToken } from "./react-query/authentication-management/useRefreshToken.ts";
+export { createClassMutationKey } from "./react-query/class-management/useCreateClass.ts";
+export { createClassMutationOptions } from "./react-query/class-management/useCreateClass.ts";
+export { useCreateClass } from "./react-query/class-management/useCreateClass.ts";
+export { deleteClassMutationKey } from "./react-query/class-management/useDeleteClass.ts";
+export { deleteClassMutationOptions } from "./react-query/class-management/useDeleteClass.ts";
+export { useDeleteClass } from "./react-query/class-management/useDeleteClass.ts";
+export { getClassByIdQueryKey } from "./react-query/class-management/useGetClassById.ts";
+export { getClassByIdQueryOptions } from "./react-query/class-management/useGetClassById.ts";
+export { useGetClassById } from "./react-query/class-management/useGetClassById.ts";
+export { getClassByIdSuspenseQueryKey } from "./react-query/class-management/useGetClassByIdSuspense.ts";
+export { getClassByIdSuspenseQueryOptions } from "./react-query/class-management/useGetClassByIdSuspense.ts";
+export { useGetClassByIdSuspense } from "./react-query/class-management/useGetClassByIdSuspense.ts";
+export { getClassesQueryKey } from "./react-query/class-management/useGetClasses.ts";
+export { getClassesQueryOptions } from "./react-query/class-management/useGetClasses.ts";
+export { useGetClasses } from "./react-query/class-management/useGetClasses.ts";
+export { getClassesSuspenseQueryKey } from "./react-query/class-management/useGetClassesSuspense.ts";
+export { getClassesSuspenseQueryOptions } from "./react-query/class-management/useGetClassesSuspense.ts";
+export { useGetClassesSuspense } from "./react-query/class-management/useGetClassesSuspense.ts";
+export { updateClassMutationKey } from "./react-query/class-management/useUpdateClass.ts";
+export { updateClassMutationOptions } from "./react-query/class-management/useUpdateClass.ts";
+export { useUpdateClass } from "./react-query/class-management/useUpdateClass.ts";
 export { getAppConfigurationByCategoryAndCodeQueryKey } from "./react-query/configuration-management/useGetAppConfigurationByCategoryAndCode.ts";
 export { getAppConfigurationByCategoryAndCodeQueryOptions } from "./react-query/configuration-management/useGetAppConfigurationByCategoryAndCode.ts";
 export { useGetAppConfigurationByCategoryAndCode } from "./react-query/configuration-management/useGetAppConfigurationByCategoryAndCode.ts";
@@ -1401,11 +1500,13 @@ export { confirmEmailChangeHeaderParamsXAPIVersionEnum } from "./types/ConfirmEm
 export { createAdminUserRequestGenderEnum } from "./types/CreateAdminUserRequest.ts";
 export { createAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./types/CreateAppConfigurationAsAdmin.ts";
 export { createAppConfigurationRequestCategoryEnum } from "./types/CreateAppConfigurationRequest.ts";
+export { createClassHeaderParamsXAPIVersionEnum } from "./types/CreateClass.ts";
 export { createPublicUserAccountHeaderParamsXAPIVersionEnum } from "./types/CreatePublicUserAccount.ts";
 export { createRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./types/CreateRoleGroupAsAdmin.ts";
 export { createUserAsAdminHeaderParamsXAPIVersionEnum } from "./types/CreateUserAsAdmin.ts";
 export { createUserRequestGenderEnum } from "./types/CreateUserRequest.ts";
 export { deleteHeaderParamsXAPIVersionEnum } from "./types/Delete.ts";
+export { deleteClassHeaderParamsXAPIVersionEnum } from "./types/DeleteClass.ts";
 export { deleteCurrentAccountHeaderParamsXAPIVersionEnum } from "./types/DeleteCurrentAccount.ts";
 export { deleteRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./types/DeleteRoleGroupAsAdmin.ts";
 export { deleteUserAsAdminHeaderParamsXAPIVersionEnum } from "./types/DeleteUserAsAdmin.ts";
@@ -1418,6 +1519,8 @@ export { getAppConfigurationByIdAsAdminHeaderParamsXAPIVersionEnum } from "./typ
 export { getAppConfigurationsHeaderParamsXAPIVersionEnum } from "./types/GetAppConfigurations.ts";
 export { getAppConfigurationsAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetAppConfigurationsAsAdmin.ts";
 export { getCategoriesAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetCategoriesAsAdmin.ts";
+export { getClassByIdHeaderParamsXAPIVersionEnum } from "./types/GetClassById.ts";
+export { getClassesHeaderParamsXAPIVersionEnum } from "./types/GetClasses.ts";
 export { getCurrentUserPermissionsHeaderParamsXAPIVersionEnum } from "./types/GetCurrentUserPermissions.ts";
 export { getCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./types/GetCurrentUserPreferences.ts";
 export { getJuzHeaderParamsXAPIVersionEnum } from "./types/GetJuz.ts";
@@ -1462,6 +1565,7 @@ export { updateAccountHeaderParamsXAPIVersionEnum } from "./types/UpdateAccount.
 export { updateAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./types/UpdateAppConfigurationAsAdmin.ts";
 export { updateByCategoryAndCodeHeaderParamsXAPIVersionEnum } from "./types/UpdateByCategoryAndCode.ts";
 export { updateByCategoryAndCodePathParamsCategoryEnum } from "./types/UpdateByCategoryAndCode.ts";
+export { updateClassHeaderParamsXAPIVersionEnum } from "./types/UpdateClass.ts";
 export { updateCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./types/UpdateCurrentUserPreferences.ts";
 export { updateOrganizationHeaderParamsXAPIVersionEnum } from "./types/UpdateOrganization.ts";
 export { updateRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./types/UpdateRoleGroupAsAdmin.ts";

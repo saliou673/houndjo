@@ -117,6 +117,7 @@ export type {
     CheckUserPermissionAsAdminQueryParams,
     CheckUserPermissionAsAdminQueryResponse,
 } from "./CheckUserPermissionAsAdmin.ts";
+export type { Class } from "./Class.ts";
 export type {
     CompleteInvitation200,
     CompleteInvitation403,
@@ -175,6 +176,19 @@ export type {
     CreateAppConfigurationRequestCategoryEnumKey,
 } from "./CreateAppConfigurationRequest.ts";
 export type {
+    CreateClass201,
+    CreateClass403,
+    CreateClass404,
+    CreateClass409,
+    CreateClass500,
+    CreateClassHeaderParams,
+    CreateClassHeaderParamsXAPIVersionEnumKey,
+    CreateClassMutation,
+    CreateClassMutationRequest,
+    CreateClassMutationResponse,
+} from "./CreateClass.ts";
+export type { CreateClassRequest } from "./CreateClassRequest.ts";
+export type {
     CreatePublicUserAccount201,
     CreatePublicUserAccount403,
     CreatePublicUserAccount404,
@@ -227,6 +241,18 @@ export type {
     DeleteMutationResponse,
     DeletePathParams,
 } from "./Delete.ts";
+export type {
+    DeleteClass204,
+    DeleteClass403,
+    DeleteClass404,
+    DeleteClass409,
+    DeleteClass500,
+    DeleteClassHeaderParams,
+    DeleteClassHeaderParamsXAPIVersionEnumKey,
+    DeleteClassMutation,
+    DeleteClassMutationResponse,
+    DeleteClassPathParams,
+} from "./DeleteClass.ts";
 export type {
     DeleteCurrentAccount204,
     DeleteCurrentAccount403,
@@ -352,6 +378,30 @@ export type {
     GetCategoriesAsAdminQuery,
     GetCategoriesAsAdminQueryResponse,
 } from "./GetCategoriesAsAdmin.ts";
+export type {
+    GetClassById200,
+    GetClassById403,
+    GetClassById404,
+    GetClassById409,
+    GetClassById500,
+    GetClassByIdHeaderParams,
+    GetClassByIdHeaderParamsXAPIVersionEnumKey,
+    GetClassByIdPathParams,
+    GetClassByIdQuery,
+    GetClassByIdQueryResponse,
+} from "./GetClassById.ts";
+export type {
+    GetClasses200,
+    GetClasses403,
+    GetClasses404,
+    GetClasses409,
+    GetClasses500,
+    GetClassesHeaderParams,
+    GetClassesHeaderParamsXAPIVersionEnumKey,
+    GetClassesQuery,
+    GetClassesQueryParams,
+    GetClassesQueryResponse,
+} from "./GetClasses.ts";
 export type {
     GetCurrentUserPermissions200,
     GetCurrentUserPermissions403,
@@ -639,6 +689,7 @@ export type {
 export type { Page } from "./Page.ts";
 export type { Pageable } from "./Pageable.ts";
 export type { PaginatedResultAppConfiguration } from "./PaginatedResultAppConfiguration.ts";
+export type { PaginatedResultClass } from "./PaginatedResultClass.ts";
 export type { PaginatedResultInvitationDTO } from "./PaginatedResultInvitationDTO.ts";
 export type { PaginatedResultMembership } from "./PaginatedResultMembership.ts";
 export type { PaginatedResultPermission } from "./PaginatedResultPermission.ts";
@@ -822,6 +873,20 @@ export type {
     UpdateByCategoryAndCodePathParamsCategoryEnumKey,
 } from "./UpdateByCategoryAndCode.ts";
 export type {
+    UpdateClass200,
+    UpdateClass403,
+    UpdateClass404,
+    UpdateClass409,
+    UpdateClass500,
+    UpdateClassHeaderParams,
+    UpdateClassHeaderParamsXAPIVersionEnumKey,
+    UpdateClassMutation,
+    UpdateClassMutationRequest,
+    UpdateClassMutationResponse,
+    UpdateClassPathParams,
+} from "./UpdateClass.ts";
+export type { UpdateClassRequest } from "./UpdateClassRequest.ts";
+export type {
     UpdateCurrentUserPreferences200,
     UpdateCurrentUserPreferences403,
     UpdateCurrentUserPreferences404,
@@ -954,11 +1019,13 @@ export { confirmEmailChangeHeaderParamsXAPIVersionEnum } from "./ConfirmEmailCha
 export { createAdminUserRequestGenderEnum } from "./CreateAdminUserRequest.ts";
 export { createAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./CreateAppConfigurationAsAdmin.ts";
 export { createAppConfigurationRequestCategoryEnum } from "./CreateAppConfigurationRequest.ts";
+export { createClassHeaderParamsXAPIVersionEnum } from "./CreateClass.ts";
 export { createPublicUserAccountHeaderParamsXAPIVersionEnum } from "./CreatePublicUserAccount.ts";
 export { createRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./CreateRoleGroupAsAdmin.ts";
 export { createUserAsAdminHeaderParamsXAPIVersionEnum } from "./CreateUserAsAdmin.ts";
 export { createUserRequestGenderEnum } from "./CreateUserRequest.ts";
 export { deleteHeaderParamsXAPIVersionEnum } from "./Delete.ts";
+export { deleteClassHeaderParamsXAPIVersionEnum } from "./DeleteClass.ts";
 export { deleteCurrentAccountHeaderParamsXAPIVersionEnum } from "./DeleteCurrentAccount.ts";
 export { deleteRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./DeleteRoleGroupAsAdmin.ts";
 export { deleteUserAsAdminHeaderParamsXAPIVersionEnum } from "./DeleteUserAsAdmin.ts";
@@ -971,6 +1038,8 @@ export { getAppConfigurationByIdAsAdminHeaderParamsXAPIVersionEnum } from "./Get
 export { getAppConfigurationsHeaderParamsXAPIVersionEnum } from "./GetAppConfigurations.ts";
 export { getAppConfigurationsAsAdminHeaderParamsXAPIVersionEnum } from "./GetAppConfigurationsAsAdmin.ts";
 export { getCategoriesAsAdminHeaderParamsXAPIVersionEnum } from "./GetCategoriesAsAdmin.ts";
+export { getClassByIdHeaderParamsXAPIVersionEnum } from "./GetClassById.ts";
+export { getClassesHeaderParamsXAPIVersionEnum } from "./GetClasses.ts";
 export { getCurrentUserPermissionsHeaderParamsXAPIVersionEnum } from "./GetCurrentUserPermissions.ts";
 export { getCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./GetCurrentUserPreferences.ts";
 export { getJuzHeaderParamsXAPIVersionEnum } from "./GetJuz.ts";
@@ -1015,6 +1084,7 @@ export { updateAccountHeaderParamsXAPIVersionEnum } from "./UpdateAccount.ts";
 export { updateAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./UpdateAppConfigurationAsAdmin.ts";
 export { updateByCategoryAndCodeHeaderParamsXAPIVersionEnum } from "./UpdateByCategoryAndCode.ts";
 export { updateByCategoryAndCodePathParamsCategoryEnum } from "./UpdateByCategoryAndCode.ts";
+export { updateClassHeaderParamsXAPIVersionEnum } from "./UpdateClass.ts";
 export { updateCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./UpdateCurrentUserPreferences.ts";
 export { updateOrganizationHeaderParamsXAPIVersionEnum } from "./UpdateOrganization.ts";
 export { updateRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./UpdateRoleGroupAsAdmin.ts";
