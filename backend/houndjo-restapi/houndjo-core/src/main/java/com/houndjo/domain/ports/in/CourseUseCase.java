@@ -4,6 +4,8 @@ import com.houndjo.domain.enumerations.CourseType;
 import com.houndjo.domain.enumerations.QuranMode;
 import com.houndjo.domain.models.academic.Course;
 import com.houndjo.domain.models.query.PagedResult;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Use case for managing the courses of a class within the active organization.
@@ -39,6 +41,7 @@ public interface CourseUseCase {
             String name,
             String description,
             CourseType type,
+            List<String> qaidaLessons,
             QuranMode quranMode,
             Integer quranScopeFromJuz,
             Integer quranScopeToJuz,
@@ -56,6 +59,7 @@ public interface CourseUseCase {
             String name,
             String description,
             CourseType type,
+            List<String> qaidaLessons,
             QuranMode quranMode,
             Integer quranScopeFromJuz,
             Integer quranScopeToJuz,
@@ -70,4 +74,9 @@ public interface CourseUseCase {
      * @param id      the course identifier
      */
     void delete(Long classId, Long id);
+
+    /**
+     * Returns course counts keyed by class identifier within the active organization.
+     */
+    Map<Long, Integer> countByClassIds(List<Long> classIds);
 }

@@ -6,19 +6,21 @@ import org.springframework.stereotype.Component;
 
 /**
  * Maps {@link SchoolClass} to {@link ClassDTO}.
- * <p>
- * {@code courseCount} is hardcoded to 0 until the {@code Course} aggregate (E3-2) exists.
  */
 @Component
 public class ClassDtoMapper {
 
     public ClassDTO toDTO(SchoolClass schoolClass) {
+        return toDTO(schoolClass, 0);
+    }
+
+    public ClassDTO toDTO(SchoolClass schoolClass, int courseCount) {
         return new ClassDTO(
                 schoolClass.getId(),
                 schoolClass.getName(),
                 schoolClass.getDescription(),
                 schoolClass.getDisplayOrder(),
-                0,
+                courseCount,
                 schoolClass.getCreationDate());
     }
 }

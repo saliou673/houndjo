@@ -15,6 +15,14 @@ public record BookTrackingConfig(String bookTitle, Integer totalChapters, Intege
 
     public BookTrackingConfig {
         Objects.requireNonNull(bookTitle, "bookTitle must not be null");
+        validateCount(totalChapters, "totalChapters");
+        validateCount(totalPages, "totalPages");
+    }
+
+    private static void validateCount(Integer count, String field) {
+        if (count != null && (count <= 0 || count > Short.MAX_VALUE)) {
+            throw new IllegalArgumentException(field + " must be between 1 and " + Short.MAX_VALUE);
+        }
     }
 
     @Override

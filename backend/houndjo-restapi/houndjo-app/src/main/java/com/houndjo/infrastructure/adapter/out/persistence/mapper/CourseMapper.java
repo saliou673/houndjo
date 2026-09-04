@@ -45,6 +45,7 @@ public class CourseMapper {
                 course.getName(),
                 course.getType(),
                 course.getDescription(),
+                List.of(),
                 null,
                 null,
                 null,
@@ -57,19 +58,21 @@ public class CourseMapper {
 
     private TrackingConfig toTrackingConfig(CourseEntity entity) {
         return switch (entity.getType()) {
-            case QURAN -> new QuranTrackingConfig(
-                    entity.getQuranMode(),
-                    entity.getQuranScopeFromJuz().intValue(),
-                    entity.getQuranScopeToJuz().intValue());
-            case QAIDA -> new QaidaTrackingConfig();
-            case BOOK -> new BookTrackingConfig(
-                    entity.getBookTitle(),
-                    entity.getBookTotalChapters() == null
-                            ? null
-                            : entity.getBookTotalChapters().intValue(),
-                    entity.getBookTotalPages() == null
-                            ? null
-                            : entity.getBookTotalPages().intValue());
+            case QURAN ->
+                new QuranTrackingConfig(
+                        entity.getQuranMode(),
+                        entity.getQuranScopeFromJuz().intValue(),
+                        entity.getQuranScopeToJuz().intValue());
+            case QAIDA -> new QaidaTrackingConfig(entity.getQaidaLessons());
+            case BOOK ->
+                new BookTrackingConfig(
+                        entity.getBookTitle(),
+                        entity.getBookTotalChapters() == null
+                                ? null
+                                : entity.getBookTotalChapters().intValue(),
+                        entity.getBookTotalPages() == null
+                                ? null
+                                : entity.getBookTotalPages().intValue());
         };
     }
 
@@ -80,15 +83,24 @@ public class CourseMapper {
                 entity.setQuranScopeFromJuz((short) quran.fromJuz());
                 entity.setQuranScopeToJuz((short) quran.toJuz());
             }
-            case QaidaTrackingConfig ignored -> {
-                // no type-specific columns yet
+            case QaidaTrackingConfig qaida -> {
+                entity.setQaidaLessons(qaida.lessons());
             }
             case BookTrackingConfig book -> {
                 entity.setBookTitle(book.bookTitle());
-                entity.setBookTotalChapters(
-                        book.totalChapters() == null ? null : book.totalChapters().shortValue());
-                entity.setBookTotalPages(book.totalPages() == null ? null : book.totalPages().shortValue());
+                entity.setBookTotalChapters(toShort(book.totalChapters()));
+                entity.setBookTotalPages(toShort(book.totalPages()));
             }
         }
+    }
+
+    private Short toShort(Integer value) {
+        if (value == null) {
+            return null;
+        }
+        if (value <= 0 || value > Short.MAX_VALUE) {
+            throw new IllegalArgumentException("Book count must be between 1 and " + Short.MAX_VALUE);
+        }
+        return value.shortValue();
     }
 }

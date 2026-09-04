@@ -16,6 +16,7 @@ import com.houndjo.infrastructure.adapter.in.rest.controller.requests.RegisterSc
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.UpdateCourseRequest;
 import com.houndjo.infrastructure.adapter.out.query.PaginatedResult;
 import com.houndjo.integration.IntegrationTest;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -37,8 +38,8 @@ class CourseControllerTest extends IntegrationTest {
         OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
         Long classId = createClass(OWNER_EMAIL, organization.getId(), "CP1");
 
-        CreateCourseRequest request =
-                new CreateCourseRequest("Hifz Juz Amma", CourseType.QURAN, null, QuranMode.HIFZ, 28, 30, null, null, null);
+        CreateCourseRequest request = new CreateCourseRequest(
+                "Hifz Juz Amma", CourseType.QURAN, null, null, QuranMode.HIFZ, 28, 30, null, null, null);
 
         CourseDTO result = mockMvc(
                 MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
@@ -63,8 +64,17 @@ class CourseControllerTest extends IntegrationTest {
         OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
         Long classId = createClass(OWNER_EMAIL, organization.getId(), "CP1");
 
-        CreateCourseRequest request =
-                new CreateCourseRequest("Qaida niveau 1", CourseType.QAIDA, null, null, null, null, null, null, null);
+        CreateCourseRequest request = new CreateCourseRequest(
+                "Qaida niveau 1",
+                CourseType.QAIDA,
+                null,
+                List.of("Arabic letters", "Short vowels"),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
 
         CourseDTO result = mockMvc(
                 MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
@@ -75,6 +85,7 @@ class CourseControllerTest extends IntegrationTest {
                 status().isCreated());
 
         assertThat(result.type()).isEqualTo(CourseType.QAIDA);
+        assertThat(result.qaidaLessons()).containsExactly("Arabic letters", "Short vowels");
         assertThat(result.quranMode()).isNull();
         assertThat(result.bookTitle()).isNull();
     }
@@ -86,7 +97,7 @@ class CourseControllerTest extends IntegrationTest {
         Long classId = createClass(OWNER_EMAIL, organization.getId(), "CP1");
 
         CreateCourseRequest request = new CreateCourseRequest(
-                "Riyad as-Salihin", CourseType.BOOK, null, null, null, null, "Riyad as-Salihin", 372, 600);
+                "Riyad as-Salihin", CourseType.BOOK, null, null, null, null, null, "Riyad as-Salihin", 372, 600);
 
         CourseDTO result = mockMvc(
                 MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
@@ -110,7 +121,7 @@ class CourseControllerTest extends IntegrationTest {
         Long classId = createClass(OWNER_EMAIL, organization.getId(), "CP1");
 
         CreateCourseRequest request =
-                new CreateCourseRequest("Hifz", CourseType.QURAN, null, null, 28, 30, null, null, null);
+                new CreateCourseRequest("Hifz", CourseType.QURAN, null, null, null, 28, 30, null, null, null);
 
         mockMvc.perform(MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
                         .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:create"))
@@ -126,7 +137,7 @@ class CourseControllerTest extends IntegrationTest {
         Long classId = createClass(OWNER_EMAIL, organization.getId(), "CP1");
 
         CreateCourseRequest request =
-                new CreateCourseRequest("Hifz", CourseType.QURAN, null, QuranMode.HIFZ, 10, 2, null, null, null);
+                new CreateCourseRequest("Hifz", CourseType.QURAN, null, null, QuranMode.HIFZ, 10, 2, null, null, null);
 
         mockMvc.perform(MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
                         .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:create"))
@@ -142,7 +153,7 @@ class CourseControllerTest extends IntegrationTest {
         Long classId = createClass(OWNER_EMAIL, organization.getId(), "CP1");
 
         CreateCourseRequest request =
-                new CreateCourseRequest("Hifz", CourseType.QURAN, null, QuranMode.HIFZ, 1, 31, null, null, null);
+                new CreateCourseRequest("Hifz", CourseType.QURAN, null, null, QuranMode.HIFZ, 1, 31, null, null, null);
 
         mockMvc.perform(MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
                         .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:create"))
@@ -158,7 +169,39 @@ class CourseControllerTest extends IntegrationTest {
         Long classId = createClass(OWNER_EMAIL, organization.getId(), "CP1");
 
         CreateCourseRequest request =
-                new CreateCourseRequest("Book course", CourseType.BOOK, null, null, null, null, null, null, null);
+                new CreateCourseRequest("Book course", CourseType.BOOK, null, null, null, null, null, null, null, null);
+
+        mockMvc.perform(MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:create"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldRejectQaidaCourseWithoutLessons() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        Long classId = createClass(OWNER_EMAIL, organization.getId(), "CP1");
+
+        CreateCourseRequest request =
+                new CreateCourseRequest("Qaida", CourseType.QAIDA, null, List.of(), null, null, null, null, null, null);
+
+        mockMvc.perform(MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:create"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldRejectBookCountsOutsideSmallintRange() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        Long classId = createClass(OWNER_EMAIL, organization.getId(), "CP1");
+
+        CreateCourseRequest request =
+                new CreateCourseRequest("Book", CourseType.BOOK, null, null, null, null, null, "Book", 40_000, -1);
 
         mockMvc.perform(MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
                         .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "course:create"))
@@ -174,8 +217,8 @@ class CourseControllerTest extends IntegrationTest {
         createUser(noRoleEmail);
         OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
         Long classId = createClass(OWNER_EMAIL, organization.getId(), "CP1");
-        CreateCourseRequest request =
-                new CreateCourseRequest("Qaida", CourseType.QAIDA, null, null, null, null, null, null, null);
+        CreateCourseRequest request = new CreateCourseRequest(
+                "Qaida", CourseType.QAIDA, null, List.of("Letters"), null, null, null, null, null, null);
 
         mockMvc.perform(MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
                         .with(authenticatedForOrganization(noRoleEmail, organization.getId(), "course:create"))
@@ -203,6 +246,13 @@ class CourseControllerTest extends IntegrationTest {
                 status().isOk());
 
         assertThat(result.getItems()).hasSize(2);
+
+        ClassDTO schoolClass = mockMvc(
+                MockMvcRequestBuilders.get(CLASSES_API + "/" + classId)
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "class:read")),
+                ClassDTO.class,
+                status().isOk());
+        assertThat(schoolClass.courseCount()).isEqualTo(2);
     }
 
     @Test
@@ -232,8 +282,7 @@ class CourseControllerTest extends IntegrationTest {
         Long otherClassId = createClass(otherOwner, otherOrganization.getId(), "CP1");
         CourseDTO otherCourse = createQaidaCourse(otherOwner, otherOrganization.getId(), otherClassId, "Qaida 1");
 
-        mockMvc.perform(MockMvcRequestBuilders.get(
-                                CLASSES_API + "/" + otherClassId + "/courses/" + otherCourse.id())
+        mockMvc.perform(MockMvcRequestBuilders.get(CLASSES_API + "/" + otherClassId + "/courses/" + otherCourse.id())
                         .with(authenticatedForOrganization(OWNER_EMAIL, activeOrganization.getId(), "course:read")))
                 .andExpect(status().isNotFound());
     }
@@ -250,7 +299,7 @@ class CourseControllerTest extends IntegrationTest {
         CourseDTO created = createQaidaCourse(OWNER_EMAIL, organization.getId(), classId, "Qaida 1");
 
         UpdateCourseRequest request = new UpdateCourseRequest(
-                "Hifz Juz Amma", CourseType.QURAN, "updated", QuranMode.NAZIRA, 29, 30, null, null, null);
+                "Hifz Juz Amma", CourseType.QURAN, "updated", null, QuranMode.NAZIRA, 29, 30, null, null, null);
 
         CourseDTO result = mockMvc(
                 MockMvcRequestBuilders.put(CLASSES_API + "/" + classId + "/courses/" + created.id())
@@ -284,9 +333,9 @@ class CourseControllerTest extends IntegrationTest {
 
     // endregion
 
-    private CourseDTO createQaidaCourse(String email, Long organizationId, Long classId, String name)
-            throws Exception {
-        CreateCourseRequest request = new CreateCourseRequest(name, CourseType.QAIDA, null, null, null, null, null, null, null);
+    private CourseDTO createQaidaCourse(String email, Long organizationId, Long classId, String name) throws Exception {
+        CreateCourseRequest request = new CreateCourseRequest(
+                name, CourseType.QAIDA, null, List.of("Letters"), null, null, null, null, null, null);
         return mockMvc(
                 MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
                         .with(authenticatedForOrganization(email, organizationId, "course:create"))
