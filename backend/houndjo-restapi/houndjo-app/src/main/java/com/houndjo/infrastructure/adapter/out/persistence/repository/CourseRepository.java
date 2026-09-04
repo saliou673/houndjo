@@ -21,6 +21,11 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
 
     Optional<CourseEntity> findByIdAndClassIdAndOrganizationId(Long id, Long classId, Long organizationId);
 
+    Optional<CourseEntity> findByIdAndOrganizationId(Long id, Long organizationId);
+
+    List<CourseEntity> findAllByIdInAndClassIdAndOrganizationId(
+            Collection<Long> ids, Long classId, Long organizationId);
+
     @Query("""
             SELECT course.classId AS classId, COUNT(course.id) AS courseCount
             FROM CourseEntity course

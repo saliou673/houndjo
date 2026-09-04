@@ -29,3 +29,9 @@ databaseChangeLog:
   - include:
       file: 00009-insert-course-permissions.sql
       relativeToChangelogFile: true
+  - include:
+      file: 00010-insert-student-permissions.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 00011-insert-enrollment-permissions.sql
+      relativeToChangelogFile: true

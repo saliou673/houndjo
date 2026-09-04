@@ -53,6 +53,15 @@ public class CoursePersistenceAdapter implements CoursePersistencePort {
     }
 
     @Override
+    public Optional<Course> findByIdAndOrganizationId(Long id, Long organizationId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> courseRepository
+                        .findByIdAndOrganizationId(id, organizationId)
+                        .map(courseMapper::toDomain),
+                "Error fetching course by id and organization");
+    }
+
+    @Override
     @Transactional
     public Course save(Course course) {
         return AdapterPersistenceUtils.executeDbOperation(
@@ -74,5 +83,14 @@ public class CoursePersistenceAdapter implements CoursePersistencePort {
                                 CourseRepository.ClassCourseCount::getClassId,
                                 CourseRepository.ClassCourseCount::getCourseCount)),
                 "Error counting courses by class");
+    }
+
+    @Override
+    public List<Course> findAllByIdInAndClassIdAndOrganizationId(
+            Collection<Long> ids, Long classId, Long organizationId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> courseMapper.toDomain(
+                        courseRepository.findAllByIdInAndClassIdAndOrganizationId(ids, classId, organizationId)),
+                "Error fetching courses by ids and class");
     }
 }

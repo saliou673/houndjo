@@ -66,3 +66,19 @@ databaseChangeLog:
   - include:
       file: 00016-course-qaida-lesson-create-table.sql
       relativeToChangelogFile: true
+
+  - include:
+      file: 00017-student-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00018-enrollment-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00019-enrollment-course-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00020-course-pace-create-table.sql
+      relativeToChangelogFile: true

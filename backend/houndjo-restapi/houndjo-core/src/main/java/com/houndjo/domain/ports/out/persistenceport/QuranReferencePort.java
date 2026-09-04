@@ -62,6 +62,26 @@ public interface QuranReferencePort {
     QuranPortion portionForJuz(int juzNumber);
 
     /**
+     * Computes the portion of the Quran spanning the given hizb range.
+     *
+     * @param fromHizb the first hizb, 1..60
+     * @param toHizb   the last hizb, 1..60
+     * @return the portion covering that hizb range
+     * @throws com.houndjo.domain.exceptions.HizbNotFoundException if either hizb has no verse
+     */
+    QuranPortion portionForHizbRange(int fromHizb, int toHizb);
+
+    /**
+     * Computes the portion of the Quran spanning the given quarter-hizb (rub' al-hizb) range.
+     *
+     * @param fromQuarter the first quarter-hizb, 1..240
+     * @param toQuarter   the last quarter-hizb, 1..240
+     * @return the portion covering that quarter-hizb range
+     * @throws com.houndjo.domain.exceptions.HizbNotFoundException if either quarter has no verse
+     */
+    QuranPortion portionForHizbQuarterRange(int fromQuarter, int toQuarter);
+
+    /**
      * Returns every verse between two verse references, inclusive, ordered by surah then verse
      * number. The range may span multiple surahs.
      *
