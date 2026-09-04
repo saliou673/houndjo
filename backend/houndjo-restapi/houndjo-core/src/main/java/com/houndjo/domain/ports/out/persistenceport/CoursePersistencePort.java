@@ -44,4 +44,13 @@ public interface CoursePersistencePort {
      * @param id the course identifier
      */
     void deleteById(Long id);
+
+    /**
+     * Counts the courses of a class within an organization.
+     *
+     * @param classId        the owning class identifier
+     * @param organizationId the owning organization identifier
+     * @return the number of courses attached to the class
+     */
+    long countByClassIdAndOrganizationId(Long classId, Long organizationId);
 }

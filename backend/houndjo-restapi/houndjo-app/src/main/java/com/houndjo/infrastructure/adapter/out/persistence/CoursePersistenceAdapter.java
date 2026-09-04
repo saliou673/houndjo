@@ -61,4 +61,11 @@ public class CoursePersistenceAdapter implements CoursePersistencePort {
     public void deleteById(Long id) {
         AdapterPersistenceUtils.executeDbOperation(() -> courseRepository.deleteById(id), "Error deleting course");
     }
+
+    @Override
+    public long countByClassIdAndOrganizationId(Long classId, Long organizationId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> courseRepository.countByClassIdAndOrganizationId(classId, organizationId),
+                "Error counting courses of class");
+    }
 }
