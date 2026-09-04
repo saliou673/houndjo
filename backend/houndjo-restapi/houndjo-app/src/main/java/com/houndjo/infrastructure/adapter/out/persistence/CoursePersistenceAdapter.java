@@ -75,4 +75,13 @@ public class CoursePersistenceAdapter implements CoursePersistencePort {
                                 CourseRepository.ClassCourseCount::getCourseCount)),
                 "Error counting courses by class");
     }
+
+    @Override
+    public List<Course> findAllByIdInAndClassIdAndOrganizationId(
+            Collection<Long> ids, Long classId, Long organizationId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> courseMapper.toDomain(
+                        courseRepository.findAllByIdInAndClassIdAndOrganizationId(ids, classId, organizationId)),
+                "Error fetching courses by ids and class");
+    }
 }

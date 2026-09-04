@@ -3,6 +3,7 @@ package com.houndjo.domain.ports.out.persistenceport;
 import com.houndjo.domain.models.academic.Course;
 import com.houndjo.domain.models.query.PagedResult;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -55,4 +56,15 @@ public interface CoursePersistencePort {
      * @return counts keyed by class identifier; classes without courses are absent
      */
     Map<Long, Long> countByClassIdsAndOrganizationId(Collection<Long> classIds, Long organizationId);
+
+    /**
+     * Returns the courses matching the given identifiers within a class and organization. Used to
+     * validate that a set of course identifiers all belong to the target class.
+     *
+     * @param ids            course identifiers to look up
+     * @param classId        the owning class identifier
+     * @param organizationId the owning organization identifier
+     * @return the matching courses (fewer than {@code ids.size()} if some don't belong)
+     */
+    List<Course> findAllByIdInAndClassIdAndOrganizationId(Collection<Long> ids, Long classId, Long organizationId);
 }

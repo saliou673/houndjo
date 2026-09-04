@@ -189,6 +189,21 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, "Student Error", resolveMessage(ex));
     }
 
+    @ExceptionHandler(EnrollmentNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ValidationErrorResponseDTO> handleEnrollmentNotFound(EnrollmentNotFoundException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Enrollment Error", resolveMessage(ex));
+    }
+
+    @ExceptionHandler(DuplicateActiveEnrollmentException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ValidationErrorResponseDTO> handleDuplicateActiveEnrollment(
+            DuplicateActiveEnrollmentException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.CONFLICT, "Enrollment Error", resolveMessage(ex));
+    }
+
     @ExceptionHandler(InvitationAlreadyPendingException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<ValidationErrorResponseDTO> handleInvitationAlreadyPending(
