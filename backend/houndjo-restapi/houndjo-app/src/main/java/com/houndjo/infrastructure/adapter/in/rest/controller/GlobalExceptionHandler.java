@@ -182,6 +182,13 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, "Course Error", resolveMessage(ex));
     }
 
+    @ExceptionHandler(StudentNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ValidationErrorResponseDTO> handleStudentNotFound(StudentNotFoundException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Student Error", resolveMessage(ex));
+    }
+
     @ExceptionHandler(InvitationAlreadyPendingException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<ValidationErrorResponseDTO> handleInvitationAlreadyPending(
