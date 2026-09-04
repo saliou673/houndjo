@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.houndjo.domain.enumerations.MembershipStatus;
 import com.houndjo.domain.enumerations.OrganizationRole;
+import com.houndjo.domain.models.membership.Membership;
+import com.houndjo.domain.ports.out.persistenceport.MembershipPersistencePort;
 import com.houndjo.infrastructure.adapter.in.rest.controller.dto.MembershipDTO;
 import com.houndjo.infrastructure.adapter.in.rest.controller.dto.OrganizationDTO;
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.ChangeMembershipRoleRequest;
@@ -14,6 +16,7 @@ import com.houndjo.infrastructure.adapter.in.rest.controller.requests.RegisterSc
 import com.houndjo.infrastructure.adapter.out.query.PaginatedResult;
 import com.houndjo.integration.IntegrationTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -24,6 +27,9 @@ class MembershipControllerTest extends IntegrationTest {
 
     private static final String ORGANIZATION_API = "/api/organizations";
     private static final String OWNER_EMAIL = "owner@al-nour.test";
+
+    @Autowired
+    private MembershipPersistencePort membershipPersistencePort;
 
     // region list
 
@@ -47,12 +53,17 @@ class MembershipControllerTest extends IntegrationTest {
     }
 
     @Test
-    void shouldForbidListMembershipsWithoutPermission() throws Exception {
+    void shouldForbidListMembershipsWithoutOrgRole() throws Exception {
+        // MembershipController is gated purely by @authz.hasOrgRole(...), not by a permission
+        // code, so the forbidden case is a user with no active membership in the organization
+        // at all -- not merely a missing authority string on an otherwise-valid owner.
         createUser(OWNER_EMAIL);
+        String outsiderEmail = "outsider@al-nour.test";
+        createUser(outsiderEmail);
         OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
 
         mockMvc.perform(MockMvcRequestBuilders.get(ORGANIZATION_API + "/" + organization.getId() + "/memberships")
-                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "ROLE_USER")))
+                        .with(authenticatedForOrganization(outsiderEmail, organization.getId(), "membership:read")))
                 .andExpect(status().isForbidden());
     }
 
@@ -120,10 +131,16 @@ class MembershipControllerTest extends IntegrationTest {
     void shouldRevokeMembership() throws Exception {
         createUser(OWNER_EMAIL);
         OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
-        Long membershipId = firstMembershipId(organization.getId());
+        // Revoke a second member's membership rather than the owner's own: the owner is the
+        // organization's only SCHOOL_OWNER, and hasOrgRole() only considers ACTIVE memberships,
+        // so revoking it would lock the very actor performing the request out of the org
+        // for the follow-up list call below.
+        Long teacherId = createUser("teacher@al-nour.test").getId();
+        Membership teacherMembership = membershipPersistencePort.save(
+                Membership.create(teacherId, organization.getId(), OrganizationRole.TEACHER));
 
-        mockMvc.perform(MockMvcRequestBuilders.delete(
-                                ORGANIZATION_API + "/" + organization.getId() + "/memberships/" + membershipId)
+        mockMvc.perform(MockMvcRequestBuilders.delete(ORGANIZATION_API + "/" + organization.getId()
+                                + "/memberships/" + teacherMembership.getId())
                         .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "membership:delete")))
                 .andExpect(status().isNoContent());
 
@@ -133,7 +150,11 @@ class MembershipControllerTest extends IntegrationTest {
                 new TypeReference<>() {},
                 status().isOk());
 
-        assertThat(result.getItems().getFirst().status()).isEqualTo(MembershipStatus.REVOKED);
+        MembershipDTO revoked = result.getItems().stream()
+                .filter(membership -> membership.id().equals(teacherMembership.getId()))
+                .findFirst()
+                .orElseThrow();
+        assertThat(revoked.status()).isEqualTo(MembershipStatus.REVOKED);
     }
 
     @Test
