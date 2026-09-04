@@ -158,6 +158,7 @@
             "language": "Langue",
             "users": "Utilisateurs",
             "roleGroups": "Groupes de rôles",
+            "classes": "Classes",
             "configurations": "Configuration",
             "organizations": "Écoles"
         },
@@ -437,6 +438,97 @@
             "empty": "Aucune permission disponible.",
             "submit": "Enregistrer les modifications",
             "toastUpdated": "Permissions mises à jour."
+        }
+    },
+    "classes": {
+        "list": {
+            "title": "Classes",
+            "description": "Gérez les classes/niveaux de votre école.",
+            "addClass": "Ajouter une classe",
+            "errorFallback": "Impossible de charger les classes.",
+            "noResults": "Aucune classe trouvée.",
+            "courseCount": "{{count}} cours",
+            "courseCount_other": "{{count}} cours",
+            "previous": "Précédent",
+            "next": "Suivant",
+            "pageIndicator": "Page {{page}} sur {{totalPages}}"
+        },
+        "detail": {
+            "title": "Classe",
+            "loadError": "Impossible de charger cette classe.",
+            "fields": {
+                "name": "Nom",
+                "description": "Description"
+            },
+            "validation": {
+                "nameRequired": "Le nom est requis."
+            },
+            "submit": "Enregistrer les modifications",
+            "delete": "Supprimer la classe",
+            "deleteConfirmTitle": "Supprimer la classe",
+            "deleteConfirmMessage": "Voulez-vous vraiment supprimer {{name}} ? Cette opération est irréversible.",
+            "coursesTitle": "Cours",
+            "addCourse": "Ajouter un cours"
+        },
+        "create": {
+            "title": "Ajouter une classe",
+            "description": "Créez une classe/niveau pour votre école.",
+            "fields": {
+                "name": "Nom",
+                "description": "Description"
+            },
+            "validation": {
+                "nameRequired": "Le nom est requis."
+            },
+            "submit": "Créer la classe"
+        },
+        "courseList": {
+            "noResults": "Aucun cours pour le moment.",
+            "summary": {
+                "quran": "{{mode}} · Juz {{fromJuz}}–{{toJuz}}"
+            }
+        },
+        "courseDeleteDialog": {
+            "title": "Supprimer le cours",
+            "confirmMessage": "Voulez-vous vraiment supprimer {{name}} ? Cette opération est irréversible.",
+            "confirmButton": "Supprimer"
+        },
+        "courseForm": {
+            "addTitle": "Ajouter un cours",
+            "editTitle": "Modifier le cours",
+            "addDescription": "Créez un cours pour cette classe. Les champs disponibles dépendent du type de cours.",
+            "submitAdd": "Créer le cours",
+            "submitEdit": "Enregistrer les modifications",
+            "fields": {
+                "name": "Nom",
+                "type": "Type",
+                "description": "Description",
+                "quranMode": "Mode",
+                "quranModePlaceholder": "Sélectionnez un mode",
+                "quranScopeFromJuz": "Juz de départ",
+                "quranScopeToJuz": "Juz de fin",
+                "quranScopePlaceholder": "Sélectionnez un juz",
+                "juzOption": "Juz {{number}}",
+                "bookTitle": "Titre du livre",
+                "bookTotalChapters": "Nombre de chapitres",
+                "bookTotalPages": "Nombre de pages"
+            },
+            "typeOptions": {
+                "QAIDA": "Qaida",
+                "QURAN": "Coran",
+                "BOOK": "Livre"
+            },
+            "quranModeOptions": {
+                "NAZIRA": "Lecture (Nazira)",
+                "HIFZ": "Mémorisation (Hifz)"
+            },
+            "validation": {
+                "nameRequired": "Le nom est requis.",
+                "quranModeRequired": "Sélectionnez un mode pour un cours de Coran.",
+                "quranScopeRequired": "Sélectionnez un juz de départ et un juz de fin.",
+                "quranScopeInvalid": "Le juz de départ doit être inférieur ou égal au juz de fin.",
+                "bookTitleRequired": "Le titre du livre est requis."
+            }
         }
     },
     "configurations": {
