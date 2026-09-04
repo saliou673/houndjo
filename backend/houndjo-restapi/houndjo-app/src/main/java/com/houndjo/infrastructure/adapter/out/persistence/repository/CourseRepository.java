@@ -21,6 +21,8 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
 
     Optional<CourseEntity> findByIdAndClassIdAndOrganizationId(Long id, Long classId, Long organizationId);
 
+    Optional<CourseEntity> findByIdAndOrganizationId(Long id, Long organizationId);
+
     List<CourseEntity> findAllByIdInAndClassIdAndOrganizationId(
             Collection<Long> ids, Long classId, Long organizationId);
 

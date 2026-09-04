@@ -33,6 +33,14 @@ public interface QuranVerseRepository extends JpaRepository<QuranVerseEntity, Lo
 
     Optional<QuranVerseEntity> findFirstByJuzOrderBySurahNumberDescVerseNumberDesc(Short juz);
 
+    Optional<QuranVerseEntity> findFirstByHizbOrderBySurahNumberAscVerseNumberAsc(Short hizb);
+
+    Optional<QuranVerseEntity> findFirstByHizbOrderBySurahNumberDescVerseNumberDesc(Short hizb);
+
+    Optional<QuranVerseEntity> findFirstByHizbQuarterOrderBySurahNumberAscVerseNumberAsc(Short hizbQuarter);
+
+    Optional<QuranVerseEntity> findFirstByHizbQuarterOrderBySurahNumberDescVerseNumberDesc(Short hizbQuarter);
+
     @Query("""
             SELECT v.surahNumber AS surahNumber, MIN(v.page) AS firstPage
             FROM QuranVerseEntity v

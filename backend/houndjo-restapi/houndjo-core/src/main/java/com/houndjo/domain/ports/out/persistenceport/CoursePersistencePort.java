@@ -34,6 +34,16 @@ public interface CoursePersistencePort {
     Optional<Course> findByIdAndClassIdAndOrganizationId(Long id, Long classId, Long organizationId);
 
     /**
+     * Finds a course by its identifier within an organization, regardless of its class. Used by
+     * flat, class-agnostic course sub-resources (e.g. course pace).
+     *
+     * @param id             the course identifier
+     * @param organizationId the owning organization identifier
+     * @return the matching course, or empty if not found
+     */
+    Optional<Course> findByIdAndOrganizationId(Long id, Long organizationId);
+
+    /**
      * Persists or updates a course.
      *
      * @param course the course to save
