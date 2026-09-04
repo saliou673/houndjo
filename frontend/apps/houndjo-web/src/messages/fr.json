@@ -428,7 +428,8 @@
         "editTitle": "Paramètres de l'organisation",
         "fields": { "name": "Nom de l'école", "contactEmail": "E-mail de contact", "phoneNumber": "Téléphone", "address": "Adresse", "defaultCurrencyCode": "Devise", "defaultLanguageKey": "Langue par défaut" },
         "save": "Enregistrer",
-        "saving": "Enregistrement..."
+        "saving": "Enregistrement...",
+        "savedToast": "Organisation enregistrée avec succès"
     },
     "Members": {
         "title": "Membres", "description": "Gérez les personnes de votre école.", "noOrganization": "Aucune école sélectionnée", "selectOrganization": "Sélectionnez une école pour gérer les membres.", "inviteTitle": "Inviter un membre", "email": "E-mail", "role": "Rôle", "invite": "Envoyer l'invitation", "membersTitle": "Membres", "pendingTitle": "Invitations en attente", "revoke": "Révoquer", "confirmRevoke": "Révoquer cette adhésion ?", "empty": "Aucun membre trouvé.", "roles": { "SCHOOL_OWNER": "Propriétaire", "SCHOOL_ADMIN": "Administrateur", "TEACHER": "Enseignant" }

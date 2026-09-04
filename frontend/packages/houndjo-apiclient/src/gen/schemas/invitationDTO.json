@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "properties": {
+        "id": { "type": "integer", "format": "int64" },
+        "email": { "type": "string" },
+        "role": {
+            "type": "string",
+            "enum": ["SCHOOL_OWNER", "SCHOOL_ADMIN", "TEACHER"]
+        },
+        "status": {
+            "type": "string",
+            "enum": ["PENDING", "ACCEPTED", "REVOKED", "EXPIRED"]
+        },
+        "expiresAt": { "type": "string", "format": "date-time" },
+        "creationDate": { "type": "string", "format": "date-time" }
+    },
+    "x-readme-ref-name": "InvitationDTO"
+}

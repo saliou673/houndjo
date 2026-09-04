@@ -32,6 +32,21 @@ export type { GetAppConfigurationByCategoryAndCodeSuspenseQueryKey } from "./rea
 export type { GetAppConfigurationsQueryKey } from "./react-query/configuration-management/useGetAppConfigurations.ts";
 export type { GetAppConfigurationsSuspenseQueryKey } from "./react-query/configuration-management/useGetAppConfigurationsSuspense.ts";
 export type { SendContactFormMutationKey } from "./react-query/contact-form-controller/useSendContactForm.ts";
+export type { ChangeMembershipRoleMutationKey } from "./react-query/membership-management/useChangeMembershipRole.ts";
+export type { GetMembershipsQueryKey } from "./react-query/membership-management/useGetMemberships.ts";
+export type { GetMembershipsSuspenseQueryKey } from "./react-query/membership-management/useGetMembershipsSuspense.ts";
+export type { RevokeMembershipMutationKey } from "./react-query/membership-management/useRevokeMembership.ts";
+export type { AcceptMutationKey } from "./react-query/organization-invitations/useAccept.ts";
+export type { InviteMutationKey } from "./react-query/organization-invitations/useInvite.ts";
+export type { ListQueryKey } from "./react-query/organization-invitations/useList.ts";
+export type { ListSuspenseQueryKey } from "./react-query/organization-invitations/useListSuspense.ts";
+export type { RevokeMutationKey } from "./react-query/organization-invitations/useRevoke.ts";
+export type { GetMyOrganizationsQueryKey } from "./react-query/organization-management/useGetMyOrganizations.ts";
+export type { GetMyOrganizationsSuspenseQueryKey } from "./react-query/organization-management/useGetMyOrganizationsSuspense.ts";
+export type { GetOrganizationByIdQueryKey } from "./react-query/organization-management/useGetOrganizationById.ts";
+export type { GetOrganizationByIdSuspenseQueryKey } from "./react-query/organization-management/useGetOrganizationByIdSuspense.ts";
+export type { RegisterSchoolMutationKey } from "./react-query/organization-management/useRegisterSchool.ts";
+export type { UpdateOrganizationMutationKey } from "./react-query/organization-management/useUpdateOrganization.ts";
 export type { CreateRoleGroupAsAdminMutationKey } from "./react-query/role-group-management/useCreateRoleGroupAsAdmin.ts";
 export type { DeleteRoleGroupAsAdminMutationKey } from "./react-query/role-group-management/useDeleteRoleGroupAsAdmin.ts";
 export type { GetPermissionsAsAdminQueryKey } from "./react-query/role-group-management/useGetPermissionsAsAdmin.ts";
@@ -65,6 +80,23 @@ export type { RequestEmailChangeMutationKey } from "./react-query/user-account-m
 export type { RequestPasswordResetMutationKey } from "./react-query/user-account-management/useRequestPasswordReset.ts";
 export type { UpdateAccountMutationKey } from "./react-query/user-account-management/useUpdateAccount.ts";
 export type { UpdateCurrentUserPreferencesMutationKey } from "./react-query/user-account-management/useUpdateCurrentUserPreferences.ts";
+export type {
+    Accept200,
+    Accept403,
+    Accept404,
+    Accept409,
+    Accept500,
+    AcceptHeaderParams,
+    AcceptHeaderParamsXAPIVersionEnumKey,
+    AcceptMutation,
+    AcceptMutationRequest,
+    AcceptMutationResponse,
+} from "./types/Accept.ts";
+export type { AcceptInvitationRequest } from "./types/AcceptInvitationRequest.ts";
+export type {
+    AcceptanceResult,
+    AcceptanceResultRoleEnumKey,
+} from "./types/AcceptanceResult.ts";
 export type {
     ActivateAccount200,
     ActivateAccount403,
@@ -125,6 +157,23 @@ export type {
     AuthenticateMutationResponse,
 } from "./types/Authenticate.ts";
 export type { BooleanFilter } from "./types/BooleanFilter.ts";
+export type {
+    ChangeMembershipRole200,
+    ChangeMembershipRole403,
+    ChangeMembershipRole404,
+    ChangeMembershipRole409,
+    ChangeMembershipRole500,
+    ChangeMembershipRoleHeaderParams,
+    ChangeMembershipRoleHeaderParamsXAPIVersionEnumKey,
+    ChangeMembershipRoleMutation,
+    ChangeMembershipRoleMutationRequest,
+    ChangeMembershipRoleMutationResponse,
+    ChangeMembershipRolePathParams,
+} from "./types/ChangeMembershipRole.ts";
+export type {
+    ChangeMembershipRoleRequest,
+    ChangeMembershipRoleRequestRoleEnumKey,
+} from "./types/ChangeMembershipRoleRequest.ts";
 export type {
     ChangePassword200,
     ChangePassword403,
@@ -408,6 +457,42 @@ export type {
     GetCurrentUserPreferencesQueryResponse,
 } from "./types/GetCurrentUserPreferences.ts";
 export type {
+    GetMemberships200,
+    GetMemberships403,
+    GetMemberships404,
+    GetMemberships409,
+    GetMemberships500,
+    GetMembershipsHeaderParams,
+    GetMembershipsHeaderParamsXAPIVersionEnumKey,
+    GetMembershipsPathParams,
+    GetMembershipsQuery,
+    GetMembershipsQueryParams,
+    GetMembershipsQueryResponse,
+} from "./types/GetMemberships.ts";
+export type {
+    GetMyOrganizations200,
+    GetMyOrganizations403,
+    GetMyOrganizations404,
+    GetMyOrganizations409,
+    GetMyOrganizations500,
+    GetMyOrganizationsHeaderParams,
+    GetMyOrganizationsHeaderParamsXAPIVersionEnumKey,
+    GetMyOrganizationsQuery,
+    GetMyOrganizationsQueryResponse,
+} from "./types/GetMyOrganizations.ts";
+export type {
+    GetOrganizationById200,
+    GetOrganizationById403,
+    GetOrganizationById404,
+    GetOrganizationById409,
+    GetOrganizationById500,
+    GetOrganizationByIdHeaderParams,
+    GetOrganizationByIdHeaderParamsXAPIVersionEnumKey,
+    GetOrganizationByIdPathParams,
+    GetOrganizationByIdQuery,
+    GetOrganizationByIdQueryResponse,
+} from "./types/GetOrganizationById.ts";
+export type {
     GetPermissionsAsAdmin200,
     GetPermissionsAsAdmin403,
     GetPermissionsAsAdmin404,
@@ -515,7 +600,42 @@ export type {
 } from "./types/Init2FactorSetup.ts";
 export type { InstantFilter } from "./types/InstantFilter.ts";
 export type { InvitationCompleteRequest } from "./types/InvitationCompleteRequest.ts";
+export type {
+    InvitationDTO,
+    InvitationDTORoleEnumKey,
+    InvitationDTOStatusEnumKey,
+} from "./types/InvitationDTO.ts";
+export type {
+    Invite201,
+    Invite403,
+    Invite404,
+    Invite409,
+    Invite500,
+    InviteHeaderParams,
+    InviteHeaderParamsXAPIVersionEnumKey,
+    InviteMutation,
+    InviteMutationRequest,
+    InviteMutationResponse,
+    InvitePathParams,
+} from "./types/Invite.ts";
+export type {
+    InviteMemberRequest,
+    InviteMemberRequestRoleEnumKey,
+} from "./types/InviteMemberRequest.ts";
 export type { JwtToken } from "./types/JwtToken.ts";
+export type {
+    List200,
+    List403,
+    List404,
+    List409,
+    List500,
+    ListHeaderParams,
+    ListHeaderParamsXAPIVersionEnumKey,
+    ListPathParams,
+    ListQuery,
+    ListQueryParams,
+    ListQueryResponse,
+} from "./types/List.ts";
 export type { LoginRequest } from "./types/LoginRequest.ts";
 export type {
     Logout204,
@@ -529,9 +649,20 @@ export type {
     LogoutMutationResponse,
 } from "./types/Logout.ts";
 export type { LongFilter } from "./types/LongFilter.ts";
+export type {
+    Membership,
+    MembershipRoleEnumKey,
+    MembershipStatusEnumKey,
+} from "./types/Membership.ts";
 export type { NotificationPreferences } from "./types/NotificationPreferences.ts";
+export type {
+    Organization,
+    OrganizationStatusEnumKey,
+} from "./types/Organization.ts";
 export type { Pageable } from "./types/Pageable.ts";
 export type { PaginatedResultAppConfiguration } from "./types/PaginatedResultAppConfiguration.ts";
+export type { PaginatedResultInvitationDTO } from "./types/PaginatedResultInvitationDTO.ts";
+export type { PaginatedResultMembership } from "./types/PaginatedResultMembership.ts";
 export type { PaginatedResultPermission } from "./types/PaginatedResultPermission.ts";
 export type { PaginatedResultRoleGroup } from "./types/PaginatedResultRoleGroup.ts";
 export type { PaginatedResultUserDetails } from "./types/PaginatedResultUserDetails.ts";
@@ -564,6 +695,19 @@ export type {
     RefreshTokenMutationRequest,
     RefreshTokenMutationResponse,
 } from "./types/RefreshToken.ts";
+export type {
+    RegisterSchool201,
+    RegisterSchool403,
+    RegisterSchool404,
+    RegisterSchool409,
+    RegisterSchool500,
+    RegisterSchoolHeaderParams,
+    RegisterSchoolHeaderParamsXAPIVersionEnumKey,
+    RegisterSchoolMutation,
+    RegisterSchoolMutationRequest,
+    RegisterSchoolMutationResponse,
+} from "./types/RegisterSchool.ts";
+export type { RegisterSchoolRequest } from "./types/RegisterSchoolRequest.ts";
 export type {
     RequestActivationCode200,
     RequestActivationCode403,
@@ -600,6 +744,30 @@ export type {
     RequestPasswordResetMutationRequest,
     RequestPasswordResetMutationResponse,
 } from "./types/RequestPasswordReset.ts";
+export type {
+    Revoke204,
+    Revoke403,
+    Revoke404,
+    Revoke409,
+    Revoke500,
+    RevokeHeaderParams,
+    RevokeHeaderParamsXAPIVersionEnumKey,
+    RevokeMutation,
+    RevokeMutationResponse,
+    RevokePathParams,
+} from "./types/Revoke.ts";
+export type {
+    RevokeMembership204,
+    RevokeMembership403,
+    RevokeMembership404,
+    RevokeMembership409,
+    RevokeMembership500,
+    RevokeMembershipHeaderParams,
+    RevokeMembershipHeaderParamsXAPIVersionEnumKey,
+    RevokeMembershipMutation,
+    RevokeMembershipMutationResponse,
+    RevokeMembershipPathParams,
+} from "./types/RevokeMembership.ts";
 export type {
     RevokeRoleGroupAsAdmin204,
     RevokeRoleGroupAsAdmin403,
@@ -686,6 +854,20 @@ export type {
     UpdateCurrentUserPreferencesMutationRequest,
     UpdateCurrentUserPreferencesMutationResponse,
 } from "./types/UpdateCurrentUserPreferences.ts";
+export type {
+    UpdateOrganization200,
+    UpdateOrganization403,
+    UpdateOrganization404,
+    UpdateOrganization409,
+    UpdateOrganization500,
+    UpdateOrganizationHeaderParams,
+    UpdateOrganizationHeaderParamsXAPIVersionEnumKey,
+    UpdateOrganizationMutation,
+    UpdateOrganizationMutationRequest,
+    UpdateOrganizationMutationResponse,
+    UpdateOrganizationPathParams,
+} from "./types/UpdateOrganization.ts";
+export type { UpdateOrganizationRequest } from "./types/UpdateOrganizationRequest.ts";
 export type {
     UpdateRoleGroupAsAdmin200,
     UpdateRoleGroupAsAdmin403,
@@ -799,6 +981,20 @@ export { getAppConfigurationByCategoryAndCode } from "./client/configuration-man
 export { getAppConfigurations } from "./client/configuration-management/getAppConfigurations.ts";
 export { contactformcontroller } from "./client/contact-form-controller/contactformcontroller.ts";
 export { sendContactForm } from "./client/contact-form-controller/sendContactForm.ts";
+export { changeMembershipRole } from "./client/membership-management/changeMembershipRole.ts";
+export { getMemberships } from "./client/membership-management/getMemberships.ts";
+export { membershipmanagement } from "./client/membership-management/membershipmanagement.ts";
+export { revokeMembership } from "./client/membership-management/revokeMembership.ts";
+export { accept } from "./client/organization-invitations/accept.ts";
+export { invite } from "./client/organization-invitations/invite.ts";
+export { list } from "./client/organization-invitations/list.ts";
+export { organizationinvitations } from "./client/organization-invitations/organizationinvitations.ts";
+export { revoke } from "./client/organization-invitations/revoke.ts";
+export { getMyOrganizations } from "./client/organization-management/getMyOrganizations.ts";
+export { getOrganizationById } from "./client/organization-management/getOrganizationById.ts";
+export { organizationmanagement } from "./client/organization-management/organizationmanagement.ts";
+export { registerSchool } from "./client/organization-management/registerSchool.ts";
+export { updateOrganization } from "./client/organization-management/updateOrganization.ts";
 export { createRoleGroupAsAdmin } from "./client/role-group-management/createRoleGroupAsAdmin.ts";
 export { deleteRoleGroupAsAdmin } from "./client/role-group-management/deleteRoleGroupAsAdmin.ts";
 export { getPermissionsAsAdmin } from "./client/role-group-management/getPermissionsAsAdmin.ts";
@@ -930,6 +1126,51 @@ export { useGetAppConfigurationsSuspense } from "./react-query/configuration-man
 export { sendContactFormMutationKey } from "./react-query/contact-form-controller/useSendContactForm.ts";
 export { sendContactFormMutationOptions } from "./react-query/contact-form-controller/useSendContactForm.ts";
 export { useSendContactForm } from "./react-query/contact-form-controller/useSendContactForm.ts";
+export { changeMembershipRoleMutationKey } from "./react-query/membership-management/useChangeMembershipRole.ts";
+export { changeMembershipRoleMutationOptions } from "./react-query/membership-management/useChangeMembershipRole.ts";
+export { useChangeMembershipRole } from "./react-query/membership-management/useChangeMembershipRole.ts";
+export { getMembershipsQueryKey } from "./react-query/membership-management/useGetMemberships.ts";
+export { getMembershipsQueryOptions } from "./react-query/membership-management/useGetMemberships.ts";
+export { useGetMemberships } from "./react-query/membership-management/useGetMemberships.ts";
+export { getMembershipsSuspenseQueryKey } from "./react-query/membership-management/useGetMembershipsSuspense.ts";
+export { getMembershipsSuspenseQueryOptions } from "./react-query/membership-management/useGetMembershipsSuspense.ts";
+export { useGetMembershipsSuspense } from "./react-query/membership-management/useGetMembershipsSuspense.ts";
+export { revokeMembershipMutationKey } from "./react-query/membership-management/useRevokeMembership.ts";
+export { revokeMembershipMutationOptions } from "./react-query/membership-management/useRevokeMembership.ts";
+export { useRevokeMembership } from "./react-query/membership-management/useRevokeMembership.ts";
+export { acceptMutationKey } from "./react-query/organization-invitations/useAccept.ts";
+export { acceptMutationOptions } from "./react-query/organization-invitations/useAccept.ts";
+export { useAccept } from "./react-query/organization-invitations/useAccept.ts";
+export { inviteMutationKey } from "./react-query/organization-invitations/useInvite.ts";
+export { inviteMutationOptions } from "./react-query/organization-invitations/useInvite.ts";
+export { useInvite } from "./react-query/organization-invitations/useInvite.ts";
+export { listQueryKey } from "./react-query/organization-invitations/useList.ts";
+export { listQueryOptions } from "./react-query/organization-invitations/useList.ts";
+export { useList } from "./react-query/organization-invitations/useList.ts";
+export { listSuspenseQueryKey } from "./react-query/organization-invitations/useListSuspense.ts";
+export { listSuspenseQueryOptions } from "./react-query/organization-invitations/useListSuspense.ts";
+export { useListSuspense } from "./react-query/organization-invitations/useListSuspense.ts";
+export { revokeMutationKey } from "./react-query/organization-invitations/useRevoke.ts";
+export { revokeMutationOptions } from "./react-query/organization-invitations/useRevoke.ts";
+export { useRevoke } from "./react-query/organization-invitations/useRevoke.ts";
+export { getMyOrganizationsQueryKey } from "./react-query/organization-management/useGetMyOrganizations.ts";
+export { getMyOrganizationsQueryOptions } from "./react-query/organization-management/useGetMyOrganizations.ts";
+export { useGetMyOrganizations } from "./react-query/organization-management/useGetMyOrganizations.ts";
+export { getMyOrganizationsSuspenseQueryKey } from "./react-query/organization-management/useGetMyOrganizationsSuspense.ts";
+export { getMyOrganizationsSuspenseQueryOptions } from "./react-query/organization-management/useGetMyOrganizationsSuspense.ts";
+export { useGetMyOrganizationsSuspense } from "./react-query/organization-management/useGetMyOrganizationsSuspense.ts";
+export { getOrganizationByIdQueryKey } from "./react-query/organization-management/useGetOrganizationById.ts";
+export { getOrganizationByIdQueryOptions } from "./react-query/organization-management/useGetOrganizationById.ts";
+export { useGetOrganizationById } from "./react-query/organization-management/useGetOrganizationById.ts";
+export { getOrganizationByIdSuspenseQueryKey } from "./react-query/organization-management/useGetOrganizationByIdSuspense.ts";
+export { getOrganizationByIdSuspenseQueryOptions } from "./react-query/organization-management/useGetOrganizationByIdSuspense.ts";
+export { useGetOrganizationByIdSuspense } from "./react-query/organization-management/useGetOrganizationByIdSuspense.ts";
+export { registerSchoolMutationKey } from "./react-query/organization-management/useRegisterSchool.ts";
+export { registerSchoolMutationOptions } from "./react-query/organization-management/useRegisterSchool.ts";
+export { useRegisterSchool } from "./react-query/organization-management/useRegisterSchool.ts";
+export { updateOrganizationMutationKey } from "./react-query/organization-management/useUpdateOrganization.ts";
+export { updateOrganizationMutationOptions } from "./react-query/organization-management/useUpdateOrganization.ts";
+export { useUpdateOrganization } from "./react-query/organization-management/useUpdateOrganization.ts";
 export { createRoleGroupAsAdminMutationKey } from "./react-query/role-group-management/useCreateRoleGroupAsAdmin.ts";
 export { createRoleGroupAsAdminMutationOptions } from "./react-query/role-group-management/useCreateRoleGroupAsAdmin.ts";
 export { useCreateRoleGroupAsAdmin } from "./react-query/role-group-management/useCreateRoleGroupAsAdmin.ts";
@@ -1029,6 +1270,8 @@ export { useUpdateAccount } from "./react-query/user-account-management/useUpdat
 export { updateCurrentUserPreferencesMutationKey } from "./react-query/user-account-management/useUpdateCurrentUserPreferences.ts";
 export { updateCurrentUserPreferencesMutationOptions } from "./react-query/user-account-management/useUpdateCurrentUserPreferences.ts";
 export { useUpdateCurrentUserPreferences } from "./react-query/user-account-management/useUpdateCurrentUserPreferences.ts";
+export { acceptHeaderParamsXAPIVersionEnum } from "./types/Accept.ts";
+export { acceptanceResultRoleEnum } from "./types/AcceptanceResult.ts";
 export { activateAccountHeaderParamsXAPIVersionEnum } from "./types/ActivateAccount.ts";
 export { appConfigurationCategoryEnum } from "./types/AppConfiguration.ts";
 export { appConfigurationCategoryValueEnum } from "./types/AppConfigurationCategory.ts";
@@ -1040,6 +1283,8 @@ export { appearancePreferencesFontEnum } from "./types/AppearancePreferences.ts"
 export { appearancePreferencesThemeEnum } from "./types/AppearancePreferences.ts";
 export { assignRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./types/AssignRoleGroupAsAdmin.ts";
 export { authenticateHeaderParamsXAPIVersionEnum } from "./types/Authenticate.ts";
+export { changeMembershipRoleHeaderParamsXAPIVersionEnum } from "./types/ChangeMembershipRole.ts";
+export { changeMembershipRoleRequestRoleEnum } from "./types/ChangeMembershipRoleRequest.ts";
 export { changePasswordHeaderParamsXAPIVersionEnum } from "./types/ChangePassword.ts";
 export { checkUserPermissionAsAdminHeaderParamsXAPIVersionEnum } from "./types/CheckUserPermissionAsAdmin.ts";
 export { completeInvitationHeaderParamsXAPIVersionEnum } from "./types/CompleteInvitation.ts";
@@ -1067,6 +1312,9 @@ export { getAppConfigurationsAsAdminHeaderParamsXAPIVersionEnum } from "./types/
 export { getCategoriesAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetCategoriesAsAdmin.ts";
 export { getCurrentUserPermissionsHeaderParamsXAPIVersionEnum } from "./types/GetCurrentUserPermissions.ts";
 export { getCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./types/GetCurrentUserPreferences.ts";
+export { getMembershipsHeaderParamsXAPIVersionEnum } from "./types/GetMemberships.ts";
+export { getMyOrganizationsHeaderParamsXAPIVersionEnum } from "./types/GetMyOrganizations.ts";
+export { getOrganizationByIdHeaderParamsXAPIVersionEnum } from "./types/GetOrganizationById.ts";
 export { getPermissionsAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetPermissionsAsAdmin.ts";
 export { getRoleGroupByIdAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetRoleGroupByIdAsAdmin.ts";
 export { getRoleGroupsAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetRoleGroupsAsAdmin.ts";
@@ -1076,12 +1324,23 @@ export { getUserDetailsHeaderParamsXAPIVersionEnum } from "./types/GetUserDetail
 export { getUserPermissionsAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetUserPermissionsAsAdmin.ts";
 export { getUsersAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetUsersAsAdmin.ts";
 export { init2FactorSetupHeaderParamsXAPIVersionEnum } from "./types/Init2FactorSetup.ts";
+export { invitationDTORoleEnum } from "./types/InvitationDTO.ts";
+export { invitationDTOStatusEnum } from "./types/InvitationDTO.ts";
+export { inviteHeaderParamsXAPIVersionEnum } from "./types/Invite.ts";
+export { inviteMemberRequestRoleEnum } from "./types/InviteMemberRequest.ts";
+export { listHeaderParamsXAPIVersionEnum } from "./types/List.ts";
 export { logoutHeaderParamsXAPIVersionEnum } from "./types/Logout.ts";
+export { membershipRoleEnum } from "./types/Membership.ts";
+export { membershipStatusEnum } from "./types/Membership.ts";
+export { organizationStatusEnum } from "./types/Organization.ts";
 export { recoverAccountHeaderParamsXAPIVersionEnum } from "./types/RecoverAccount.ts";
 export { refreshTokenHeaderParamsXAPIVersionEnum } from "./types/RefreshToken.ts";
+export { registerSchoolHeaderParamsXAPIVersionEnum } from "./types/RegisterSchool.ts";
 export { requestActivationCodeHeaderParamsXAPIVersionEnum } from "./types/RequestActivationCode.ts";
 export { requestEmailChangeHeaderParamsXAPIVersionEnum } from "./types/RequestEmailChange.ts";
 export { requestPasswordResetHeaderParamsXAPIVersionEnum } from "./types/RequestPasswordReset.ts";
+export { revokeHeaderParamsXAPIVersionEnum } from "./types/Revoke.ts";
+export { revokeMembershipHeaderParamsXAPIVersionEnum } from "./types/RevokeMembership.ts";
 export { revokeRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./types/RevokeRoleGroupAsAdmin.ts";
 export { sendContactFormHeaderParamsXAPIVersionEnum } from "./types/SendContactForm.ts";
 export { twoFactorSetupRequestTypeEnum } from "./types/TwoFactorSetupRequest.ts";
@@ -1090,6 +1349,7 @@ export { updateAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./type
 export { updateByCategoryAndCodeHeaderParamsXAPIVersionEnum } from "./types/UpdateByCategoryAndCode.ts";
 export { updateByCategoryAndCodePathParamsCategoryEnum } from "./types/UpdateByCategoryAndCode.ts";
 export { updateCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./types/UpdateCurrentUserPreferences.ts";
+export { updateOrganizationHeaderParamsXAPIVersionEnum } from "./types/UpdateOrganization.ts";
 export { updateRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./types/UpdateRoleGroupAsAdmin.ts";
 export { updateUserAsAdminHeaderParamsXAPIVersionEnum } from "./types/UpdateUserAsAdmin.ts";
 export { updateUserRequestGenderEnum } from "./types/UpdateUserRequest.ts";

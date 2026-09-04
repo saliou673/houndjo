@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "password": {
+            "type": "string",
+            "maxLength": 2147483647,
+            "minLength": 8,
+            "pattern": "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
+        }
+    },
+    "required": ["code"],
+    "x-readme-ref-name": "AcceptInvitationRequest"
+}

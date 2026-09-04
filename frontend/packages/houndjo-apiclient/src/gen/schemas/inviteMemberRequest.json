@@ -1,0 +1,12 @@
+{
+    "type": "object",
+    "properties": {
+        "email": { "type": "string", "format": "email", "minLength": 1 },
+        "role": {
+            "type": "string",
+            "enum": ["SCHOOL_OWNER", "SCHOOL_ADMIN", "TEACHER"]
+        }
+    },
+    "required": ["email", "role"],
+    "x-readme-ref-name": "InviteMemberRequest"
+}

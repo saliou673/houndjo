@@ -23,16 +23,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Organization invitations")
-@RequestMapping(
-        path = {"/api/organizations/{orgId}/invitations", "/api/v1/organizations/{orgId}/invitations"},
-        version = "1.0")
+@RequestMapping(path = "/api/organizations/{orgId}/invitations", version = "1.0")
 public class OrganizationInvitationController {
     private final OrganizationInvitationUseCase useCase;
     private final InvitationDtoMapper mapper;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("@authz.hasOrgRole('SCHOOL_OWNER', 'SCHOOL_ADMIN')")
+    @PreAuthorize("@authz.hasOrgRole('SCHOOL_OWNER', 'SCHOOL_ADMIN') "
+            + "and (#request.role().name() != 'SCHOOL_OWNER' or @authz.hasOrgRole('SCHOOL_OWNER'))")
     public InvitationDTO invite(@PathVariable Long orgId, @Valid @RequestBody InviteMemberRequest request) {
         return mapper.toDTO(useCase.invite(orgId, request.email(), request.role()));
     }
@@ -53,10 +52,5 @@ public class OrganizationInvitationController {
     @PreAuthorize("@authz.hasOrgRole('SCHOOL_OWNER', 'SCHOOL_ADMIN')")
     public void revoke(@PathVariable Long orgId, @PathVariable Long id) {
         useCase.revoke(orgId, id);
-    }
-
-    @PostMapping("/accept")
-    public OrganizationInvitation.AcceptanceResult accept(@Valid @RequestBody AcceptInvitationRequest request) {
-        return useCase.accept(request.code(), request.password());
     }
 }

@@ -1,0 +1,26 @@
+{
+    "type": "object",
+    "properties": {
+        "name": { "type": "string", "maxLength": 150, "minLength": 0 },
+        "contactEmail": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 255,
+            "minLength": 0
+        },
+        "phoneNumber": { "type": "string", "maxLength": 20, "minLength": 0 },
+        "address": { "type": "string", "maxLength": 255, "minLength": 0 },
+        "defaultCurrencyCode": {
+            "type": "string",
+            "maxLength": 10,
+            "minLength": 0
+        },
+        "defaultLanguageKey": {
+            "type": "string",
+            "maxLength": 5,
+            "minLength": 0
+        }
+    },
+    "required": ["contactEmail", "name"],
+    "x-readme-ref-name": "RegisterSchoolRequest"
+}

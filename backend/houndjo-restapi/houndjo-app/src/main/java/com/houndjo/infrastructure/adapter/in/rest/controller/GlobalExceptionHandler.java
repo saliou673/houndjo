@@ -168,6 +168,14 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, "Membership Error", resolveMessage(ex));
     }
 
+    @ExceptionHandler(InvitationAlreadyPendingException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ValidationErrorResponseDTO> handleInvitationAlreadyPending(
+            InvitationAlreadyPendingException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.CONFLICT, "Invitation Error", resolveMessage(ex));
+    }
+
     private static void logError(Exception ex) {
         log.error("Error occurred: {}", ex.getMessage(), ex);
     }
