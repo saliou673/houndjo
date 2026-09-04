@@ -428,6 +428,7 @@
         "editTitle": "Organization settings",
         "fields": { "name": "School name", "contactEmail": "Contact email", "phoneNumber": "Phone number", "address": "Address", "defaultCurrencyCode": "Currency", "defaultLanguageKey": "Default language" },
         "save": "Save changes",
-        "saving": "Saving..."
+        "saving": "Saving...",
+        "savedToast": "Organization saved successfully"
     }
 }

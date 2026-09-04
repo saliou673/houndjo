@@ -1,0 +1,32 @@
+{
+    "type": "object",
+    "properties": {
+        "items": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "integer", "format": "int64" },
+                    "email": { "type": "string" },
+                    "role": {
+                        "type": "string",
+                        "enum": ["SCHOOL_OWNER", "SCHOOL_ADMIN", "TEACHER"]
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": ["PENDING", "ACCEPTED", "REVOKED", "EXPIRED"]
+                    },
+                    "expiresAt": { "type": "string", "format": "date-time" },
+                    "creationDate": { "type": "string", "format": "date-time" }
+                },
+                "x-readme-ref-name": "InvitationDTO"
+            }
+        },
+        "page": { "type": "integer", "format": "int32" },
+        "size": { "type": "integer", "format": "int32" },
+        "totalPages": { "type": "integer", "format": "int32" },
+        "totalItems": { "type": "integer", "format": "int64" }
+    },
+    "required": ["items"],
+    "x-readme-ref-name": "PaginatedResultInvitationDTO"
+}

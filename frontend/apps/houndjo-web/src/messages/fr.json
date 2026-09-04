@@ -428,6 +428,7 @@
         "editTitle": "Paramètres de l'organisation",
         "fields": { "name": "Nom de l'école", "contactEmail": "E-mail de contact", "phoneNumber": "Téléphone", "address": "Adresse", "defaultCurrencyCode": "Devise", "defaultLanguageKey": "Langue par défaut" },
         "save": "Enregistrer",
-        "saving": "Enregistrement..."
+        "saving": "Enregistrement...",
+        "savedToast": "Organisation enregistrée avec succès"
     }
 }

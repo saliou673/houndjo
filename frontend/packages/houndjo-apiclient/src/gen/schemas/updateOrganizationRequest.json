@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "contactEmail": { "type": "string", "format": "email", "minLength": 1 },
+        "phoneNumber": { "type": "string" },
+        "address": { "type": "string" },
+        "defaultCurrencyCode": { "type": "string" },
+        "defaultLanguageKey": { "type": "string" },
+        "timezone": { "type": "string" }
+    },
+    "required": ["contactEmail", "name"],
+    "x-readme-ref-name": "UpdateOrganizationRequest"
+}

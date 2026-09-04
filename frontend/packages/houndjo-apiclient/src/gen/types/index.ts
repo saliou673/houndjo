@@ -1,4 +1,21 @@
 export type {
+    Accept200,
+    Accept403,
+    Accept404,
+    Accept409,
+    Accept500,
+    AcceptHeaderParams,
+    AcceptHeaderParamsXAPIVersionEnumKey,
+    AcceptMutation,
+    AcceptMutationRequest,
+    AcceptMutationResponse,
+} from "./Accept.ts";
+export type { AcceptInvitationRequest } from "./AcceptInvitationRequest.ts";
+export type {
+    AcceptanceResult,
+    AcceptanceResultRoleEnumKey,
+} from "./AcceptanceResult.ts";
+export type {
     ActivateAccount200,
     ActivateAccount403,
     ActivateAccount404,
@@ -58,6 +75,23 @@ export type {
     AuthenticateMutationResponse,
 } from "./Authenticate.ts";
 export type { BooleanFilter } from "./BooleanFilter.ts";
+export type {
+    ChangeMembershipRole200,
+    ChangeMembershipRole403,
+    ChangeMembershipRole404,
+    ChangeMembershipRole409,
+    ChangeMembershipRole500,
+    ChangeMembershipRoleHeaderParams,
+    ChangeMembershipRoleHeaderParamsXAPIVersionEnumKey,
+    ChangeMembershipRoleMutation,
+    ChangeMembershipRoleMutationRequest,
+    ChangeMembershipRoleMutationResponse,
+    ChangeMembershipRolePathParams,
+} from "./ChangeMembershipRole.ts";
+export type {
+    ChangeMembershipRoleRequest,
+    ChangeMembershipRoleRequestRoleEnumKey,
+} from "./ChangeMembershipRoleRequest.ts";
 export type {
     ChangePassword200,
     ChangePassword403,
@@ -341,6 +375,42 @@ export type {
     GetCurrentUserPreferencesQueryResponse,
 } from "./GetCurrentUserPreferences.ts";
 export type {
+    GetMemberships200,
+    GetMemberships403,
+    GetMemberships404,
+    GetMemberships409,
+    GetMemberships500,
+    GetMembershipsHeaderParams,
+    GetMembershipsHeaderParamsXAPIVersionEnumKey,
+    GetMembershipsPathParams,
+    GetMembershipsQuery,
+    GetMembershipsQueryParams,
+    GetMembershipsQueryResponse,
+} from "./GetMemberships.ts";
+export type {
+    GetMyOrganizations200,
+    GetMyOrganizations403,
+    GetMyOrganizations404,
+    GetMyOrganizations409,
+    GetMyOrganizations500,
+    GetMyOrganizationsHeaderParams,
+    GetMyOrganizationsHeaderParamsXAPIVersionEnumKey,
+    GetMyOrganizationsQuery,
+    GetMyOrganizationsQueryResponse,
+} from "./GetMyOrganizations.ts";
+export type {
+    GetOrganizationById200,
+    GetOrganizationById403,
+    GetOrganizationById404,
+    GetOrganizationById409,
+    GetOrganizationById500,
+    GetOrganizationByIdHeaderParams,
+    GetOrganizationByIdHeaderParamsXAPIVersionEnumKey,
+    GetOrganizationByIdPathParams,
+    GetOrganizationByIdQuery,
+    GetOrganizationByIdQueryResponse,
+} from "./GetOrganizationById.ts";
+export type {
     GetPermissionsAsAdmin200,
     GetPermissionsAsAdmin403,
     GetPermissionsAsAdmin404,
@@ -448,7 +518,42 @@ export type {
 } from "./Init2FactorSetup.ts";
 export type { InstantFilter } from "./InstantFilter.ts";
 export type { InvitationCompleteRequest } from "./InvitationCompleteRequest.ts";
+export type {
+    InvitationDTO,
+    InvitationDTORoleEnumKey,
+    InvitationDTOStatusEnumKey,
+} from "./InvitationDTO.ts";
+export type {
+    Invite201,
+    Invite403,
+    Invite404,
+    Invite409,
+    Invite500,
+    InviteHeaderParams,
+    InviteHeaderParamsXAPIVersionEnumKey,
+    InviteMutation,
+    InviteMutationRequest,
+    InviteMutationResponse,
+    InvitePathParams,
+} from "./Invite.ts";
+export type {
+    InviteMemberRequest,
+    InviteMemberRequestRoleEnumKey,
+} from "./InviteMemberRequest.ts";
 export type { JwtToken } from "./JwtToken.ts";
+export type {
+    List200,
+    List403,
+    List404,
+    List409,
+    List500,
+    ListHeaderParams,
+    ListHeaderParamsXAPIVersionEnumKey,
+    ListPathParams,
+    ListQuery,
+    ListQueryParams,
+    ListQueryResponse,
+} from "./List.ts";
 export type { LoginRequest } from "./LoginRequest.ts";
 export type {
     Logout204,
@@ -462,9 +567,20 @@ export type {
     LogoutMutationResponse,
 } from "./Logout.ts";
 export type { LongFilter } from "./LongFilter.ts";
+export type {
+    Membership,
+    MembershipRoleEnumKey,
+    MembershipStatusEnumKey,
+} from "./Membership.ts";
 export type { NotificationPreferences } from "./NotificationPreferences.ts";
+export type {
+    Organization,
+    OrganizationStatusEnumKey,
+} from "./Organization.ts";
 export type { Pageable } from "./Pageable.ts";
 export type { PaginatedResultAppConfiguration } from "./PaginatedResultAppConfiguration.ts";
+export type { PaginatedResultInvitationDTO } from "./PaginatedResultInvitationDTO.ts";
+export type { PaginatedResultMembership } from "./PaginatedResultMembership.ts";
 export type { PaginatedResultPermission } from "./PaginatedResultPermission.ts";
 export type { PaginatedResultRoleGroup } from "./PaginatedResultRoleGroup.ts";
 export type { PaginatedResultUserDetails } from "./PaginatedResultUserDetails.ts";
@@ -497,6 +613,19 @@ export type {
     RefreshTokenMutationRequest,
     RefreshTokenMutationResponse,
 } from "./RefreshToken.ts";
+export type {
+    RegisterSchool201,
+    RegisterSchool403,
+    RegisterSchool404,
+    RegisterSchool409,
+    RegisterSchool500,
+    RegisterSchoolHeaderParams,
+    RegisterSchoolHeaderParamsXAPIVersionEnumKey,
+    RegisterSchoolMutation,
+    RegisterSchoolMutationRequest,
+    RegisterSchoolMutationResponse,
+} from "./RegisterSchool.ts";
+export type { RegisterSchoolRequest } from "./RegisterSchoolRequest.ts";
 export type {
     RequestActivationCode200,
     RequestActivationCode403,
@@ -533,6 +662,30 @@ export type {
     RequestPasswordResetMutationRequest,
     RequestPasswordResetMutationResponse,
 } from "./RequestPasswordReset.ts";
+export type {
+    Revoke204,
+    Revoke403,
+    Revoke404,
+    Revoke409,
+    Revoke500,
+    RevokeHeaderParams,
+    RevokeHeaderParamsXAPIVersionEnumKey,
+    RevokeMutation,
+    RevokeMutationResponse,
+    RevokePathParams,
+} from "./Revoke.ts";
+export type {
+    RevokeMembership204,
+    RevokeMembership403,
+    RevokeMembership404,
+    RevokeMembership409,
+    RevokeMembership500,
+    RevokeMembershipHeaderParams,
+    RevokeMembershipHeaderParamsXAPIVersionEnumKey,
+    RevokeMembershipMutation,
+    RevokeMembershipMutationResponse,
+    RevokeMembershipPathParams,
+} from "./RevokeMembership.ts";
 export type {
     RevokeRoleGroupAsAdmin204,
     RevokeRoleGroupAsAdmin403,
@@ -620,6 +773,20 @@ export type {
     UpdateCurrentUserPreferencesMutationResponse,
 } from "./UpdateCurrentUserPreferences.ts";
 export type {
+    UpdateOrganization200,
+    UpdateOrganization403,
+    UpdateOrganization404,
+    UpdateOrganization409,
+    UpdateOrganization500,
+    UpdateOrganizationHeaderParams,
+    UpdateOrganizationHeaderParamsXAPIVersionEnumKey,
+    UpdateOrganizationMutation,
+    UpdateOrganizationMutationRequest,
+    UpdateOrganizationMutationResponse,
+    UpdateOrganizationPathParams,
+} from "./UpdateOrganization.ts";
+export type { UpdateOrganizationRequest } from "./UpdateOrganizationRequest.ts";
+export type {
     UpdateRoleGroupAsAdmin200,
     UpdateRoleGroupAsAdmin403,
     UpdateRoleGroupAsAdmin404,
@@ -702,6 +869,8 @@ export type {
     VerifyLoginChallengeMutationRequest,
     VerifyLoginChallengeMutationResponse,
 } from "./VerifyLoginChallenge.ts";
+export { acceptHeaderParamsXAPIVersionEnum } from "./Accept.ts";
+export { acceptanceResultRoleEnum } from "./AcceptanceResult.ts";
 export { activateAccountHeaderParamsXAPIVersionEnum } from "./ActivateAccount.ts";
 export { appConfigurationCategoryEnum } from "./AppConfiguration.ts";
 export { appConfigurationCategoryValueEnum } from "./AppConfigurationCategory.ts";
@@ -713,6 +882,8 @@ export { appearancePreferencesFontEnum } from "./AppearancePreferences.ts";
 export { appearancePreferencesThemeEnum } from "./AppearancePreferences.ts";
 export { assignRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./AssignRoleGroupAsAdmin.ts";
 export { authenticateHeaderParamsXAPIVersionEnum } from "./Authenticate.ts";
+export { changeMembershipRoleHeaderParamsXAPIVersionEnum } from "./ChangeMembershipRole.ts";
+export { changeMembershipRoleRequestRoleEnum } from "./ChangeMembershipRoleRequest.ts";
 export { changePasswordHeaderParamsXAPIVersionEnum } from "./ChangePassword.ts";
 export { checkUserPermissionAsAdminHeaderParamsXAPIVersionEnum } from "./CheckUserPermissionAsAdmin.ts";
 export { completeInvitationHeaderParamsXAPIVersionEnum } from "./CompleteInvitation.ts";
@@ -740,6 +911,9 @@ export { getAppConfigurationsAsAdminHeaderParamsXAPIVersionEnum } from "./GetApp
 export { getCategoriesAsAdminHeaderParamsXAPIVersionEnum } from "./GetCategoriesAsAdmin.ts";
 export { getCurrentUserPermissionsHeaderParamsXAPIVersionEnum } from "./GetCurrentUserPermissions.ts";
 export { getCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./GetCurrentUserPreferences.ts";
+export { getMembershipsHeaderParamsXAPIVersionEnum } from "./GetMemberships.ts";
+export { getMyOrganizationsHeaderParamsXAPIVersionEnum } from "./GetMyOrganizations.ts";
+export { getOrganizationByIdHeaderParamsXAPIVersionEnum } from "./GetOrganizationById.ts";
 export { getPermissionsAsAdminHeaderParamsXAPIVersionEnum } from "./GetPermissionsAsAdmin.ts";
 export { getRoleGroupByIdAsAdminHeaderParamsXAPIVersionEnum } from "./GetRoleGroupByIdAsAdmin.ts";
 export { getRoleGroupsAsAdminHeaderParamsXAPIVersionEnum } from "./GetRoleGroupsAsAdmin.ts";
@@ -749,12 +923,23 @@ export { getUserDetailsHeaderParamsXAPIVersionEnum } from "./GetUserDetails.ts";
 export { getUserPermissionsAsAdminHeaderParamsXAPIVersionEnum } from "./GetUserPermissionsAsAdmin.ts";
 export { getUsersAsAdminHeaderParamsXAPIVersionEnum } from "./GetUsersAsAdmin.ts";
 export { init2FactorSetupHeaderParamsXAPIVersionEnum } from "./Init2FactorSetup.ts";
+export { invitationDTORoleEnum } from "./InvitationDTO.ts";
+export { invitationDTOStatusEnum } from "./InvitationDTO.ts";
+export { inviteHeaderParamsXAPIVersionEnum } from "./Invite.ts";
+export { inviteMemberRequestRoleEnum } from "./InviteMemberRequest.ts";
+export { listHeaderParamsXAPIVersionEnum } from "./List.ts";
 export { logoutHeaderParamsXAPIVersionEnum } from "./Logout.ts";
+export { membershipRoleEnum } from "./Membership.ts";
+export { membershipStatusEnum } from "./Membership.ts";
+export { organizationStatusEnum } from "./Organization.ts";
 export { recoverAccountHeaderParamsXAPIVersionEnum } from "./RecoverAccount.ts";
 export { refreshTokenHeaderParamsXAPIVersionEnum } from "./RefreshToken.ts";
+export { registerSchoolHeaderParamsXAPIVersionEnum } from "./RegisterSchool.ts";
 export { requestActivationCodeHeaderParamsXAPIVersionEnum } from "./RequestActivationCode.ts";
 export { requestEmailChangeHeaderParamsXAPIVersionEnum } from "./RequestEmailChange.ts";
 export { requestPasswordResetHeaderParamsXAPIVersionEnum } from "./RequestPasswordReset.ts";
+export { revokeHeaderParamsXAPIVersionEnum } from "./Revoke.ts";
+export { revokeMembershipHeaderParamsXAPIVersionEnum } from "./RevokeMembership.ts";
 export { revokeRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./RevokeRoleGroupAsAdmin.ts";
 export { sendContactFormHeaderParamsXAPIVersionEnum } from "./SendContactForm.ts";
 export { twoFactorSetupRequestTypeEnum } from "./TwoFactorSetupRequest.ts";
@@ -763,6 +948,7 @@ export { updateAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./Upda
 export { updateByCategoryAndCodeHeaderParamsXAPIVersionEnum } from "./UpdateByCategoryAndCode.ts";
 export { updateByCategoryAndCodePathParamsCategoryEnum } from "./UpdateByCategoryAndCode.ts";
 export { updateCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./UpdateCurrentUserPreferences.ts";
+export { updateOrganizationHeaderParamsXAPIVersionEnum } from "./UpdateOrganization.ts";
 export { updateRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./UpdateRoleGroupAsAdmin.ts";
 export { updateUserAsAdminHeaderParamsXAPIVersionEnum } from "./UpdateUserAsAdmin.ts";
 export { updateUserRequestGenderEnum } from "./UpdateUserRequest.ts";
