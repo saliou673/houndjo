@@ -24,6 +24,7 @@
             "dashboard": "Tableau de bord",
             "users": "Utilisateurs",
             "roleGroups": "Groupes de rôles",
+            "classes": "Classes",
             "configuration": "Configuration",
             "referenceData": "Données de référence",
             "security": "Sécurité",
@@ -191,6 +192,8 @@
             "columns": {
                 "name": "Nom",
                 "description": "Description",
+                "qaidaLessons": "Leçons (une par ligne)",
+                "qaidaLessonsPlaceholder": "Lettres arabes\nVoyelles courtes\nVoyelles longues",
                 "permissions": "Permissions"
             },
             "loading": "Chargement des groupes de rôles...",
@@ -230,7 +233,132 @@
             "toastUpdated": "Groupe de rôles mis à jour.",
             "validation": {
                 "nameRequired": "Le nom est requis.",
+                "qaidaLessonsRequired": "Ajoutez au moins une leçon de Qaida.",
+                "qaidaLessonTooLong": "Chaque leçon de Qaida doit contenir au maximum 150 caractères.",
                 "permissionRequired": "Sélectionnez au moins une permission."
+            }
+        }
+    },
+    "Classes": {
+        "pageTitle": "Classes",
+        "title": "Classes",
+        "description": "Gérez les classes/niveaux de votre école.",
+        "addClass": "Ajouter une classe",
+        "list": {
+            "columns": {
+                "name": "Nom",
+                "description": "Description",
+                "courseCount": "Cours",
+                "actions": "Actions"
+            },
+            "loading": "Chargement des classes...",
+            "errorFallback": "Impossible de charger les classes.",
+            "noResults": "Aucune classe pour le moment.",
+            "editAction": "Modifier",
+            "deleteAction": "Supprimer"
+        },
+        "deleteDialog": {
+            "title": "Supprimer la classe",
+            "confirmMessage": "Voulez-vous vraiment supprimer <bold>{name}</bold> ? Cette opération est irréversible.",
+            "confirmButton": "Supprimer",
+            "successToast": "Classe supprimée."
+        },
+        "form": {
+            "addTitle": "Ajouter une classe",
+            "editTitle": "Modifier la classe",
+            "addDescription": "Créez une classe/niveau pour votre école.",
+            "editDescription": "Modifiez le nom, la description et l'ordre d'affichage de la classe.",
+            "fields": {
+                "name": "Nom",
+                "namePlaceholder": "ex. CP1, Groupe Hifz A",
+                "description": "Description",
+                "descriptionPlaceholder": "Décrivez la classe...",
+                "displayOrder": "Ordre d'affichage"
+            },
+            "submitAdd": "Créer la classe",
+            "submitEdit": "Enregistrer les modifications",
+            "toastCreated": "Classe créée.",
+            "toastUpdated": "Classe mise à jour.",
+            "validation": {
+                "nameRequired": "Le nom est requis."
+            }
+        },
+        "detail": {
+            "pageTitle": "Détail de la classe",
+            "loading": "Chargement de la classe...",
+            "errorFallback": "Impossible de charger cette classe.",
+            "coursesTitle": "Cours",
+            "addCourse": "Ajouter un cours"
+        },
+        "courseList": {
+            "columns": {
+                "name": "Nom",
+                "type": "Type",
+                "details": "Détails",
+                "actions": "Actions"
+            },
+            "loading": "Chargement des cours...",
+            "errorFallback": "Impossible de charger les cours.",
+            "noResults": "Aucun cours pour le moment.",
+            "editAction": "Modifier",
+            "deleteAction": "Supprimer",
+            "typeOptions": {
+                "QAIDA": "Qaida",
+                "QURAN": "Coran",
+                "BOOK": "Livre",
+                "quranMode": {
+                    "NAZIRA": "Lecture",
+                    "HIFZ": "Mémorisation"
+                }
+            },
+            "summary": {
+                "quran": "{mode} · Juz {fromJuz}–{toJuz}"
+            }
+        },
+        "courseDeleteDialog": {
+            "title": "Supprimer le cours",
+            "confirmMessage": "Voulez-vous vraiment supprimer <bold>{name}</bold> ? Cette opération est irréversible.",
+            "confirmButton": "Supprimer",
+            "successToast": "Cours supprimé."
+        },
+        "courseForm": {
+            "addTitle": "Ajouter un cours",
+            "editTitle": "Modifier le cours",
+            "addDescription": "Créez un cours pour cette classe. Les champs disponibles dépendent du type de cours.",
+            "editDescription": "Modifiez le cours. Les champs disponibles dépendent du type de cours.",
+            "fields": {
+                "name": "Nom",
+                "type": "Type",
+                "description": "Description",
+                "quranMode": "Mode",
+                "quranModePlaceholder": "Sélectionnez un mode",
+                "quranScopeFromJuz": "Juz de départ",
+                "quranScopeToJuz": "Juz de fin",
+                "quranScopePlaceholder": "Sélectionnez un juz",
+                "juzOption": "Juz {number}",
+                "bookTitle": "Titre du livre",
+                "bookTotalChapters": "Nombre de chapitres",
+                "bookTotalPages": "Nombre de pages"
+            },
+            "typeOptions": {
+                "QAIDA": "Qaida",
+                "QURAN": "Coran",
+                "BOOK": "Livre"
+            },
+            "quranModeOptions": {
+                "NAZIRA": "Lecture (Nazira)",
+                "HIFZ": "Mémorisation (Hifz)"
+            },
+            "submitAdd": "Créer le cours",
+            "submitEdit": "Enregistrer les modifications",
+            "toastCreated": "Cours créé.",
+            "toastUpdated": "Cours mis à jour.",
+            "validation": {
+                "nameRequired": "Le nom est requis.",
+                "quranModeRequired": "Sélectionnez un mode pour un cours de Coran.",
+                "quranScopeRequired": "Sélectionnez un juz de départ et un juz de fin.",
+                "quranScopeInvalid": "Le juz de départ doit être inférieur ou égal au juz de fin.",
+                "bookTitleRequired": "Le titre du livre est requis."
             }
         }
     },
@@ -426,12 +554,40 @@
         "switcherDescription": "Choisissez l'école à gérer.",
         "createTitle": "Créer une école",
         "editTitle": "Paramètres de l'organisation",
-        "fields": { "name": "Nom de l'école", "contactEmail": "E-mail de contact", "phoneNumber": "Téléphone", "address": "Adresse", "defaultCurrencyCode": "Devise", "defaultLanguageKey": "Langue par défaut" },
+        "fields": {
+            "name": "Nom de l'école",
+            "contactEmail": "E-mail de contact",
+            "phoneNumber": "Téléphone",
+            "address": "Adresse",
+            "defaultCurrencyCode": "Devise",
+            "defaultLanguageKey": "Langue par défaut"
+        },
         "save": "Enregistrer",
         "saving": "Enregistrement...",
         "savedToast": "Organisation enregistrée avec succès"
     },
     "Members": {
-        "title": "Membres", "description": "Gérez les personnes de votre école.", "noOrganization": "Aucune école sélectionnée", "selectOrganization": "Sélectionnez une école pour gérer les membres.", "inviteTitle": "Inviter un membre", "email": "E-mail", "role": "Rôle", "invite": "Envoyer l'invitation", "membersTitle": "Membres", "pendingTitle": "Invitations en attente", "revoke": "Révoquer", "confirmRevoke": "Révoquer cette adhésion ?", "confirmOwnerPromotion": "Accorder à ce membre la pleine propriété de l'organisation ?", "empty": "Aucun membre trouvé.", "inviteSentToast": "Invitation envoyée", "roleChangedToast": "Rôle mis à jour", "revokedToast": "Adhésion révoquée", "roles": { "SCHOOL_OWNER": "Propriétaire", "SCHOOL_ADMIN": "Administrateur", "TEACHER": "Enseignant" }
+        "title": "Membres",
+        "description": "Gérez les personnes de votre école.",
+        "noOrganization": "Aucune école sélectionnée",
+        "selectOrganization": "Sélectionnez une école pour gérer les membres.",
+        "inviteTitle": "Inviter un membre",
+        "email": "E-mail",
+        "role": "Rôle",
+        "invite": "Envoyer l'invitation",
+        "membersTitle": "Membres",
+        "pendingTitle": "Invitations en attente",
+        "revoke": "Révoquer",
+        "confirmRevoke": "Révoquer cette adhésion ?",
+        "confirmOwnerPromotion": "Accorder à ce membre la pleine propriété de l'organisation ?",
+        "empty": "Aucun membre trouvé.",
+        "inviteSentToast": "Invitation envoyée",
+        "roleChangedToast": "Rôle mis à jour",
+        "revokedToast": "Adhésion révoquée",
+        "roles": {
+            "SCHOOL_OWNER": "Propriétaire",
+            "SCHOOL_ADMIN": "Administrateur",
+            "TEACHER": "Enseignant"
+        }
     }
 }

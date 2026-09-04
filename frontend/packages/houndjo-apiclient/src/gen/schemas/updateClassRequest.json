@@ -1,0 +1,10 @@
+{
+    "type": "object",
+    "properties": {
+        "name": { "type": "string", "maxLength": 120, "minLength": 0 },
+        "description": { "type": "string" },
+        "displayOrder": { "type": "integer", "format": "int32" }
+    },
+    "required": ["name"],
+    "x-readme-ref-name": "UpdateClassRequest"
+}
