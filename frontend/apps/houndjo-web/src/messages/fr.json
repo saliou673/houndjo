@@ -194,8 +194,6 @@
             "columns": {
                 "name": "Nom",
                 "description": "Description",
-                "qaidaLessons": "Leçons (une par ligne)",
-                "qaidaLessonsPlaceholder": "Lettres arabes\nVoyelles courtes\nVoyelles longues",
                 "permissions": "Permissions"
             },
             "loading": "Chargement des groupes de rôles...",
@@ -235,8 +233,6 @@
             "toastUpdated": "Groupe de rôles mis à jour.",
             "validation": {
                 "nameRequired": "Le nom est requis.",
-                "qaidaLessonsRequired": "Ajoutez au moins une leçon de Qaida.",
-                "qaidaLessonTooLong": "Chaque leçon de Qaida doit contenir au maximum 150 caractères.",
                 "permissionRequired": "Sélectionnez au moins une permission."
             }
         }
@@ -332,6 +328,8 @@
                 "name": "Nom",
                 "type": "Type",
                 "description": "Description",
+                "qaidaLessons": "Leçons (une par ligne)",
+                "qaidaLessonsPlaceholder": "Lettres arabes\nVoyelles courtes\nVoyelles longues",
                 "quranMode": "Mode",
                 "quranModePlaceholder": "Sélectionnez un mode",
                 "quranScopeFromJuz": "Juz de départ",
@@ -357,6 +355,8 @@
             "toastUpdated": "Cours mis à jour.",
             "validation": {
                 "nameRequired": "Le nom est requis.",
+                "qaidaLessonsRequired": "Ajoutez au moins une leçon de Qaida.",
+                "qaidaLessonTooLong": "Chaque leçon de Qaida doit contenir au maximum 150 caractères.",
                 "quranModeRequired": "Sélectionnez un mode pour un cours de Coran.",
                 "quranScopeRequired": "Sélectionnez un juz de départ et un juz de fin.",
                 "quranScopeInvalid": "Le juz de départ doit être inférieur ou égal au juz de fin.",
