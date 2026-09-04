@@ -12,4 +12,6 @@ import jakarta.validation.constraints.Size;
  * @param displayOrder new ordering hint among the organization's classes
  */
 public record UpdateClassRequest(
-        @NotBlank @Size(max = 120) String name, @Nullable String description, @Nullable Integer displayOrder) {}
+        @NotBlank @Size(max = 120) String name,
+        @Nullable String description,
+        @Nullable Integer displayOrder) {}

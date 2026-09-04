@@ -43,6 +43,10 @@ export type Course = {
      */
     description?: string;
     /**
+     * @type array | undefined
+     */
+    qaidaLessons?: string[];
+    /**
      * @type string | undefined
      */
     quranMode?: CourseQuranModeEnumKey;

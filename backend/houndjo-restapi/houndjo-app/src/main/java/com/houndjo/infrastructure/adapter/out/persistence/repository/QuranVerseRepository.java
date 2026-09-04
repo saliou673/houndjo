@@ -14,6 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public interface QuranVerseRepository extends JpaRepository<QuranVerseEntity, Long> {
 
+    interface SurahFirstPage {
+
+        Short getSurahNumber();
+
+        Short getFirstPage();
+    }
+
     List<QuranVerseEntity> findBySurahNumberOrderByVerseNumberAsc(Short surahNumber);
 
     Optional<QuranVerseEntity> findBySurahNumberAndVerseNumber(Short surahNumber, Short verseNumber);
@@ -25,6 +32,13 @@ public interface QuranVerseRepository extends JpaRepository<QuranVerseEntity, Lo
     Optional<QuranVerseEntity> findFirstByJuzOrderBySurahNumberAscVerseNumberAsc(Short juz);
 
     Optional<QuranVerseEntity> findFirstByJuzOrderBySurahNumberDescVerseNumberDesc(Short juz);
+
+    @Query("""
+            SELECT v.surahNumber AS surahNumber, MIN(v.page) AS firstPage
+            FROM QuranVerseEntity v
+            GROUP BY v.surahNumber
+            """)
+    List<SurahFirstPage> findFirstPagesBySurah();
 
     /**
      * Returns every verse between two (surah, verse) references, inclusive, ordered by surah

@@ -6,8 +6,11 @@ import com.houndjo.domain.ports.out.persistenceport.CoursePersistencePort;
 import com.houndjo.infrastructure.adapter.out.persistence.entity.CourseEntity;
 import com.houndjo.infrastructure.adapter.out.persistence.mapper.CourseMapper;
 import com.houndjo.infrastructure.adapter.out.persistence.repository.CourseRepository;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,12 +29,13 @@ public class CoursePersistenceAdapter implements CoursePersistencePort {
     private final CourseMapper courseMapper;
 
     @Override
-    public PagedResult<Course> findByClassIdAndOrganizationId(
-            Long classId, Long organizationId, int page, int size) {
+    public PagedResult<Course> findByClassIdAndOrganizationId(Long classId, Long organizationId, int page, int size) {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> {
                     Page<CourseEntity> entityPage = courseRepository.findByClassIdAndOrganizationId(
-                            classId, organizationId, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "creationDate")));
+                            classId,
+                            organizationId,
+                            PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "creationDate")));
                     List<Course> items = courseMapper.toDomain(entityPage.getContent());
                     return new PagedResult<>(
                             items, entityPage.getTotalElements(), page, size, entityPage.getTotalPages());
@@ -60,5 +64,15 @@ public class CoursePersistenceAdapter implements CoursePersistencePort {
     @Transactional
     public void deleteById(Long id) {
         AdapterPersistenceUtils.executeDbOperation(() -> courseRepository.deleteById(id), "Error deleting course");
+    }
+
+    @Override
+    public Map<Long, Long> countByClassIdsAndOrganizationId(Collection<Long> classIds, Long organizationId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> courseRepository.countByClassIdsAndOrganizationId(classIds, organizationId).stream()
+                        .collect(Collectors.toUnmodifiableMap(
+                                CourseRepository.ClassCourseCount::getClassId,
+                                CourseRepository.ClassCourseCount::getCourseCount)),
+                "Error counting courses by class");
     }
 }

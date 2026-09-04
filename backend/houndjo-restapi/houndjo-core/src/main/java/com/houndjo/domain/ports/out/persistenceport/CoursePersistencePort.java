@@ -2,6 +2,8 @@ package com.houndjo.domain.ports.out.persistenceport;
 
 import com.houndjo.domain.models.academic.Course;
 import com.houndjo.domain.models.query.PagedResult;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -44,4 +46,13 @@ public interface CoursePersistencePort {
      * @param id the course identifier
      */
     void deleteById(Long id);
+
+    /**
+     * Counts courses for each requested class in one operation.
+     *
+     * @param classIds       class identifiers to count
+     * @param organizationId the owning organization identifier
+     * @return counts keyed by class identifier; classes without courses are absent
+     */
+    Map<Long, Long> countByClassIdsAndOrganizationId(Collection<Long> classIds, Long organizationId);
 }

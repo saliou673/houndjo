@@ -84,8 +84,8 @@ class SchoolClassControllerTest extends IntegrationTest {
     void shouldListClassesOfActiveOrganization() throws Exception {
         createUser(OWNER_EMAIL);
         OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
-        createClass(OWNER_EMAIL, organization.getId(), "CP1");
-        createClass(OWNER_EMAIL, organization.getId(), "CP2");
+        createClass(OWNER_EMAIL, organization.getId(), "CP1", 2);
+        createClass(OWNER_EMAIL, organization.getId(), "CP2", 1);
 
         PaginatedResult<ClassDTO> result = mockMvc(
                 MockMvcRequestBuilders.get(CLASSES_API)
@@ -94,6 +94,7 @@ class SchoolClassControllerTest extends IntegrationTest {
                 status().isOk());
 
         assertThat(result.getItems()).hasSize(2);
+        assertThat(result.getItems()).extracting(ClassDTO::name).containsExactly("CP2", "CP1");
     }
 
     @Test
@@ -203,7 +204,12 @@ class SchoolClassControllerTest extends IntegrationTest {
     // endregion
 
     private ClassDTO createClass(String email, Long organizationId, String name) throws Exception {
-        CreateClassRequest request = new CreateClassRequest(name, null, null);
+        return createClass(email, organizationId, name, null);
+    }
+
+    private ClassDTO createClass(String email, Long organizationId, String name, Integer displayOrder)
+            throws Exception {
+        CreateClassRequest request = new CreateClassRequest(name, null, displayOrder);
         return mockMvc(
                 MockMvcRequestBuilders.post(CLASSES_API)
                         .with(authenticatedForOrganization(email, organizationId, "class:create"))

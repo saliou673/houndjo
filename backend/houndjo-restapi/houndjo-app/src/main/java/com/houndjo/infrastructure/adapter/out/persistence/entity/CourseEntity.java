@@ -2,16 +2,22 @@ package com.houndjo.infrastructure.adapter.out.persistence.entity;
 
 import com.houndjo.domain.enumerations.CourseType;
 import com.houndjo.domain.enumerations.QuranMode;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -53,6 +59,12 @@ public class CourseEntity extends AuditableEntity<Long> implements Serializable 
 
     @Column(name = "description")
     private String description;
+
+    @ElementCollection
+    @CollectionTable(name = "course_qaida_lesson", joinColumns = @JoinColumn(name = "course_id"))
+    @OrderColumn(name = "display_order")
+    @Column(name = "lesson_name", nullable = false, length = 150)
+    private List<String> qaidaLessons = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "quran_mode", length = 10)

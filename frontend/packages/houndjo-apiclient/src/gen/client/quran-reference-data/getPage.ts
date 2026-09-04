@@ -19,12 +19,12 @@ import type {
 } from "../../types/GetPage.ts";
 
 function getGetPageUrl(number: GetPagePathParams["number"]) {
-    const res = { method: "GET", url: `/api/quran/pages/${number}` as const };
+    const res = { method: "GET", url: `/api/v1/quran/pages/${number}` as const };
     return res;
 }
 
 /**
- * {@link /api/quran/pages/:number}
+ * {@link /api/v1/quran/pages/:number}
  */
 export async function getPage(
     number: GetPagePathParams["number"],
