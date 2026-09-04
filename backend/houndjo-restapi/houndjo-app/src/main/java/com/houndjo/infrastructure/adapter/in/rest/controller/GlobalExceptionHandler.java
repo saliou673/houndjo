@@ -176,6 +176,34 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.CONFLICT, "Invitation Error", resolveMessage(ex));
     }
 
+    @ExceptionHandler(SurahNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ValidationErrorResponseDTO> handleSurahNotFound(SurahNotFoundException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Quran Reference Error", resolveMessage(ex));
+    }
+
+    @ExceptionHandler(VerseNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ValidationErrorResponseDTO> handleVerseNotFound(VerseNotFoundException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Quran Reference Error", resolveMessage(ex));
+    }
+
+    @ExceptionHandler(PageNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ValidationErrorResponseDTO> handlePageNotFound(PageNotFoundException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Quran Reference Error", resolveMessage(ex));
+    }
+
+    @ExceptionHandler(JuzNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ValidationErrorResponseDTO> handleJuzNotFound(JuzNotFoundException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Quran Reference Error", resolveMessage(ex));
+    }
+
     private static void logError(Exception ex) {
         log.error("Error occurred: {}", ex.getMessage(), ex);
     }

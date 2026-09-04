@@ -14,6 +14,11 @@ import java.util.List;
 public interface QuranReferencePort {
 
     /**
+     * Returns every surah, ordered by number.
+     */
+    List<Surah> listSurahs();
+
+    /**
      * Returns the surah with the given number.
      *
      * @param number the surah number, 1..114
