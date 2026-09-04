@@ -100,8 +100,9 @@ export default function ClassDetailScreen() {
   const classId = Number(id);
 
   const { data: permissions } = useGetCurrentUserPermissions();
-  const canManageClasses = (permissions ?? []).some((permission) => permission.code === 'class:create');
-  const canManageCourses = (permissions ?? []).some((permission) => permission.code === 'course:create');
+  const canUpdateClasses = (permissions ?? []).some((permission) => permission.code === 'class:update');
+  const canDeleteClasses = (permissions ?? []).some((permission) => permission.code === 'class:delete');
+  const canCreateCourses = (permissions ?? []).some((permission) => permission.code === 'course:create');
 
   const {
     data: schoolClass,
@@ -179,10 +180,10 @@ export default function ClassDetailScreen() {
     <>
       <Stack.Screen options={{ title: schoolClass?.name || t('classes.detail.title') }} />
       <SettingsListScreen>
-        {isClassLoading || !values ? (
-          <Spinner />
-        ) : isClassError || !schoolClass ? (
+        {isClassError ? (
           <ThemedText themeColor="danger">{t('classes.detail.loadError')}</ThemedText>
+        ) : isClassLoading || !values || !schoolClass ? (
+          <Spinner />
         ) : (
           <>
             <SettingsCard>
@@ -191,7 +192,7 @@ export default function ClassDetailScreen() {
                 value={values.name}
                 onChangeText={(text) => updateField('name', text)}
                 error={fieldErrors.name}
-                editable={!isUpdating && canManageClasses}
+                editable={!isUpdating && canUpdateClasses}
               />
 
               <FormTextField
@@ -199,7 +200,7 @@ export default function ClassDetailScreen() {
                 value={values.description}
                 onChangeText={(text) => updateField('description', text)}
                 multiline
-                editable={!isUpdating && canManageClasses}
+                editable={!isUpdating && canUpdateClasses}
               />
 
               {formError && (
@@ -208,7 +209,7 @@ export default function ClassDetailScreen() {
                 </ThemedText>
               )}
 
-              {canManageClasses && (
+              {canUpdateClasses && (
                 <SubmitButton
                   label={t('classes.detail.submit')}
                   onPress={() => void onSubmit()}
@@ -217,7 +218,7 @@ export default function ClassDetailScreen() {
               )}
             </SettingsCard>
 
-            {canManageClasses && (
+            {canDeleteClasses && (
               <Button variant="destructive" loading={isDeleting} onPress={() => setIsConfirmingDelete(true)}>
                 {t('classes.detail.delete')}
               </Button>
@@ -225,7 +226,7 @@ export default function ClassDetailScreen() {
 
             <View style={styles.coursesHeaderRow}>
               <ThemedText type="smallBold">{t('classes.detail.coursesTitle')}</ThemedText>
-              {canManageCourses && (
+              {canCreateCourses && (
                 <Button
                   size="sm"
                   onPress={() =>
@@ -265,7 +266,7 @@ export default function ClassDetailScreen() {
         )}
       </SettingsListScreen>
 
-      {schoolClass && (
+      {schoolClass && canDeleteClasses && (
         <AlertDialog
           isVisible={isConfirmingDelete}
           onClose={() => setIsConfirmingDelete(false)}

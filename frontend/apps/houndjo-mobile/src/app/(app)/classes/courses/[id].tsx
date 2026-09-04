@@ -35,6 +35,7 @@ function mapCourseToFormValues(course: Course): CourseFormValues {
     name: course.name ?? '',
     type: course.type ?? 'QAIDA',
     description: course.description ?? '',
+    qaidaLessons: course.qaidaLessons?.join('\n') ?? '',
     quranMode: course.quranMode,
     quranScopeFromJuz: course.quranScope?.fromJuz,
     quranScopeToJuz: course.quranScope?.toJuz,
@@ -53,7 +54,8 @@ export default function CourseDetailScreen() {
   const classId = Number(classIdParam);
 
   const { data: permissions } = useGetCurrentUserPermissions();
-  const canManageCourses = (permissions ?? []).some((permission) => permission.code === 'course:create');
+  const canUpdateCourses = (permissions ?? []).some((permission) => permission.code === 'course:update');
+  const canDeleteCourses = (permissions ?? []).some((permission) => permission.code === 'course:delete');
 
   const {
     data: course,
@@ -130,17 +132,17 @@ export default function CourseDetailScreen() {
     <>
       <Stack.Screen options={{ title: course?.name || t('classes.courseForm.editTitle') }} />
       <SettingsListScreen>
-        {isCourseLoading || !values ? (
-          <Spinner />
-        ) : isCourseError || !course ? (
+        {isCourseError ? (
           <ThemedText themeColor="danger">{t('classes.detail.loadError')}</ThemedText>
+        ) : isCourseLoading || !values || !course ? (
+          <Spinner />
         ) : (
           <>
             <SettingsCard>
               <CourseFormFields
                 values={values}
                 errors={fieldErrors}
-                disabled={isUpdating || !canManageCourses}
+                disabled={isUpdating || !canUpdateCourses}
                 onChange={updateField}
               />
 
@@ -150,7 +152,7 @@ export default function CourseDetailScreen() {
                 </ThemedText>
               )}
 
-              {canManageCourses && (
+              {canUpdateCourses && (
                 <SubmitButton
                   label={t('classes.courseForm.submitEdit')}
                   onPress={() => void onSubmit()}
@@ -159,7 +161,7 @@ export default function CourseDetailScreen() {
               )}
             </SettingsCard>
 
-            {canManageCourses && (
+            {canDeleteCourses && (
               <Button variant="destructive" loading={isDeleting} onPress={() => setIsConfirmingDelete(true)}>
                 {t('classes.courseDeleteDialog.confirmButton')}
               </Button>
@@ -168,7 +170,7 @@ export default function CourseDetailScreen() {
         )}
       </SettingsListScreen>
 
-      {course && (
+      {course && canDeleteCourses && (
         <AlertDialog
           isVisible={isConfirmingDelete}
           onClose={() => setIsConfirmingDelete(false)}

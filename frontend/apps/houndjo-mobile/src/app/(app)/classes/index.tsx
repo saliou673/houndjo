@@ -48,7 +48,7 @@ export default function ClassesListScreen() {
   const [page, setPage] = useState(0);
 
   const { data: permissions } = useGetCurrentUserPermissions();
-  const canManageClasses = (permissions ?? []).some((permission) => permission.code === 'class:create');
+  const canCreateClasses = (permissions ?? []).some((permission) => permission.code === 'class:create');
 
   const { data, isLoading, isFetching, isError, refetch } = useGetClasses(
     { pageable: { page, size: PAGE_SIZE } },
@@ -79,7 +79,7 @@ export default function ClassesListScreen() {
               <ThemedText type="small" themeColor="textSecondary" style={styles.headerDescription}>
                 {t('classes.list.description')}
               </ThemedText>
-              {canManageClasses && (
+              {canCreateClasses && (
                 <Button size="sm" onPress={() => router.push('/classes/create' as Href)}>
                   {t('classes.list.addClass')}
                 </Button>

@@ -503,6 +503,8 @@
                 "name": "Name",
                 "type": "Type",
                 "description": "Description",
+                "qaidaLessons": "Lessons (one per line)",
+                "qaidaLessonsPlaceholder": "Arabic letters\nShort vowels\nLong vowels",
                 "quranMode": "Mode",
                 "quranModePlaceholder": "Select a mode",
                 "quranScopeFromJuz": "From juz",
@@ -524,6 +526,9 @@
             },
             "validation": {
                 "nameRequired": "Name is required.",
+                "qaidaLessonsRequired": "Add at least one Qaida lesson.",
+                "qaidaLessonTooLong": "Each Qaida lesson must be 150 characters or fewer.",
+                "bookCountInvalid": "Enter a whole number from 1 to 32767.",
                 "quranModeRequired": "Select a mode for a Quran course.",
                 "quranScopeRequired": "Select both a start and end juz.",
                 "quranScopeInvalid": "The start juz must be before or equal to the end juz.",

@@ -15,6 +15,7 @@ export type CourseFormValues = {
   name: string;
   type: CourseTypeEnumKey;
   description: string;
+  qaidaLessons: string;
   quranMode?: CourseQuranModeEnumKey;
   quranScopeFromJuz?: number;
   quranScopeToJuz?: number;
@@ -24,13 +25,24 @@ export type CourseFormValues = {
 };
 
 export type CourseFormFieldErrors = Partial<
-  Record<'name' | 'quranMode' | 'quranScopeFromJuz' | 'quranScopeToJuz' | 'bookTitle', string>
+  Record<
+    | 'name'
+    | 'qaidaLessons'
+    | 'quranMode'
+    | 'quranScopeFromJuz'
+    | 'quranScopeToJuz'
+    | 'bookTitle'
+    | 'bookTotalChapters'
+    | 'bookTotalPages',
+    string
+  >
 >;
 
 export const INITIAL_COURSE_FORM_VALUES: CourseFormValues = {
   name: '',
   type: 'QAIDA',
   description: '',
+  qaidaLessons: '',
   quranMode: undefined,
   quranScopeFromJuz: undefined,
   quranScopeToJuz: undefined,
@@ -47,6 +59,15 @@ export function validateCourseForm(
 
   if (!values.name.trim()) {
     errors.name = t('classes.courseForm.validation.nameRequired');
+  }
+
+  if (values.type === 'QAIDA') {
+    const lessons = parseQaidaLessons(values.qaidaLessons);
+    if (lessons.length === 0) {
+      errors.qaidaLessons = t('classes.courseForm.validation.qaidaLessonsRequired');
+    } else if (lessons.some((lesson) => lesson.length > 150)) {
+      errors.qaidaLessons = t('classes.courseForm.validation.qaidaLessonTooLong');
+    }
   }
 
   if (values.type === 'QURAN') {
@@ -66,7 +87,32 @@ export function validateCourseForm(
     errors.bookTitle = t('classes.courseForm.validation.bookTitleRequired');
   }
 
+  if (values.type === 'BOOK') {
+    validateBookCount(values.bookTotalChapters, 'bookTotalChapters', errors, t);
+    validateBookCount(values.bookTotalPages, 'bookTotalPages', errors, t);
+  }
+
   return errors;
+}
+
+function parseQaidaLessons(value: string): string[] {
+  return value
+    .split(/\r?\n/)
+    .map((lesson) => lesson.trim())
+    .filter(Boolean);
+}
+
+function validateBookCount(
+  value: string,
+  field: 'bookTotalChapters' | 'bookTotalPages',
+  errors: CourseFormFieldErrors,
+  t: (key: string) => string
+) {
+  if (value.trim() === '') return;
+  const count = Number(value);
+  if (!Number.isInteger(count) || count < 1 || count > 32767) {
+    errors[field] = t('classes.courseForm.validation.bookCountInvalid');
+  }
 }
 
 export function buildCourseRequestData(values: CourseFormValues) {
@@ -74,6 +120,7 @@ export function buildCourseRequestData(values: CourseFormValues) {
     name: values.name.trim(),
     type: values.type,
     description: values.description.trim() || undefined,
+    qaidaLessons: values.type === 'QAIDA' ? parseQaidaLessons(values.qaidaLessons) : undefined,
     quranMode: values.type === 'QURAN' ? values.quranMode : undefined,
     quranScopeFromJuz: values.type === 'QURAN' ? values.quranScopeFromJuz : undefined,
     quranScopeToJuz: values.type === 'QURAN' ? values.quranScopeToJuz : undefined,
@@ -141,6 +188,18 @@ export function CourseFormFields({ values, errors, disabled, onChange }: CourseF
         editable={!disabled}
       />
 
+      {values.type === 'QAIDA' && (
+        <FormTextField
+          label={t('classes.courseForm.fields.qaidaLessons')}
+          value={values.qaidaLessons}
+          onChangeText={(text) => onChange('qaidaLessons', text)}
+          error={errors.qaidaLessons}
+          placeholder={t('classes.courseForm.fields.qaidaLessonsPlaceholder')}
+          multiline
+          editable={!disabled}
+        />
+      )}
+
       {values.type === 'QURAN' && (
         <>
           <Picker
@@ -189,6 +248,7 @@ export function CourseFormFields({ values, errors, disabled, onChange }: CourseF
             value={values.bookTotalChapters}
             onChangeText={(text) => onChange('bookTotalChapters', text)}
             keyboardType="numeric"
+            error={errors.bookTotalChapters}
             editable={!disabled}
           />
           <FormTextField
@@ -196,6 +256,7 @@ export function CourseFormFields({ values, errors, disabled, onChange }: CourseF
             value={values.bookTotalPages}
             onChangeText={(text) => onChange('bookTotalPages', text)}
             keyboardType="numeric"
+            error={errors.bookTotalPages}
             editable={!disabled}
           />
         </>
