@@ -1,0 +1,8 @@
+{
+    "type": "object",
+    "properties": {
+        "fromJuz": { "type": "integer", "format": "int32" },
+        "toJuz": { "type": "integer", "format": "int32" }
+    },
+    "x-readme-ref-name": "QuranScope"
+}

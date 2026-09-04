@@ -4,6 +4,7 @@ import static com.houndjo.util.PaginationConstants.DEFAULT_PAGE_SIZE_INT;
 
 import com.houndjo.domain.models.academic.SchoolClass;
 import com.houndjo.domain.models.query.PagedResult;
+import com.houndjo.domain.ports.in.CourseUseCase;
 import com.houndjo.domain.ports.in.SchoolClassUseCase;
 import com.houndjo.infrastructure.adapter.in.rest.controller.dto.ClassDTO;
 import com.houndjo.infrastructure.adapter.in.rest.controller.mapper.ClassDtoMapper;
@@ -12,6 +13,8 @@ import com.houndjo.infrastructure.adapter.in.rest.controller.requests.UpdateClas
 import com.houndjo.infrastructure.adapter.out.query.PaginatedResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -33,6 +36,7 @@ import org.springframework.web.bind.annotation.*;
 public class SchoolClassController {
 
     private final SchoolClassUseCase schoolClassUseCase;
+    private final CourseUseCase courseUseCase;
     private final ClassDtoMapper classDtoMapper;
 
     @GetMapping
@@ -40,12 +44,17 @@ public class SchoolClassController {
             @PageableDefault(size = DEFAULT_PAGE_SIZE_INT, sort = "creationDate", direction = Sort.Direction.DESC)
                     Pageable pageable) {
         PagedResult<SchoolClass> result = schoolClassUseCase.findAll(pageable.getPageNumber(), pageable.getPageSize());
-        return new PaginatedResult<>(result, classDtoMapper::toDTO);
+        Map<Long, Integer> courseCounts = courseUseCase.countByClassIds(
+                result.items().stream().map(SchoolClass::getId).toList());
+        return new PaginatedResult<>(
+                result,
+                schoolClass -> classDtoMapper.toDTO(schoolClass, courseCounts.getOrDefault(schoolClass.getId(), 0)));
     }
 
     @GetMapping("/{id}")
     public ClassDTO getClassById(@PathVariable Long id) {
-        return classDtoMapper.toDTO(schoolClassUseCase.getById(id));
+        int courseCount = courseUseCase.countByClassIds(List.of(id)).getOrDefault(id, 0);
+        return classDtoMapper.toDTO(schoolClassUseCase.getById(id), courseCount);
     }
 
     @PostMapping
@@ -59,11 +68,10 @@ public class SchoolClassController {
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('class:update') and @authz.hasOrgRole('SCHOOL_OWNER', 'SCHOOL_ADMIN', 'TEACHER')")
     public ClassDTO updateClass(@PathVariable Long id, @Valid @RequestBody UpdateClassRequest request) {
-        return classDtoMapper.toDTO(schoolClassUseCase.update(
-                id,
-                request.name(),
-                request.description(),
-                request.displayOrder() == null ? 0 : request.displayOrder()));
+        SchoolClass updated = schoolClassUseCase.update(
+                id, request.name(), request.description(), request.displayOrder() == null ? 0 : request.displayOrder());
+        int courseCount = courseUseCase.countByClassIds(List.of(id)).getOrDefault(id, 0);
+        return classDtoMapper.toDTO(updated, courseCount);
     }
 
     @DeleteMapping("/{id}")

@@ -58,3 +58,11 @@ databaseChangeLog:
   - include:
       file: 00014-school-class-create-table.sql
       relativeToChangelogFile: true
+
+  - include:
+      file: 00015-course-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00016-course-qaida-lesson-create-table.sql
+      relativeToChangelogFile: true

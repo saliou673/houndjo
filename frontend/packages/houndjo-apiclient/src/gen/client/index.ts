@@ -34,6 +34,12 @@ export { getAppConfigurationByCategoryAndCode } from "./configuration-management
 export { getAppConfigurations } from "./configuration-management/getAppConfigurations.ts";
 export { contactformcontroller } from "./contact-form-controller/contactformcontroller.ts";
 export { sendContactForm } from "./contact-form-controller/sendContactForm.ts";
+export { coursemanagement } from "./course-management/coursemanagement.ts";
+export { createCourse } from "./course-management/createCourse.ts";
+export { deleteCourse } from "./course-management/deleteCourse.ts";
+export { getCourseById } from "./course-management/getCourseById.ts";
+export { getCourses } from "./course-management/getCourses.ts";
+export { updateCourse } from "./course-management/updateCourse.ts";
 export { changeMembershipRole } from "./membership-management/changeMembershipRole.ts";
 export { getMemberships } from "./membership-management/getMemberships.ts";
 export { membershipmanagement } from "./membership-management/membershipmanagement.ts";
