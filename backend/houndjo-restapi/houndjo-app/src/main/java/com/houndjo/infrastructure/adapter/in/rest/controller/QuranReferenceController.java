@@ -8,6 +8,7 @@ import com.houndjo.infrastructure.adapter.in.rest.controller.dto.VerseDTO;
 import com.houndjo.infrastructure.adapter.in.rest.controller.mapper.QuranReferenceDtoMapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Quran reference data")
-@RequestMapping(path = "/api/quran", version = "1.0")
+@RequestMapping(path = "/api/v1/quran", version = "1.0")
 public class QuranReferenceController {
 
     private final QuranReferenceUseCase quranReferenceUseCase;
@@ -32,9 +33,10 @@ public class QuranReferenceController {
 
     @GetMapping("/surahs")
     public List<SurahDTO> getSurahs() {
+        Map<Integer, Integer> firstPages = quranReferenceUseCase.firstPagesOfSurahs();
         return quranReferenceUseCase.listSurahs().stream()
                 .map(surah -> quranReferenceDtoMapper.toDTO(
-                        surah, quranReferenceUseCase.firstPageOfSurah(surah.number()), LocaleContextHolder.getLocale()))
+                        surah, firstPages.get(surah.number()), LocaleContextHolder.getLocale()))
                 .toList();
     }
 

@@ -25,7 +25,7 @@ import type {
 } from "../../types/GetJuz.ts";
 
 export const getJuzSuspenseQueryKey = () =>
-    [{ url: "/api/quran/juz" }] as const;
+    [{ url: "/api/v1/quran/juz" }] as const;
 
 export type GetJuzSuspenseQueryKey = ReturnType<typeof getJuzSuspenseQueryKey>;
 
@@ -51,7 +51,7 @@ export function getJuzSuspenseQueryOptions(
 }
 
 /**
- * {@link /api/quran/juz}
+ * {@link /api/v1/quran/juz}
  */
 export function useGetJuzSuspense<
     TData = GetJuzQueryResponse,

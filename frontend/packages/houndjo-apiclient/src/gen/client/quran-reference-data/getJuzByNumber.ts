@@ -19,12 +19,12 @@ import type {
 } from "../../types/GetJuzByNumber.ts";
 
 function getGetJuzByNumberUrl(number: GetJuzByNumberPathParams["number"]) {
-    const res = { method: "GET", url: `/api/quran/juz/${number}` as const };
+    const res = { method: "GET", url: `/api/v1/quran/juz/${number}` as const };
     return res;
 }
 
 /**
- * {@link /api/quran/juz/:number}
+ * {@link /api/v1/quran/juz/:number}
  */
 export async function getJuzByNumber(
     number: GetJuzByNumberPathParams["number"],

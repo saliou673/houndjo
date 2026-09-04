@@ -4,6 +4,7 @@ import com.houndjo.domain.models.quran.QuranPortion;
 import com.houndjo.domain.models.quran.Surah;
 import com.houndjo.domain.models.quran.Verse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Use case for querying the immutable, global Quran reference data.
@@ -24,12 +25,9 @@ public interface QuranReferenceUseCase {
     List<Verse> versesOfSurah(int surahNumber);
 
     /**
-     * Returns the Mushaf page a surah opens on.
-     *
-     * @param surahNumber the surah number, 1..114
-     * @throws com.houndjo.domain.exceptions.VerseNotFoundException if no surah has this number
+     * Returns the first Mushaf page of every surah, keyed by surah number.
      */
-    int firstPageOfSurah(int surahNumber);
+    Map<Integer, Integer> firstPagesOfSurahs();
 
     /**
      * Returns the portion covered by every juz, in order (juz 1 to 30).

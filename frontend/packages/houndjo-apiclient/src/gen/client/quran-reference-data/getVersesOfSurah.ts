@@ -21,13 +21,13 @@ import type {
 function getGetVersesOfSurahUrl(number: GetVersesOfSurahPathParams["number"]) {
     const res = {
         method: "GET",
-        url: `/api/quran/surahs/${number}/verses` as const,
+        url: `/api/v1/quran/surahs/${number}/verses` as const,
     };
     return res;
 }
 
 /**
- * {@link /api/quran/surahs/:number/verses}
+ * {@link /api/v1/quran/surahs/:number/verses}
  */
 export async function getVersesOfSurah(
     number: GetVersesOfSurahPathParams["number"],
