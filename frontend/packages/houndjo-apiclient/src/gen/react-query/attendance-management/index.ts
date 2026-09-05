@@ -4,6 +4,8 @@ export type { GetAttendanceHistoryQueryKey } from "./useGetAttendanceHistory.ts"
 export type { GetAttendanceHistorySuspenseQueryKey } from "./useGetAttendanceHistorySuspense.ts";
 export type { GetAttendancePermissionByIdQueryKey } from "./useGetAttendancePermissionById.ts";
 export type { GetAttendancePermissionByIdSuspenseQueryKey } from "./useGetAttendancePermissionByIdSuspense.ts";
+export type { GetAttendancePermissionsByStudentQueryKey } from "./useGetAttendancePermissionsByStudent.ts";
+export type { GetAttendancePermissionsByStudentSuspenseQueryKey } from "./useGetAttendancePermissionsByStudentSuspense.ts";
 export type { GetAttendanceSuspenseQueryKey } from "./useGetAttendanceSuspense.ts";
 export type { RecordBulkAttendanceMutationKey } from "./useRecordBulkAttendance.ts";
 export type { UpdateAttendancePermissionStatusMutationKey } from "./useUpdateAttendancePermissionStatus.ts";
@@ -25,6 +27,12 @@ export { useGetAttendancePermissionById } from "./useGetAttendancePermissionById
 export { getAttendancePermissionByIdSuspenseQueryKey } from "./useGetAttendancePermissionByIdSuspense.ts";
 export { getAttendancePermissionByIdSuspenseQueryOptions } from "./useGetAttendancePermissionByIdSuspense.ts";
 export { useGetAttendancePermissionByIdSuspense } from "./useGetAttendancePermissionByIdSuspense.ts";
+export { getAttendancePermissionsByStudentQueryKey } from "./useGetAttendancePermissionsByStudent.ts";
+export { getAttendancePermissionsByStudentQueryOptions } from "./useGetAttendancePermissionsByStudent.ts";
+export { useGetAttendancePermissionsByStudent } from "./useGetAttendancePermissionsByStudent.ts";
+export { getAttendancePermissionsByStudentSuspenseQueryKey } from "./useGetAttendancePermissionsByStudentSuspense.ts";
+export { getAttendancePermissionsByStudentSuspenseQueryOptions } from "./useGetAttendancePermissionsByStudentSuspense.ts";
+export { useGetAttendancePermissionsByStudentSuspense } from "./useGetAttendancePermissionsByStudentSuspense.ts";
 export { getAttendanceSuspenseQueryKey } from "./useGetAttendanceSuspense.ts";
 export { getAttendanceSuspenseQueryOptions } from "./useGetAttendanceSuspense.ts";
 export { useGetAttendanceSuspense } from "./useGetAttendanceSuspense.ts";

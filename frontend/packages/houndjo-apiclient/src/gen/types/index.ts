@@ -571,6 +571,18 @@ export type {
     GetAttendancePermissionByIdQueryResponse,
 } from "./GetAttendancePermissionById.ts";
 export type {
+    GetAttendancePermissionsByStudent200,
+    GetAttendancePermissionsByStudent403,
+    GetAttendancePermissionsByStudent404,
+    GetAttendancePermissionsByStudent409,
+    GetAttendancePermissionsByStudent500,
+    GetAttendancePermissionsByStudentHeaderParams,
+    GetAttendancePermissionsByStudentHeaderParamsXAPIVersionEnumKey,
+    GetAttendancePermissionsByStudentQuery,
+    GetAttendancePermissionsByStudentQueryParams,
+    GetAttendancePermissionsByStudentQueryResponse,
+} from "./GetAttendancePermissionsByStudent.ts";
+export type {
     GetCategoriesAsAdmin200,
     GetCategoriesAsAdmin403,
     GetCategoriesAsAdmin404,
@@ -1610,6 +1622,7 @@ export { getAppConfigurationsAsAdminHeaderParamsXAPIVersionEnum } from "./GetApp
 export { getAttendanceHeaderParamsXAPIVersionEnum } from "./GetAttendance.ts";
 export { getAttendanceHistoryHeaderParamsXAPIVersionEnum } from "./GetAttendanceHistory.ts";
 export { getAttendancePermissionByIdHeaderParamsXAPIVersionEnum } from "./GetAttendancePermissionById.ts";
+export { getAttendancePermissionsByStudentHeaderParamsXAPIVersionEnum } from "./GetAttendancePermissionsByStudent.ts";
 export { getCategoriesAsAdminHeaderParamsXAPIVersionEnum } from "./GetCategoriesAsAdmin.ts";
 export { getClassByIdHeaderParamsXAPIVersionEnum } from "./GetClassById.ts";
 export { getClassesHeaderParamsXAPIVersionEnum } from "./GetClasses.ts";

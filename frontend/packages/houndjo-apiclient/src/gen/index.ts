@@ -30,6 +30,8 @@ export type { GetAttendanceHistoryQueryKey } from "./react-query/attendance-mana
 export type { GetAttendanceHistorySuspenseQueryKey } from "./react-query/attendance-management/useGetAttendanceHistorySuspense.ts";
 export type { GetAttendancePermissionByIdQueryKey } from "./react-query/attendance-management/useGetAttendancePermissionById.ts";
 export type { GetAttendancePermissionByIdSuspenseQueryKey } from "./react-query/attendance-management/useGetAttendancePermissionByIdSuspense.ts";
+export type { GetAttendancePermissionsByStudentQueryKey } from "./react-query/attendance-management/useGetAttendancePermissionsByStudent.ts";
+export type { GetAttendancePermissionsByStudentSuspenseQueryKey } from "./react-query/attendance-management/useGetAttendancePermissionsByStudentSuspense.ts";
 export type { GetAttendanceSuspenseQueryKey } from "./react-query/attendance-management/useGetAttendanceSuspense.ts";
 export type { RecordBulkAttendanceMutationKey } from "./react-query/attendance-management/useRecordBulkAttendance.ts";
 export type { UpdateAttendancePermissionStatusMutationKey } from "./react-query/attendance-management/useUpdateAttendancePermissionStatus.ts";
@@ -732,6 +734,18 @@ export type {
     GetAttendancePermissionByIdQuery,
     GetAttendancePermissionByIdQueryResponse,
 } from "./types/GetAttendancePermissionById.ts";
+export type {
+    GetAttendancePermissionsByStudent200,
+    GetAttendancePermissionsByStudent403,
+    GetAttendancePermissionsByStudent404,
+    GetAttendancePermissionsByStudent409,
+    GetAttendancePermissionsByStudent500,
+    GetAttendancePermissionsByStudentHeaderParams,
+    GetAttendancePermissionsByStudentHeaderParamsXAPIVersionEnumKey,
+    GetAttendancePermissionsByStudentQuery,
+    GetAttendancePermissionsByStudentQueryParams,
+    GetAttendancePermissionsByStudentQueryResponse,
+} from "./types/GetAttendancePermissionsByStudent.ts";
 export type {
     GetCategoriesAsAdmin200,
     GetCategoriesAsAdmin403,
@@ -1733,6 +1747,7 @@ export { createAttendancePermission } from "./client/attendance-management/creat
 export { getAttendance } from "./client/attendance-management/getAttendance.ts";
 export { getAttendanceHistory } from "./client/attendance-management/getAttendanceHistory.ts";
 export { getAttendancePermissionById } from "./client/attendance-management/getAttendancePermissionById.ts";
+export { getAttendancePermissionsByStudent } from "./client/attendance-management/getAttendancePermissionsByStudent.ts";
 export { recordBulkAttendance } from "./client/attendance-management/recordBulkAttendance.ts";
 export { updateAttendancePermissionStatus } from "./client/attendance-management/updateAttendancePermissionStatus.ts";
 export { authenticate } from "./client/authentication-management/authenticate.ts";
@@ -1932,6 +1947,12 @@ export { useGetAttendancePermissionById } from "./react-query/attendance-managem
 export { getAttendancePermissionByIdSuspenseQueryKey } from "./react-query/attendance-management/useGetAttendancePermissionByIdSuspense.ts";
 export { getAttendancePermissionByIdSuspenseQueryOptions } from "./react-query/attendance-management/useGetAttendancePermissionByIdSuspense.ts";
 export { useGetAttendancePermissionByIdSuspense } from "./react-query/attendance-management/useGetAttendancePermissionByIdSuspense.ts";
+export { getAttendancePermissionsByStudentQueryKey } from "./react-query/attendance-management/useGetAttendancePermissionsByStudent.ts";
+export { getAttendancePermissionsByStudentQueryOptions } from "./react-query/attendance-management/useGetAttendancePermissionsByStudent.ts";
+export { useGetAttendancePermissionsByStudent } from "./react-query/attendance-management/useGetAttendancePermissionsByStudent.ts";
+export { getAttendancePermissionsByStudentSuspenseQueryKey } from "./react-query/attendance-management/useGetAttendancePermissionsByStudentSuspense.ts";
+export { getAttendancePermissionsByStudentSuspenseQueryOptions } from "./react-query/attendance-management/useGetAttendancePermissionsByStudentSuspense.ts";
+export { useGetAttendancePermissionsByStudentSuspense } from "./react-query/attendance-management/useGetAttendancePermissionsByStudentSuspense.ts";
 export { getAttendanceSuspenseQueryKey } from "./react-query/attendance-management/useGetAttendanceSuspense.ts";
 export { getAttendanceSuspenseQueryOptions } from "./react-query/attendance-management/useGetAttendanceSuspense.ts";
 export { useGetAttendanceSuspense } from "./react-query/attendance-management/useGetAttendanceSuspense.ts";
@@ -2360,6 +2381,7 @@ export { getAppConfigurationsAsAdminHeaderParamsXAPIVersionEnum } from "./types/
 export { getAttendanceHeaderParamsXAPIVersionEnum } from "./types/GetAttendance.ts";
 export { getAttendanceHistoryHeaderParamsXAPIVersionEnum } from "./types/GetAttendanceHistory.ts";
 export { getAttendancePermissionByIdHeaderParamsXAPIVersionEnum } from "./types/GetAttendancePermissionById.ts";
+export { getAttendancePermissionsByStudentHeaderParamsXAPIVersionEnum } from "./types/GetAttendancePermissionsByStudent.ts";
 export { getCategoriesAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetCategoriesAsAdmin.ts";
 export { getClassByIdHeaderParamsXAPIVersionEnum } from "./types/GetClassById.ts";
 export { getClassesHeaderParamsXAPIVersionEnum } from "./types/GetClasses.ts";

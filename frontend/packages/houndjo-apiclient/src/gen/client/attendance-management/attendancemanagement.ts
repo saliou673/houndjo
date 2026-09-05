@@ -6,12 +6,14 @@ import { createAttendancePermission } from "./createAttendancePermission.ts";
 import { getAttendance } from "./getAttendance.ts";
 import { getAttendanceHistory } from "./getAttendanceHistory.ts";
 import { getAttendancePermissionById } from "./getAttendancePermissionById.ts";
+import { getAttendancePermissionsByStudent } from "./getAttendancePermissionsByStudent.ts";
 import { recordBulkAttendance } from "./recordBulkAttendance.ts";
 import { updateAttendancePermissionStatus } from "./updateAttendancePermissionStatus.ts";
 
 export function attendancemanagement() {
     return {
         recordBulkAttendance,
+        getAttendancePermissionsByStudent,
         createAttendancePermission,
         getAttendancePermissionById,
         updateAttendancePermissionStatus,

@@ -30,6 +30,8 @@ export type { GetAttendanceHistoryQueryKey } from "./attendance-management/useGe
 export type { GetAttendanceHistorySuspenseQueryKey } from "./attendance-management/useGetAttendanceHistorySuspense.ts";
 export type { GetAttendancePermissionByIdQueryKey } from "./attendance-management/useGetAttendancePermissionById.ts";
 export type { GetAttendancePermissionByIdSuspenseQueryKey } from "./attendance-management/useGetAttendancePermissionByIdSuspense.ts";
+export type { GetAttendancePermissionsByStudentQueryKey } from "./attendance-management/useGetAttendancePermissionsByStudent.ts";
+export type { GetAttendancePermissionsByStudentSuspenseQueryKey } from "./attendance-management/useGetAttendancePermissionsByStudentSuspense.ts";
 export type { GetAttendanceSuspenseQueryKey } from "./attendance-management/useGetAttendanceSuspense.ts";
 export type { RecordBulkAttendanceMutationKey } from "./attendance-management/useRecordBulkAttendance.ts";
 export type { UpdateAttendancePermissionStatusMutationKey } from "./attendance-management/useUpdateAttendancePermissionStatus.ts";
@@ -247,6 +249,12 @@ export { useGetAttendancePermissionById } from "./attendance-management/useGetAt
 export { getAttendancePermissionByIdSuspenseQueryKey } from "./attendance-management/useGetAttendancePermissionByIdSuspense.ts";
 export { getAttendancePermissionByIdSuspenseQueryOptions } from "./attendance-management/useGetAttendancePermissionByIdSuspense.ts";
 export { useGetAttendancePermissionByIdSuspense } from "./attendance-management/useGetAttendancePermissionByIdSuspense.ts";
+export { getAttendancePermissionsByStudentQueryKey } from "./attendance-management/useGetAttendancePermissionsByStudent.ts";
+export { getAttendancePermissionsByStudentQueryOptions } from "./attendance-management/useGetAttendancePermissionsByStudent.ts";
+export { useGetAttendancePermissionsByStudent } from "./attendance-management/useGetAttendancePermissionsByStudent.ts";
+export { getAttendancePermissionsByStudentSuspenseQueryKey } from "./attendance-management/useGetAttendancePermissionsByStudentSuspense.ts";
+export { getAttendancePermissionsByStudentSuspenseQueryOptions } from "./attendance-management/useGetAttendancePermissionsByStudentSuspense.ts";
+export { useGetAttendancePermissionsByStudentSuspense } from "./attendance-management/useGetAttendancePermissionsByStudentSuspense.ts";
 export { getAttendanceSuspenseQueryKey } from "./attendance-management/useGetAttendanceSuspense.ts";
 export { getAttendanceSuspenseQueryOptions } from "./attendance-management/useGetAttendanceSuspense.ts";
 export { useGetAttendanceSuspense } from "./attendance-management/useGetAttendanceSuspense.ts";

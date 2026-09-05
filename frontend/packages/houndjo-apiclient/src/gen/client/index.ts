@@ -24,6 +24,7 @@ export { createAttendancePermission } from "./attendance-management/createAttend
 export { getAttendance } from "./attendance-management/getAttendance.ts";
 export { getAttendanceHistory } from "./attendance-management/getAttendanceHistory.ts";
 export { getAttendancePermissionById } from "./attendance-management/getAttendancePermissionById.ts";
+export { getAttendancePermissionsByStudent } from "./attendance-management/getAttendancePermissionsByStudent.ts";
 export { recordBulkAttendance } from "./attendance-management/recordBulkAttendance.ts";
 export { updateAttendancePermissionStatus } from "./attendance-management/updateAttendancePermissionStatus.ts";
 export { authenticate } from "./authentication-management/authenticate.ts";
