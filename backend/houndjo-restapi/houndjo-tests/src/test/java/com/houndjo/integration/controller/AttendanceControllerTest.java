@@ -29,6 +29,8 @@ import com.houndjo.integration.IntegrationTest;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -46,6 +48,37 @@ class AttendanceControllerTest extends IntegrationTest {
     private static final String OWNER_EMAIL = "owner@al-nour.test";
 
     // region bulk roll call
+
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void shouldUseLastDuplicateEntryForNewAndExistingAttendance(boolean existing) throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO org = registerAsOwner(OWNER_EMAIL, "School", "contact@school.test");
+        CourseDTO course =
+                createBookCourse(org.getId(), createClass(org.getId()).id());
+        SessionDTO session = createSession(org.getId(), course.id(), LocalDate.of(2026, 3, 2));
+        StudentDTO student = createStudent(org.getId(), "Aminata", "Diallo");
+        if (existing)
+            recordBulkAttendance(
+                    org.getId(),
+                    session.id(),
+                    List.of(new AttendanceEntryRequest(student.id(), AttendanceStatus.PRESENT, null)));
+        recordBulkAttendance(
+                org.getId(),
+                session.id(),
+                List.of(
+                        new AttendanceEntryRequest(student.id(), AttendanceStatus.PRESENT, null),
+                        new AttendanceEntryRequest(student.id(), AttendanceStatus.ABSENT_JUSTIFIED, "Sick")));
+        AttendanceDTO[] result = mockMvc(
+                MockMvcRequestBuilders.get(SESSIONS_API + "/" + session.id() + "/attendance")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, org.getId(), "attendance:read")),
+                AttendanceDTO[].class,
+                status().isOk());
+        assertThat(result).singleElement().satisfies(entry -> {
+            assertThat(entry.status()).isEqualTo(AttendanceStatus.ABSENT_JUSTIFIED);
+            assertThat(entry.reason()).isEqualTo("Sick");
+        });
+    }
 
     @Test
     void shouldRecordBulkAttendanceForSession() throws Exception {
@@ -209,6 +242,25 @@ class AttendanceControllerTest extends IntegrationTest {
                 status().isOk());
 
         assertThat(approved.status()).isEqualTo(AttendancePermissionStatus.APPROVED);
+        AttendanceDTO[] beforeRollCall = mockMvc(
+                MockMvcRequestBuilders.get(SESSIONS_API + "/" + session.id() + "/attendance")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "attendance:read")),
+                AttendanceDTO[].class,
+                status().isOk());
+        assertThat(beforeRollCall).isEmpty();
+        recordBulkAttendance(
+                organization.getId(),
+                session.id(),
+                List.of(new AttendanceEntryRequest(student.id(), AttendanceStatus.PERMISSION, "Family trip")));
+        AttendanceHistoryDTO history = mockMvc(
+                MockMvcRequestBuilders.get(STUDENTS_API + "/" + student.id() + "/attendance")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organization.getId(), "attendance:read")),
+                AttendanceHistoryDTO.class,
+                status().isOk());
+        assertThat(history.entries())
+                .singleElement()
+                .satisfies(entry -> assertThat(entry.status()).isEqualTo(AttendanceStatus.PERMISSION));
+        assertThat(history.absenceRate()).isEqualTo(1.0);
     }
 
     @Test

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useGetCurrentUserPermissions } from "@api-client";
 import { Plus, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { allowedActions } from "@/lib/allowed-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Main } from "@/components/layout/main";
@@ -25,7 +26,12 @@ export function Students() {
     const canCreateStudents = permissionCodes.has("student:create");
     const canUpdateStudents = permissionCodes.has("student:update");
     const canDeleteStudents = permissionCodes.has("student:delete");
-    const canViewAttendance = permissionCodes.has("attendance:read");
+    const canReadAttendance = permissionCodes.has("attendance:read");
+    const canReadPermission = permissionCodes.has("attendance-permission:read");
+    const canViewAttendance =
+        canReadAttendance ||
+        canReadPermission ||
+        permissionCodes.has("attendance-permission:create");
     const canCreatePermission = permissionCodes.has(
         "attendance-permission:create"
     );
@@ -70,9 +76,11 @@ export function Students() {
 
             <StudentList
                 search={search}
-                canUpdate={canUpdateStudents}
-                canDelete={canDeleteStudents}
-                canViewAttendance={canViewAttendance}
+                actions={allowedActions({
+                    update: canUpdateStudents,
+                    delete: canDeleteStudents,
+                    attendance: canViewAttendance,
+                })}
                 onEdit={setEditRow}
                 onDelete={setDeleteRow}
                 onViewAttendance={setAttendanceRow}
@@ -105,6 +113,8 @@ export function Students() {
                     key={`student-attendance-${attendanceRow.id}`}
                     studentId={attendanceRow.id}
                     studentName={`${attendanceRow.firstName} ${attendanceRow.lastName}`}
+                    canReadAttendance={canReadAttendance}
+                    canReadPermission={canReadPermission}
                     canCreatePermission={canCreatePermission}
                     canUpdatePermission={canUpdatePermission}
                     open={!!attendanceRow}

@@ -3,7 +3,6 @@ package com.houndjo.infrastructure.adapter.out.persistence.repository;
 import com.houndjo.infrastructure.adapter.out.persistence.entity.AttendanceEntity;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,9 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(readOnly = true)
 public interface AttendanceRepository extends JpaRepository<AttendanceEntity, Long> {
-
-    Optional<AttendanceEntity> findByStudentIdAndSessionIdAndOrganizationId(
-            Long studentId, Long sessionId, Long organizationId);
 
     List<AttendanceEntity> findBySessionIdAndOrganizationId(Long sessionId, Long organizationId);
 

@@ -19,9 +19,7 @@ const PAGEABLE = { page: 0, size: 100 };
 
 type StudentListProps = {
     search: string;
-    canUpdate: boolean;
-    canDelete: boolean;
-    canViewAttendance: boolean;
+    actions: ReadonlySet<"update" | "delete" | "attendance">;
     onEdit: (row: StudentRow) => void;
     onDelete: (row: StudentRow) => void;
     onViewAttendance: (row: StudentRow) => void;
@@ -29,9 +27,7 @@ type StudentListProps = {
 
 export function StudentList({
     search,
-    canUpdate,
-    canDelete,
-    canViewAttendance,
+    actions,
     onEdit,
     onDelete,
     onViewAttendance,
@@ -67,7 +63,7 @@ export function StudentList({
                             <TableHead>{t("columns.name")}</TableHead>
                             <TableHead>{t("columns.birthDate")}</TableHead>
                             <TableHead>{t("columns.guardian")}</TableHead>
-                            {(canUpdate || canDelete || canViewAttendance) && (
+                            {actions.size > 0 && (
                                 <TableHead className="text-end">
                                     {t("columns.actions")}
                                 </TableHead>
@@ -89,22 +85,24 @@ export function StudentList({
                                         ? ` (${row.guardianPhone})`
                                         : ""}
                                 </TableCell>
-                                {(canUpdate || canDelete || canViewAttendance) && (
+                                {actions.size > 0 && (
                                     <TableCell className="text-end">
                                         <div className="flex justify-end gap-2">
-                                            {canViewAttendance && (
+                                            {actions.has("attendance") && (
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
                                                     aria-label={t(
                                                         "viewAttendanceAction"
                                                     )}
-                                                    onClick={() => onViewAttendance(row)}
+                                                    onClick={() =>
+                                                        onViewAttendance(row)
+                                                    }
                                                 >
                                                     <CalendarCheck size={16} />
                                                 </Button>
                                             )}
-                                            {canUpdate && (
+                                            {actions.has("update") && (
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
@@ -114,7 +112,7 @@ export function StudentList({
                                                     <Pencil size={16} />
                                                 </Button>
                                             )}
-                                            {canDelete && (
+                                            {actions.has("delete") && (
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
@@ -163,19 +161,24 @@ export function StudentList({
                                         : ""}
                                 </p>
                             )}
-                            {(canUpdate || canDelete || canViewAttendance) && (
+                            {actions.size > 0 && (
                                 <div className="flex flex-wrap justify-end gap-2">
-                                    {canViewAttendance && (
+                                    {actions.has("attendance") && (
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            onClick={() => onViewAttendance(row)}
+                                            onClick={() =>
+                                                onViewAttendance(row)
+                                            }
                                         >
-                                            <CalendarCheck size={16} className="me-1" />{" "}
+                                            <CalendarCheck
+                                                size={16}
+                                                className="me-1"
+                                            />{" "}
                                             {t("viewAttendanceAction")}
                                         </Button>
                                     )}
-                                    {canUpdate && (
+                                    {actions.has("update") && (
                                         <Button
                                             variant="outline"
                                             size="sm"
@@ -188,7 +191,7 @@ export function StudentList({
                                             {t("editAction")}
                                         </Button>
                                     )}
-                                    {canDelete && (
+                                    {actions.has("delete") && (
                                         <Button
                                             variant="outline"
                                             size="sm"

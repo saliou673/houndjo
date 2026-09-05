@@ -13,7 +13,9 @@ public interface AttendanceUseCase {
 
     /**
      * Records roll-call for a session in one shot. Idempotent: an entry for a student already
-     * having an attendance record for the session updates it instead of duplicating it.
+     * having an attendance record for the session updates it instead of duplicating it. The last
+     * entry wins for duplicate student ids in one request. Statuses are explicitly chosen by
+     * the teacher; approving a leave request does not create or rewrite roll-call records.
      *
      * @param sessionId the session identifier
      * @param entries   the roll-call entries

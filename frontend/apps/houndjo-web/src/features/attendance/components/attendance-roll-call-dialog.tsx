@@ -1,40 +1,30 @@
 "use client";
-
-import { useState } from "react";
+import { memo, useMemo } from "react";
+import { useForm, useController, type Control } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import {
-    getAttendanceQueryKey,
     useActiveCourseEnrollments,
     useGetAttendance,
     useRecordBulkAttendance,
-    type AttendanceStatusEnumKey,
+    getAttendanceQueryKey,
 } from "@api-client";
 import { useTranslations } from "next-intl";
-import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import { type AttendanceEntryState } from "../data/schema";
+import { createRollCallSchema, type RollCallValues } from "../data/schema";
 import { AttendanceStatusToggle } from "./attendance-status-toggle";
 
-type AttendanceRollCallDialogProps = {
+type Props = {
     classId: number;
     courseId: number;
     sessionId: number;
@@ -42,7 +32,47 @@ type AttendanceRollCallDialogProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
 };
-
+const RollCallRow = memo(function RollCallRow({
+    index,
+    name,
+    control,
+    disabled,
+}: {
+    index: number;
+    name?: string;
+    control: Control<RollCallValues>;
+    disabled: boolean;
+}) {
+    const t = useTranslations("Attendance.rollCallDialog");
+    const status = useController({ control, name: `entries.${index}.status` });
+    const reason = useController({ control, name: `entries.${index}.reason` });
+    return (
+        <div className="grid gap-3 rounded-md border p-3 sm:grid-cols-[1fr_2fr_1fr] sm:items-center">
+            <p className="font-medium">{name}</p>
+            <AttendanceStatusToggle
+                value={status.field.value}
+                onChange={status.field.onChange}
+                disabled={disabled}
+            />
+            <div>
+                {status.field.value !== "PRESENT" && (
+                    <Input
+                        {...reason.field}
+                        placeholder={t("reasonPlaceholder")}
+                        aria-label={`${name} — ${t("columns.reason")}`}
+                        disabled={disabled}
+                        aria-invalid={!!reason.fieldState.error}
+                    />
+                )}
+                {reason.fieldState.error && (
+                    <p role="alert" className="text-sm text-destructive">
+                        {reason.fieldState.error.message}
+                    </p>
+                )}
+            </div>
+        </div>
+    );
+});
 export function AttendanceRollCallDialog({
     classId,
     courseId,
@@ -50,84 +80,84 @@ export function AttendanceRollCallDialog({
     sessionDate,
     open,
     onOpenChange,
-}: AttendanceRollCallDialogProps) {
+}: Props) {
     const t = useTranslations("Attendance.rollCallDialog");
     const queryClient = useQueryClient();
-    // Only holds entries the user actively edited in this session; anything else
-    // falls back to the previously recorded attendance, then to PRESENT by default.
-    const [overrides, setOverrides] = useState<
-        Record<number, AttendanceEntryState>
-    >({});
-
-    const {
-        data: enrollments,
-        isLoading: isEnrollmentsLoading,
-        isError: isEnrollmentsError,
-    } = useActiveCourseEnrollments(classId, courseId, open);
-    const students = enrollments?.items ?? [];
-
-    const { data: existingAttendance, isLoading: isExistingLoading } =
-        useGetAttendance(sessionId, undefined, { query: { enabled: open } });
-    const existingByStudentId: Record<number, AttendanceEntryState> = {};
-    for (const attendance of existingAttendance ?? []) {
-        if (attendance.studentId != null) {
-            existingByStudentId[attendance.studentId] = {
-                status: attendance.status ?? "PRESENT",
-                reason: attendance.reason ?? "",
-            };
-        }
-    }
-
-    const isLoading = isEnrollmentsLoading || isExistingLoading;
-
-    const getEntry = (studentId: number): AttendanceEntryState =>
-        overrides[studentId] ??
-        existingByStudentId[studentId] ?? { status: "PRESENT", reason: "" };
-
-    const setStatus = (studentId: number, status: AttendanceStatusEnumKey) => {
-        setOverrides((current) => ({
-            ...current,
-            [studentId]: { ...getEntry(studentId), status },
-        }));
-    };
-
-    const setReason = (studentId: number, reason: string) => {
-        setOverrides((current) => ({
-            ...current,
-            [studentId]: { ...getEntry(studentId), reason },
-        }));
-    };
-
-    const { mutate, isPending } = useRecordBulkAttendance({
-        mutation: {
-            onSuccess: async () => {
-                await queryClient.invalidateQueries({
-                    queryKey: getAttendanceQueryKey(sessionId),
-                });
-                toast.success(t("successToast"));
-                onOpenChange(false);
-            },
-            onError: handleServerError,
-        },
+    const roster = useActiveCourseEnrollments(classId, courseId, open);
+    const existing = useGetAttendance(sessionId, undefined, {
+        query: { enabled: open },
     });
-
-    const onSubmit = () => {
-        mutate({
-            sessionId,
-            data: {
-                entries: students.map((enrollment) => {
-                    const studentId = enrollment.studentId ?? 0;
-                    const entry = getEntry(studentId);
-                    return {
-                        studentId,
-                        status: entry.status,
+    const students = roster.data?.items;
+    const invalidRoster =
+        students?.some(
+            (student) =>
+                !Number.isSafeInteger(student.studentId) ||
+                Number(student.studentId) <= 0
+        ) ||
+        new Set(students?.map((student) => student.studentId)).size !==
+            (students?.length ?? 0);
+    const values = useMemo(() => {
+        const byStudent = new Map(
+            existing.data?.map((entry) => [entry.studentId, entry])
+        );
+        return {
+            entries: Object.fromEntries(
+                (students ?? []).map((student) => [
+                    String(student.studentId),
+                    {
+                        studentId: student.studentId!,
+                        status:
+                            byStudent.get(student.studentId)?.status ??
+                            "PRESENT",
+                        reason: byStudent.get(student.studentId)?.reason ?? "",
+                    },
+                ])
+            ),
+        };
+    }, [students, existing.data]);
+    const schema = useMemo(() => createRollCallSchema(t), [t]);
+    const form = useForm<RollCallValues>({
+        resolver: zodResolver(schema),
+        values,
+        resetOptions: { keepDirtyValues: true },
+    });
+    const { mutateAsync, isPending } = useRecordBulkAttendance();
+    const isLoading = roster.isLoading || existing.isLoading;
+    const isError = roster.isError || existing.isError || invalidRoster;
+    const canSubmit =
+        roster.isSuccess &&
+        existing.isSuccess &&
+        !isError &&
+        !!students?.length &&
+        !isPending;
+    const onSubmit = form.handleSubmit(async (data) => {
+        if (!canSubmit) return;
+        try {
+            await mutateAsync({
+                sessionId,
+                data: {
+                    entries: Object.values(data.entries).map((entry) => ({
+                        ...entry,
                         reason: entry.reason.trim() || undefined,
-                    };
+                    })),
+                },
+            });
+            await Promise.all([
+                queryClient.invalidateQueries({
+                    queryKey: getAttendanceQueryKey(sessionId),
                 }),
-            },
-        });
-    };
-
+                queryClient.invalidateQueries({
+                    queryKey: [
+                        { url: "/api/v1/students/:studentId/attendance" },
+                    ],
+                }),
+            ]);
+            toast.success(t("successToast"));
+            onOpenChange(false);
+        } catch (error) {
+            handleServerError(error);
+        }
+    });
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="flex max-h-[90vh] flex-col overflow-y-auto sm:max-w-2xl">
@@ -137,120 +167,41 @@ export function AttendanceRollCallDialog({
                         {t("description", { date: sessionDate })}
                     </DialogDescription>
                 </DialogHeader>
-
                 {isLoading && (
-                    <p className="text-sm text-muted-foreground">{t("loading")}</p>
+                    <p className="text-sm text-muted-foreground">
+                        {t("loading")}
+                    </p>
                 )}
-                {isEnrollmentsError && (
-                    <p className="text-sm text-destructive">{t("errorFallback")}</p>
+                {isError && (
+                    <p role="alert" className="text-sm text-destructive">
+                        {t("errorFallback")}
+                    </p>
                 )}
-                {!isLoading && !isEnrollmentsError && students.length === 0 && (
-                    <p className="text-sm text-muted-foreground">{t("noStudents")}</p>
+                {!isLoading && !isError && !students?.length && (
+                    <p className="text-sm text-muted-foreground">
+                        {t("noStudents")}
+                    </p>
                 )}
-
-                {!isLoading && !isEnrollmentsError && students.length > 0 && (
-                    <>
-                        {/* Desktop: table */}
-                        <div className="hidden overflow-hidden rounded-md border sm:block">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>{t("columns.student")}</TableHead>
-                                        <TableHead>{t("columns.status")}</TableHead>
-                                        <TableHead>{t("columns.reason")}</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {students.map((enrollment) => {
-                                        const studentId = enrollment.studentId ?? 0;
-                                        const entry = getEntry(studentId);
-                                        return (
-                                            <TableRow key={studentId}>
-                                                <TableCell className="font-medium">
-                                                    {enrollment.studentName}
-                                                </TableCell>
-                                                <TableCell>
-                                                    <AttendanceStatusToggle
-                                                        value={entry.status}
-                                                        onChange={(status) =>
-                                                            setStatus(studentId, status)
-                                                        }
-                                                        disabled={isPending}
-                                                    />
-                                                </TableCell>
-                                                <TableCell>
-                                                    {entry.status !== "PRESENT" && (
-                                                        <Input
-                                                            value={entry.reason}
-                                                            onChange={(event) =>
-                                                                setReason(
-                                                                    studentId,
-                                                                    event.target.value
-                                                                )
-                                                            }
-                                                            placeholder={t(
-                                                                "reasonPlaceholder"
-                                                            )}
-                                                            disabled={isPending}
-                                                        />
-                                                    )}
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </div>
-
-                        {/* Mobile: stacked cards */}
-                        <div className="flex flex-col gap-3 sm:hidden">
-                            {students.map((enrollment) => {
-                                const studentId = enrollment.studentId ?? 0;
-                                const entry = getEntry(studentId);
-                                return (
-                                    <Card key={studentId}>
-                                        <CardContent className="space-y-2 pt-4">
-                                            <p className="font-medium">
-                                                {enrollment.studentName}
-                                            </p>
-                                            <AttendanceStatusToggle
-                                                value={entry.status}
-                                                onChange={(status) =>
-                                                    setStatus(studentId, status)
-                                                }
-                                                disabled={isPending}
-                                            />
-                                            {entry.status !== "PRESENT" && (
-                                                <Input
-                                                    value={entry.reason}
-                                                    onChange={(event) =>
-                                                        setReason(
-                                                            studentId,
-                                                            event.target.value
-                                                        )
-                                                    }
-                                                    placeholder={t("reasonPlaceholder")}
-                                                    disabled={isPending}
-                                                />
-                                            )}
-                                        </CardContent>
-                                    </Card>
-                                );
-                            })}
-                        </div>
-                    </>
-                )}
-
-                <DialogFooter>
+                <form onSubmit={onSubmit} className="space-y-3">
+                    {!isLoading &&
+                        !isError &&
+                        students?.map((student) => (
+                            <RollCallRow
+                                key={student.studentId}
+                                index={student.studentId!}
+                                name={student.studentName}
+                                control={form.control}
+                                disabled={isPending}
+                            />
+                        ))}
                     <Button
-                        type="button"
-                        onClick={onSubmit}
-                        disabled={isLoading || isPending || students.length === 0}
+                        type="submit"
+                        disabled={!canSubmit}
                         className="w-full sm:w-auto"
                     >
                         {t("submit")}
                     </Button>
-                </DialogFooter>
+                </form>
             </DialogContent>
         </Dialog>
     );

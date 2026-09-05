@@ -661,7 +661,8 @@
                 "student": "Student",
                 "status": "Status",
                 "reason": "Reason"
-            }
+            },
+            "reasonTooLong": "The reason must not exceed 255 characters."
         },
         "studentDialog": {
             "title": "Attendance — {name}",
@@ -697,7 +698,8 @@
             "validation": {
                 "fromDateRequired": "From date is required.",
                 "toDateRequired": "To date is required.",
-                "dateRangeInvalid": "The from date must be before or equal to the to date."
+                "dateRangeInvalid": "The from date must be before or equal to the to date.",
+                "reasonTooLong": "The reason must not exceed 255 characters."
             }
         }
     },
