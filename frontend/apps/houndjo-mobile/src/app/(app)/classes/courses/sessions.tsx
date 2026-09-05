@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useLocalSearchParams, useRouter, type Href } from 'expo-router';
+import { ClipboardList } from 'lucide-react-native';
 import {
   useCancelSession,
   useGetCurrentUserPermissions,
@@ -24,15 +25,24 @@ const PAGE_SIZE = 25;
 
 function SessionListItem({
   session,
+  classId,
+  courseId,
   canUpdate,
+  canRecordProgress,
   onCancel,
 }: {
   session: Session;
+  classId: number;
+  courseId: number;
   canUpdate: boolean;
+  canRecordProgress: boolean;
   onCancel: () => void;
 }) {
   const { t } = useTranslation();
   const theme = useTheme();
+  const router = useRouter();
+  const showRecordProgress = canRecordProgress && session.status !== 'CANCELLED';
+  const showCancel = canUpdate && session.status === 'PLANNED';
 
   return (
     <SettingsCard style={styles.card}>
@@ -59,11 +69,31 @@ function SessionListItem({
         </ThemedText>
       )}
 
-      {canUpdate && session.status === 'PLANNED' && (
+      {(showRecordProgress || showCancel) && (
         <View style={styles.actionsRow}>
-          <Button variant="outline" size="sm" onPress={onCancel}>
-            {t('classes.sessions.cancelAction')}
-          </Button>
+          {showRecordProgress && (
+            <Button
+              variant="outline"
+              size="sm"
+              icon={ClipboardList}
+              onPress={() =>
+                router.push({
+                  pathname: '/classes/courses/sessions/progress',
+                  params: {
+                    classId: String(classId),
+                    courseId: String(courseId),
+                    sessionId: String(session.id),
+                  },
+                } as Href)
+              }>
+              {t('classes.sessions.recordProgressAction')}
+            </Button>
+          )}
+          {showCancel && (
+            <Button variant="outline" size="sm" onPress={onCancel}>
+              {t('classes.sessions.cancelAction')}
+            </Button>
+          )}
         </View>
       )}
     </SettingsCard>
@@ -74,7 +104,11 @@ export default function CourseSessionsScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { courseId: courseIdParam } = useLocalSearchParams<{ courseId: string }>();
+  const { classId: classIdParam, courseId: courseIdParam } = useLocalSearchParams<{
+    classId: string;
+    courseId: string;
+  }>();
+  const classId = Number(classIdParam);
   const courseId = Number(courseIdParam);
 
   const [page, setPage] = useState(0);
@@ -86,6 +120,7 @@ export default function CourseSessionsScreen() {
   const canReadSessions = (permissions ?? []).some((permission) => permission.code === 'session:read');
   const canCreateSessions = (permissions ?? []).some((permission) => permission.code === 'session:create');
   const canUpdateSessions = (permissions ?? []).some((permission) => permission.code === 'session:update');
+  const canRecordProgress = (permissions ?? []).some((permission) => permission.code === 'progress:create');
 
   const { data, isLoading, isError } = useGetSessions(
     courseId,
@@ -197,7 +232,10 @@ export default function CourseSessionsScreen() {
                       <SessionListItem
                         key={session.id}
                         session={session}
+                        classId={classId}
+                        courseId={courseId}
                         canUpdate={canUpdateSessions}
+                        canRecordProgress={canRecordProgress}
                         onCancel={() => setCancelTarget(session)}
                       />
                     ))}
@@ -288,6 +326,7 @@ const styles = StyleSheet.create({
   actionsRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    gap: Spacing.two,
   },
   pager: {
     flexDirection: 'row',

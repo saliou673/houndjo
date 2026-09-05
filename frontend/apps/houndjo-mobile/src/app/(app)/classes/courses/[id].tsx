@@ -173,7 +173,7 @@ export default function CourseDetailScreen() {
                 onPress={() =>
                   router.push({
                     pathname: '/classes/courses/sessions',
-                    params: { courseId: String(courseId) },
+                    params: { classId: String(classId), courseId: String(courseId) },
                   } as Href)
                 }>
                 {t('classes.sessions.manageAction')}
