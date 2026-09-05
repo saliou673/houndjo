@@ -54,6 +54,7 @@ interface PickerProps {
   modalTitle?: string;
   searchable?: boolean;
   searchPlaceholder?: string;
+  onSearchChange?: (query: string) => void;
   haptic?: boolean;
 }
 
@@ -79,6 +80,7 @@ export function Picker({
   modalTitle,
   searchable = false,
   searchPlaceholder = 'Search options...',
+  onSearchChange,
   haptic = true,
 }: PickerProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -424,7 +426,10 @@ export function Picker({
                   placeholder={searchPlaceholder}
                   placeholderTextColor={muted}
                   value={searchQuery}
-                  onChangeText={setSearchQuery}
+                  onChangeText={(query) => {
+                    setSearchQuery(query);
+                    onSearchChange?.(query);
+                  }}
                 />
               </View>
             )}

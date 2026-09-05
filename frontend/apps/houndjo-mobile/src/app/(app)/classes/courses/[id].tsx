@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter, type Href } from 'expo-router';
 import {
   getClassByIdQueryKey,
   getCourseByIdQueryKey,
@@ -21,6 +21,7 @@ import {
   type CourseFormFieldErrors,
   type CourseFormValues,
 } from '@/components/course-form-fields';
+import { CoursePaceCard } from '@/components/course-pace-card';
 import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SubmitButton } from '@/components/submit-button';
@@ -56,6 +57,9 @@ export default function CourseDetailScreen() {
   const { data: permissions } = useGetCurrentUserPermissions();
   const canUpdateCourses = (permissions ?? []).some((permission) => permission.code === 'course:update');
   const canDeleteCourses = (permissions ?? []).some((permission) => permission.code === 'course:delete');
+  const canReadSessions = (permissions ?? []).some((permission) => permission.code === 'session:read');
+  const canCreateSessions = (permissions ?? []).some((permission) => permission.code === 'session:create');
+  const canAccessSessions = canReadSessions || canCreateSessions;
 
   const {
     data: course,
@@ -160,6 +164,21 @@ export default function CourseDetailScreen() {
                 />
               )}
             </SettingsCard>
+
+            <CoursePaceCard courseId={courseId} courseType={course.type ?? 'QAIDA'} canUpdate={canUpdateCourses} />
+
+            {canAccessSessions && (
+              <Button
+                variant="outline"
+                onPress={() =>
+                  router.push({
+                    pathname: '/classes/courses/sessions',
+                    params: { courseId: String(courseId) },
+                  } as Href)
+                }>
+                {t('classes.sessions.manageAction')}
+              </Button>
+            )}
 
             {canDeleteCourses && (
               <Button variant="destructive" loading={isDeleting} onPress={() => setIsConfirmingDelete(true)}>
