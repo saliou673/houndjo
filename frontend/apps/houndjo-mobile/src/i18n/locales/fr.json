@@ -581,6 +581,7 @@
             "cancelAction": "Annuler",
             "cancelConfirmMessage": "Voulez-vous vraiment annuler la séance du {{date}} ?",
             "recordProgressAction": "Enregistrer la progression",
+            "recordAttendanceAction": "Faire l'appel",
             "filters": {
                 "fromDate": "Du",
                 "toDate": "Au"
@@ -666,6 +667,21 @@
                 "staleTitle": "Révision Dhor en retard",
                 "staleJuz": "Juz {{juz}} — {{days}} jours depuis la dernière révision",
                 "noStale": "Toutes les révisions Dhor sont à jour."
+            }
+        },
+        "attendance": {
+            "statusOptionsShort": {
+                "PRESENT": "Présent",
+                "ABSENT_JUSTIFIED": "Justifié",
+                "ABSENT_UNJUSTIFIED": "Non justifié",
+                "PERMISSION": "Permission"
+            },
+            "rollCall": {
+                "title": "Faire l'appel",
+                "errorFallback": "Impossible de charger la liste des élèves.",
+                "noStudents": "Aucun élève inscrit à ce cours pour le moment.",
+                "submit": "Enregistrer l'appel",
+                "successToast": "Appel enregistré."
             }
         }
     },
