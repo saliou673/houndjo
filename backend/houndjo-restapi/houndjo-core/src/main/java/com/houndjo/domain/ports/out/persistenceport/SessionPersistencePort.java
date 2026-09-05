@@ -35,6 +35,15 @@ public interface SessionPersistencePort {
     Optional<Session> findByIdAndCourseIdAndOrganizationId(Long id, Long courseId, Long organizationId);
 
     /**
+     * Finds a session by its identifier within an organization, regardless of course.
+     *
+     * @param id             the session identifier
+     * @param organizationId the owning organization identifier
+     * @return the matching session, or empty if not found
+     */
+    Optional<Session> findByIdAndOrganizationId(Long id, Long organizationId);
+
+    /**
      * Persists or updates a session.
      *
      * @param session the session to save

@@ -18,6 +18,8 @@ public interface SessionRepository extends JpaRepository<SessionEntity, Long> {
 
     Optional<SessionEntity> findByIdAndCourseIdAndOrganizationId(Long id, Long courseId, Long organizationId);
 
+    Optional<SessionEntity> findByIdAndOrganizationId(Long id, Long organizationId);
+
     // fromDate/toDate must never be null: the caller substitutes wide-open sentinel bounds for
     // "no constraint" (a null bind parameter used only in an IS NULL check defeats Postgres's
     // parameter type inference).

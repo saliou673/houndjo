@@ -41,3 +41,9 @@ databaseChangeLog:
   - include:
       file: 00013-insert-progress-permissions.sql
       relativeToChangelogFile: true
+  - include:
+      file: 00014-insert-attendance-permissions.sql
+      relativeToChangelogFile: true
+  - include:
+      file: 00015-insert-attendance-permission-permissions.sql
+      relativeToChangelogFile: true

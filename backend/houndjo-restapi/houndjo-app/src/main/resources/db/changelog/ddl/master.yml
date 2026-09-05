@@ -90,3 +90,11 @@ databaseChangeLog:
   - include:
       file: 00022-progress-record-create-table.sql
       relativeToChangelogFile: true
+
+  - include:
+      file: 00023-attendance-create-table.sql
+      relativeToChangelogFile: true
+
+  - include:
+      file: 00024-attendance-permission-create-table.sql
+      relativeToChangelogFile: true

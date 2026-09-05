@@ -59,6 +59,15 @@ public class SessionPersistenceAdapter implements SessionPersistencePort {
     }
 
     @Override
+    public Optional<Session> findByIdAndOrganizationId(Long id, Long organizationId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> sessionRepository
+                        .findByIdAndOrganizationId(id, organizationId)
+                        .map(sessionMapper::toDomain),
+                "Error fetching session by id");
+    }
+
+    @Override
     @Transactional
     public Session save(Session session) {
         return AdapterPersistenceUtils.executeDbOperation(
