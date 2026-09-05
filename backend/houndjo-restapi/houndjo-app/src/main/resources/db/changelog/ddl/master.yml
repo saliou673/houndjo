@@ -86,3 +86,7 @@ databaseChangeLog:
   - include:
       file: 00021-session-create-table.sql
       relativeToChangelogFile: true
+
+  - include:
+      file: 00022-progress-record-create-table.sql
+      relativeToChangelogFile: true
