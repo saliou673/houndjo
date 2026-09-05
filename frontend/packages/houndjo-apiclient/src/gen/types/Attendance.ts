@@ -31,6 +31,10 @@ export type Attendance = {
      */
     sessionId?: number;
     /**
+     * @type string | undefined, date
+     */
+    sessionDate?: string;
+    /**
      * @type string | undefined
      */
     status?: AttendanceStatusEnumKey;

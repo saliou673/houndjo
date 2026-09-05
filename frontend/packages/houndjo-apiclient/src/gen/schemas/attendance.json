@@ -5,6 +5,7 @@
         "studentId": { "type": "integer", "format": "int64" },
         "studentName": { "type": "string" },
         "sessionId": { "type": "integer", "format": "int64" },
+        "sessionDate": { "type": "string", "format": "date" },
         "status": {
             "type": "string",
             "enum": [
