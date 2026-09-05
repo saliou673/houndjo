@@ -73,6 +73,7 @@ class AttendanceControllerTest extends IntegrationTest {
         AttendanceDTO aminataAttendance = findByStudentId(result, aminata.id());
         assertThat(aminataAttendance.status()).isEqualTo(AttendanceStatus.PRESENT);
         assertThat(aminataAttendance.studentName()).isEqualTo("Aminata Diallo");
+        assertThat(aminataAttendance.sessionDate()).isEqualTo(session.sessionDate());
         AttendanceDTO mamadouAttendance = findByStudentId(result, mamadou.id());
         assertThat(mamadouAttendance.status()).isEqualTo(AttendanceStatus.ABSENT_UNJUSTIFIED);
         assertThat(mamadouAttendance.reason()).isEqualTo("No news");
