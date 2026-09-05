@@ -184,8 +184,8 @@ public class ProgressService implements ProgressUseCase {
             }
             case LessonPortionRef lesson -> {
                 QaidaTrackingConfig config = (QaidaTrackingConfig) course.getTrackingConfig();
-                if (lesson.lessonId() < 1
-                        || lesson.lessonId() > config.lessons().size()) {
+                if (lesson.lessonId() < 0
+                        || lesson.lessonId() >= config.lessons().size()) {
                     throw new InvalidProgressPortionException(flow);
                 }
             }
