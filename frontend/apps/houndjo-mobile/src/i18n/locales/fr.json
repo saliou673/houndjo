@@ -678,7 +678,7 @@
             },
             "rollCall": {
                 "title": "Faire l'appel",
-                "errorFallback": "Impossible de charger la liste des élèves.",
+                "errorFallback": "Impossible de charger la liste des élèves ou les présences de la séance.",
                 "noStudents": "Aucun élève inscrit à ce cours pour le moment.",
                 "submit": "Enregistrer l'appel",
                 "successToast": "Appel enregistré."

@@ -678,7 +678,7 @@
             },
             "rollCall": {
                 "title": "Take attendance",
-                "errorFallback": "Unable to load the class roster.",
+                "errorFallback": "Unable to load the class roster or session attendance.",
                 "noStudents": "No students enrolled in this course yet.",
                 "submit": "Save attendance",
                 "successToast": "Attendance saved."

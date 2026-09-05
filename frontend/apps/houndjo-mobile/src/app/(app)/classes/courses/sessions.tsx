@@ -142,7 +142,9 @@ export default function CourseSessionsScreen() {
   const canCreateSessions = (permissions ?? []).some((permission) => permission.code === 'session:create');
   const canUpdateSessions = (permissions ?? []).some((permission) => permission.code === 'session:update');
   const canRecordProgress = (permissions ?? []).some((permission) => permission.code === 'progress:create');
-  const canRecordAttendance = (permissions ?? []).some((permission) => permission.code === 'attendance:create');
+  const canRecordAttendance = ['attendance:create', 'attendance:read', 'enrollment:read'].every(
+    (code) => (permissions ?? []).some((permission) => permission.code === code),
+  );
 
   const { data, isLoading, isError } = useGetSessions(
     courseId,

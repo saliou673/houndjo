@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
@@ -9,6 +9,7 @@ import {
   useActiveCourseEnrollments,
   useGetAttendance,
   useRecordBulkAttendance,
+  type Attendance,
   type AttendanceStatusEnumKey,
 } from '@api-client';
 
@@ -57,26 +58,43 @@ export default function AttendanceRollCallScreen() {
     data: enrollmentsData,
     isLoading: isEnrollmentsLoading,
     isError: isEnrollmentsError,
+    isSuccess: isEnrollmentsSuccess,
   } = useActiveCourseEnrollments(classId, courseId);
-  const students = (enrollmentsData?.items ?? []).filter(
-    (enrollment) => enrollment.studentId != null
+  const enrollments = enrollmentsData?.items ?? [];
+  const students = enrollments.filter(
+    (enrollment): enrollment is typeof enrollment & { studentId: number } =>
+      Number.isSafeInteger(enrollment.studentId) && (enrollment.studentId ?? 0) > 0,
   );
+  const hasInvalidRoster =
+    students.length !== enrollments.length ||
+    new Set(students.map((student) => student.studentId)).size !== students.length;
 
-  const { data: existingAttendance, isLoading: isExistingLoading } = useGetAttendance(sessionId);
-  const existingByStudentId: Record<number, AttendanceStatusEnumKey> = {};
-  for (const attendance of existingAttendance ?? []) {
-    if (attendance.studentId != null) {
-      existingByStudentId[attendance.studentId] = attendance.status ?? 'PRESENT';
+  const {
+    data: existingAttendance,
+    isLoading: isExistingLoading,
+    isError: isExistingError,
+    isSuccess: isExistingSuccess,
+  } = useGetAttendance(sessionId);
+  const existingByStudentId = useMemo(() => {
+    const entries: Record<number, Attendance> = {};
+    for (const attendance of existingAttendance ?? []) {
+      if (attendance.studentId != null) {
+        entries[attendance.studentId] = attendance;
+      }
     }
-  }
+    return entries;
+  }, [existingAttendance]);
 
   const isLoading = isEnrollmentsLoading || isExistingLoading;
+  const hasLoadError = isEnrollmentsError || isExistingError || hasInvalidRoster;
+  const isReady = isEnrollmentsSuccess && isExistingSuccess && !hasLoadError;
 
   function getStatus(studentId: number): AttendanceStatusEnumKey {
-    return overrides[studentId] ?? existingByStudentId[studentId] ?? 'PRESENT';
+    return overrides[studentId] ?? existingByStudentId[studentId]?.status ?? 'PRESENT';
   }
 
   function setStatus(studentId: number, status: AttendanceStatusEnumKey) {
+    if (isPending) return;
     setOverrides((current) => ({ ...current, [studentId]: status }));
   }
 
@@ -87,7 +105,7 @@ export default function AttendanceRollCallScreen() {
     PERMISSION: 0,
   };
   for (const student of students) {
-    summary[getStatus(student.studentId ?? 0)] += 1;
+    summary[getStatus(student.studentId)] += 1;
   }
 
   const { mutateAsync, isPending } = useRecordBulkAttendance({
@@ -95,18 +113,23 @@ export default function AttendanceRollCallScreen() {
   });
 
   async function onSubmit() {
+    if (!isReady || students.length === 0 || isPending) return;
     setFormError(null);
     try {
       await mutateAsync({
         sessionId,
         data: {
           entries: students.map((student) => ({
-            studentId: student.studentId ?? 0,
-            status: getStatus(student.studentId ?? 0),
+            studentId: student.studentId,
+            status: getStatus(student.studentId),
+            reason: existingByStudentId[student.studentId]?.reason,
           })),
         },
       });
       await queryClient.invalidateQueries({ queryKey: getAttendanceQueryKey(sessionId) });
+      await queryClient.invalidateQueries({
+        queryKey: [{ url: '/api/v1/students/:studentId/attendance' }],
+      });
       showToast(t('classes.attendance.rollCall.successToast'), 'success');
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -128,10 +151,12 @@ export default function AttendanceRollCallScreen() {
       <SettingsListScreen>
         {isLoading ? (
           <Spinner />
-        ) : isEnrollmentsError ? (
+        ) : hasLoadError ? (
           <ThemedText type="small" themeColor="danger">
             {t('classes.attendance.rollCall.errorFallback')}
           </ThemedText>
+        ) : !isReady ? (
+          <Spinner />
         ) : students.length === 0 ? (
           <ThemedText type="small" themeColor="textSecondary">
             {t('classes.attendance.rollCall.noStudents')}
@@ -153,10 +178,11 @@ export default function AttendanceRollCallScreen() {
                 <SettingsCard key={student.studentId} style={styles.card}>
                   <ThemedText type="smallBold">{student.studentName}</ThemedText>
                   <RadioGroup
+                    disabled={isPending}
                     options={statusOptions}
-                    value={getStatus(student.studentId ?? 0)}
+                    value={getStatus(student.studentId)}
                     onValueChange={(value) =>
-                      setStatus(student.studentId ?? 0, value as AttendanceStatusEnumKey)
+                      setStatus(student.studentId, value as AttendanceStatusEnumKey)
                     }
                     orientation="horizontal"
                     style={styles.radioGroup}
