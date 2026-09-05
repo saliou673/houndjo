@@ -2,6 +2,8 @@ package com.houndjo.infrastructure.adapter.out.persistence.repository;
 
 import com.houndjo.infrastructure.adapter.out.persistence.entity.SessionEntity;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public interface SessionRepository extends JpaRepository<SessionEntity, Long> {
 
+    List<SessionEntity> findByIdInAndOrganizationId(Collection<Long> ids, Long organizationId);
+
     Optional<SessionEntity> findByIdAndCourseIdAndOrganizationId(Long id, Long courseId, Long organizationId);
+
+    Optional<SessionEntity> findByIdAndOrganizationId(Long id, Long organizationId);
 
     // fromDate/toDate must never be null: the caller substitutes wide-open sentinel bounds for
     // "no constraint" (a null bind parameter used only in an IS NULL check defeats Postgres's

@@ -8,6 +8,7 @@ import com.houndjo.infrastructure.adapter.out.persistence.entity.SessionEntity;
 import com.houndjo.infrastructure.adapter.out.persistence.mapper.SessionMapper;
 import com.houndjo.infrastructure.adapter.out.persistence.repository.SessionRepository;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,14 @@ public class SessionPersistenceAdapter implements SessionPersistencePort {
     private final SessionMapper sessionMapper;
 
     @Override
+    public List<Session> findByIdsAndOrganizationId(Collection<Long> ids, Long organizationId) {
+        if (ids.isEmpty()) return List.of();
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> sessionMapper.toDomain(sessionRepository.findByIdInAndOrganizationId(ids, organizationId)),
+                "Error fetching sessions by ids");
+    }
+
+    @Override
     public PagedResult<Session> findByCourseIdAndOrganizationId(
             Long courseId, Long organizationId, SessionFilter filter, int page, int size) {
         return AdapterPersistenceUtils.executeDbOperation(
@@ -54,6 +63,15 @@ public class SessionPersistenceAdapter implements SessionPersistencePort {
         return AdapterPersistenceUtils.executeDbOperation(
                 () -> sessionRepository
                         .findByIdAndCourseIdAndOrganizationId(id, courseId, organizationId)
+                        .map(sessionMapper::toDomain),
+                "Error fetching session by id");
+    }
+
+    @Override
+    public Optional<Session> findByIdAndOrganizationId(Long id, Long organizationId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> sessionRepository
+                        .findByIdAndOrganizationId(id, organizationId)
                         .map(sessionMapper::toDomain),
                 "Error fetching session by id");
     }

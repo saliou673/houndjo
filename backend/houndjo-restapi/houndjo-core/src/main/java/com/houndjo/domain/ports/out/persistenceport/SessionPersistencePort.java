@@ -3,6 +3,7 @@ package com.houndjo.domain.ports.out.persistenceport;
 import com.houndjo.domain.models.query.PagedResult;
 import com.houndjo.domain.models.session.Session;
 import com.houndjo.domain.models.session.SessionFilter;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,9 @@ import java.util.Optional;
  * Persistence port for course sessions.
  */
 public interface SessionPersistencePort {
+
+    /** Batch-load only the requested records belonging to the organization. */
+    List<Session> findByIdsAndOrganizationId(Collection<Long> ids, Long organizationId);
 
     /**
      * Returns the sessions of a course within an organization matching the filter, paginated.
@@ -33,6 +37,15 @@ public interface SessionPersistencePort {
      * @return the matching session, or empty if not found
      */
     Optional<Session> findByIdAndCourseIdAndOrganizationId(Long id, Long courseId, Long organizationId);
+
+    /**
+     * Finds a session by its identifier within an organization, regardless of course.
+     *
+     * @param id             the session identifier
+     * @param organizationId the owning organization identifier
+     * @return the matching session, or empty if not found
+     */
+    Optional<Session> findByIdAndOrganizationId(Long id, Long organizationId);
 
     /**
      * Persists or updates a session.

@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useLocalSearchParams, useRouter, type Href } from 'expo-router';
-import { ClipboardList } from 'lucide-react-native';
+import { CalendarCheck, ClipboardList } from 'lucide-react-native';
 import {
   useCancelSession,
   useGetCurrentUserPermissions,
@@ -29,6 +29,7 @@ function SessionListItem({
   courseId,
   canUpdate,
   canRecordProgress,
+  canRecordAttendance,
   onCancel,
 }: {
   session: Session;
@@ -36,12 +37,14 @@ function SessionListItem({
   courseId: number;
   canUpdate: boolean;
   canRecordProgress: boolean;
+  canRecordAttendance: boolean;
   onCancel: () => void;
 }) {
   const { t } = useTranslation();
   const theme = useTheme();
   const router = useRouter();
   const showRecordProgress = canRecordProgress && session.status !== 'CANCELLED';
+  const showRecordAttendance = canRecordAttendance && session.status !== 'CANCELLED';
   const showCancel = canUpdate && session.status === 'PLANNED';
 
   return (
@@ -69,8 +72,26 @@ function SessionListItem({
         </ThemedText>
       )}
 
-      {(showRecordProgress || showCancel) && (
+      {(showRecordProgress || showRecordAttendance || showCancel) && (
         <View style={styles.actionsRow}>
+          {showRecordAttendance && (
+            <Button
+              variant="outline"
+              size="sm"
+              icon={CalendarCheck}
+              onPress={() =>
+                router.push({
+                  pathname: '/classes/courses/sessions/attendance',
+                  params: {
+                    classId: String(classId),
+                    courseId: String(courseId),
+                    sessionId: String(session.id),
+                  },
+                } as Href)
+              }>
+              {t('classes.sessions.recordAttendanceAction')}
+            </Button>
+          )}
           {showRecordProgress && (
             <Button
               variant="outline"
@@ -121,6 +142,9 @@ export default function CourseSessionsScreen() {
   const canCreateSessions = (permissions ?? []).some((permission) => permission.code === 'session:create');
   const canUpdateSessions = (permissions ?? []).some((permission) => permission.code === 'session:update');
   const canRecordProgress = (permissions ?? []).some((permission) => permission.code === 'progress:create');
+  const canRecordAttendance = ['attendance:create', 'attendance:read', 'enrollment:read'].every(
+    (code) => (permissions ?? []).some((permission) => permission.code === code),
+  );
 
   const { data, isLoading, isError } = useGetSessions(
     courseId,
@@ -236,6 +260,7 @@ export default function CourseSessionsScreen() {
                         courseId={courseId}
                         canUpdate={canUpdateSessions}
                         canRecordProgress={canRecordProgress}
+                        canRecordAttendance={canRecordAttendance}
                         onCancel={() => setCancelTarget(session)}
                       />
                     ))}

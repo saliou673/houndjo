@@ -19,6 +19,14 @@ export { getUserPermissionsAsAdmin } from "./admin-user-management/getUserPermis
 export { getUsersAsAdmin } from "./admin-user-management/getUsersAsAdmin.ts";
 export { revokeRoleGroupAsAdmin } from "./admin-user-management/revokeRoleGroupAsAdmin.ts";
 export { updateUserAsAdmin } from "./admin-user-management/updateUserAsAdmin.ts";
+export { attendancemanagement } from "./attendance-management/attendancemanagement.ts";
+export { createAttendancePermission } from "./attendance-management/createAttendancePermission.ts";
+export { getAttendance } from "./attendance-management/getAttendance.ts";
+export { getAttendanceHistory } from "./attendance-management/getAttendanceHistory.ts";
+export { getAttendancePermissionById } from "./attendance-management/getAttendancePermissionById.ts";
+export { getAttendancePermissionsByStudent } from "./attendance-management/getAttendancePermissionsByStudent.ts";
+export { recordBulkAttendance } from "./attendance-management/recordBulkAttendance.ts";
+export { updateAttendancePermissionStatus } from "./attendance-management/updateAttendancePermissionStatus.ts";
 export { authenticate } from "./authentication-management/authenticate.ts";
 export { authenticationmanagement } from "./authentication-management/authenticationmanagement.ts";
 export { logout } from "./authentication-management/logout.ts";

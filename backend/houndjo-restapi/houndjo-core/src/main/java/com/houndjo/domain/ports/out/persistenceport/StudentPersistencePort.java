@@ -3,12 +3,17 @@ package com.houndjo.domain.ports.out.persistenceport;
 import com.houndjo.domain.models.query.PagedResult;
 import com.houndjo.domain.models.student.Student;
 import com.houndjo.domain.models.student.StudentFilter;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
  * Persistence port for students.
  */
 public interface StudentPersistencePort {
+
+    /** Batch-load only the requested records belonging to the organization. */
+    List<Student> findByIdsAndOrganizationId(Collection<Long> ids, Long organizationId);
 
     /**
      * Returns the students of an organization matching the filter, paginated.
