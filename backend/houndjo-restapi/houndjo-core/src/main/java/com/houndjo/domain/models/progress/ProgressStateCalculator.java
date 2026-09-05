@@ -2,6 +2,8 @@ package com.houndjo.domain.models.progress;
 
 import com.houndjo.domain.enumerations.ProgressFlow;
 import com.houndjo.domain.enumerations.ProgressStatus;
+import com.houndjo.domain.models.quran.Verse;
+import com.houndjo.domain.models.quran.VerseReference;
 import com.houndjo.domain.ports.out.persistenceport.QuranReferencePort;
 import java.time.Duration;
 import java.time.Instant;
@@ -39,16 +41,55 @@ public class ProgressStateCalculator {
     public ProgressState compute(List<ProgressRecord> records, int fromJuz, int toJuz, int dhorCycleDays, Instant now) {
         FlowSnapshot sabak = latestValidatedSnapshot(records, ProgressFlow.SABAK);
         FlowSnapshot sabqi = latestValidatedSnapshot(records, ProgressFlow.SABQI);
-        Map<Integer, Instant> lastDhorReviewByJuz = lastDhorReviewByJuz(records, fromJuz, toJuz);
-
-        List<Integer> coveredJuz =
-                lastDhorReviewByJuz.keySet().stream().sorted().toList();
-        List<StaleDhorPortion> stalePortions = lastDhorReviewByJuz.entrySet().stream()
-                .map(entry -> new StaleDhorPortion(
-                        entry.getKey(),
-                        entry.getValue(),
-                        Duration.between(entry.getValue(), now).toDays()))
-                .filter(portion -> portion.daysSince() > dhorCycleDays)
+        Map<Verse, Instant> firstMemorized = new HashMap<>();
+        Map<Verse, Instant> lastReviewed = new HashMap<>();
+        Map<QuranPortionRef, List<Verse>> portions = new HashMap<>();
+        for (ProgressRecord record : records) {
+            if (record.getStatus() != ProgressStatus.VALIDATED
+                    || !(record.getPortion() instanceof QuranPortionRef portion)) {
+                continue;
+            }
+            List<Verse> verses = portions.computeIfAbsent(
+                    portion,
+                    ref -> quranReferencePort.versesBetween(
+                            new VerseReference(ref.fromSurah(), ref.fromVerse()),
+                            new VerseReference(ref.toSurah(), ref.toVerse())));
+            for (Verse verse : verses) {
+                if (verse.juz() < fromJuz || verse.juz() > toJuz) {
+                    continue;
+                }
+                if (record.getFlow() == ProgressFlow.DHOR) {
+                    lastReviewed.merge(
+                            verse, record.getCreationDate(), (left, right) -> left.isAfter(right) ? left : right);
+                } else if (record.getFlow() == ProgressFlow.SABAK || record.getFlow() == ProgressFlow.SABQI) {
+                    firstMemorized.merge(
+                            verse, record.getCreationDate(), (left, right) -> left.isBefore(right) ? left : right);
+                }
+            }
+        }
+        List<Integer> coveredJuz = lastReviewed.keySet().stream()
+                .map(Verse::juz)
+                .distinct()
+                .sorted()
+                .toList();
+        // A partial review refreshes only its verses. Never-reviewed memorized verses become
+        // overdue from their first validation, while retaining a null lastReviewedDate.
+        Map<Verse, Instant> dueSince = new HashMap<>(firstMemorized);
+        dueSince.putAll(lastReviewed);
+        Map<Integer, Verse> oldestStaleVerseByJuz = new HashMap<>();
+        dueSince.forEach((verse, date) -> {
+            if (Duration.between(date, now).compareTo(Duration.ofDays(dhorCycleDays)) > 0) {
+                oldestStaleVerseByJuz.merge(
+                        verse.juz(),
+                        verse,
+                        (left, right) -> dueSince.get(left).isBefore(dueSince.get(right)) ? left : right);
+            }
+        });
+        List<StaleDhorPortion> stalePortions = oldestStaleVerseByJuz.values().stream()
+                .map(verse -> new StaleDhorPortion(
+                        verse.juz(),
+                        lastReviewed.get(verse),
+                        Duration.between(dueSince.get(verse), now).toDays()))
                 .sorted(Comparator.comparingInt(StaleDhorPortion::juz))
                 .toList();
 
@@ -63,33 +104,5 @@ public class ProgressStateCalculator {
                 .max(Comparator.comparing(ProgressRecord::getCreationDate))
                 .map(record -> new FlowSnapshot((QuranPortionRef) record.getPortion(), record.getCreationDate()))
                 .orElse(null);
-    }
-
-    private Map<Integer, Instant> lastDhorReviewByJuz(List<ProgressRecord> records, int fromJuz, int toJuz) {
-        Map<Integer, Instant> lastReviewByJuz = new HashMap<>();
-        records.stream()
-                .filter(record -> record.getFlow() == ProgressFlow.DHOR)
-                .filter(record -> record.getStatus() == ProgressStatus.VALIDATED)
-                .filter(record -> record.getPortion() instanceof QuranPortionRef)
-                .forEach(record -> {
-                    QuranPortionRef portion = (QuranPortionRef) record.getPortion();
-                    int startJuz = Math.max(fromJuz, juzOf(portion.fromSurah(), portion.fromVerse()));
-                    int endJuz = Math.min(toJuz, juzOf(portion.toSurah(), portion.toVerse()));
-                    for (int juz = startJuz; juz <= endJuz; juz++) {
-                        lastReviewByJuz.merge(
-                                juz,
-                                record.getCreationDate(),
-                                (existing, candidate) -> existing.isAfter(candidate) ? existing : candidate);
-                    }
-                });
-        return lastReviewByJuz;
-    }
-
-    private int juzOf(int surahNumber, int verseNumber) {
-        return quranReferencePort.versesOfSurah(surahNumber).stream()
-                .filter(verse -> verse.verseNumber() == verseNumber)
-                .findFirst()
-                .orElseThrow()
-                .juz();
     }
 }

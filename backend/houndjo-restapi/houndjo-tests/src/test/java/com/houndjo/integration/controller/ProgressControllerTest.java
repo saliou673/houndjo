@@ -26,7 +26,10 @@ import com.houndjo.infrastructure.adapter.in.rest.controller.requests.UpdateProg
 import com.houndjo.infrastructure.adapter.out.query.PaginatedResult;
 import com.houndjo.integration.IntegrationTest;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -123,6 +126,190 @@ class ProgressControllerTest extends IntegrationTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().is4xxClientError());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "BOOK,SABAK",
+        "QAIDA,SABQI",
+        "BOOK,DHOR",
+        "QURAN,LESSON",
+        "QURAN,CHAPTER",
+        "BOOK,LESSON",
+        "QAIDA,CHAPTER"
+    })
+    void shouldRejectFlowIncompatibleWithCourse(CourseType type, ProgressFlow flow) throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO org = registerAsOwner(OWNER_EMAIL, "School", "contact@school.test");
+        ClassDTO schoolClass = createClass(org.getId());
+        CourseDTO course = createCourse(org.getId(), schoolClass.id(), type);
+        StudentDTO student = createStudent(org.getId());
+        SessionDTO session = createSession(org.getId(), course.id());
+        RecordProgressRequest request = new RecordProgressRequest(
+                student.id(),
+                course.id(),
+                session.id(),
+                flow,
+                1,
+                1,
+                1,
+                7,
+                1L,
+                1,
+                1,
+                0,
+                FluencyRating.GOOD,
+                null,
+                ProgressStatus.VALIDATED,
+                null);
+        mockMvc.perform(MockMvcRequestBuilders.post(PROGRESS_API)
+                        .with(authenticatedForOrganization(OWNER_EMAIL, org.getId(), "progress:create"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1,7,1,1", "2,1,1,7"})
+    void shouldRejectReversedRangeOnCreateAndUpdate(int fromSurah, int fromVerse, int toSurah, int toVerse)
+            throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO org = registerAsOwner(OWNER_EMAIL, "School", "contact@school.test");
+        CourseDTO course =
+                createQuranCourse(org.getId(), createClass(org.getId()).id());
+        StudentDTO student = createStudent(org.getId());
+        SessionDTO session = createSession(org.getId(), course.id());
+        RecordProgressRequest invalid = quranRequest(
+                student.id(), course.id(), session.id(), ProgressFlow.SABAK, fromSurah, fromVerse, toSurah, toVerse);
+        mockMvc.perform(MockMvcRequestBuilders.post(PROGRESS_API)
+                        .with(authenticatedForOrganization(OWNER_EMAIL, org.getId(), "progress:create"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(invalid)))
+                .andExpect(status().isBadRequest());
+        ProgressDTO valid = recordProgress(
+                org.getId(), quranRequest(student.id(), course.id(), session.id(), ProgressFlow.SABAK, 1, 1, 1, 7));
+        UpdateProgressRequest correction = new UpdateProgressRequest(
+                fromSurah,
+                fromVerse,
+                toSurah,
+                toVerse,
+                null,
+                null,
+                null,
+                0,
+                FluencyRating.GOOD,
+                null,
+                ProgressStatus.VALIDATED,
+                null);
+        mockMvc.perform(MockMvcRequestBuilders.put(PROGRESS_API + "/" + valid.id())
+                        .with(authenticatedForOrganization(OWNER_EMAIL, org.getId(), "progress:update"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(correction)))
+                .andExpect(status().isBadRequest());
+        ProgressDTO unchanged = mockMvc(
+                MockMvcRequestBuilders.get(PROGRESS_API + "/" + valid.id())
+                        .with(authenticatedForOrganization(OWNER_EMAIL, org.getId(), "progress:read")),
+                ProgressDTO.class,
+                status().isOk());
+        assertThat(unchanged.quranPortion()).isEqualTo(valid.quranPortion());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "QAIDA,LESSON,-1,1,1",
+        "QAIDA,LESSON,2,1,1",
+        "BOOK,CHAPTER,1,0,1",
+        "BOOK,CHAPTER,1,3,1",
+        "BOOK,CHAPTER,1,1,0",
+        "BOOK,CHAPTER,1,1,21",
+        "BOOK,CHAPTER,1,65537,1",
+        "BOOK,CHAPTER,1,1,65537"
+    })
+    void shouldValidateLessonAndChapterReferencesOnCreateAndUpdate(
+            CourseType type, ProgressFlow flow, long lessonId, int chapterNo, int pageNo) throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO org = registerAsOwner(OWNER_EMAIL, "School", "contact@school.test");
+        CourseDTO course = createCourse(org.getId(), createClass(org.getId()).id(), type);
+        StudentDTO student = createStudent(org.getId());
+        SessionDTO session = createSession(org.getId(), course.id());
+        RecordProgressRequest invalid = new RecordProgressRequest(
+                student.id(),
+                course.id(),
+                session.id(),
+                flow,
+                null,
+                null,
+                null,
+                null,
+                lessonId,
+                chapterNo,
+                pageNo,
+                0,
+                FluencyRating.GOOD,
+                null,
+                ProgressStatus.VALIDATED,
+                null);
+        mockMvc.perform(MockMvcRequestBuilders.post(PROGRESS_API)
+                        .with(authenticatedForOrganization(OWNER_EMAIL, org.getId(), "progress:create"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(invalid)))
+                .andExpect(status().isBadRequest());
+        ProgressDTO valid = recordProgress(
+                org.getId(),
+                new RecordProgressRequest(
+                        student.id(),
+                        course.id(),
+                        session.id(),
+                        flow,
+                        null,
+                        null,
+                        null,
+                        null,
+                        0L,
+                        2,
+                        20,
+                        0,
+                        FluencyRating.GOOD,
+                        null,
+                        ProgressStatus.VALIDATED,
+                        null));
+        UpdateProgressRequest correction = new UpdateProgressRequest(
+                null,
+                null,
+                null,
+                null,
+                lessonId,
+                chapterNo,
+                pageNo,
+                0,
+                FluencyRating.GOOD,
+                null,
+                ProgressStatus.VALIDATED,
+                null);
+        mockMvc.perform(MockMvcRequestBuilders.put(PROGRESS_API + "/" + valid.id())
+                        .with(authenticatedForOrganization(OWNER_EMAIL, org.getId(), "progress:update"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(correction)))
+                .andExpect(status().isBadRequest());
+    }
+
+    private CourseDTO createCourse(Long organizationId, Long classId, CourseType type) throws Exception {
+        CreateCourseRequest request =
+                switch (type) {
+                    case QURAN ->
+                        new CreateCourseRequest("Hifz", type, null, null, QuranMode.HIFZ, 1, 5, null, null, null);
+                    case QAIDA ->
+                        new CreateCourseRequest(
+                                "Qaida", type, null, List.of("First", "Second"), null, null, null, null, null, null);
+                    case BOOK -> new CreateCourseRequest("Book", type, null, null, null, null, null, "Book", 2, 20);
+                };
+        return mockMvc(
+                MockMvcRequestBuilders.post(CLASSES_API + "/" + classId + "/courses")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organizationId, "course:create"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)),
+                CourseDTO.class,
+                status().isCreated());
     }
 
     // endregion

@@ -235,6 +235,115 @@ class ProgressStateControllerTest extends IntegrationTest {
         assertThat(alerts).extracting(RevisionAlertDTO::studentId).containsExactly(staleStudent.id());
     }
 
+    @Test
+    void partialDhorMustKeepAlertForUnreviewedVerses() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO org = registerAsOwner(OWNER_EMAIL, "School", "contact@school.test");
+        CourseDTO course =
+                createQuranCourse(org.getId(), createClass(org.getId()).id());
+        setPace(org.getId(), course.id());
+        StudentDTO student = createStudent(org.getId());
+        SessionDTO session = createSession(org.getId(), course.id());
+        ProgressDTO old = recordProgress(
+                org.getId(),
+                student.id(),
+                course.id(),
+                session.id(),
+                ProgressFlow.DHOR,
+                1,
+                1,
+                1,
+                7,
+                ProgressStatus.VALIDATED);
+        forceCreationDate(old.id(), Instant.now().minus(40, ChronoUnit.DAYS));
+        recordProgress(
+                org.getId(),
+                student.id(),
+                course.id(),
+                session.id(),
+                ProgressFlow.DHOR,
+                1,
+                1,
+                1,
+                3,
+                ProgressStatus.VALIDATED);
+        assertThat(getProgressState(org.getId(), student.id(), course.id()).stalePortions())
+                .hasSize(1);
+        RevisionAlertDTO[] alerts = mockMvc(
+                MockMvcRequestBuilders.get(ORGANIZATIONS_V1_API + "/" + org.getId() + "/revision-alerts")
+                        .with(authenticatedForOrganization(OWNER_EMAIL, org.getId(), "progress:read")),
+                RevisionAlertDTO[].class,
+                status().isOk());
+        assertThat(alerts).extracting(RevisionAlertDTO::studentId).containsExactly(student.id());
+        recordProgress(
+                org.getId(),
+                student.id(),
+                course.id(),
+                session.id(),
+                ProgressFlow.DHOR,
+                1,
+                4,
+                1,
+                7,
+                ProgressStatus.VALIDATED);
+        assertThat(getProgressState(org.getId(), student.id(), course.id()).stalePortions())
+                .isEmpty();
+    }
+
+    @Test
+    void shouldAlertForOldMemorizationNeverReviewedInDhor() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO org = registerAsOwner(OWNER_EMAIL, "School", "contact@school.test");
+        CourseDTO course =
+                createQuranCourse(org.getId(), createClass(org.getId()).id());
+        setPace(org.getId(), course.id());
+        StudentDTO student = createStudent(org.getId());
+        SessionDTO session = createSession(org.getId(), course.id());
+        ProgressDTO old = recordProgress(
+                org.getId(),
+                student.id(),
+                course.id(),
+                session.id(),
+                ProgressFlow.SABAK,
+                1,
+                1,
+                1,
+                7,
+                ProgressStatus.VALIDATED);
+        forceCreationDate(old.id(), Instant.now().minus(40, ChronoUnit.DAYS));
+        ProgressStateDTO state = getProgressState(org.getId(), student.id(), course.id());
+        assertThat(state.coveredJuz()).isEmpty();
+        assertThat(state.stalePortions()).singleElement().satisfies(stale -> {
+            assertThat(stale.lastReviewedDate()).isNull();
+            assertThat(stale.daysSince()).isGreaterThanOrEqualTo(39);
+        });
+    }
+
+    @Test
+    void shouldIsolateStateAndRevisionAlertsByOrganization() throws Exception {
+        createUser(OWNER_EMAIL);
+        String otherOwner = "other@school.test";
+        createUser(otherOwner);
+        OrganizationDTO org = registerAsOwner(OWNER_EMAIL, "School", "contact@school.test");
+        OrganizationDTO other = registerAsOwner(otherOwner, "Other", "contact@other.test");
+        CourseDTO course =
+                createQuranCourse(org.getId(), createClass(org.getId()).id());
+        StudentDTO student = createStudent(org.getId());
+        mockMvc.perform(MockMvcRequestBuilders.get(
+                                STUDENTS_API + "/" + student.id() + "/progress-state?courseId=" + course.id())
+                        .with(authenticatedForOrganization(otherOwner, other.getId(), "progress:read")))
+                .andExpect(status().isNotFound());
+        mockMvc.perform(MockMvcRequestBuilders.get(ORGANIZATIONS_V1_API + "/" + org.getId() + "/revision-alerts")
+                        .with(authenticatedForOrganization(otherOwner, other.getId(), "progress:read")))
+                .andExpect(status().isNotFound());
+        RevisionAlertDTO[] alerts = mockMvc(
+                MockMvcRequestBuilders.get(ORGANIZATIONS_V1_API + "/" + other.getId() + "/revision-alerts")
+                        .with(authenticatedForOrganization(otherOwner, other.getId(), "progress:read")),
+                RevisionAlertDTO[].class,
+                status().isOk());
+        assertThat(alerts).isEmpty();
+    }
+
     private void forceCreationDate(Long progressRecordId, Instant creationDate) {
         int updated = jdbcTemplate.update(
                 "UPDATE progress_record SET creation_date = ? WHERE id = ?",

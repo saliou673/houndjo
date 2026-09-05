@@ -9,6 +9,9 @@ import com.houndjo.domain.exceptions.InvalidProgressPortionException;
 import com.houndjo.domain.exceptions.ProgressRecordNotFoundException;
 import com.houndjo.domain.exceptions.SessionNotFoundException;
 import com.houndjo.domain.exceptions.StudentNotFoundException;
+import com.houndjo.domain.models.academic.BookTrackingConfig;
+import com.houndjo.domain.models.academic.Course;
+import com.houndjo.domain.models.academic.QaidaTrackingConfig;
 import com.houndjo.domain.models.progress.ChapterPortionRef;
 import com.houndjo.domain.models.progress.LessonPortionRef;
 import com.houndjo.domain.models.progress.PortionRef;
@@ -78,9 +81,10 @@ public class ProgressService implements ProgressUseCase {
             String note) {
         Long organizationId = tenantContext.requireCurrentOrganizationId();
         requireStudent(studentId, organizationId);
-        requireCourse(courseId, organizationId);
+        Course course = requireCourse(courseId, organizationId);
         requireSession(sessionId, courseId, organizationId);
         PortionRef portion = buildPortion(flow, fromSurah, fromVerse, toSurah, toVerse, lessonId, chapterNo, pageNo);
+        validatePortion(course, flow, portion);
         log.debug(
                 "Recording progress: organizationId={} studentId={} courseId={} sessionId={} flow={}",
                 organizationId,
@@ -122,6 +126,10 @@ public class ProgressService implements ProgressUseCase {
         ProgressRecord progressRecord = getByIdOrThrow(id);
         PortionRef portion = buildPortion(
                 progressRecord.getFlow(), fromSurah, fromVerse, toSurah, toVerse, lessonId, chapterNo, pageNo);
+        validatePortion(
+                requireCourse(progressRecord.getCourseId(), progressRecord.getOrganizationId()),
+                progressRecord.getFlow(),
+                portion);
         progressRecord.update(portion, errorCount, fluency, tajweed, status, note);
         return progressPersistencePort.save(progressRecord);
     }
@@ -145,8 +153,8 @@ public class ProgressService implements ProgressUseCase {
                 .orElseThrow(() -> new StudentNotFoundException(studentId));
     }
 
-    private void requireCourse(Long courseId, Long organizationId) {
-        coursePersistencePort
+    private Course requireCourse(Long courseId, Long organizationId) {
+        return coursePersistencePort
                 .findByIdAndOrganizationId(courseId, organizationId)
                 .orElseThrow(() -> new CourseNotFoundException(courseId));
     }
@@ -155,6 +163,44 @@ public class ProgressService implements ProgressUseCase {
         sessionPersistencePort
                 .findByIdAndCourseIdAndOrganizationId(sessionId, courseId, organizationId)
                 .orElseThrow(() -> new SessionNotFoundException(sessionId));
+    }
+
+    private void validatePortion(Course course, ProgressFlow flow, PortionRef portion) {
+        boolean matchingType =
+                switch (course.getType()) {
+                    case QURAN -> portion instanceof QuranPortionRef;
+                    case QAIDA -> portion instanceof LessonPortionRef;
+                    case BOOK -> portion instanceof ChapterPortionRef;
+                };
+        if (!matchingType) {
+            throw new InvalidProgressPortionException(flow);
+        }
+        switch (portion) {
+            case QuranPortionRef quran -> {
+                if (quran.fromSurah() > quran.toSurah()
+                        || (quran.fromSurah() == quran.toSurah() && quran.fromVerse() > quran.toVerse())) {
+                    throw new InvalidProgressPortionException(flow);
+                }
+            }
+            case LessonPortionRef lesson -> {
+                QaidaTrackingConfig config = (QaidaTrackingConfig) course.getTrackingConfig();
+                if (lesson.lessonId() < 0
+                        || lesson.lessonId() >= config.lessons().size()) {
+                    throw new InvalidProgressPortionException(flow);
+                }
+            }
+            case ChapterPortionRef chapter -> {
+                BookTrackingConfig config = (BookTrackingConfig) course.getTrackingConfig();
+                if (chapter.chapterNo() < 1
+                        || chapter.chapterNo() > Short.MAX_VALUE
+                        || chapter.pageNo() < 1
+                        || chapter.pageNo() > Short.MAX_VALUE
+                        || (config.totalChapters() != null && chapter.chapterNo() > config.totalChapters())
+                        || (config.totalPages() != null && chapter.pageNo() > config.totalPages())) {
+                    throw new InvalidProgressPortionException(flow);
+                }
+            }
+        }
     }
 
     private PortionRef buildPortion(
