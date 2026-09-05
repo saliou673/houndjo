@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "properties": {
+        "id": { "type": "integer", "format": "int64" },
+        "studentId": { "type": "integer", "format": "int64" },
+        "fromDate": { "type": "string", "format": "date" },
+        "toDate": { "type": "string", "format": "date" },
+        "reason": { "type": "string" },
+        "status": {
+            "type": "string",
+            "enum": ["PENDING", "APPROVED", "REJECTED"]
+        }
+    },
+    "x-readme-ref-name": "AttendancePermission"
+}

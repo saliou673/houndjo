@@ -1,0 +1,33 @@
+{
+    "type": "object",
+    "properties": {
+        "entries": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "studentId": { "type": "integer", "format": "int64" },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "PRESENT",
+                            "ABSENT_JUSTIFIED",
+                            "ABSENT_UNJUSTIFIED",
+                            "PERMISSION"
+                        ]
+                    },
+                    "reason": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "minLength": 0
+                    }
+                },
+                "required": ["status", "studentId"],
+                "x-readme-ref-name": "AttendanceEntryRequest"
+            },
+            "minItems": 1
+        }
+    },
+    "required": ["entries"],
+    "x-readme-ref-name": "BulkAttendanceRequest"
+}

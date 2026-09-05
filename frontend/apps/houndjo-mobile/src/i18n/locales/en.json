@@ -581,6 +581,7 @@
             "cancelAction": "Cancel",
             "cancelConfirmMessage": "Are you sure you want to cancel the session on {{date}}?",
             "recordProgressAction": "Record progress",
+            "recordAttendanceAction": "Take attendance",
             "filters": {
                 "fromDate": "From date",
                 "toDate": "To date"
@@ -666,6 +667,21 @@
                 "staleTitle": "Overdue Dhor revision",
                 "staleJuz": "Juz {{juz}} — {{days}} days since last revision",
                 "noStale": "All Dhor revisions are up to date."
+            }
+        },
+        "attendance": {
+            "statusOptionsShort": {
+                "PRESENT": "Present",
+                "ABSENT_JUSTIFIED": "Justified",
+                "ABSENT_UNJUSTIFIED": "Unjustified",
+                "PERMISSION": "Leave"
+            },
+            "rollCall": {
+                "title": "Take attendance",
+                "errorFallback": "Unable to load the class roster or session attendance.",
+                "noStudents": "No students enrolled in this course yet.",
+                "submit": "Save attendance",
+                "successToast": "Attendance saved."
             }
         }
     },

@@ -411,6 +411,7 @@
             "noResults": "Aucune séance pour le moment.",
             "cancelAction": "Annuler",
             "recordProgressAction": "Enregistrer la progression",
+            "recordAttendanceAction": "Faire l'appel",
             "cancelSuccessToast": "Séance annulée.",
             "filters": {
                 "fromDate": "Du",
@@ -464,7 +465,8 @@
             "errorFallback": "Impossible de charger les élèves.",
             "noResults": "Aucun élève pour le moment.",
             "editAction": "Modifier",
-            "deleteAction": "Supprimer"
+            "deleteAction": "Supprimer",
+            "viewAttendanceAction": "Présence"
         },
         "deleteDialog": {
             "title": "Supprimer l'élève",
@@ -626,6 +628,79 @@
             "staleTitle": "Révision Dhor en retard",
             "staleJuz": "Juz {juz} — {days} jours depuis la dernière révision",
             "noStale": "Toutes les révisions Dhor sont à jour."
+        }
+    },
+    "Attendance": {
+        "statusOptions": {
+            "PRESENT": "Présent",
+            "ABSENT_JUSTIFIED": "Absent (justifié)",
+            "ABSENT_UNJUSTIFIED": "Absent (non justifié)",
+            "PERMISSION": "En permission"
+        },
+        "statusOptionsShort": {
+            "PRESENT": "Présent",
+            "ABSENT_JUSTIFIED": "Justifié",
+            "ABSENT_UNJUSTIFIED": "Non justifié",
+            "PERMISSION": "Permission"
+        },
+        "permissionStatusOptions": {
+            "PENDING": "En attente",
+            "APPROVED": "Approuvée",
+            "REJECTED": "Rejetée"
+        },
+        "rollCallDialog": {
+            "title": "Faire l'appel",
+            "description": "Séance du {date}",
+            "loading": "Chargement...",
+            "errorFallback": "Impossible de charger la liste des élèves.",
+            "noStudents": "Aucun élève inscrit à ce cours pour le moment.",
+            "reasonPlaceholder": "Motif (optionnel)",
+            "submit": "Enregistrer l'appel",
+            "successToast": "Appel enregistré.",
+            "columns": {
+                "student": "Élève",
+                "status": "Statut",
+                "reason": "Motif"
+            },
+            "reasonTooLong": "Le motif ne doit pas dépasser 255 caractères."
+        },
+        "studentDialog": {
+            "title": "Présence — {name}",
+            "description": "Historique de présence et demandes de permission.",
+            "loading": "Chargement...",
+            "errorFallback": "Impossible de charger les données de présence.",
+            "historyTitle": "Historique",
+            "noHistory": "Aucune présence enregistrée pour cette période.",
+            "absenceRate": "{rate}% d'absences",
+            "filters": {
+                "fromDate": "Du",
+                "toDate": "Au"
+            },
+            "columns": {
+                "date": "Date",
+                "status": "Statut",
+                "reason": "Motif"
+            },
+            "permissions": {
+                "title": "Demandes de permission",
+                "noResults": "Aucune demande de permission pour le moment.",
+                "approveAction": "Approuver",
+                "rejectAction": "Rejeter",
+                "requestAction": "Demander une permission",
+                "createSuccessToast": "Demande de permission créée.",
+                "statusUpdatedToast": "Demande de permission mise à jour.",
+                "fields": {
+                    "fromDate": "Du",
+                    "toDate": "Au",
+                    "reason": "Motif (optionnel)"
+                }
+            },
+            "validation": {
+                "fromDateRequired": "La date de début est requise.",
+                "toDateRequired": "La date de fin est requise.",
+                "dateRangeInvalid": "La date de début doit être antérieure ou égale à la date de fin.",
+                "reasonTooLong": "Le motif ne doit pas dépasser 255 caractères."
+            }
         }
     },
     "SettingsAccount": {
