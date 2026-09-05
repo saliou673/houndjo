@@ -47,3 +47,6 @@ databaseChangeLog:
   - include:
       file: 00015-insert-attendance-permission-permissions.sql
       relativeToChangelogFile: true
+  - include:
+      file: 00016-insert-billing-permissions.sql
+      relativeToChangelogFile: true
