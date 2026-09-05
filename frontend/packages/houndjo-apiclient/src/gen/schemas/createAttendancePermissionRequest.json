@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "properties": {
+        "studentId": { "type": "integer", "format": "int64" },
+        "fromDate": { "type": "string", "format": "date" },
+        "toDate": { "type": "string", "format": "date" },
+        "reason": { "type": "string", "maxLength": 255, "minLength": 0 }
+    },
+    "required": ["fromDate", "studentId", "toDate"],
+    "x-readme-ref-name": "CreateAttendancePermissionRequest"
+}

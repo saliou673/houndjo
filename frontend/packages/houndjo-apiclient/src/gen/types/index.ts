@@ -62,6 +62,16 @@ export type {
     AssignRoleGroupAsAdminPathParams,
 } from "./AssignRoleGroupAsAdmin.ts";
 export type { AssignRoleGroupRequest } from "./AssignRoleGroupRequest.ts";
+export type { Attendance, AttendanceStatusEnumKey } from "./Attendance.ts";
+export type {
+    AttendanceEntryRequest,
+    AttendanceEntryRequestStatusEnumKey,
+} from "./AttendanceEntryRequest.ts";
+export type { AttendanceHistory } from "./AttendanceHistory.ts";
+export type {
+    AttendancePermission,
+    AttendancePermissionStatusEnumKey,
+} from "./AttendancePermission.ts";
 export type {
     Authenticate200,
     Authenticate403,
@@ -75,6 +85,7 @@ export type {
     AuthenticateMutationResponse,
 } from "./Authenticate.ts";
 export type { BooleanFilter } from "./BooleanFilter.ts";
+export type { BulkAttendanceRequest } from "./BulkAttendanceRequest.ts";
 export type {
     CancelSession200,
     CancelSession403,
@@ -192,6 +203,19 @@ export type {
     CreateAppConfigurationRequest,
     CreateAppConfigurationRequestCategoryEnumKey,
 } from "./CreateAppConfigurationRequest.ts";
+export type {
+    CreateAttendancePermission201,
+    CreateAttendancePermission403,
+    CreateAttendancePermission404,
+    CreateAttendancePermission409,
+    CreateAttendancePermission500,
+    CreateAttendancePermissionHeaderParams,
+    CreateAttendancePermissionHeaderParamsXAPIVersionEnumKey,
+    CreateAttendancePermissionMutation,
+    CreateAttendancePermissionMutationRequest,
+    CreateAttendancePermissionMutationResponse,
+} from "./CreateAttendancePermission.ts";
+export type { CreateAttendancePermissionRequest } from "./CreateAttendancePermissionRequest.ts";
 export type {
     CreateClass201,
     CreateClass403,
@@ -509,6 +533,43 @@ export type {
     GetAppConfigurationsAsAdminQueryParams,
     GetAppConfigurationsAsAdminQueryResponse,
 } from "./GetAppConfigurationsAsAdmin.ts";
+export type {
+    GetAttendance200,
+    GetAttendance403,
+    GetAttendance404,
+    GetAttendance409,
+    GetAttendance500,
+    GetAttendanceHeaderParams,
+    GetAttendanceHeaderParamsXAPIVersionEnumKey,
+    GetAttendancePathParams,
+    GetAttendanceQuery,
+    GetAttendanceQueryResponse,
+} from "./GetAttendance.ts";
+export type {
+    GetAttendanceHistory200,
+    GetAttendanceHistory403,
+    GetAttendanceHistory404,
+    GetAttendanceHistory409,
+    GetAttendanceHistory500,
+    GetAttendanceHistoryHeaderParams,
+    GetAttendanceHistoryHeaderParamsXAPIVersionEnumKey,
+    GetAttendanceHistoryPathParams,
+    GetAttendanceHistoryQuery,
+    GetAttendanceHistoryQueryParams,
+    GetAttendanceHistoryQueryResponse,
+} from "./GetAttendanceHistory.ts";
+export type {
+    GetAttendancePermissionById200,
+    GetAttendancePermissionById403,
+    GetAttendancePermissionById404,
+    GetAttendancePermissionById409,
+    GetAttendancePermissionById500,
+    GetAttendancePermissionByIdHeaderParams,
+    GetAttendancePermissionByIdHeaderParamsXAPIVersionEnumKey,
+    GetAttendancePermissionByIdPathParams,
+    GetAttendancePermissionByIdQuery,
+    GetAttendancePermissionByIdQueryResponse,
+} from "./GetAttendancePermissionById.ts";
 export type {
     GetCategoriesAsAdmin200,
     GetCategoriesAsAdmin403,
@@ -1036,6 +1097,19 @@ export type { ProgressQuranPortion } from "./ProgressQuranPortion.ts";
 export type { ProgressState } from "./ProgressState.ts";
 export type { QuranScope } from "./QuranScope.ts";
 export type {
+    RecordBulkAttendance200,
+    RecordBulkAttendance403,
+    RecordBulkAttendance404,
+    RecordBulkAttendance409,
+    RecordBulkAttendance500,
+    RecordBulkAttendanceHeaderParams,
+    RecordBulkAttendanceHeaderParamsXAPIVersionEnumKey,
+    RecordBulkAttendanceMutation,
+    RecordBulkAttendanceMutationRequest,
+    RecordBulkAttendanceMutationResponse,
+    RecordBulkAttendancePathParams,
+} from "./RecordBulkAttendance.ts";
+export type {
     RecordProgress201,
     RecordProgress403,
     RecordProgress404,
@@ -1234,6 +1308,23 @@ export type {
     UpdateAppConfigurationAsAdminPathParams,
 } from "./UpdateAppConfigurationAsAdmin.ts";
 export type { UpdateAppConfigurationRequest } from "./UpdateAppConfigurationRequest.ts";
+export type {
+    UpdateAttendancePermissionStatus200,
+    UpdateAttendancePermissionStatus403,
+    UpdateAttendancePermissionStatus404,
+    UpdateAttendancePermissionStatus409,
+    UpdateAttendancePermissionStatus500,
+    UpdateAttendancePermissionStatusHeaderParams,
+    UpdateAttendancePermissionStatusHeaderParamsXAPIVersionEnumKey,
+    UpdateAttendancePermissionStatusMutation,
+    UpdateAttendancePermissionStatusMutationRequest,
+    UpdateAttendancePermissionStatusMutationResponse,
+    UpdateAttendancePermissionStatusPathParams,
+} from "./UpdateAttendancePermissionStatus.ts";
+export type {
+    UpdateAttendancePermissionStatusRequest,
+    UpdateAttendancePermissionStatusRequestStatusEnumKey,
+} from "./UpdateAttendancePermissionStatusRequest.ts";
 export type {
     UpdateByCategoryAndCode200,
     UpdateByCategoryAndCode403,
@@ -1466,6 +1557,9 @@ export { appConfigurationCategoryFilterNotInEnum } from "./AppConfigurationCateg
 export { appearancePreferencesFontEnum } from "./AppearancePreferences.ts";
 export { appearancePreferencesThemeEnum } from "./AppearancePreferences.ts";
 export { assignRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./AssignRoleGroupAsAdmin.ts";
+export { attendanceStatusEnum } from "./Attendance.ts";
+export { attendanceEntryRequestStatusEnum } from "./AttendanceEntryRequest.ts";
+export { attendancePermissionStatusEnum } from "./AttendancePermission.ts";
 export { authenticateHeaderParamsXAPIVersionEnum } from "./Authenticate.ts";
 export { cancelSessionHeaderParamsXAPIVersionEnum } from "./CancelSession.ts";
 export { changeMembershipRoleHeaderParamsXAPIVersionEnum } from "./ChangeMembershipRole.ts";
@@ -1480,6 +1574,7 @@ export { courseTypeEnum } from "./Course.ts";
 export { createAdminUserRequestGenderEnum } from "./CreateAdminUserRequest.ts";
 export { createAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./CreateAppConfigurationAsAdmin.ts";
 export { createAppConfigurationRequestCategoryEnum } from "./CreateAppConfigurationRequest.ts";
+export { createAttendancePermissionHeaderParamsXAPIVersionEnum } from "./CreateAttendancePermission.ts";
 export { createClassHeaderParamsXAPIVersionEnum } from "./CreateClass.ts";
 export { createCourseHeaderParamsXAPIVersionEnum } from "./CreateCourse.ts";
 export { createCourseRequestQuranModeEnum } from "./CreateCourseRequest.ts";
@@ -1512,6 +1607,9 @@ export { getAppConfigurationByCategoryAndCodePathParamsCategoryEnum } from "./Ge
 export { getAppConfigurationByIdAsAdminHeaderParamsXAPIVersionEnum } from "./GetAppConfigurationByIdAsAdmin.ts";
 export { getAppConfigurationsHeaderParamsXAPIVersionEnum } from "./GetAppConfigurations.ts";
 export { getAppConfigurationsAsAdminHeaderParamsXAPIVersionEnum } from "./GetAppConfigurationsAsAdmin.ts";
+export { getAttendanceHeaderParamsXAPIVersionEnum } from "./GetAttendance.ts";
+export { getAttendanceHistoryHeaderParamsXAPIVersionEnum } from "./GetAttendanceHistory.ts";
+export { getAttendancePermissionByIdHeaderParamsXAPIVersionEnum } from "./GetAttendancePermissionById.ts";
 export { getCategoriesAsAdminHeaderParamsXAPIVersionEnum } from "./GetCategoriesAsAdmin.ts";
 export { getClassByIdHeaderParamsXAPIVersionEnum } from "./GetClassById.ts";
 export { getClassesHeaderParamsXAPIVersionEnum } from "./GetClasses.ts";
@@ -1566,6 +1664,7 @@ export { progressFlowEnum } from "./Progress.ts";
 export { progressFluencyEnum } from "./Progress.ts";
 export { progressStatusEnum } from "./Progress.ts";
 export { progressTajweedEnum } from "./Progress.ts";
+export { recordBulkAttendanceHeaderParamsXAPIVersionEnum } from "./RecordBulkAttendance.ts";
 export { recordProgressHeaderParamsXAPIVersionEnum } from "./RecordProgress.ts";
 export { recordProgressRequestFlowEnum } from "./RecordProgressRequest.ts";
 export { recordProgressRequestFluencyEnum } from "./RecordProgressRequest.ts";
@@ -1589,6 +1688,8 @@ export { surahRevelationPlaceEnum } from "./Surah.ts";
 export { twoFactorSetupRequestTypeEnum } from "./TwoFactorSetupRequest.ts";
 export { updateAccountHeaderParamsXAPIVersionEnum } from "./UpdateAccount.ts";
 export { updateAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./UpdateAppConfigurationAsAdmin.ts";
+export { updateAttendancePermissionStatusHeaderParamsXAPIVersionEnum } from "./UpdateAttendancePermissionStatus.ts";
+export { updateAttendancePermissionStatusRequestStatusEnum } from "./UpdateAttendancePermissionStatusRequest.ts";
 export { updateByCategoryAndCodeHeaderParamsXAPIVersionEnum } from "./UpdateByCategoryAndCode.ts";
 export { updateByCategoryAndCodePathParamsCategoryEnum } from "./UpdateByCategoryAndCode.ts";
 export { updateClassHeaderParamsXAPIVersionEnum } from "./UpdateClass.ts";

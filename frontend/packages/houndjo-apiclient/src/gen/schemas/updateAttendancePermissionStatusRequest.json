@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "properties": {
+        "status": {
+            "type": "string",
+            "enum": ["PENDING", "APPROVED", "REJECTED"]
+        }
+    },
+    "required": ["status"],
+    "x-readme-ref-name": "UpdateAttendancePermissionStatusRequest"
+}

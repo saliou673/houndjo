@@ -1,0 +1,30 @@
+{
+    "type": "object",
+    "properties": {
+        "entries": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "integer", "format": "int64" },
+                    "studentId": { "type": "integer", "format": "int64" },
+                    "studentName": { "type": "string" },
+                    "sessionId": { "type": "integer", "format": "int64" },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "PRESENT",
+                            "ABSENT_JUSTIFIED",
+                            "ABSENT_UNJUSTIFIED",
+                            "PERMISSION"
+                        ]
+                    },
+                    "reason": { "type": "string" }
+                },
+                "x-readme-ref-name": "Attendance"
+            }
+        },
+        "absenceRate": { "type": "number", "format": "double" }
+    },
+    "x-readme-ref-name": "AttendanceHistory"
+}

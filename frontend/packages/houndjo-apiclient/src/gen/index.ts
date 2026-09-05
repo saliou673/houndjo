@@ -24,6 +24,15 @@ export type { GetUsersAsAdminQueryKey } from "./react-query/admin-user-managemen
 export type { GetUsersAsAdminSuspenseQueryKey } from "./react-query/admin-user-management/useGetUsersAsAdminSuspense.ts";
 export type { RevokeRoleGroupAsAdminMutationKey } from "./react-query/admin-user-management/useRevokeRoleGroupAsAdmin.ts";
 export type { UpdateUserAsAdminMutationKey } from "./react-query/admin-user-management/useUpdateUserAsAdmin.ts";
+export type { CreateAttendancePermissionMutationKey } from "./react-query/attendance-management/useCreateAttendancePermission.ts";
+export type { GetAttendanceQueryKey } from "./react-query/attendance-management/useGetAttendance.ts";
+export type { GetAttendanceHistoryQueryKey } from "./react-query/attendance-management/useGetAttendanceHistory.ts";
+export type { GetAttendanceHistorySuspenseQueryKey } from "./react-query/attendance-management/useGetAttendanceHistorySuspense.ts";
+export type { GetAttendancePermissionByIdQueryKey } from "./react-query/attendance-management/useGetAttendancePermissionById.ts";
+export type { GetAttendancePermissionByIdSuspenseQueryKey } from "./react-query/attendance-management/useGetAttendancePermissionByIdSuspense.ts";
+export type { GetAttendanceSuspenseQueryKey } from "./react-query/attendance-management/useGetAttendanceSuspense.ts";
+export type { RecordBulkAttendanceMutationKey } from "./react-query/attendance-management/useRecordBulkAttendance.ts";
+export type { UpdateAttendancePermissionStatusMutationKey } from "./react-query/attendance-management/useUpdateAttendancePermissionStatus.ts";
 export type { AuthenticateMutationKey } from "./react-query/authentication-management/useAuthenticate.ts";
 export type { LogoutMutationKey } from "./react-query/authentication-management/useLogout.ts";
 export type { RefreshTokenMutationKey } from "./react-query/authentication-management/useRefreshToken.ts";
@@ -207,6 +216,19 @@ export type {
 } from "./types/AssignRoleGroupAsAdmin.ts";
 export type { AssignRoleGroupRequest } from "./types/AssignRoleGroupRequest.ts";
 export type {
+    Attendance,
+    AttendanceStatusEnumKey,
+} from "./types/Attendance.ts";
+export type {
+    AttendanceEntryRequest,
+    AttendanceEntryRequestStatusEnumKey,
+} from "./types/AttendanceEntryRequest.ts";
+export type { AttendanceHistory } from "./types/AttendanceHistory.ts";
+export type {
+    AttendancePermission,
+    AttendancePermissionStatusEnumKey,
+} from "./types/AttendancePermission.ts";
+export type {
     Authenticate200,
     Authenticate403,
     Authenticate404,
@@ -219,6 +241,7 @@ export type {
     AuthenticateMutationResponse,
 } from "./types/Authenticate.ts";
 export type { BooleanFilter } from "./types/BooleanFilter.ts";
+export type { BulkAttendanceRequest } from "./types/BulkAttendanceRequest.ts";
 export type {
     CancelSession200,
     CancelSession403,
@@ -336,6 +359,19 @@ export type {
     CreateAppConfigurationRequest,
     CreateAppConfigurationRequestCategoryEnumKey,
 } from "./types/CreateAppConfigurationRequest.ts";
+export type {
+    CreateAttendancePermission201,
+    CreateAttendancePermission403,
+    CreateAttendancePermission404,
+    CreateAttendancePermission409,
+    CreateAttendancePermission500,
+    CreateAttendancePermissionHeaderParams,
+    CreateAttendancePermissionHeaderParamsXAPIVersionEnumKey,
+    CreateAttendancePermissionMutation,
+    CreateAttendancePermissionMutationRequest,
+    CreateAttendancePermissionMutationResponse,
+} from "./types/CreateAttendancePermission.ts";
+export type { CreateAttendancePermissionRequest } from "./types/CreateAttendancePermissionRequest.ts";
 export type {
     CreateClass201,
     CreateClass403,
@@ -659,6 +695,43 @@ export type {
     GetAppConfigurationsAsAdminQueryParams,
     GetAppConfigurationsAsAdminQueryResponse,
 } from "./types/GetAppConfigurationsAsAdmin.ts";
+export type {
+    GetAttendance200,
+    GetAttendance403,
+    GetAttendance404,
+    GetAttendance409,
+    GetAttendance500,
+    GetAttendanceHeaderParams,
+    GetAttendanceHeaderParamsXAPIVersionEnumKey,
+    GetAttendancePathParams,
+    GetAttendanceQuery,
+    GetAttendanceQueryResponse,
+} from "./types/GetAttendance.ts";
+export type {
+    GetAttendanceHistory200,
+    GetAttendanceHistory403,
+    GetAttendanceHistory404,
+    GetAttendanceHistory409,
+    GetAttendanceHistory500,
+    GetAttendanceHistoryHeaderParams,
+    GetAttendanceHistoryHeaderParamsXAPIVersionEnumKey,
+    GetAttendanceHistoryPathParams,
+    GetAttendanceHistoryQuery,
+    GetAttendanceHistoryQueryParams,
+    GetAttendanceHistoryQueryResponse,
+} from "./types/GetAttendanceHistory.ts";
+export type {
+    GetAttendancePermissionById200,
+    GetAttendancePermissionById403,
+    GetAttendancePermissionById404,
+    GetAttendancePermissionById409,
+    GetAttendancePermissionById500,
+    GetAttendancePermissionByIdHeaderParams,
+    GetAttendancePermissionByIdHeaderParamsXAPIVersionEnumKey,
+    GetAttendancePermissionByIdPathParams,
+    GetAttendancePermissionByIdQuery,
+    GetAttendancePermissionByIdQueryResponse,
+} from "./types/GetAttendancePermissionById.ts";
 export type {
     GetCategoriesAsAdmin200,
     GetCategoriesAsAdmin403,
@@ -1186,6 +1259,19 @@ export type { ProgressQuranPortion } from "./types/ProgressQuranPortion.ts";
 export type { ProgressState } from "./types/ProgressState.ts";
 export type { QuranScope } from "./types/QuranScope.ts";
 export type {
+    RecordBulkAttendance200,
+    RecordBulkAttendance403,
+    RecordBulkAttendance404,
+    RecordBulkAttendance409,
+    RecordBulkAttendance500,
+    RecordBulkAttendanceHeaderParams,
+    RecordBulkAttendanceHeaderParamsXAPIVersionEnumKey,
+    RecordBulkAttendanceMutation,
+    RecordBulkAttendanceMutationRequest,
+    RecordBulkAttendanceMutationResponse,
+    RecordBulkAttendancePathParams,
+} from "./types/RecordBulkAttendance.ts";
+export type {
     RecordProgress201,
     RecordProgress403,
     RecordProgress404,
@@ -1384,6 +1470,23 @@ export type {
     UpdateAppConfigurationAsAdminPathParams,
 } from "./types/UpdateAppConfigurationAsAdmin.ts";
 export type { UpdateAppConfigurationRequest } from "./types/UpdateAppConfigurationRequest.ts";
+export type {
+    UpdateAttendancePermissionStatus200,
+    UpdateAttendancePermissionStatus403,
+    UpdateAttendancePermissionStatus404,
+    UpdateAttendancePermissionStatus409,
+    UpdateAttendancePermissionStatus500,
+    UpdateAttendancePermissionStatusHeaderParams,
+    UpdateAttendancePermissionStatusHeaderParamsXAPIVersionEnumKey,
+    UpdateAttendancePermissionStatusMutation,
+    UpdateAttendancePermissionStatusMutationRequest,
+    UpdateAttendancePermissionStatusMutationResponse,
+    UpdateAttendancePermissionStatusPathParams,
+} from "./types/UpdateAttendancePermissionStatus.ts";
+export type {
+    UpdateAttendancePermissionStatusRequest,
+    UpdateAttendancePermissionStatusRequestStatusEnumKey,
+} from "./types/UpdateAttendancePermissionStatusRequest.ts";
 export type {
     UpdateByCategoryAndCode200,
     UpdateByCategoryAndCode403,
@@ -1625,6 +1728,13 @@ export { getUserPermissionsAsAdmin } from "./client/admin-user-management/getUse
 export { getUsersAsAdmin } from "./client/admin-user-management/getUsersAsAdmin.ts";
 export { revokeRoleGroupAsAdmin } from "./client/admin-user-management/revokeRoleGroupAsAdmin.ts";
 export { updateUserAsAdmin } from "./client/admin-user-management/updateUserAsAdmin.ts";
+export { attendancemanagement } from "./client/attendance-management/attendancemanagement.ts";
+export { createAttendancePermission } from "./client/attendance-management/createAttendancePermission.ts";
+export { getAttendance } from "./client/attendance-management/getAttendance.ts";
+export { getAttendanceHistory } from "./client/attendance-management/getAttendanceHistory.ts";
+export { getAttendancePermissionById } from "./client/attendance-management/getAttendancePermissionById.ts";
+export { recordBulkAttendance } from "./client/attendance-management/recordBulkAttendance.ts";
+export { updateAttendancePermissionStatus } from "./client/attendance-management/updateAttendancePermissionStatus.ts";
 export { authenticate } from "./client/authentication-management/authenticate.ts";
 export { authenticationmanagement } from "./client/authentication-management/authenticationmanagement.ts";
 export { logout } from "./client/authentication-management/logout.ts";
@@ -1804,6 +1914,33 @@ export { useRevokeRoleGroupAsAdmin } from "./react-query/admin-user-management/u
 export { updateUserAsAdminMutationKey } from "./react-query/admin-user-management/useUpdateUserAsAdmin.ts";
 export { updateUserAsAdminMutationOptions } from "./react-query/admin-user-management/useUpdateUserAsAdmin.ts";
 export { useUpdateUserAsAdmin } from "./react-query/admin-user-management/useUpdateUserAsAdmin.ts";
+export { createAttendancePermissionMutationKey } from "./react-query/attendance-management/useCreateAttendancePermission.ts";
+export { createAttendancePermissionMutationOptions } from "./react-query/attendance-management/useCreateAttendancePermission.ts";
+export { useCreateAttendancePermission } from "./react-query/attendance-management/useCreateAttendancePermission.ts";
+export { getAttendanceQueryKey } from "./react-query/attendance-management/useGetAttendance.ts";
+export { getAttendanceQueryOptions } from "./react-query/attendance-management/useGetAttendance.ts";
+export { useGetAttendance } from "./react-query/attendance-management/useGetAttendance.ts";
+export { getAttendanceHistoryQueryKey } from "./react-query/attendance-management/useGetAttendanceHistory.ts";
+export { getAttendanceHistoryQueryOptions } from "./react-query/attendance-management/useGetAttendanceHistory.ts";
+export { useGetAttendanceHistory } from "./react-query/attendance-management/useGetAttendanceHistory.ts";
+export { getAttendanceHistorySuspenseQueryKey } from "./react-query/attendance-management/useGetAttendanceHistorySuspense.ts";
+export { getAttendanceHistorySuspenseQueryOptions } from "./react-query/attendance-management/useGetAttendanceHistorySuspense.ts";
+export { useGetAttendanceHistorySuspense } from "./react-query/attendance-management/useGetAttendanceHistorySuspense.ts";
+export { getAttendancePermissionByIdQueryKey } from "./react-query/attendance-management/useGetAttendancePermissionById.ts";
+export { getAttendancePermissionByIdQueryOptions } from "./react-query/attendance-management/useGetAttendancePermissionById.ts";
+export { useGetAttendancePermissionById } from "./react-query/attendance-management/useGetAttendancePermissionById.ts";
+export { getAttendancePermissionByIdSuspenseQueryKey } from "./react-query/attendance-management/useGetAttendancePermissionByIdSuspense.ts";
+export { getAttendancePermissionByIdSuspenseQueryOptions } from "./react-query/attendance-management/useGetAttendancePermissionByIdSuspense.ts";
+export { useGetAttendancePermissionByIdSuspense } from "./react-query/attendance-management/useGetAttendancePermissionByIdSuspense.ts";
+export { getAttendanceSuspenseQueryKey } from "./react-query/attendance-management/useGetAttendanceSuspense.ts";
+export { getAttendanceSuspenseQueryOptions } from "./react-query/attendance-management/useGetAttendanceSuspense.ts";
+export { useGetAttendanceSuspense } from "./react-query/attendance-management/useGetAttendanceSuspense.ts";
+export { recordBulkAttendanceMutationKey } from "./react-query/attendance-management/useRecordBulkAttendance.ts";
+export { recordBulkAttendanceMutationOptions } from "./react-query/attendance-management/useRecordBulkAttendance.ts";
+export { useRecordBulkAttendance } from "./react-query/attendance-management/useRecordBulkAttendance.ts";
+export { updateAttendancePermissionStatusMutationKey } from "./react-query/attendance-management/useUpdateAttendancePermissionStatus.ts";
+export { updateAttendancePermissionStatusMutationOptions } from "./react-query/attendance-management/useUpdateAttendancePermissionStatus.ts";
+export { useUpdateAttendancePermissionStatus } from "./react-query/attendance-management/useUpdateAttendancePermissionStatus.ts";
 export { authenticateMutationKey } from "./react-query/authentication-management/useAuthenticate.ts";
 export { authenticateMutationOptions } from "./react-query/authentication-management/useAuthenticate.ts";
 export { useAuthenticate } from "./react-query/authentication-management/useAuthenticate.ts";
@@ -2170,6 +2307,9 @@ export { appConfigurationCategoryFilterNotInEnum } from "./types/AppConfiguratio
 export { appearancePreferencesFontEnum } from "./types/AppearancePreferences.ts";
 export { appearancePreferencesThemeEnum } from "./types/AppearancePreferences.ts";
 export { assignRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./types/AssignRoleGroupAsAdmin.ts";
+export { attendanceStatusEnum } from "./types/Attendance.ts";
+export { attendanceEntryRequestStatusEnum } from "./types/AttendanceEntryRequest.ts";
+export { attendancePermissionStatusEnum } from "./types/AttendancePermission.ts";
 export { authenticateHeaderParamsXAPIVersionEnum } from "./types/Authenticate.ts";
 export { cancelSessionHeaderParamsXAPIVersionEnum } from "./types/CancelSession.ts";
 export { changeMembershipRoleHeaderParamsXAPIVersionEnum } from "./types/ChangeMembershipRole.ts";
@@ -2184,6 +2324,7 @@ export { courseTypeEnum } from "./types/Course.ts";
 export { createAdminUserRequestGenderEnum } from "./types/CreateAdminUserRequest.ts";
 export { createAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./types/CreateAppConfigurationAsAdmin.ts";
 export { createAppConfigurationRequestCategoryEnum } from "./types/CreateAppConfigurationRequest.ts";
+export { createAttendancePermissionHeaderParamsXAPIVersionEnum } from "./types/CreateAttendancePermission.ts";
 export { createClassHeaderParamsXAPIVersionEnum } from "./types/CreateClass.ts";
 export { createCourseHeaderParamsXAPIVersionEnum } from "./types/CreateCourse.ts";
 export { createCourseRequestQuranModeEnum } from "./types/CreateCourseRequest.ts";
@@ -2216,6 +2357,9 @@ export { getAppConfigurationByCategoryAndCodePathParamsCategoryEnum } from "./ty
 export { getAppConfigurationByIdAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetAppConfigurationByIdAsAdmin.ts";
 export { getAppConfigurationsHeaderParamsXAPIVersionEnum } from "./types/GetAppConfigurations.ts";
 export { getAppConfigurationsAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetAppConfigurationsAsAdmin.ts";
+export { getAttendanceHeaderParamsXAPIVersionEnum } from "./types/GetAttendance.ts";
+export { getAttendanceHistoryHeaderParamsXAPIVersionEnum } from "./types/GetAttendanceHistory.ts";
+export { getAttendancePermissionByIdHeaderParamsXAPIVersionEnum } from "./types/GetAttendancePermissionById.ts";
 export { getCategoriesAsAdminHeaderParamsXAPIVersionEnum } from "./types/GetCategoriesAsAdmin.ts";
 export { getClassByIdHeaderParamsXAPIVersionEnum } from "./types/GetClassById.ts";
 export { getClassesHeaderParamsXAPIVersionEnum } from "./types/GetClasses.ts";
@@ -2270,6 +2414,7 @@ export { progressFlowEnum } from "./types/Progress.ts";
 export { progressFluencyEnum } from "./types/Progress.ts";
 export { progressStatusEnum } from "./types/Progress.ts";
 export { progressTajweedEnum } from "./types/Progress.ts";
+export { recordBulkAttendanceHeaderParamsXAPIVersionEnum } from "./types/RecordBulkAttendance.ts";
 export { recordProgressHeaderParamsXAPIVersionEnum } from "./types/RecordProgress.ts";
 export { recordProgressRequestFlowEnum } from "./types/RecordProgressRequest.ts";
 export { recordProgressRequestFluencyEnum } from "./types/RecordProgressRequest.ts";
@@ -2293,6 +2438,8 @@ export { surahRevelationPlaceEnum } from "./types/Surah.ts";
 export { twoFactorSetupRequestTypeEnum } from "./types/TwoFactorSetupRequest.ts";
 export { updateAccountHeaderParamsXAPIVersionEnum } from "./types/UpdateAccount.ts";
 export { updateAppConfigurationAsAdminHeaderParamsXAPIVersionEnum } from "./types/UpdateAppConfigurationAsAdmin.ts";
+export { updateAttendancePermissionStatusHeaderParamsXAPIVersionEnum } from "./types/UpdateAttendancePermissionStatus.ts";
+export { updateAttendancePermissionStatusRequestStatusEnum } from "./types/UpdateAttendancePermissionStatusRequest.ts";
 export { updateByCategoryAndCodeHeaderParamsXAPIVersionEnum } from "./types/UpdateByCategoryAndCode.ts";
 export { updateByCategoryAndCodePathParamsCategoryEnum } from "./types/UpdateByCategoryAndCode.ts";
 export { updateClassHeaderParamsXAPIVersionEnum } from "./types/UpdateClass.ts";
