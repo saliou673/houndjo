@@ -11,7 +11,7 @@ import java.util.List;
  * @param sabak         the last validated Sabak portion, or {@code null} if none recorded yet
  * @param sabqi         the last validated Sabqi portion, or {@code null} if none recorded yet
  * @param coveredJuz    every juz Dhor-revised at least once, ascending
- * @param stalePortions the subset of {@code coveredJuz} whose last revision is now stale
+ * @param stalePortions juz containing overdue verses, including memorized verses never Dhor-revised
  */
 public record ProgressState(
         FlowSnapshot sabak, FlowSnapshot sabqi, List<Integer> coveredJuz, List<StaleDhorPortion> stalePortions) {}
