@@ -4,6 +4,7 @@ import { type AttendanceStatusEnumKey } from "@api-client";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { attendanceAppearance } from "../data/policy";
 import { ATTENDANCE_STATUSES } from "../data/schema";
 
 type AttendanceStatusToggleProps = {
@@ -31,12 +32,8 @@ export function AttendanceStatusToggle({
                     onClick={() => onChange(status)}
                     className={cn(
                         "h-8 px-2 text-xs",
-                        status === "PRESENT" &&
-                            status === value &&
-                            "bg-emerald-600 hover:bg-emerald-600/90",
-                        status === "ABSENT_UNJUSTIFIED" &&
-                            status === value &&
-                            "bg-destructive hover:bg-destructive/90"
+                        status === value &&
+                            attendanceAppearance[status].className
                     )}
                 >
                     {t(status)}

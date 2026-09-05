@@ -5,6 +5,7 @@ import { useGetCourseById, useGetCurrentUserPermissions } from "@api-client";
 import { Plus, RefreshCw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { allowedActions } from "@/lib/allowed-actions";
 import { Button } from "@/components/ui/button";
 import { Main } from "@/components/layout/main";
 import { PaceEditor } from "./components/pace-editor";
@@ -20,7 +21,11 @@ type CourseDetailProps = {
 export function CourseDetail({ classId, courseId }: CourseDetailProps) {
     const t = useTranslations("Classes.courseDetail");
     const { data: permissions } = useGetCurrentUserPermissions();
-    const { data: course, isLoading, isError } = useGetCourseById(classId, courseId);
+    const {
+        data: course,
+        isLoading,
+        isError,
+    } = useGetCourseById(classId, courseId);
 
     const permissionCodes = new Set(
         (permissions ?? [])
@@ -32,7 +37,11 @@ export function CourseDetail({ classId, courseId }: CourseDetailProps) {
     const canCreateSession = permissionCodes.has("session:create");
     const canUpdateSession = permissionCodes.has("session:update");
     const canRecordProgress = permissionCodes.has("progress:create");
-    const canRecordAttendance = permissionCodes.has("attendance:create");
+    const canRecordAttendance = [
+        "attendance:create",
+        "attendance:read",
+        "enrollment:read",
+    ].every((code) => permissionCodes.has(code));
     const canAccessSessions = canReadSession || canCreateSession;
 
     const [addSessionOpen, setAddSessionOpen] = useState(false);
@@ -63,7 +72,9 @@ export function CourseDetail({ classId, courseId }: CourseDetailProps) {
                 >
                     {t("backToClass")}
                 </Link>
-                <h2 className="text-2xl font-bold tracking-tight">{course.name}</h2>
+                <h2 className="text-2xl font-bold tracking-tight">
+                    {course.name}
+                </h2>
             </div>
 
             <PaceEditor
@@ -92,7 +103,8 @@ export function CourseDetail({ classId, courseId }: CourseDetailProps) {
                                     className="space-x-1"
                                     onClick={() => setAddSessionOpen(true)}
                                 >
-                                    <span>{t("addSession")}</span> <Plus size={18} />
+                                    <span>{t("addSession")}</span>{" "}
+                                    <Plus size={18} />
                                 </Button>
                             </div>
                         )}
@@ -102,9 +114,11 @@ export function CourseDetail({ classId, courseId }: CourseDetailProps) {
                         <SessionList
                             classId={classId}
                             courseId={courseId}
-                            canUpdate={canUpdateSession}
-                            canRecordProgress={canRecordProgress}
-                            canRecordAttendance={canRecordAttendance}
+                            actions={allowedActions({
+                                update: canUpdateSession,
+                                progress: canRecordProgress,
+                                attendance: canRecordAttendance,
+                            })}
                         />
                     )}
 

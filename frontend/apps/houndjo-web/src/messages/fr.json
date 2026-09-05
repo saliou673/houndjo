@@ -661,7 +661,8 @@
                 "student": "Élève",
                 "status": "Statut",
                 "reason": "Motif"
-            }
+            },
+            "reasonTooLong": "Le motif ne doit pas dépasser 255 caractères."
         },
         "studentDialog": {
             "title": "Présence — {name}",
@@ -697,7 +698,8 @@
             "validation": {
                 "fromDateRequired": "La date de début est requise.",
                 "toDateRequired": "La date de fin est requise.",
-                "dateRangeInvalid": "La date de début doit être antérieure ou égale à la date de fin."
+                "dateRangeInvalid": "La date de début doit être antérieure ou égale à la date de fin.",
+                "reasonTooLong": "Le motif ne doit pas dépasser 255 caractères."
             }
         }
     },

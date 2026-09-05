@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useCancelSession, useGetSessions } from "@api-client";
 import {
     CalendarCheck,
@@ -10,14 +11,11 @@ import {
     ClipboardList,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { handleServerError } from "@/lib/handle-server-error";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
     Table,
     TableBody,
@@ -26,7 +24,9 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { DateRangeFilter } from "@/components/date-range-filter";
 import { AttendanceRollCallDialog } from "@/features/attendance/components/attendance-roll-call-dialog";
+import { hasValidId } from "@/features/attendance/data/policy";
 import { ProgressEntryDialog } from "@/features/progress/components/progress-entry-dialog";
 
 const PAGE_SIZE = 25;
@@ -34,18 +34,10 @@ const PAGE_SIZE = 25;
 type SessionListProps = {
     classId: number;
     courseId: number;
-    canUpdate: boolean;
-    canRecordProgress: boolean;
-    canRecordAttendance: boolean;
+    actions: ReadonlySet<"update" | "progress" | "attendance">;
 };
 
-export function SessionList({
-    classId,
-    courseId,
-    canUpdate,
-    canRecordProgress,
-    canRecordAttendance,
-}: SessionListProps) {
+export function SessionList({ classId, courseId, actions }: SessionListProps) {
     const t = useTranslations("Classes.sessions");
     const tDataTable = useTranslations("DataTable");
     const queryClient = useQueryClient();
@@ -66,7 +58,7 @@ export function SessionList({
         toDate: toDate || undefined,
         pageable: { page, size: PAGE_SIZE },
     });
-    const rows = data?.items ?? [];
+    const rows = (data?.items ?? []).filter(hasValidId);
     const totalPages = data?.totalPages ?? 0;
 
     const { mutate: cancelSession } = useCancelSession({
@@ -92,45 +84,36 @@ export function SessionList({
                 <CardTitle className="text-lg">{t("listTitle")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="flex flex-wrap items-end gap-3">
-                    <div className="space-y-1.5">
-                        <Label htmlFor="session-from-date">
-                            {t("filters.fromDate")}
-                        </Label>
-                        <Input
-                            id="session-from-date"
-                            type="date"
-                            value={fromDate}
-                            onChange={(event) => {
-                                setFromDate(event.target.value);
-                                setPage(0);
-                            }}
-                        />
-                    </div>
-                    <div className="space-y-1.5">
-                        <Label htmlFor="session-to-date">
-                            {t("filters.toDate")}
-                        </Label>
-                        <Input
-                            id="session-to-date"
-                            type="date"
-                            value={toDate}
-                            onChange={(event) => {
-                                setToDate(event.target.value);
-                                setPage(0);
-                            }}
-                        />
-                    </div>
-                </div>
+                <DateRangeFilter
+                    id="sessions"
+                    fromDate={fromDate}
+                    toDate={toDate}
+                    onFromChange={(value) => {
+                        setFromDate(value);
+                        setPage(0);
+                    }}
+                    onToChange={(value) => {
+                        setToDate(value);
+                        setPage(0);
+                    }}
+                    fromLabel={t("filters.fromDate")}
+                    toLabel={t("filters.toDate")}
+                />
 
                 {isLoading && (
-                    <p className="text-sm text-muted-foreground">{t("loading")}</p>
+                    <p className="text-sm text-muted-foreground">
+                        {t("loading")}
+                    </p>
                 )}
                 {isError && (
-                    <p className="text-sm text-destructive">{t("errorFallback")}</p>
+                    <p className="text-sm text-destructive">
+                        {t("errorFallback")}
+                    </p>
                 )}
                 {!isLoading && !isError && rows.length === 0 && (
-                    <p className="text-sm text-muted-foreground">{t("noResults")}</p>
+                    <p className="text-sm text-muted-foreground">
+                        {t("noResults")}
+                    </p>
                 )}
 
                 {!isLoading && !isError && rows.length > 0 && (
@@ -139,13 +122,19 @@ export function SessionList({
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>{t("columns.date")}</TableHead>
-                                        <TableHead>{t("columns.time")}</TableHead>
-                                        <TableHead>{t("columns.teacher")}</TableHead>
-                                        <TableHead>{t("columns.status")}</TableHead>
-                                        {(canUpdate ||
-                                            canRecordProgress ||
-                                            canRecordAttendance) && (
+                                        <TableHead>
+                                            {t("columns.date")}
+                                        </TableHead>
+                                        <TableHead>
+                                            {t("columns.time")}
+                                        </TableHead>
+                                        <TableHead>
+                                            {t("columns.teacher")}
+                                        </TableHead>
+                                        <TableHead>
+                                            {t("columns.status")}
+                                        </TableHead>
+                                        {actions.size > 0 && (
                                             <TableHead className="text-end">
                                                 {t("columns.actions")}
                                             </TableHead>
@@ -159,7 +148,8 @@ export function SessionList({
                                                 {session.sessionDate}
                                             </TableCell>
                                             <TableCell className="text-muted-foreground">
-                                                {session.startTime && session.endTime
+                                                {session.startTime &&
+                                                session.endTime
                                                     ? `${session.startTime}–${session.endTime}`
                                                     : "—"}
                                             </TableCell>
@@ -169,20 +159,24 @@ export function SessionList({
                                             <TableCell>
                                                 <Badge
                                                     variant={
-                                                        session.status === "CANCELLED"
+                                                        session.status ===
+                                                        "CANCELLED"
                                                             ? "secondary"
                                                             : "default"
                                                     }
                                                 >
-                                                    {t(`statusOptions.${session.status}`)}
+                                                    {t(
+                                                        `statusOptions.${session.status}`
+                                                    )}
                                                 </Badge>
                                             </TableCell>
-                                            {(canUpdate ||
-                                                canRecordProgress ||
-                                                canRecordAttendance) && (
+                                            {actions.size > 0 && (
                                                 <TableCell className="text-end">
-                                                    {canRecordAttendance &&
-                                                        session.status !== "CANCELLED" && (
+                                                    {actions.has(
+                                                        "attendance"
+                                                    ) &&
+                                                        session.status !==
+                                                            "CANCELLED" && (
                                                             <Button
                                                                 variant="ghost"
                                                                 size="icon"
@@ -190,19 +184,24 @@ export function SessionList({
                                                                     "recordAttendanceAction"
                                                                 )}
                                                                 onClick={() =>
-                                                                    setAttendanceSession({
-                                                                        id: session.id ?? 0,
-                                                                        date:
-                                                                            session.sessionDate ??
-                                                                            "",
-                                                                    })
+                                                                    setAttendanceSession(
+                                                                        {
+                                                                            id: session.id,
+                                                                            date:
+                                                                                session.sessionDate ??
+                                                                                "",
+                                                                        }
+                                                                    )
                                                                 }
                                                             >
-                                                                <CalendarCheck size={16} />
+                                                                <CalendarCheck
+                                                                    size={16}
+                                                                />
                                                             </Button>
                                                         )}
-                                                    {canRecordProgress &&
-                                                        session.status !== "CANCELLED" && (
+                                                    {actions.has("progress") &&
+                                                        session.status !==
+                                                            "CANCELLED" && (
                                                             <Button
                                                                 variant="ghost"
                                                                 size="icon"
@@ -210,35 +209,45 @@ export function SessionList({
                                                                     "recordProgressAction"
                                                                 )}
                                                                 onClick={() =>
-                                                                    setProgressSession({
-                                                                        id: session.id ?? 0,
-                                                                        date:
-                                                                            session.sessionDate ??
-                                                                            "",
-                                                                    })
+                                                                    setProgressSession(
+                                                                        {
+                                                                            id: session.id,
+                                                                            date:
+                                                                                session.sessionDate ??
+                                                                                "",
+                                                                        }
+                                                                    )
                                                                 }
                                                             >
-                                                                <ClipboardList size={16} />
+                                                                <ClipboardList
+                                                                    size={16}
+                                                                />
                                                             </Button>
                                                         )}
-                                                    {canUpdate && session.status === "PLANNED" && (
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            aria-label={t("cancelAction")}
-                                                            onClick={() =>
-                                                                cancelSession({
-                                                                    courseId,
-                                                                    id: session.id ?? 0,
-                                                                })
-                                                            }
-                                                        >
-                                                            <CircleOff
-                                                                size={16}
-                                                                className="text-destructive"
-                                                            />
-                                                        </Button>
-                                                    )}
+                                                    {actions.has("update") &&
+                                                        session.status ===
+                                                            "PLANNED" && (
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                aria-label={t(
+                                                                    "cancelAction"
+                                                                )}
+                                                                onClick={() =>
+                                                                    cancelSession(
+                                                                        {
+                                                                            courseId,
+                                                                            id: session.id,
+                                                                        }
+                                                                    )
+                                                                }
+                                                            >
+                                                                <CircleOff
+                                                                    size={16}
+                                                                    className="text-destructive"
+                                                                />
+                                                            </Button>
+                                                        )}
                                                 </TableCell>
                                             )}
                                         </TableRow>
@@ -260,7 +269,9 @@ export function SessionList({
                                     size="icon"
                                     aria-label={tDataTable("goToPreviousPage")}
                                     disabled={page === 0}
-                                    onClick={() => setPage((current) => current - 1)}
+                                    onClick={() =>
+                                        setPage((current) => current - 1)
+                                    }
                                 >
                                     <ChevronLeft className="size-4 rtl:rotate-180" />
                                 </Button>
@@ -270,7 +281,9 @@ export function SessionList({
                                     size="icon"
                                     aria-label={tDataTable("goToNextPage")}
                                     disabled={page + 1 >= totalPages}
-                                    onClick={() => setPage((current) => current + 1)}
+                                    onClick={() =>
+                                        setPage((current) => current + 1)
+                                    }
                                 >
                                     <ChevronRight className="size-4 rtl:rotate-180" />
                                 </Button>
@@ -280,7 +293,7 @@ export function SessionList({
                 )}
             </CardContent>
 
-            {progressSession && canRecordProgress && (
+            {progressSession && actions.has("progress") && (
                 <ProgressEntryDialog
                     key={`progress-entry-${progressSession.id}`}
                     classId={classId}
@@ -288,11 +301,13 @@ export function SessionList({
                     sessionId={progressSession.id}
                     sessionDate={progressSession.date}
                     open={!!progressSession}
-                    onOpenChange={(nextOpen) => !nextOpen && setProgressSession(null)}
+                    onOpenChange={(nextOpen) =>
+                        !nextOpen && setProgressSession(null)
+                    }
                 />
             )}
 
-            {attendanceSession && canRecordAttendance && (
+            {attendanceSession && actions.has("attendance") && (
                 <AttendanceRollCallDialog
                     key={`attendance-roll-call-${attendanceSession.id}`}
                     classId={classId}
@@ -300,7 +315,9 @@ export function SessionList({
                     sessionId={attendanceSession.id}
                     sessionDate={attendanceSession.date}
                     open={!!attendanceSession}
-                    onOpenChange={(nextOpen) => !nextOpen && setAttendanceSession(null)}
+                    onOpenChange={(nextOpen) =>
+                        !nextOpen && setAttendanceSession(null)
+                    }
                 />
             )}
         </Card>
