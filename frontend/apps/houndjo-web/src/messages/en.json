@@ -410,6 +410,7 @@
             "errorFallback": "Unable to load sessions.",
             "noResults": "No sessions yet.",
             "cancelAction": "Cancel",
+            "recordProgressAction": "Record progress",
             "cancelSuccessToast": "Session cancelled.",
             "filters": {
                 "fromDate": "From date",
@@ -564,6 +565,67 @@
             "noCourses": "This class has no courses yet.",
             "submit": "Save changes",
             "successToast": "Courses updated."
+        }
+    },
+    "Progress": {
+        "recordAction": "Record progress",
+        "entryDialog": {
+            "title": "Record progress",
+            "description": "Session on {date}",
+            "loading": "Loading...",
+            "errorFallback": "Unable to load course data.",
+            "studentLabel": "Student",
+            "studentPlaceholder": "Select a student",
+            "noStudents": "No students enrolled in this course yet.",
+            "tabs": {
+                "SABAK": "Sabak",
+                "SABQI": "Sabqi",
+                "DHOR": "Dhor"
+            },
+            "fields": {
+                "fromSurah": "From surah",
+                "fromVerse": "From verse",
+                "toSurah": "To surah",
+                "toVerse": "To verse",
+                "lesson": "Lesson",
+                "lessonPlaceholder": "Select a lesson",
+                "chapterNo": "Chapter",
+                "pageNo": "Page",
+                "errorCount": "Errors",
+                "fluency": "Fluency",
+                "fluencyPlaceholder": "Select a rating",
+                "tajweed": "Tajweed (optional)",
+                "note": "Note (optional)"
+            },
+            "ratingOptions": {
+                "WEAK": "Weak",
+                "FAIR": "Fair",
+                "GOOD": "Good",
+                "EXCELLENT": "Excellent"
+            },
+            "submit": "Save & validate",
+            "successToast": "Progress recorded.",
+            "validation": {
+                "surahRequired": "Surah is required (1-114).",
+                "verseRequired": "Verse is required.",
+                "lessonRequired": "Please select a lesson.",
+                "chapterRequired": "Chapter is required.",
+                "pageRequired": "Page is required.",
+                "fluencyRequired": "Please select a fluency rating."
+            }
+        },
+        "state": {
+            "title": "Progress state",
+            "loading": "Loading progress state...",
+            "errorFallback": "Unable to load progress state.",
+            "sabak": "Sabak",
+            "sabqi": "Sabqi",
+            "notRecorded": "Not recorded yet",
+            "portionLabel": "Surah {fromSurah}:{fromVerse} → {toSurah}:{toVerse}",
+            "coveredJuz": "Juz revised: {count}",
+            "staleTitle": "Overdue Dhor revision",
+            "staleJuz": "Juz {juz} — {days} days since last revision",
+            "noStale": "All Dhor revisions are up to date."
         }
     },
     "SettingsAccount": {

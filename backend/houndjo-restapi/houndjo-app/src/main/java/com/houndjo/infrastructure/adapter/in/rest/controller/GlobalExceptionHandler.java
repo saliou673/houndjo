@@ -254,6 +254,13 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, "Quran Reference Error", resolveMessage(ex));
     }
 
+    @ExceptionHandler(ProgressRecordNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ValidationErrorResponseDTO> handleProgressRecordNotFound(ProgressRecordNotFoundException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Progress Error", resolveMessage(ex));
+    }
+
     private static void logError(Exception ex) {
         log.error("Error occurred: {}", ex.getMessage(), ex);
     }

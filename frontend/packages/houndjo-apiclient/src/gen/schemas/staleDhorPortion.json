@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "juz": { "type": "integer", "format": "int32" },
+        "lastReviewedDate": { "type": "string", "format": "date-time" },
+        "daysSince": { "type": "integer", "format": "int64" }
+    },
+    "x-readme-ref-name": "StaleDhorPortion"
+}

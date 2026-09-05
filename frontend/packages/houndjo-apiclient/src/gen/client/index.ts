@@ -64,6 +64,14 @@ export { getOrganizationById } from "./organization-management/getOrganizationBy
 export { organizationmanagement } from "./organization-management/organizationmanagement.ts";
 export { registerSchool } from "./organization-management/registerSchool.ts";
 export { updateOrganization } from "./organization-management/updateOrganization.ts";
+export { deleteProgress } from "./progress-tracking/deleteProgress.ts";
+export { getProgressRecordById } from "./progress-tracking/getProgressRecordById.ts";
+export { getProgressRecords } from "./progress-tracking/getProgressRecords.ts";
+export { getProgressState } from "./progress-tracking/getProgressState.ts";
+export { getRevisionAlerts } from "./progress-tracking/getRevisionAlerts.ts";
+export { progresstracking } from "./progress-tracking/progresstracking.ts";
+export { recordProgress } from "./progress-tracking/recordProgress.ts";
+export { updateProgress } from "./progress-tracking/updateProgress.ts";
 export { getJuz } from "./quran-reference-data/getJuz.ts";
 export { getJuzByNumber } from "./quran-reference-data/getJuzByNumber.ts";
 export { getPage } from "./quran-reference-data/getPage.ts";

@@ -38,3 +38,6 @@ databaseChangeLog:
   - include:
       file: 00012-insert-session-permissions.sql
       relativeToChangelogFile: true
+  - include:
+      file: 00013-insert-progress-permissions.sql
+      relativeToChangelogFile: true
