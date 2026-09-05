@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "properties": {
+        "fromSurah": { "type": "integer", "format": "int32" },
+        "fromVerse": { "type": "integer", "format": "int32" },
+        "toSurah": { "type": "integer", "format": "int32" },
+        "toVerse": { "type": "integer", "format": "int32" },
+        "date": { "type": "string", "format": "date-time" }
+    },
+    "x-readme-ref-name": "ProgressFlowSnapshot"
+}

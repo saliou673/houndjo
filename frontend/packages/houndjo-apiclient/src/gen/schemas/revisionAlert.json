@@ -1,0 +1,23 @@
+{
+    "type": "object",
+    "properties": {
+        "studentId": { "type": "integer", "format": "int64" },
+        "courseId": { "type": "integer", "format": "int64" },
+        "stalePortions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "juz": { "type": "integer", "format": "int32" },
+                    "lastReviewedDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "daysSince": { "type": "integer", "format": "int64" }
+                },
+                "x-readme-ref-name": "StaleDhorPortion"
+            }
+        }
+    },
+    "x-readme-ref-name": "RevisionAlert"
+}
