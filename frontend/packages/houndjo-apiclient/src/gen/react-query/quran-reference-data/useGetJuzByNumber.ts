@@ -27,7 +27,8 @@ import type {
 
 export const getJuzByNumberQueryKey = (
     number: GetJuzByNumberPathParams["number"]
-) => [{ url: "/api/v1/quran/juz/:number", params: { number: number } }] as const;
+) =>
+    [{ url: "/api/v1/quran/juz/:number", params: { number: number } }] as const;
 
 export type GetJuzByNumberQueryKey = ReturnType<typeof getJuzByNumberQueryKey>;
 

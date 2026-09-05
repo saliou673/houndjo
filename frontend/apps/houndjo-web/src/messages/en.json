@@ -25,6 +25,8 @@
             "users": "Users",
             "roleGroups": "Role Groups",
             "classes": "Classes",
+            "students": "Students",
+            "enrollments": "Enrollments",
             "configuration": "Configuration",
             "referenceData": "Reference Data",
             "security": "Security",
@@ -192,8 +194,6 @@
             "columns": {
                 "name": "Name",
                 "description": "Description",
-                "qaidaLessons": "Lessons (one per line)",
-                "qaidaLessonsPlaceholder": "Arabic letters\nShort vowels\nLong vowels",
                 "permissions": "Permissions"
             },
             "loading": "Loading role groups...",
@@ -233,8 +233,6 @@
             "toastUpdated": "Role group updated.",
             "validation": {
                 "nameRequired": "Name is required.",
-                "qaidaLessonsRequired": "Add at least one Qaida lesson.",
-                "qaidaLessonTooLong": "Each Qaida lesson must be 150 characters or fewer.",
                 "permissionRequired": "Select at least one permission."
             }
         }
@@ -330,6 +328,8 @@
                 "name": "Name",
                 "type": "Type",
                 "description": "Description",
+                "qaidaLessons": "Lessons (one per line)",
+                "qaidaLessonsPlaceholder": "Arabic letters\nShort vowels\nLong vowels",
                 "quranMode": "Mode",
                 "quranModePlaceholder": "Select a mode",
                 "quranScopeFromJuz": "From juz",
@@ -355,11 +355,215 @@
             "toastUpdated": "Course updated.",
             "validation": {
                 "nameRequired": "Name is required.",
+                "qaidaLessonsRequired": "Add at least one Qaida lesson.",
+                "qaidaLessonTooLong": "Each Qaida lesson must be 150 characters or fewer.",
                 "quranModeRequired": "Select a mode for a Quran course.",
                 "quranScopeRequired": "Select both a start and end juz.",
                 "quranScopeInvalid": "The start juz must be before or equal to the end juz.",
                 "bookTitleRequired": "A book title is required."
             }
+        },
+        "courseDetail": {
+            "pageTitle": "Course detail",
+            "loading": "Loading course...",
+            "errorFallback": "Unable to load this course.",
+            "backToClass": "← Back to class",
+            "sessionsTitle": "Sessions",
+            "addSession": "Add session",
+            "generateSessions": "Generate sessions"
+        },
+        "pace": {
+            "title": "Pace",
+            "loading": "Loading pace...",
+            "submit": "Save pace",
+            "toastSaved": "Pace saved.",
+            "fields": {
+                "unit": "Unit",
+                "unitPlaceholder": "Select a unit",
+                "amountPerSession": "Amount per session",
+                "sessionsPerWeek": "Sessions per week",
+                "amount": "Amount",
+                "dhorCycleDays": "Dhor cycle (days)"
+            },
+            "unitOptions": {
+                "PAGE": "Page",
+                "VERSE": "Verse",
+                "HIZB": "Hizb",
+                "NISF_HIZB": "Half-hizb",
+                "LESSON": "Lesson",
+                "CHAPTER": "Chapter"
+            },
+            "flows": {
+                "sabak": "Sabak (new lesson)",
+                "sabqi": "Sabqi (recent review)",
+                "dhor": "Dhor (long-term revision)"
+            },
+            "validation": {
+                "flowUnitRequired": "Select a unit for this flow.",
+                "flowAmountRequired": "Enter an amount for this flow.",
+                "dhorCycleDaysRequired": "Enter the Dhor revision cycle length."
+            }
+        },
+        "sessions": {
+            "listTitle": "Session list",
+            "loading": "Loading sessions...",
+            "errorFallback": "Unable to load sessions.",
+            "noResults": "No sessions yet.",
+            "cancelAction": "Cancel",
+            "cancelSuccessToast": "Session cancelled.",
+            "filters": {
+                "fromDate": "From date",
+                "toDate": "To date"
+            },
+            "columns": {
+                "date": "Date",
+                "time": "Time",
+                "teacher": "Teacher",
+                "status": "Status",
+                "actions": "Actions"
+            },
+            "statusOptions": {
+                "PLANNED": "Planned",
+                "HELD": "Held",
+                "CANCELLED": "Cancelled"
+            },
+            "generateDialog": {
+                "title": "Generate Sessions",
+                "description": "Generate recurring sessions between two dates, based on the configured sessions per week.",
+                "fromDate": "From date",
+                "toDate": "To date",
+                "submit": "Generate",
+                "successToast": "{count} sessions generated."
+            },
+            "formDialog": {
+                "title": "Add Session",
+                "description": "Create a single session for this course.",
+                "sessionDate": "Date",
+                "startTime": "Start time",
+                "endTime": "End time",
+                "submit": "Create session",
+                "successToast": "Session created."
+            }
+        }
+    },
+    "Students": {
+        "pageTitle": "Students",
+        "title": "Students",
+        "description": "Manage your school's students.",
+        "addStudent": "Add student",
+        "searchPlaceholder": "Search by name...",
+        "list": {
+            "columns": {
+                "name": "Name",
+                "birthDate": "Birth date",
+                "guardian": "Guardian",
+                "actions": "Actions"
+            },
+            "loading": "Loading students...",
+            "errorFallback": "Unable to load students.",
+            "noResults": "No students yet.",
+            "editAction": "Edit",
+            "deleteAction": "Delete"
+        },
+        "deleteDialog": {
+            "title": "Delete Student",
+            "confirmMessage": "Are you sure you want to delete <bold>{name}</bold>? This action cannot be undone.",
+            "confirmButton": "Delete",
+            "successToast": "Student deleted."
+        },
+        "form": {
+            "addTitle": "Add New Student",
+            "editTitle": "Edit Student",
+            "addDescription": "Create a student profile for your school.",
+            "editDescription": "Update the student's profile information.",
+            "fields": {
+                "firstName": "First name",
+                "lastName": "Last name",
+                "birthDate": "Birth date",
+                "gender": "Gender",
+                "genderPlaceholder": "Select gender",
+                "guardianName": "Guardian name",
+                "guardianPhone": "Guardian phone"
+            },
+            "genderOptions": {
+                "MALE": "Male",
+                "FEMALE": "Female"
+            },
+            "submitAdd": "Create student",
+            "submitEdit": "Save changes",
+            "toastCreated": "Student created.",
+            "toastUpdated": "Student updated.",
+            "validation": {
+                "firstNameRequired": "First name is required.",
+                "lastNameRequired": "Last name is required."
+            }
+        }
+    },
+    "Enrollments": {
+        "pageTitle": "Enrollments",
+        "title": "Enrollments",
+        "description": "Enroll students in classes and their courses.",
+        "addEnrollment": "Add enrollment",
+        "filters": {
+            "classPlaceholder": "Class",
+            "allClasses": "All classes",
+            "studentPlaceholder": "Student",
+            "allStudents": "All students",
+            "statusPlaceholder": "Status",
+            "allStatuses": "All statuses",
+            "statusOptions": {
+                "ACTIVE": "Active",
+                "ENDED": "Ended"
+            }
+        },
+        "list": {
+            "columns": {
+                "student": "Student",
+                "class": "Class",
+                "courses": "Courses",
+                "status": "Status",
+                "actions": "Actions"
+            },
+            "loading": "Loading enrollments...",
+            "errorFallback": "Unable to load enrollments.",
+            "noResults": "No enrollments yet.",
+            "manageCoursesAction": "Manage courses",
+            "endAction": "End",
+            "statusOptions": {
+                "ACTIVE": "Active",
+                "ENDED": "Ended"
+            }
+        },
+        "form": {
+            "addTitle": "Add New Enrollment",
+            "addDescription": "Enroll a student in a class and its courses.",
+            "fields": {
+                "student": "Student",
+                "studentPlaceholder": "Select a student",
+                "class": "Class",
+                "classPlaceholder": "Select a class",
+                "courses": "Courses",
+                "noCourses": "This class has no courses yet."
+            },
+            "submitAdd": "Enroll student",
+            "toastCreated": "Student enrolled.",
+            "validation": {
+                "studentRequired": "Select a student.",
+                "classRequired": "Select a class."
+            }
+        },
+        "endDialog": {
+            "title": "End Enrollment",
+            "confirmMessage": "Are you sure you want to end <bold>{name}</bold>'s enrollment in <bold>{className}</bold>?",
+            "confirmButton": "End enrollment",
+            "successToast": "Enrollment ended."
+        },
+        "coursesDialog": {
+            "title": "Manage Courses",
+            "description": "Update the courses {name} takes in {className}.",
+            "noCourses": "This class has no courses yet.",
+            "submit": "Save changes",
+            "successToast": "Courses updated."
         }
     },
     "SettingsAccount": {

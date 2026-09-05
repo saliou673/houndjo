@@ -25,6 +25,8 @@
             "users": "Utilisateurs",
             "roleGroups": "Groupes de rôles",
             "classes": "Classes",
+            "students": "Élèves",
+            "enrollments": "Inscriptions",
             "configuration": "Configuration",
             "referenceData": "Données de référence",
             "security": "Sécurité",
@@ -192,8 +194,6 @@
             "columns": {
                 "name": "Nom",
                 "description": "Description",
-                "qaidaLessons": "Leçons (une par ligne)",
-                "qaidaLessonsPlaceholder": "Lettres arabes\nVoyelles courtes\nVoyelles longues",
                 "permissions": "Permissions"
             },
             "loading": "Chargement des groupes de rôles...",
@@ -233,8 +233,6 @@
             "toastUpdated": "Groupe de rôles mis à jour.",
             "validation": {
                 "nameRequired": "Le nom est requis.",
-                "qaidaLessonsRequired": "Ajoutez au moins une leçon de Qaida.",
-                "qaidaLessonTooLong": "Chaque leçon de Qaida doit contenir au maximum 150 caractères.",
                 "permissionRequired": "Sélectionnez au moins une permission."
             }
         }
@@ -330,6 +328,8 @@
                 "name": "Nom",
                 "type": "Type",
                 "description": "Description",
+                "qaidaLessons": "Leçons (une par ligne)",
+                "qaidaLessonsPlaceholder": "Lettres arabes\nVoyelles courtes\nVoyelles longues",
                 "quranMode": "Mode",
                 "quranModePlaceholder": "Sélectionnez un mode",
                 "quranScopeFromJuz": "Juz de départ",
@@ -355,11 +355,215 @@
             "toastUpdated": "Cours mis à jour.",
             "validation": {
                 "nameRequired": "Le nom est requis.",
+                "qaidaLessonsRequired": "Ajoutez au moins une leçon de Qaida.",
+                "qaidaLessonTooLong": "Chaque leçon de Qaida doit contenir au maximum 150 caractères.",
                 "quranModeRequired": "Sélectionnez un mode pour un cours de Coran.",
                 "quranScopeRequired": "Sélectionnez un juz de départ et un juz de fin.",
                 "quranScopeInvalid": "Le juz de départ doit être inférieur ou égal au juz de fin.",
                 "bookTitleRequired": "Le titre du livre est requis."
             }
+        },
+        "courseDetail": {
+            "pageTitle": "Détail du cours",
+            "loading": "Chargement du cours...",
+            "errorFallback": "Impossible de charger ce cours.",
+            "backToClass": "← Retour à la classe",
+            "sessionsTitle": "Séances",
+            "addSession": "Ajouter une séance",
+            "generateSessions": "Générer des séances"
+        },
+        "pace": {
+            "title": "Rythme",
+            "loading": "Chargement du rythme...",
+            "submit": "Enregistrer le rythme",
+            "toastSaved": "Rythme enregistré.",
+            "fields": {
+                "unit": "Unité",
+                "unitPlaceholder": "Sélectionnez une unité",
+                "amountPerSession": "Quantité par séance",
+                "sessionsPerWeek": "Séances par semaine",
+                "amount": "Quantité",
+                "dhorCycleDays": "Cycle Dhor (jours)"
+            },
+            "unitOptions": {
+                "PAGE": "Page",
+                "VERSE": "Verset",
+                "HIZB": "Hizb",
+                "NISF_HIZB": "Demi-hizb",
+                "LESSON": "Leçon",
+                "CHAPTER": "Chapitre"
+            },
+            "flows": {
+                "sabak": "Sabak (nouvelle leçon)",
+                "sabqi": "Sabqi (révision récente)",
+                "dhor": "Dhor (révision à long terme)"
+            },
+            "validation": {
+                "flowUnitRequired": "Sélectionnez une unité pour ce flux.",
+                "flowAmountRequired": "Saisissez une quantité pour ce flux.",
+                "dhorCycleDaysRequired": "Saisissez la durée du cycle de révision Dhor."
+            }
+        },
+        "sessions": {
+            "listTitle": "Liste des séances",
+            "loading": "Chargement des séances...",
+            "errorFallback": "Impossible de charger les séances.",
+            "noResults": "Aucune séance pour le moment.",
+            "cancelAction": "Annuler",
+            "cancelSuccessToast": "Séance annulée.",
+            "filters": {
+                "fromDate": "Du",
+                "toDate": "Au"
+            },
+            "columns": {
+                "date": "Date",
+                "time": "Heure",
+                "teacher": "Enseignant",
+                "status": "Statut",
+                "actions": "Actions"
+            },
+            "statusOptions": {
+                "PLANNED": "Planifiée",
+                "HELD": "Tenue",
+                "CANCELLED": "Annulée"
+            },
+            "generateDialog": {
+                "title": "Générer des séances",
+                "description": "Générez des séances récurrentes entre deux dates, selon le nombre de séances par semaine configuré.",
+                "fromDate": "Du",
+                "toDate": "Au",
+                "submit": "Générer",
+                "successToast": "{count} séances générées."
+            },
+            "formDialog": {
+                "title": "Ajouter une séance",
+                "description": "Créez une séance unique pour ce cours.",
+                "sessionDate": "Date",
+                "startTime": "Heure de début",
+                "endTime": "Heure de fin",
+                "submit": "Créer la séance",
+                "successToast": "Séance créée."
+            }
+        }
+    },
+    "Students": {
+        "pageTitle": "Élèves",
+        "title": "Élèves",
+        "description": "Gérez les élèves de votre école.",
+        "addStudent": "Ajouter un élève",
+        "searchPlaceholder": "Rechercher par nom...",
+        "list": {
+            "columns": {
+                "name": "Nom",
+                "birthDate": "Date de naissance",
+                "guardian": "Tuteur",
+                "actions": "Actions"
+            },
+            "loading": "Chargement des élèves...",
+            "errorFallback": "Impossible de charger les élèves.",
+            "noResults": "Aucun élève pour le moment.",
+            "editAction": "Modifier",
+            "deleteAction": "Supprimer"
+        },
+        "deleteDialog": {
+            "title": "Supprimer l'élève",
+            "confirmMessage": "Voulez-vous vraiment supprimer <bold>{name}</bold> ? Cette action est irréversible.",
+            "confirmButton": "Supprimer",
+            "successToast": "Élève supprimé."
+        },
+        "form": {
+            "addTitle": "Ajouter un élève",
+            "editTitle": "Modifier l'élève",
+            "addDescription": "Créez un profil d'élève pour votre école.",
+            "editDescription": "Mettez à jour les informations de l'élève.",
+            "fields": {
+                "firstName": "Prénom",
+                "lastName": "Nom",
+                "birthDate": "Date de naissance",
+                "gender": "Genre",
+                "genderPlaceholder": "Sélectionnez un genre",
+                "guardianName": "Nom du tuteur",
+                "guardianPhone": "Téléphone du tuteur"
+            },
+            "genderOptions": {
+                "MALE": "Masculin",
+                "FEMALE": "Féminin"
+            },
+            "submitAdd": "Créer l'élève",
+            "submitEdit": "Enregistrer les modifications",
+            "toastCreated": "Élève créé.",
+            "toastUpdated": "Élève mis à jour.",
+            "validation": {
+                "firstNameRequired": "Le prénom est requis.",
+                "lastNameRequired": "Le nom est requis."
+            }
+        }
+    },
+    "Enrollments": {
+        "pageTitle": "Inscriptions",
+        "title": "Inscriptions",
+        "description": "Inscrivez les élèves dans les classes et leurs cours.",
+        "addEnrollment": "Ajouter une inscription",
+        "filters": {
+            "classPlaceholder": "Classe",
+            "allClasses": "Toutes les classes",
+            "studentPlaceholder": "Élève",
+            "allStudents": "Tous les élèves",
+            "statusPlaceholder": "Statut",
+            "allStatuses": "Tous les statuts",
+            "statusOptions": {
+                "ACTIVE": "Active",
+                "ENDED": "Terminée"
+            }
+        },
+        "list": {
+            "columns": {
+                "student": "Élève",
+                "class": "Classe",
+                "courses": "Cours",
+                "status": "Statut",
+                "actions": "Actions"
+            },
+            "loading": "Chargement des inscriptions...",
+            "errorFallback": "Impossible de charger les inscriptions.",
+            "noResults": "Aucune inscription pour le moment.",
+            "manageCoursesAction": "Gérer les cours",
+            "endAction": "Terminer",
+            "statusOptions": {
+                "ACTIVE": "Active",
+                "ENDED": "Terminée"
+            }
+        },
+        "form": {
+            "addTitle": "Ajouter une inscription",
+            "addDescription": "Inscrivez un élève dans une classe et ses cours.",
+            "fields": {
+                "student": "Élève",
+                "studentPlaceholder": "Sélectionnez un élève",
+                "class": "Classe",
+                "classPlaceholder": "Sélectionnez une classe",
+                "courses": "Cours",
+                "noCourses": "Cette classe n'a pas encore de cours."
+            },
+            "submitAdd": "Inscrire l'élève",
+            "toastCreated": "Élève inscrit.",
+            "validation": {
+                "studentRequired": "Sélectionnez un élève.",
+                "classRequired": "Sélectionnez une classe."
+            }
+        },
+        "endDialog": {
+            "title": "Terminer l'inscription",
+            "confirmMessage": "Voulez-vous vraiment terminer l'inscription de <bold>{name}</bold> dans <bold>{className}</bold> ?",
+            "confirmButton": "Terminer l'inscription",
+            "successToast": "Inscription terminée."
+        },
+        "coursesDialog": {
+            "title": "Gérer les cours",
+            "description": "Mettez à jour les cours suivis par {name} dans {className}.",
+            "noCourses": "Cette classe n'a pas encore de cours.",
+            "submit": "Enregistrer les modifications",
+            "successToast": "Cours mis à jour."
         }
     },
     "SettingsAccount": {

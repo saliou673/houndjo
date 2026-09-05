@@ -4,13 +4,24 @@
         "name": { "type": "string", "maxLength": 150, "minLength": 0 },
         "type": { "type": "string", "enum": ["QAIDA", "QURAN", "BOOK"] },
         "description": { "type": "string" },
-        "qaidaLessons": { "type": "array", "items": { "type": "string", "maxLength": 150, "minLength": 1 } },
+        "qaidaLessons": {
+            "type": "array",
+            "items": { "type": "string", "maxLength": 150, "minLength": 0 }
+        },
         "quranMode": { "type": "string", "enum": ["NAZIRA", "HIFZ"] },
         "quranScopeFromJuz": { "type": "integer", "format": "int32" },
         "quranScopeToJuz": { "type": "integer", "format": "int32" },
         "bookTitle": { "type": "string" },
-        "bookTotalChapters": { "type": "integer", "format": "int32", "minimum": 1, "maximum": 32767 },
-        "bookTotalPages": { "type": "integer", "format": "int32", "minimum": 1, "maximum": 32767 }
+        "bookTotalChapters": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 32767
+        },
+        "bookTotalPages": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 32767
+        }
     },
     "required": ["name", "type"],
     "x-readme-ref-name": "UpdateCourseRequest"

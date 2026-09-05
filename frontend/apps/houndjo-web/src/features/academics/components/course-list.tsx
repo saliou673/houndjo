@@ -3,6 +3,7 @@
 import { useGetCourses } from "@api-client";
 import { Pencil, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -91,7 +92,12 @@ export function CourseList({
                         {rows.map((row) => (
                             <TableRow key={row.id}>
                                 <TableCell className="font-medium">
-                                    {row.name}
+                                    <Link
+                                        href={`/classes/${row.classId}/courses/${row.id}`}
+                                        className="hover:underline"
+                                    >
+                                        {row.name}
+                                    </Link>
                                 </TableCell>
                                 <TableCell>
                                     <Badge variant="secondary">
@@ -146,7 +152,12 @@ export function CourseList({
                     <Card key={row.id}>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-base">
-                                {row.name}
+                                <Link
+                                    href={`/classes/${row.classId}/courses/${row.id}`}
+                                    className="hover:underline"
+                                >
+                                    {row.name}
+                                </Link>
                                 <Badge variant="secondary">
                                     {t(`typeOptions.${row.type}`)}
                                 </Badge>

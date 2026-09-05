@@ -1,0 +1,33 @@
+{
+    "type": "object",
+    "properties": {
+        "items": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "integer", "format": "int64" },
+                    "studentId": { "type": "integer", "format": "int64" },
+                    "studentName": { "type": "string" },
+                    "classId": { "type": "integer", "format": "int64" },
+                    "className": { "type": "string" },
+                    "courseIds": {
+                        "type": "array",
+                        "items": { "type": "integer", "format": "int64" },
+                        "uniqueItems": true
+                    },
+                    "status": { "type": "string", "enum": ["ACTIVE", "ENDED"] },
+                    "startDate": { "type": "string", "format": "date" },
+                    "endDate": { "type": "string", "format": "date" }
+                },
+                "x-readme-ref-name": "Enrollment"
+            }
+        },
+        "page": { "type": "integer", "format": "int32" },
+        "size": { "type": "integer", "format": "int32" },
+        "totalPages": { "type": "integer", "format": "int32" },
+        "totalItems": { "type": "integer", "format": "int64" }
+    },
+    "required": ["items"],
+    "x-readme-ref-name": "PaginatedResultEnrollment"
+}

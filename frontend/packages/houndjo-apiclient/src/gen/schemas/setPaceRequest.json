@@ -1,0 +1,75 @@
+{
+    "type": "object",
+    "properties": {
+        "unit": {
+            "type": "string",
+            "enum": ["PAGE", "VERSE", "HIZB", "NISF_HIZB", "LESSON", "CHAPTER"]
+        },
+        "amountPerSession": { "type": "number", "minimum": 0.01 },
+        "sessionsPerWeek": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 7
+        },
+        "sabak": {
+            "type": "object",
+            "properties": {
+                "unit": {
+                    "type": "string",
+                    "enum": [
+                        "PAGE",
+                        "VERSE",
+                        "HIZB",
+                        "NISF_HIZB",
+                        "LESSON",
+                        "CHAPTER"
+                    ]
+                },
+                "amount": { "type": "number", "minimum": 0.01 }
+            },
+            "required": ["amount", "unit"],
+            "x-readme-ref-name": "FlowRequest"
+        },
+        "sabqi": {
+            "type": "object",
+            "properties": {
+                "unit": {
+                    "type": "string",
+                    "enum": [
+                        "PAGE",
+                        "VERSE",
+                        "HIZB",
+                        "NISF_HIZB",
+                        "LESSON",
+                        "CHAPTER"
+                    ]
+                },
+                "amount": { "type": "number", "minimum": 0.01 }
+            },
+            "required": ["amount", "unit"],
+            "x-readme-ref-name": "FlowRequest"
+        },
+        "dhor": {
+            "type": "object",
+            "properties": {
+                "unit": {
+                    "type": "string",
+                    "enum": [
+                        "PAGE",
+                        "VERSE",
+                        "HIZB",
+                        "NISF_HIZB",
+                        "LESSON",
+                        "CHAPTER"
+                    ]
+                },
+                "amount": { "type": "number", "minimum": 0.01 }
+            },
+            "required": ["amount", "unit"],
+            "x-readme-ref-name": "FlowRequest"
+        },
+        "dhorCycleDays": { "type": "integer", "format": "int32" }
+    },
+    "required": ["amountPerSession", "unit"],
+    "x-readme-ref-name": "SetPaceRequest"
+}

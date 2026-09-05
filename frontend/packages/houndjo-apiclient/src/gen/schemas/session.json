@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "properties": {
+        "id": { "type": "integer", "format": "int64" },
+        "courseId": { "type": "integer", "format": "int64" },
+        "teacherUserId": { "type": "integer", "format": "int64" },
+        "teacherName": { "type": "string" },
+        "sessionDate": { "type": "string", "format": "date" },
+        "startTime": { "type": "string" },
+        "endTime": { "type": "string" },
+        "status": { "type": "string", "enum": ["PLANNED", "HELD", "CANCELLED"] }
+    },
+    "x-readme-ref-name": "Session"
+}

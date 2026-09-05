@@ -1,0 +1,16 @@
+{
+    "type": "object",
+    "properties": {
+        "fromSurah": { "type": "integer", "format": "int32" },
+        "fromVerse": { "type": "integer", "format": "int32" },
+        "toSurah": { "type": "integer", "format": "int32" },
+        "toVerse": { "type": "integer", "format": "int32" },
+        "fromPage": { "type": "integer", "format": "int32" },
+        "toPage": { "type": "integer", "format": "int32" },
+        "fromJuz": { "type": "integer", "format": "int32" },
+        "toJuz": { "type": "integer", "format": "int32" },
+        "fromHizb": { "type": "integer", "format": "int32" },
+        "toHizb": { "type": "integer", "format": "int32" }
+    },
+    "x-readme-ref-name": "Portion"
+}

@@ -56,14 +56,12 @@ export type CreateCourseRequest = {
      */
     bookTitle?: string;
     /**
-     * @minimum 1
-     * @maximum 32767
+     * @maxLength 32767
      * @type integer | undefined, int32
      */
     bookTotalChapters?: number;
     /**
-     * @minimum 1
-     * @maximum 32767
+     * @maxLength 32767
      * @type integer | undefined, int32
      */
     bookTotalPages?: number;

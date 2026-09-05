@@ -17,6 +17,10 @@ export default function SettingsHomeScreen() {
     (permission) => permission.code === 'role-group:read'
   );
   const canReadClasses = (permissions ?? []).some((permission) => permission.code === 'class:read');
+  const canReadStudents = (permissions ?? []).some((permission) => permission.code === 'student:read');
+  const canReadEnrollments = (permissions ?? []).some(
+    (permission) => permission.code === 'enrollment:read'
+  );
   const canManageConfigurations = (permissions ?? []).some(
     (permission) => permission.code === 'config:manage'
   );
@@ -116,6 +120,20 @@ export default function SettingsHomeScreen() {
               href="/classes"
               title={t('settings.nav.classes')}
               icon={{ ios: 'graduationcap', android: 'school', web: 'school' }}
+            />
+          )}
+          {canReadStudents && (
+            <SettingsRow
+              href="/students"
+              title={t('settings.nav.students')}
+              icon={{ ios: 'person.crop.circle', android: 'face', web: 'face' }}
+            />
+          )}
+          {canReadEnrollments && (
+            <SettingsRow
+              href="/enrollments"
+              title={t('settings.nav.enrollments')}
+              icon={{ ios: 'list.clipboard', android: 'assignment', web: 'assignment' }}
             />
           )}
           {canManageConfigurations && (

@@ -24,7 +24,8 @@ import type {
     GetSurahs500,
 } from "../../types/GetSurahs.ts";
 
-export const getSurahsQueryKey = () => [{ url: "/api/v1/quran/surahs" }] as const;
+export const getSurahsQueryKey = () =>
+    [{ url: "/api/v1/quran/surahs" }] as const;
 
 export type GetSurahsQueryKey = ReturnType<typeof getSurahsQueryKey>;
 
