@@ -82,3 +82,5 @@ export function configureApiClient(config: ApiClientConfig) {
         headers,
     });
 }
+
+export { useActiveCourseEnrollments } from "./course-enrollments";

@@ -3,6 +3,7 @@ package com.houndjo.infrastructure.adapter.out.persistence.repository;
 import com.houndjo.domain.enumerations.ProgressFlow;
 import com.houndjo.infrastructure.adapter.out.persistence.entity.ProgressRecordEntity;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ProgressRecordRepository extends JpaRepository<ProgressRecordEntity, Long> {
 
     Optional<ProgressRecordEntity> findByIdAndOrganizationId(Long id, Long organizationId);
+
+    List<ProgressRecordEntity> findByStudentIdAndCourseIdAndOrganizationId(
+            Long studentId, Long courseId, Long organizationId);
+
+    List<ProgressRecordEntity> findByOrganizationId(Long organizationId);
 
     // fromDate/toDate must never be null: the caller substitutes wide-open sentinel bounds for
     // "no constraint" (a null bind parameter used only in an IS NULL check defeats Postgres's

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useCancelSession, useGetSessions } from "@api-client";
-import { ChevronLeft, ChevronRight, CircleOff } from "lucide-react";
+import { ChevronLeft, ChevronRight, CircleOff, ClipboardList } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -20,21 +20,33 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { ProgressEntryDialog } from "@/features/progress/components/progress-entry-dialog";
 
 const PAGE_SIZE = 25;
 
 type SessionListProps = {
+    classId: number;
     courseId: number;
     canUpdate: boolean;
+    canRecordProgress: boolean;
 };
 
-export function SessionList({ courseId, canUpdate }: SessionListProps) {
+export function SessionList({
+    classId,
+    courseId,
+    canUpdate,
+    canRecordProgress,
+}: SessionListProps) {
     const t = useTranslations("Classes.sessions");
     const tDataTable = useTranslations("DataTable");
     const queryClient = useQueryClient();
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
     const [page, setPage] = useState(0);
+    const [progressSession, setProgressSession] = useState<{
+        id: number;
+        date: string;
+    } | null>(null);
 
     const { data, isLoading, isError } = useGetSessions(courseId, {
         fromDate: fromDate || undefined,
@@ -118,7 +130,7 @@ export function SessionList({ courseId, canUpdate }: SessionListProps) {
                                         <TableHead>{t("columns.time")}</TableHead>
                                         <TableHead>{t("columns.teacher")}</TableHead>
                                         <TableHead>{t("columns.status")}</TableHead>
-                                        {canUpdate && (
+                                        {(canUpdate || canRecordProgress) && (
                                             <TableHead className="text-end">
                                                 {t("columns.actions")}
                                             </TableHead>
@@ -150,9 +162,29 @@ export function SessionList({ courseId, canUpdate }: SessionListProps) {
                                                     {t(`statusOptions.${session.status}`)}
                                                 </Badge>
                                             </TableCell>
-                                            {canUpdate && (
+                                            {(canUpdate || canRecordProgress) && (
                                                 <TableCell className="text-end">
-                                                    {session.status === "PLANNED" && (
+                                                    {canRecordProgress &&
+                                                        session.status !== "CANCELLED" && (
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                aria-label={t(
+                                                                    "recordProgressAction"
+                                                                )}
+                                                                onClick={() =>
+                                                                    setProgressSession({
+                                                                        id: session.id ?? 0,
+                                                                        date:
+                                                                            session.sessionDate ??
+                                                                            "",
+                                                                    })
+                                                                }
+                                                            >
+                                                                <ClipboardList size={16} />
+                                                            </Button>
+                                                        )}
+                                                    {canUpdate && session.status === "PLANNED" && (
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"
@@ -210,6 +242,18 @@ export function SessionList({ courseId, canUpdate }: SessionListProps) {
                     </div>
                 )}
             </CardContent>
+
+            {progressSession && canRecordProgress && (
+                <ProgressEntryDialog
+                    key={`progress-entry-${progressSession.id}`}
+                    classId={classId}
+                    courseId={courseId}
+                    sessionId={progressSession.id}
+                    sessionDate={progressSession.date}
+                    open={!!progressSession}
+                    onOpenChange={(nextOpen) => !nextOpen && setProgressSession(null)}
+                />
+            )}
         </Card>
     );
 }

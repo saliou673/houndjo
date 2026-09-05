@@ -1,0 +1,39 @@
+{
+    "type": "object",
+    "properties": {
+        "studentId": { "type": "integer", "format": "int64" },
+        "courseId": { "type": "integer", "format": "int64" },
+        "sessionId": { "type": "integer", "format": "int64" },
+        "flow": {
+            "type": "string",
+            "enum": ["SABAK", "SABQI", "DHOR", "LESSON", "CHAPTER"]
+        },
+        "fromSurah": { "type": "integer", "format": "int32" },
+        "fromVerse": { "type": "integer", "format": "int32" },
+        "toSurah": { "type": "integer", "format": "int32" },
+        "toVerse": { "type": "integer", "format": "int32" },
+        "lessonId": { "type": "integer", "format": "int64" },
+        "chapterNo": { "type": "integer", "format": "int32" },
+        "pageNo": { "type": "integer", "format": "int32" },
+        "errorCount": { "type": "integer", "format": "int32" },
+        "fluency": {
+            "type": "string",
+            "enum": ["WEAK", "FAIR", "GOOD", "EXCELLENT"]
+        },
+        "tajweed": {
+            "type": "string",
+            "enum": ["WEAK", "FAIR", "GOOD", "EXCELLENT"]
+        },
+        "status": { "type": "string", "enum": ["IN_PROGRESS", "VALIDATED"] },
+        "note": { "type": "string", "maxLength": 2000, "minLength": 0 }
+    },
+    "required": [
+        "courseId",
+        "flow",
+        "fluency",
+        "sessionId",
+        "status",
+        "studentId"
+    ],
+    "x-readme-ref-name": "RecordProgressRequest"
+}

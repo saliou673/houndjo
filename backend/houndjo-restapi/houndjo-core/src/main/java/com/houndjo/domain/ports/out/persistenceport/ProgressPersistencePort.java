@@ -3,6 +3,7 @@ package com.houndjo.domain.ports.out.persistenceport;
 import com.houndjo.domain.models.progress.ProgressFilter;
 import com.houndjo.domain.models.progress.ProgressRecord;
 import com.houndjo.domain.models.query.PagedResult;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,6 +30,27 @@ public interface ProgressPersistencePort {
      * @return the matching progress record, or empty if not found
      */
     Optional<ProgressRecord> findByIdAndOrganizationId(Long id, Long organizationId);
+
+    /**
+     * Returns every progress record of a (student, course) pair within an organization,
+     * unpaginated, for progress-state computation.
+     *
+     * @param studentId      the recorded student identifier
+     * @param courseId       the owning course identifier
+     * @param organizationId the owning organization identifier
+     * @return the student's progress records for the course
+     */
+    List<ProgressRecord> findByStudentIdAndCourseIdAndOrganizationId(
+            Long studentId, Long courseId, Long organizationId);
+
+    /**
+     * Returns every progress record of an organization, unpaginated, for the org-wide
+     * revision-alerts aggregate.
+     *
+     * @param organizationId the organization identifier
+     * @return every progress record of the organization
+     */
+    List<ProgressRecord> findAllByOrganizationId(Long organizationId);
 
     /**
      * Persists or updates a progress record.

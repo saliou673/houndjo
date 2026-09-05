@@ -31,6 +31,7 @@ export function CourseDetail({ classId, courseId }: CourseDetailProps) {
     const canReadSession = permissionCodes.has("session:read");
     const canCreateSession = permissionCodes.has("session:create");
     const canUpdateSession = permissionCodes.has("session:update");
+    const canRecordProgress = permissionCodes.has("progress:create");
     const canAccessSessions = canReadSession || canCreateSession;
 
     const [addSessionOpen, setAddSessionOpen] = useState(false);
@@ -98,8 +99,10 @@ export function CourseDetail({ classId, courseId }: CourseDetailProps) {
 
                     {canReadSession && (
                         <SessionList
+                            classId={classId}
                             courseId={courseId}
                             canUpdate={canUpdateSession}
+                            canRecordProgress={canRecordProgress}
                         />
                     )}
 

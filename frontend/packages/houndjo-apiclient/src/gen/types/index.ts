@@ -355,6 +355,18 @@ export type {
     DeleteCurrentAccountMutationResponse,
 } from "./DeleteCurrentAccount.ts";
 export type {
+    DeleteProgress204,
+    DeleteProgress403,
+    DeleteProgress404,
+    DeleteProgress409,
+    DeleteProgress500,
+    DeleteProgressHeaderParams,
+    DeleteProgressHeaderParamsXAPIVersionEnumKey,
+    DeleteProgressMutation,
+    DeleteProgressMutationResponse,
+    DeleteProgressPathParams,
+} from "./DeleteProgress.ts";
+export type {
     DeleteRoleGroupAsAdmin204,
     DeleteRoleGroupAsAdmin403,
     DeleteRoleGroupAsAdmin404,
@@ -714,6 +726,56 @@ export type {
     GetPermissionsAsAdminQueryResponse,
 } from "./GetPermissionsAsAdmin.ts";
 export type {
+    GetProgressRecordById200,
+    GetProgressRecordById403,
+    GetProgressRecordById404,
+    GetProgressRecordById409,
+    GetProgressRecordById500,
+    GetProgressRecordByIdHeaderParams,
+    GetProgressRecordByIdHeaderParamsXAPIVersionEnumKey,
+    GetProgressRecordByIdPathParams,
+    GetProgressRecordByIdQuery,
+    GetProgressRecordByIdQueryResponse,
+} from "./GetProgressRecordById.ts";
+export type {
+    GetProgressRecords200,
+    GetProgressRecords403,
+    GetProgressRecords404,
+    GetProgressRecords409,
+    GetProgressRecords500,
+    GetProgressRecordsHeaderParams,
+    GetProgressRecordsHeaderParamsXAPIVersionEnumKey,
+    GetProgressRecordsQuery,
+    GetProgressRecordsQueryParams,
+    GetProgressRecordsQueryParamsFlowEnumKey,
+    GetProgressRecordsQueryResponse,
+} from "./GetProgressRecords.ts";
+export type {
+    GetProgressState200,
+    GetProgressState403,
+    GetProgressState404,
+    GetProgressState409,
+    GetProgressState500,
+    GetProgressStateHeaderParams,
+    GetProgressStateHeaderParamsXAPIVersionEnumKey,
+    GetProgressStatePathParams,
+    GetProgressStateQuery,
+    GetProgressStateQueryParams,
+    GetProgressStateQueryResponse,
+} from "./GetProgressState.ts";
+export type {
+    GetRevisionAlerts200,
+    GetRevisionAlerts403,
+    GetRevisionAlerts404,
+    GetRevisionAlerts409,
+    GetRevisionAlerts500,
+    GetRevisionAlertsHeaderParams,
+    GetRevisionAlertsHeaderParamsXAPIVersionEnumKey,
+    GetRevisionAlertsPathParams,
+    GetRevisionAlertsQuery,
+    GetRevisionAlertsQueryResponse,
+} from "./GetRevisionAlerts.ts";
+export type {
     GetRoleGroupByIdAsAdmin200,
     GetRoleGroupByIdAsAdmin403,
     GetRoleGroupByIdAsAdmin404,
@@ -952,6 +1014,7 @@ export type { PaginatedResultEnrollment } from "./PaginatedResultEnrollment.ts";
 export type { PaginatedResultInvitationDTO } from "./PaginatedResultInvitationDTO.ts";
 export type { PaginatedResultMembership } from "./PaginatedResultMembership.ts";
 export type { PaginatedResultPermission } from "./PaginatedResultPermission.ts";
+export type { PaginatedResultProgress } from "./PaginatedResultProgress.ts";
 export type { PaginatedResultRoleGroup } from "./PaginatedResultRoleGroup.ts";
 export type { PaginatedResultSession } from "./PaginatedResultSession.ts";
 export type { PaginatedResultStudent } from "./PaginatedResultStudent.ts";
@@ -961,7 +1024,36 @@ export type { PasswordResetRequest } from "./PasswordResetRequest.ts";
 export type { Permission } from "./Permission.ts";
 export type { PermissionCheckResponse } from "./PermissionCheckResponse.ts";
 export type { Portion } from "./Portion.ts";
+export type {
+    Progress,
+    ProgressFlowEnumKey,
+    ProgressFluencyEnumKey,
+    ProgressStatusEnumKey,
+    ProgressTajweedEnumKey,
+} from "./Progress.ts";
+export type { ProgressFlowSnapshot } from "./ProgressFlowSnapshot.ts";
+export type { ProgressQuranPortion } from "./ProgressQuranPortion.ts";
+export type { ProgressState } from "./ProgressState.ts";
 export type { QuranScope } from "./QuranScope.ts";
+export type {
+    RecordProgress201,
+    RecordProgress403,
+    RecordProgress404,
+    RecordProgress409,
+    RecordProgress500,
+    RecordProgressHeaderParams,
+    RecordProgressHeaderParamsXAPIVersionEnumKey,
+    RecordProgressMutation,
+    RecordProgressMutationRequest,
+    RecordProgressMutationResponse,
+} from "./RecordProgress.ts";
+export type {
+    RecordProgressRequest,
+    RecordProgressRequestFlowEnumKey,
+    RecordProgressRequestFluencyEnumKey,
+    RecordProgressRequestStatusEnumKey,
+    RecordProgressRequestTajweedEnumKey,
+} from "./RecordProgressRequest.ts";
 export type {
     RecoverAccount200,
     RecoverAccount403,
@@ -1036,6 +1128,7 @@ export type {
     RequestPasswordResetMutationRequest,
     RequestPasswordResetMutationResponse,
 } from "./RequestPasswordReset.ts";
+export type { RevisionAlert } from "./RevisionAlert.ts";
 export type {
     Revoke204,
     Revoke403,
@@ -1104,6 +1197,7 @@ export type {
     SetPaceRequest,
     SetPaceRequestUnitEnumKey,
 } from "./SetPaceRequest.ts";
+export type { StaleDhorPortion } from "./StaleDhorPortion.ts";
 export type { StringFilter } from "./StringFilter.ts";
 export type { Student, StudentGenderEnumKey } from "./Student.ts";
 export type { Surah, SurahRevelationPlaceEnumKey } from "./Surah.ts";
@@ -1226,6 +1320,25 @@ export type {
     UpdateOrganizationPathParams,
 } from "./UpdateOrganization.ts";
 export type { UpdateOrganizationRequest } from "./UpdateOrganizationRequest.ts";
+export type {
+    UpdateProgress200,
+    UpdateProgress403,
+    UpdateProgress404,
+    UpdateProgress409,
+    UpdateProgress500,
+    UpdateProgressHeaderParams,
+    UpdateProgressHeaderParamsXAPIVersionEnumKey,
+    UpdateProgressMutation,
+    UpdateProgressMutationRequest,
+    UpdateProgressMutationResponse,
+    UpdateProgressPathParams,
+} from "./UpdateProgress.ts";
+export type {
+    UpdateProgressRequest,
+    UpdateProgressRequestFluencyEnumKey,
+    UpdateProgressRequestStatusEnumKey,
+    UpdateProgressRequestTajweedEnumKey,
+} from "./UpdateProgressRequest.ts";
 export type {
     UpdateRoleGroupAsAdmin200,
     UpdateRoleGroupAsAdmin403,
@@ -1383,6 +1496,7 @@ export { deleteHeaderParamsXAPIVersionEnum } from "./Delete.ts";
 export { deleteClassHeaderParamsXAPIVersionEnum } from "./DeleteClass.ts";
 export { deleteCourseHeaderParamsXAPIVersionEnum } from "./DeleteCourse.ts";
 export { deleteCurrentAccountHeaderParamsXAPIVersionEnum } from "./DeleteCurrentAccount.ts";
+export { deleteProgressHeaderParamsXAPIVersionEnum } from "./DeleteProgress.ts";
 export { deleteRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./DeleteRoleGroupAsAdmin.ts";
 export { deleteStudentHeaderParamsXAPIVersionEnum } from "./DeleteStudent.ts";
 export { deleteUserAsAdminHeaderParamsXAPIVersionEnum } from "./DeleteUserAsAdmin.ts";
@@ -1418,6 +1532,11 @@ export { getOrganizationByIdHeaderParamsXAPIVersionEnum } from "./GetOrganizatio
 export { getPaceHeaderParamsXAPIVersionEnum } from "./GetPace.ts";
 export { getPageHeaderParamsXAPIVersionEnum } from "./GetPage.ts";
 export { getPermissionsAsAdminHeaderParamsXAPIVersionEnum } from "./GetPermissionsAsAdmin.ts";
+export { getProgressRecordByIdHeaderParamsXAPIVersionEnum } from "./GetProgressRecordById.ts";
+export { getProgressRecordsHeaderParamsXAPIVersionEnum } from "./GetProgressRecords.ts";
+export { getProgressRecordsQueryParamsFlowEnum } from "./GetProgressRecords.ts";
+export { getProgressStateHeaderParamsXAPIVersionEnum } from "./GetProgressState.ts";
+export { getRevisionAlertsHeaderParamsXAPIVersionEnum } from "./GetRevisionAlerts.ts";
 export { getRoleGroupByIdAsAdminHeaderParamsXAPIVersionEnum } from "./GetRoleGroupByIdAsAdmin.ts";
 export { getRoleGroupsAsAdminHeaderParamsXAPIVersionEnum } from "./GetRoleGroupsAsAdmin.ts";
 export { getSecuritySettingsAsAdminHeaderParamsXAPIVersionEnum } from "./GetSecuritySettingsAsAdmin.ts";
@@ -1443,6 +1562,15 @@ export { membershipStatusEnum } from "./Membership.ts";
 export { organizationStatusEnum } from "./Organization.ts";
 export { paceUnitEnum } from "./Pace.ts";
 export { paceFlowUnitEnum } from "./PaceFlow.ts";
+export { progressFlowEnum } from "./Progress.ts";
+export { progressFluencyEnum } from "./Progress.ts";
+export { progressStatusEnum } from "./Progress.ts";
+export { progressTajweedEnum } from "./Progress.ts";
+export { recordProgressHeaderParamsXAPIVersionEnum } from "./RecordProgress.ts";
+export { recordProgressRequestFlowEnum } from "./RecordProgressRequest.ts";
+export { recordProgressRequestFluencyEnum } from "./RecordProgressRequest.ts";
+export { recordProgressRequestStatusEnum } from "./RecordProgressRequest.ts";
+export { recordProgressRequestTajweedEnum } from "./RecordProgressRequest.ts";
 export { recoverAccountHeaderParamsXAPIVersionEnum } from "./RecoverAccount.ts";
 export { refreshTokenHeaderParamsXAPIVersionEnum } from "./RefreshToken.ts";
 export { registerSchoolHeaderParamsXAPIVersionEnum } from "./RegisterSchool.ts";
@@ -1470,6 +1598,10 @@ export { updateCourseRequestTypeEnum } from "./UpdateCourseRequest.ts";
 export { updateCurrentUserPreferencesHeaderParamsXAPIVersionEnum } from "./UpdateCurrentUserPreferences.ts";
 export { updateEnrollmentCoursesHeaderParamsXAPIVersionEnum } from "./UpdateEnrollmentCourses.ts";
 export { updateOrganizationHeaderParamsXAPIVersionEnum } from "./UpdateOrganization.ts";
+export { updateProgressHeaderParamsXAPIVersionEnum } from "./UpdateProgress.ts";
+export { updateProgressRequestFluencyEnum } from "./UpdateProgressRequest.ts";
+export { updateProgressRequestStatusEnum } from "./UpdateProgressRequest.ts";
+export { updateProgressRequestTajweedEnum } from "./UpdateProgressRequest.ts";
 export { updateRoleGroupAsAdminHeaderParamsXAPIVersionEnum } from "./UpdateRoleGroupAsAdmin.ts";
 export { updateSessionHeaderParamsXAPIVersionEnum } from "./UpdateSession.ts";
 export { updateStudentHeaderParamsXAPIVersionEnum } from "./UpdateStudent.ts";
