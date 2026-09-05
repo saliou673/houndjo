@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useGetCourseById, useGetEnrollments } from "@api-client";
+import { useGetCourseById, useActiveCourseEnrollments } from "@api-client";
 import { useTranslations } from "next-intl";
 import {
     Dialog,
@@ -46,15 +46,9 @@ export function ProgressEntryDialog({
 
     const { data: course, isLoading: isCourseLoading, isError: isCourseError } =
         useGetCourseById(classId, courseId, undefined, { query: { enabled: open } });
-    const { data: enrollments, isLoading: isEnrollmentsLoading } = useGetEnrollments(
-        { classId, status: "ACTIVE", pageable: { page: 0, size: 100 } },
-        undefined,
-        { query: { enabled: open } }
-    );
-
-    const students = (enrollments?.items ?? []).filter((enrollment) =>
-        enrollment.courseIds?.includes(courseId)
-    );
+    const { data: enrollments, isLoading: isEnrollmentsLoading, isError: isEnrollmentsError } =
+        useActiveCourseEnrollments(classId, courseId, open);
+    const students = enrollments?.items ?? [];
 
     const isLoading = isCourseLoading || isEnrollmentsLoading;
 
@@ -79,11 +73,11 @@ export function ProgressEntryDialog({
                 {isLoading && (
                     <p className="text-sm text-muted-foreground">{t("loading")}</p>
                 )}
-                {isCourseError && (
+                {(isCourseError || isEnrollmentsError) && (
                     <p className="text-sm text-destructive">{t("errorFallback")}</p>
                 )}
 
-                {!isLoading && !isCourseError && course && (
+                {!isLoading && !isCourseError && !isEnrollmentsError && course && (
                     <div className="space-y-4">
                         <div className="space-y-1.5">
                             <Label htmlFor="progress-student">{t("studentLabel")}</Label>
