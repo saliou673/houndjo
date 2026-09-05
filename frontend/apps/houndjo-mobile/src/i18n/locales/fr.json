@@ -580,6 +580,7 @@
             "pageIndicator": "Page {{page}} sur {{totalPages}}",
             "cancelAction": "Annuler",
             "cancelConfirmMessage": "Voulez-vous vraiment annuler la séance du {{date}} ?",
+            "recordProgressAction": "Enregistrer la progression",
             "filters": {
                 "fromDate": "Du",
                 "toDate": "Au"
@@ -604,6 +605,67 @@
                 "startTime": "Heure de début",
                 "endTime": "Heure de fin",
                 "submit": "Créer la séance"
+            }
+        },
+        "progress": {
+            "entry": {
+                "title": "Enregistrer la progression",
+                "errorFallback": "Impossible de charger les données du cours.",
+                "studentLabel": "Élève",
+                "studentPlaceholder": "Sélectionner un élève",
+                "noStudents": "Aucun élève inscrit à ce cours pour le moment.",
+                "tabs": {
+                    "SABAK": "Sabak",
+                    "SABQI": "Sabqi",
+                    "DHOR": "Dhor"
+                },
+                "fields": {
+                    "fromSurah": "Sourate de début",
+                    "fromVerse": "Verset de début",
+                    "toSurah": "Sourate de fin",
+                    "toVerse": "Verset de fin",
+                    "lesson": "Leçon",
+                    "lessonPlaceholder": "Sélectionner une leçon",
+                    "chapterNo": "Chapitre",
+                    "pageNo": "Page",
+                    "errorCount": "Erreurs",
+                    "fluency": "Aisance",
+                    "fluencyPlaceholder": "Sélectionner une note",
+                    "tajweed": "Tajwid (optionnel)",
+                    "note": "Note (optionnel)"
+                },
+                "ratingOptions": {
+                    "WEAK": "Faible",
+                    "FAIR": "Passable",
+                    "GOOD": "Bien",
+                    "EXCELLENT": "Excellent"
+                },
+                "submit": "Enregistrer et valider",
+                "successToast": "Progression enregistrée.",
+                "validation": {
+                    "fromRequired": "La sourate/verset de début est requis.",
+                    "fromInvalid": "Entrez des numéros de sourate et de verset valides.",
+                    "toRequired": "La sourate/verset de fin est requis.",
+                    "toInvalid": "Entrez des numéros de sourate et de verset valides.",
+                    "lessonRequired": "Veuillez sélectionner une leçon.",
+                    "chapterRequired": "Le chapitre est requis.",
+                    "chapterInvalid": "Entrez un numéro de chapitre valide.",
+                    "pageRequired": "La page est requise.",
+                    "pageInvalid": "Entrez un numéro de page valide.",
+                    "fluencyRequired": "Veuillez sélectionner une note d'aisance."
+                }
+            },
+            "state": {
+                "title": "État de la progression",
+                "errorFallback": "Impossible de charger l'état de la progression.",
+                "sabak": "Sabak",
+                "sabqi": "Sabqi",
+                "notRecorded": "Pas encore enregistré",
+                "portionLabel": "Sourate {{fromSurah}}:{{fromVerse}} → {{toSurah}}:{{toVerse}}",
+                "coveredJuz": "Juz révisés : {{count}}",
+                "staleTitle": "Révision Dhor en retard",
+                "staleJuz": "Juz {{juz}} — {{days}} jours depuis la dernière révision",
+                "noStale": "Toutes les révisions Dhor sont à jour."
             }
         }
     },
