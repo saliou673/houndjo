@@ -1,0 +1,62 @@
+{
+    "type": "object",
+    "properties": {
+        "sabak": {
+            "type": "object",
+            "properties": {
+                "fromSurah": { "type": "integer", "format": "int32" },
+                "fromVerse": { "type": "integer", "format": "int32" },
+                "toSurah": { "type": "integer", "format": "int32" },
+                "toVerse": { "type": "integer", "format": "int32" },
+                "date": { "type": "string", "format": "date-time" }
+            },
+            "x-readme-ref-name": "ProgressFlowSnapshot"
+        },
+        "sabqi": {
+            "type": "object",
+            "properties": {
+                "fromSurah": { "type": "integer", "format": "int32" },
+                "fromVerse": { "type": "integer", "format": "int32" },
+                "toSurah": { "type": "integer", "format": "int32" },
+                "toVerse": { "type": "integer", "format": "int32" },
+                "date": { "type": "string", "format": "date-time" }
+            },
+            "x-readme-ref-name": "ProgressFlowSnapshot"
+        },
+        "coveredJuz": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int32" }
+        },
+        "stalePortions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "juz": { "type": "integer", "format": "int32" },
+                    "lastReviewedDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "daysSince": { "type": "integer", "format": "int64" }
+                },
+                "x-readme-ref-name": "StaleDhorPortion"
+            }
+        },
+        "alerts": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "juz": { "type": "integer", "format": "int32" },
+                    "lastReviewedDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "daysSince": { "type": "integer", "format": "int64" }
+                },
+                "x-readme-ref-name": "StaleDhorPortion"
+            }
+        }
+    },
+    "x-readme-ref-name": "ProgressState"
+}
