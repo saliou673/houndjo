@@ -216,8 +216,8 @@ class ProgressControllerTest extends IntegrationTest {
 
     @ParameterizedTest
     @CsvSource({
-        "QAIDA,LESSON,0,1,1",
-        "QAIDA,LESSON,3,1,1",
+        "QAIDA,LESSON,-1,1,1",
+        "QAIDA,LESSON,2,1,1",
         "BOOK,CHAPTER,1,0,1",
         "BOOK,CHAPTER,1,3,1",
         "BOOK,CHAPTER,1,1,0",
@@ -265,7 +265,7 @@ class ProgressControllerTest extends IntegrationTest {
                         null,
                         null,
                         null,
-                        2L,
+                        0L,
                         2,
                         20,
                         0,
