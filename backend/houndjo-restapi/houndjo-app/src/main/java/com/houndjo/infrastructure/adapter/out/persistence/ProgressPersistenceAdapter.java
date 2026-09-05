@@ -67,6 +67,23 @@ public class ProgressPersistenceAdapter implements ProgressPersistencePort {
     }
 
     @Override
+    public List<ProgressRecord> findByStudentIdAndCourseIdAndOrganizationId(
+            Long studentId, Long courseId, Long organizationId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> progressRecordMapper.toDomain(
+                        progressRecordRepository.findByStudentIdAndCourseIdAndOrganizationId(
+                                studentId, courseId, organizationId)),
+                "Error fetching progress records by student and course");
+    }
+
+    @Override
+    public List<ProgressRecord> findAllByOrganizationId(Long organizationId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> progressRecordMapper.toDomain(progressRecordRepository.findByOrganizationId(organizationId)),
+                "Error fetching progress records by organization");
+    }
+
+    @Override
     @Transactional
     public ProgressRecord save(ProgressRecord progressRecord) {
         return AdapterPersistenceUtils.executeDbOperation(
