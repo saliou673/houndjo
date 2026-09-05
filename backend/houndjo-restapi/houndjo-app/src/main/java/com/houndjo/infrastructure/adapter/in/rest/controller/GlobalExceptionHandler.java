@@ -182,6 +182,13 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, "Course Error", resolveMessage(ex));
     }
 
+    @ExceptionHandler(FeeScheduleNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ValidationErrorResponseDTO> handleFeeScheduleNotFound(FeeScheduleNotFoundException ex) {
+        logError(ex);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Fee Schedule Error", resolveMessage(ex));
+    }
+
     @ExceptionHandler(StudentNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ValidationErrorResponseDTO> handleStudentNotFound(StudentNotFoundException ex) {
