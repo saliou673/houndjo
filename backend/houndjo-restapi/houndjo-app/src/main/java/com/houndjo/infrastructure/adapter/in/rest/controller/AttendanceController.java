@@ -36,9 +36,7 @@ public class AttendanceController {
 
     @GetMapping
     public List<AttendanceDTO> getAttendance(@PathVariable Long sessionId) {
-        return attendanceUseCase.findBySession(sessionId).stream()
-                .map(attendanceDtoMapper::toDTO)
-                .toList();
+        return attendanceDtoMapper.toDTOs(attendanceUseCase.findBySession(sessionId));
     }
 
     @PostMapping("/bulk")
@@ -49,6 +47,6 @@ public class AttendanceController {
                 .map(entry -> new AttendanceEntry(entry.studentId(), entry.status(), entry.reason()))
                 .toList();
         List<Attendance> recorded = attendanceUseCase.recordBulk(sessionId, entries);
-        return recorded.stream().map(attendanceDtoMapper::toDTO).toList();
+        return attendanceDtoMapper.toDTOs(recorded);
     }
 }
