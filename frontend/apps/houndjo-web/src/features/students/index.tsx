@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Main } from "@/components/layout/main";
+import { StudentAttendanceDialog } from "@/features/attendance/components/student-attendance-dialog";
 import { StudentDeleteDialog } from "./components/student-delete-dialog";
 import { StudentFormDialog } from "./components/student-form-dialog";
 import { StudentList } from "./components/student-list";
@@ -24,11 +25,19 @@ export function Students() {
     const canCreateStudents = permissionCodes.has("student:create");
     const canUpdateStudents = permissionCodes.has("student:update");
     const canDeleteStudents = permissionCodes.has("student:delete");
+    const canViewAttendance = permissionCodes.has("attendance:read");
+    const canCreatePermission = permissionCodes.has(
+        "attendance-permission:create"
+    );
+    const canUpdatePermission = permissionCodes.has(
+        "attendance-permission:update"
+    );
 
     const [search, setSearch] = useState("");
     const [addOpen, setAddOpen] = useState(false);
     const [editRow, setEditRow] = useState<StudentRow | null>(null);
     const [deleteRow, setDeleteRow] = useState<StudentRow | null>(null);
+    const [attendanceRow, setAttendanceRow] = useState<StudentRow | null>(null);
 
     return (
         <Main className="flex flex-1 flex-col gap-4 sm:gap-6">
@@ -63,8 +72,10 @@ export function Students() {
                 search={search}
                 canUpdate={canUpdateStudents}
                 canDelete={canDeleteStudents}
+                canViewAttendance={canViewAttendance}
                 onEdit={setEditRow}
                 onDelete={setDeleteRow}
+                onViewAttendance={setAttendanceRow}
             />
 
             {canCreateStudents && (
@@ -86,6 +97,18 @@ export function Students() {
                     open={!!deleteRow}
                     currentRow={deleteRow}
                     onOpenChange={(open) => !open && setDeleteRow(null)}
+                />
+            )}
+
+            {attendanceRow && canViewAttendance && (
+                <StudentAttendanceDialog
+                    key={`student-attendance-${attendanceRow.id}`}
+                    studentId={attendanceRow.id}
+                    studentName={`${attendanceRow.firstName} ${attendanceRow.lastName}`}
+                    canCreatePermission={canCreatePermission}
+                    canUpdatePermission={canUpdatePermission}
+                    open={!!attendanceRow}
+                    onOpenChange={(open) => !open && setAttendanceRow(null)}
                 />
             )}
         </Main>

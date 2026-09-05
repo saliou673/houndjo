@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { useCancelSession, useGetSessions } from "@api-client";
-import { ChevronLeft, ChevronRight, CircleOff, ClipboardList } from "lucide-react";
+import {
+    CalendarCheck,
+    ChevronLeft,
+    ChevronRight,
+    CircleOff,
+    ClipboardList,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -20,6 +26,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { AttendanceRollCallDialog } from "@/features/attendance/components/attendance-roll-call-dialog";
 import { ProgressEntryDialog } from "@/features/progress/components/progress-entry-dialog";
 
 const PAGE_SIZE = 25;
@@ -29,6 +36,7 @@ type SessionListProps = {
     courseId: number;
     canUpdate: boolean;
     canRecordProgress: boolean;
+    canRecordAttendance: boolean;
 };
 
 export function SessionList({
@@ -36,6 +44,7 @@ export function SessionList({
     courseId,
     canUpdate,
     canRecordProgress,
+    canRecordAttendance,
 }: SessionListProps) {
     const t = useTranslations("Classes.sessions");
     const tDataTable = useTranslations("DataTable");
@@ -44,6 +53,10 @@ export function SessionList({
     const [toDate, setToDate] = useState("");
     const [page, setPage] = useState(0);
     const [progressSession, setProgressSession] = useState<{
+        id: number;
+        date: string;
+    } | null>(null);
+    const [attendanceSession, setAttendanceSession] = useState<{
         id: number;
         date: string;
     } | null>(null);
@@ -130,7 +143,9 @@ export function SessionList({
                                         <TableHead>{t("columns.time")}</TableHead>
                                         <TableHead>{t("columns.teacher")}</TableHead>
                                         <TableHead>{t("columns.status")}</TableHead>
-                                        {(canUpdate || canRecordProgress) && (
+                                        {(canUpdate ||
+                                            canRecordProgress ||
+                                            canRecordAttendance) && (
                                             <TableHead className="text-end">
                                                 {t("columns.actions")}
                                             </TableHead>
@@ -162,8 +177,30 @@ export function SessionList({
                                                     {t(`statusOptions.${session.status}`)}
                                                 </Badge>
                                             </TableCell>
-                                            {(canUpdate || canRecordProgress) && (
+                                            {(canUpdate ||
+                                                canRecordProgress ||
+                                                canRecordAttendance) && (
                                                 <TableCell className="text-end">
+                                                    {canRecordAttendance &&
+                                                        session.status !== "CANCELLED" && (
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                aria-label={t(
+                                                                    "recordAttendanceAction"
+                                                                )}
+                                                                onClick={() =>
+                                                                    setAttendanceSession({
+                                                                        id: session.id ?? 0,
+                                                                        date:
+                                                                            session.sessionDate ??
+                                                                            "",
+                                                                    })
+                                                                }
+                                                            >
+                                                                <CalendarCheck size={16} />
+                                                            </Button>
+                                                        )}
                                                     {canRecordProgress &&
                                                         session.status !== "CANCELLED" && (
                                                             <Button
@@ -252,6 +289,18 @@ export function SessionList({
                     sessionDate={progressSession.date}
                     open={!!progressSession}
                     onOpenChange={(nextOpen) => !nextOpen && setProgressSession(null)}
+                />
+            )}
+
+            {attendanceSession && canRecordAttendance && (
+                <AttendanceRollCallDialog
+                    key={`attendance-roll-call-${attendanceSession.id}`}
+                    classId={classId}
+                    courseId={courseId}
+                    sessionId={attendanceSession.id}
+                    sessionDate={attendanceSession.date}
+                    open={!!attendanceSession}
+                    onOpenChange={(nextOpen) => !nextOpen && setAttendanceSession(null)}
                 />
             )}
         </Card>

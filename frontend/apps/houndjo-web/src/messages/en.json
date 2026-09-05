@@ -411,6 +411,7 @@
             "noResults": "No sessions yet.",
             "cancelAction": "Cancel",
             "recordProgressAction": "Record progress",
+            "recordAttendanceAction": "Take attendance",
             "cancelSuccessToast": "Session cancelled.",
             "filters": {
                 "fromDate": "From date",
@@ -464,7 +465,8 @@
             "errorFallback": "Unable to load students.",
             "noResults": "No students yet.",
             "editAction": "Edit",
-            "deleteAction": "Delete"
+            "deleteAction": "Delete",
+            "viewAttendanceAction": "Attendance"
         },
         "deleteDialog": {
             "title": "Delete Student",
@@ -626,6 +628,77 @@
             "staleTitle": "Overdue Dhor revision",
             "staleJuz": "Juz {juz} — {days} days since last revision",
             "noStale": "All Dhor revisions are up to date."
+        }
+    },
+    "Attendance": {
+        "statusOptions": {
+            "PRESENT": "Present",
+            "ABSENT_JUSTIFIED": "Absent (justified)",
+            "ABSENT_UNJUSTIFIED": "Absent (unjustified)",
+            "PERMISSION": "On leave"
+        },
+        "statusOptionsShort": {
+            "PRESENT": "Present",
+            "ABSENT_JUSTIFIED": "Justified",
+            "ABSENT_UNJUSTIFIED": "Unjustified",
+            "PERMISSION": "Leave"
+        },
+        "permissionStatusOptions": {
+            "PENDING": "Pending",
+            "APPROVED": "Approved",
+            "REJECTED": "Rejected"
+        },
+        "rollCallDialog": {
+            "title": "Take attendance",
+            "description": "Session on {date}",
+            "loading": "Loading...",
+            "errorFallback": "Unable to load the class roster.",
+            "noStudents": "No students enrolled in this course yet.",
+            "reasonPlaceholder": "Reason (optional)",
+            "submit": "Save attendance",
+            "successToast": "Attendance saved.",
+            "columns": {
+                "student": "Student",
+                "status": "Status",
+                "reason": "Reason"
+            }
+        },
+        "studentDialog": {
+            "title": "Attendance — {name}",
+            "description": "Attendance history and leave requests.",
+            "loading": "Loading...",
+            "errorFallback": "Unable to load attendance data.",
+            "historyTitle": "History",
+            "noHistory": "No attendance recorded for this period.",
+            "absenceRate": "{rate}% absences",
+            "filters": {
+                "fromDate": "From date",
+                "toDate": "To date"
+            },
+            "columns": {
+                "date": "Date",
+                "status": "Status",
+                "reason": "Reason"
+            },
+            "permissions": {
+                "title": "Leave requests",
+                "noResults": "No leave requests yet.",
+                "approveAction": "Approve",
+                "rejectAction": "Reject",
+                "requestAction": "Request leave",
+                "createSuccessToast": "Leave request created.",
+                "statusUpdatedToast": "Leave request updated.",
+                "fields": {
+                    "fromDate": "From date",
+                    "toDate": "To date",
+                    "reason": "Reason (optional)"
+                }
+            },
+            "validation": {
+                "fromDateRequired": "From date is required.",
+                "toDateRequired": "To date is required.",
+                "dateRangeInvalid": "The from date must be before or equal to the to date."
+            }
         }
     },
     "SettingsAccount": {

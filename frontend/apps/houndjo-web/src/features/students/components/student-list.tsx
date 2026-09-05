@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetStudents } from "@api-client";
-import { Pencil, Trash2 } from "lucide-react";
+import { CalendarCheck, Pencil, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,16 +21,20 @@ type StudentListProps = {
     search: string;
     canUpdate: boolean;
     canDelete: boolean;
+    canViewAttendance: boolean;
     onEdit: (row: StudentRow) => void;
     onDelete: (row: StudentRow) => void;
+    onViewAttendance: (row: StudentRow) => void;
 };
 
 export function StudentList({
     search,
     canUpdate,
     canDelete,
+    canViewAttendance,
     onEdit,
     onDelete,
+    onViewAttendance,
 }: StudentListProps) {
     const t = useTranslations("Students.list");
     const { data, isLoading, isError } = useGetStudents({
@@ -63,7 +67,7 @@ export function StudentList({
                             <TableHead>{t("columns.name")}</TableHead>
                             <TableHead>{t("columns.birthDate")}</TableHead>
                             <TableHead>{t("columns.guardian")}</TableHead>
-                            {(canUpdate || canDelete) && (
+                            {(canUpdate || canDelete || canViewAttendance) && (
                                 <TableHead className="text-end">
                                     {t("columns.actions")}
                                 </TableHead>
@@ -85,9 +89,21 @@ export function StudentList({
                                         ? ` (${row.guardianPhone})`
                                         : ""}
                                 </TableCell>
-                                {(canUpdate || canDelete) && (
+                                {(canUpdate || canDelete || canViewAttendance) && (
                                     <TableCell className="text-end">
                                         <div className="flex justify-end gap-2">
+                                            {canViewAttendance && (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    aria-label={t(
+                                                        "viewAttendanceAction"
+                                                    )}
+                                                    onClick={() => onViewAttendance(row)}
+                                                >
+                                                    <CalendarCheck size={16} />
+                                                </Button>
+                                            )}
                                             {canUpdate && (
                                                 <Button
                                                     variant="ghost"
@@ -147,8 +163,18 @@ export function StudentList({
                                         : ""}
                                 </p>
                             )}
-                            {(canUpdate || canDelete) && (
-                                <div className="flex justify-end gap-2">
+                            {(canUpdate || canDelete || canViewAttendance) && (
+                                <div className="flex flex-wrap justify-end gap-2">
+                                    {canViewAttendance && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => onViewAttendance(row)}
+                                        >
+                                            <CalendarCheck size={16} className="me-1" />{" "}
+                                            {t("viewAttendanceAction")}
+                                        </Button>
+                                    )}
                                     {canUpdate && (
                                         <Button
                                             variant="outline"
