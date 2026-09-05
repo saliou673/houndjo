@@ -88,13 +88,6 @@ public class AttendancePermission extends Auditable<Long> {
                 lastUpdatedBy);
     }
 
-    /**
-     * Returns whether this permission's date range covers the given date (inclusive).
-     */
-    public boolean covers(LocalDate date) {
-        return !date.isBefore(fromDate) && !date.isAfter(toDate);
-    }
-
     public void updateStatus(AttendancePermissionStatus status) {
         Objects.requireNonNull(status, "status must not be null");
         this.status = status;

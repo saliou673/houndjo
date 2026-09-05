@@ -37,7 +37,6 @@ public class StudentAttendanceController {
             @RequestParam(required = false) @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @RequestParam(required = false) @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         StudentAttendanceHistory history = attendanceUseCase.getStudentHistory(studentId, from, to);
-        return new AttendanceHistoryDTO(
-                history.entries().stream().map(attendanceDtoMapper::toDTO).toList(), history.absenceRate());
+        return new AttendanceHistoryDTO(attendanceDtoMapper.toDTOs(history.entries()), history.absenceRate());
     }
 }

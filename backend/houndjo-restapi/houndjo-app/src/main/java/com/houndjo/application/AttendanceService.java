@@ -13,6 +13,7 @@ import com.houndjo.domain.ports.out.persistenceport.SessionPersistencePort;
 import com.houndjo.domain.ports.out.persistenceport.StudentPersistencePort;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -50,7 +51,10 @@ public class AttendanceService implements AttendanceUseCase {
                 attendancePersistencePort.findBySessionIdAndOrganizationId(sessionId, organizationId).stream()
                         .collect(Collectors.toMap(Attendance::getStudentId, Function.identity()));
         List<Attendance> toSave = new ArrayList<>();
-        for (AttendanceEntry entry : entries) {
+        // Deterministic upsert semantics also apply to duplicates within the same request.
+        Map<Long, AttendanceEntry> uniqueEntries = new LinkedHashMap<>();
+        entries.forEach(entry -> uniqueEntries.put(entry.studentId(), entry));
+        for (AttendanceEntry entry : uniqueEntries.values()) {
             requireStudent(entry.studentId(), organizationId);
             Attendance attendance = existingByStudentId.get(entry.studentId());
             if (attendance != null) {
