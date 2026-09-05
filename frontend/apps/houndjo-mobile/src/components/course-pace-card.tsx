@@ -18,8 +18,12 @@ import { Picker, type PickerOption } from '@/components/ui/picker';
 import { Spinner } from '@/components/ui/spinner';
 import { Spacing } from '@/constants/theme';
 
-const UNITS: PaceUnitEnumKey[] = ['PAGE', 'VERSE', 'HIZB', 'NISF_HIZB', 'LESSON', 'CHAPTER'];
 const FLOW_UNITS: PaceUnitEnumKey[] = ['PAGE', 'VERSE', 'HIZB', 'NISF_HIZB'];
+const BASE_UNITS_BY_COURSE_TYPE: Record<CourseTypeEnumKey, PaceUnitEnumKey[]> = {
+  QURAN: FLOW_UNITS,
+  QAIDA: ['LESSON'],
+  BOOK: ['PAGE', 'CHAPTER'],
+};
 
 type PaceFormValues = {
   unit: PaceUnitEnumKey;
@@ -34,18 +38,20 @@ type PaceFormValues = {
   dhorCycleDays: string;
 };
 
-const INITIAL_VALUES: PaceFormValues = {
-  unit: 'PAGE',
-  amountPerSession: '1',
-  sessionsPerWeek: '1',
-  sabakUnit: undefined,
-  sabakAmount: '',
-  sabqiUnit: undefined,
-  sabqiAmount: '',
-  dhorUnit: undefined,
-  dhorAmount: '',
-  dhorCycleDays: '',
-};
+function createInitialValues(courseType: CourseTypeEnumKey): PaceFormValues {
+  return {
+    unit: courseType === 'QAIDA' ? 'LESSON' : 'PAGE',
+    amountPerSession: '1',
+    sessionsPerWeek: '1',
+    sabakUnit: undefined,
+    sabakAmount: '',
+    sabqiUnit: undefined,
+    sabqiAmount: '',
+    dhorUnit: undefined,
+    dhorAmount: '',
+    dhorCycleDays: '',
+  };
+}
 
 type FieldErrors = Partial<
   Record<'sabakUnit' | 'sabakAmount' | 'sabqiUnit' | 'sabqiAmount' | 'dhorUnit' | 'dhorAmount' | 'dhorCycleDays', string>
@@ -113,15 +119,17 @@ export function CoursePaceCard({ courseId, courseType, canUpdate }: CoursePaceCa
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const isQuran = courseType === 'QURAN';
+  const baseUnits = BASE_UNITS_BY_COURSE_TYPE[courseType];
+  const defaultUnit = courseType === 'QAIDA' ? 'LESSON' : 'PAGE';
 
   const { data: pace, isLoading } = useGetPace(courseId);
-  const [values, setValues] = useState<PaceFormValues>(INITIAL_VALUES);
+  const [values, setValues] = useState<PaceFormValues>(() => createInitialValues(courseType));
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   useEffect(() => {
     if (pace) {
       setValues({
-        unit: pace.unit ?? 'PAGE',
+        unit: pace.unit && baseUnits.includes(pace.unit) ? pace.unit : defaultUnit,
         amountPerSession: pace.amountPerSession != null ? String(pace.amountPerSession) : '1',
         sessionsPerWeek: pace.sessionsPerWeek != null ? String(pace.sessionsPerWeek) : '1',
         sabakUnit: pace.sabak?.unit,
@@ -132,8 +140,14 @@ export function CoursePaceCard({ courseId, courseType, canUpdate }: CoursePaceCa
         dhorAmount: pace.dhor?.amount != null ? String(pace.dhor.amount) : '',
         dhorCycleDays: pace.dhorCycleDays != null ? String(pace.dhorCycleDays) : '',
       });
+      return;
     }
-  }, [pace]);
+
+    setValues((current) => ({
+      ...current,
+      unit: baseUnits.includes(current.unit) ? current.unit : defaultUnit,
+    }));
+  }, [baseUnits, defaultUnit, pace]);
 
   const { mutate: setPace, isPending } = useSetPace({
     mutation: {
@@ -147,7 +161,7 @@ export function CoursePaceCard({ courseId, courseType, canUpdate }: CoursePaceCa
     setValues((current) => ({ ...current, [key]: next }));
   }
 
-  const unitOptions: PickerOption[] = UNITS.map((value) => ({
+  const unitOptions: PickerOption[] = baseUnits.map((value) => ({
     label: t(`classes.pace.unitOptions.${value}`),
     value,
   }));

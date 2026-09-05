@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCreateSession } from '@api-client';
 
-import { DateField } from '@/components/date-field';
+import { DateField, formatDateValue } from '@/components/date-field';
 import { FormTextField } from '@/components/form-text-field';
 import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
@@ -17,7 +17,7 @@ export default function CreateSessionScreen() {
   const { courseId: courseIdParam } = useLocalSearchParams<{ courseId: string }>();
   const courseId = Number(courseIdParam);
 
-  const [sessionDate, setSessionDate] = useState('');
+  const [sessionDate, setSessionDate] = useState(() => formatDateValue(new Date()));
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
 

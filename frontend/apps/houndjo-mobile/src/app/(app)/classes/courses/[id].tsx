@@ -57,6 +57,9 @@ export default function CourseDetailScreen() {
   const { data: permissions } = useGetCurrentUserPermissions();
   const canUpdateCourses = (permissions ?? []).some((permission) => permission.code === 'course:update');
   const canDeleteCourses = (permissions ?? []).some((permission) => permission.code === 'course:delete');
+  const canReadSessions = (permissions ?? []).some((permission) => permission.code === 'session:read');
+  const canCreateSessions = (permissions ?? []).some((permission) => permission.code === 'session:create');
+  const canAccessSessions = canReadSessions || canCreateSessions;
 
   const {
     data: course,
@@ -164,16 +167,18 @@ export default function CourseDetailScreen() {
 
             <CoursePaceCard courseId={courseId} courseType={course.type ?? 'QAIDA'} canUpdate={canUpdateCourses} />
 
-            <Button
-              variant="outline"
-              onPress={() =>
-                router.push({
-                  pathname: '/classes/courses/sessions',
-                  params: { courseId: String(courseId) },
-                } as Href)
-              }>
-              {t('classes.sessions.manageAction')}
-            </Button>
+            {canAccessSessions && (
+              <Button
+                variant="outline"
+                onPress={() =>
+                  router.push({
+                    pathname: '/classes/courses/sessions',
+                    params: { courseId: String(courseId) },
+                  } as Href)
+                }>
+                {t('classes.sessions.manageAction')}
+              </Button>
+            )}
 
             {canDeleteCourses && (
               <Button variant="destructive" loading={isDeleting} onPress={() => setIsConfirmingDelete(true)}>

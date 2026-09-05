@@ -3,7 +3,12 @@ import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useLocalSearchParams, useRouter, type Href } from 'expo-router';
-import { useCancelSession, useGetSessions, type Session } from '@api-client';
+import {
+  useCancelSession,
+  useGetCurrentUserPermissions,
+  useGetSessions,
+  type Session,
+} from '@api-client';
 
 import { DateField } from '@/components/date-field';
 import { SettingsCard } from '@/components/settings-card';
@@ -15,7 +20,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
-const PAGEABLE = { page: 0, size: 100 };
+const PAGE_SIZE = 25;
 
 function SessionListItem({
   session,
@@ -72,16 +77,35 @@ export default function CourseSessionsScreen() {
   const { courseId: courseIdParam } = useLocalSearchParams<{ courseId: string }>();
   const courseId = Number(courseIdParam);
 
+  const [page, setPage] = useState(0);
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [cancelTarget, setCancelTarget] = useState<Session | null>(null);
 
-  const { data, isLoading, isError } = useGetSessions(courseId, {
-    fromDate: fromDate || undefined,
-    toDate: toDate || undefined,
-    pageable: PAGEABLE,
-  });
+  const { data: permissions, isLoading: isPermissionsLoading } = useGetCurrentUserPermissions();
+  const canReadSessions = (permissions ?? []).some((permission) => permission.code === 'session:read');
+  const canCreateSessions = (permissions ?? []).some((permission) => permission.code === 'session:create');
+  const canUpdateSessions = (permissions ?? []).some((permission) => permission.code === 'session:update');
+
+  const { data, isLoading, isError } = useGetSessions(
+    courseId,
+    {
+      fromDate: fromDate || undefined,
+      toDate: toDate || undefined,
+      pageable: { page, size: PAGE_SIZE },
+    },
+    undefined,
+    {
+      query: {
+        enabled: canReadSessions && Number.isFinite(courseId),
+        placeholderData: (previous) => previous,
+      },
+    }
+  );
   const rows = data?.items ?? [];
+  const totalPages = data?.totalPages ?? 0;
+  const canGoPrevious = page > 0;
+  const canGoNext = page + 1 < totalPages;
 
   const { mutate: cancelSession } = useCancelSession({
     mutation: {
@@ -98,74 +122,117 @@ export default function CourseSessionsScreen() {
     <>
       <Stack.Screen options={{ title: t('classes.sessions.listTitle') }} />
       <SettingsListScreen>
-        <View style={styles.headerRow}>
-          <Button
-            size="sm"
-            onPress={() =>
-              router.push({
-                pathname: '/classes/courses/sessions/create',
-                params: { courseId: String(courseId) },
-              } as Href)
-            }>
-            {t('classes.sessions.addAction')}
-          </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            onPress={() =>
-              router.push({
-                pathname: '/classes/courses/sessions/generate',
-                params: { courseId: String(courseId) },
-              } as Href)
-            }>
-            {t('classes.sessions.generateAction')}
-          </Button>
-        </View>
-
-        <View style={styles.filtersRow}>
-          <View style={styles.filterField}>
-            <DateField
-              label={t('classes.sessions.filters.fromDate')}
-              value={fromDate}
-              onChange={setFromDate}
-              placeholder="YYYY-MM-DD"
-              editable
-            />
-          </View>
-          <View style={styles.filterField}>
-            <DateField
-              label={t('classes.sessions.filters.toDate')}
-              value={toDate}
-              onChange={setToDate}
-              placeholder="YYYY-MM-DD"
-              editable
-            />
-          </View>
-        </View>
-
-        {isError && (
-          <ThemedText themeColor="danger" type="small">
-            {t('classes.sessions.errorFallback')}
-          </ThemedText>
-        )}
-
-        {isLoading ? (
+        {isPermissionsLoading ? (
           <Spinner />
-        ) : rows.length === 0 ? (
-          <ThemedText type="small" themeColor="textSecondary">
-            {t('classes.sessions.noResults')}
-          </ThemedText>
         ) : (
-          <View style={styles.list}>
-            {rows.map((session) => (
-              <SessionListItem
-                key={session.id}
-                session={session}
-                canUpdate
-                onCancel={() => setCancelTarget(session)}
-              />
-            ))}
-          </View>
+          <>
+            {canCreateSessions && (
+              <View style={styles.headerRow}>
+                <Button
+                  size="sm"
+                  onPress={() =>
+                    router.push({
+                      pathname: '/classes/courses/sessions/create',
+                      params: { courseId: String(courseId) },
+                    } as Href)
+                  }>
+                  {t('classes.sessions.addAction')}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onPress={() =>
+                    router.push({
+                      pathname: '/classes/courses/sessions/generate',
+                      params: { courseId: String(courseId) },
+                    } as Href)
+                  }>
+                  {t('classes.sessions.generateAction')}
+                </Button>
+              </View>
+            )}
+
+            {canReadSessions && (
+              <>
+                <View style={styles.filtersRow}>
+                  <View style={styles.filterField}>
+                    <DateField
+                      label={t('classes.sessions.filters.fromDate')}
+                      value={fromDate}
+                      onChange={(value) => {
+                        setFromDate(value);
+                        setPage(0);
+                      }}
+                      placeholder="YYYY-MM-DD"
+                      editable
+                    />
+                  </View>
+                  <View style={styles.filterField}>
+                    <DateField
+                      label={t('classes.sessions.filters.toDate')}
+                      value={toDate}
+                      onChange={(value) => {
+                        setToDate(value);
+                        setPage(0);
+                      }}
+                      placeholder="YYYY-MM-DD"
+                      editable
+                    />
+                  </View>
+                </View>
+
+                {isLoading ? (
+                  <Spinner />
+                ) : isError ? (
+                  <ThemedText themeColor="danger" type="small">
+                    {t('classes.sessions.errorFallback')}
+                  </ThemedText>
+                ) : rows.length === 0 ? (
+                  <ThemedText type="small" themeColor="textSecondary">
+                    {t('classes.sessions.noResults')}
+                  </ThemedText>
+                ) : (
+                  <View style={styles.list}>
+                    {rows.map((session) => (
+                      <SessionListItem
+                        key={session.id}
+                        session={session}
+                        canUpdate={canUpdateSessions}
+                        onCancel={() => setCancelTarget(session)}
+                      />
+                    ))}
+                  </View>
+                )}
+
+                {!isLoading && !isError && rows.length > 0 && totalPages > 1 && (
+                  <View style={styles.pager}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      disabled={!canGoPrevious}
+                      onPress={() => setPage((current) => Math.max(0, current - 1))}>
+                      {t('classes.sessions.previous')}
+                    </Button>
+
+                    <ThemedText type="small" themeColor="textSecondary">
+                      {t('classes.sessions.pageIndicator', {
+                        page: page + 1,
+                        totalPages: Math.max(totalPages, 1),
+                      })}
+                    </ThemedText>
+
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      disabled={!canGoNext}
+                      onPress={() => setPage((current) => current + 1)}>
+                      {t('classes.sessions.next')}
+                    </Button>
+                  </View>
+                )}
+              </>
+            )}
+          </>
         )}
       </SettingsListScreen>
 
@@ -221,5 +288,11 @@ const styles = StyleSheet.create({
   actionsRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+  },
+  pager: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: Spacing.one,
   },
 });

@@ -575,6 +575,9 @@
             "generateAction": "Générer des séances",
             "errorFallback": "Impossible de charger les séances.",
             "noResults": "Aucune séance pour le moment.",
+            "previous": "Précédent",
+            "next": "Suivant",
+            "pageIndicator": "Page {{page}} sur {{totalPages}}",
             "cancelAction": "Annuler",
             "cancelConfirmMessage": "Voulez-vous vraiment annuler la séance du {{date}} ?",
             "filters": {

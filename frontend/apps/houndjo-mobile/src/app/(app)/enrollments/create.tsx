@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AxiosError } from 'axios';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Stack, useRouter } from 'expo-router';
 import {
+  getClasses,
+  getCourses,
   getEnrollmentsQueryKey,
+  getStudents,
   useCreateEnrollment,
-  useGetClasses,
-  useGetCourses,
-  useGetStudents,
 } from '@api-client';
 
 import { SettingsCard } from '@/components/settings-card';
@@ -18,7 +18,24 @@ import { ThemedText } from '@/components/themed-text';
 import { Picker, type PickerOption } from '@/components/ui/picker';
 import { extractApiErrorMessage } from '@/lib/api-error';
 
-const LIST_PAGEABLE = { page: 0, size: 100 };
+const OPTION_PAGE_SIZE = 100;
+
+type Page<T> = {
+  items: T[];
+  totalPages?: number;
+};
+
+async function loadAllPages<T>(loadPage: (page: number) => Promise<Page<T>>): Promise<T[]> {
+  const firstPage = await loadPage(0);
+  const totalPages = firstPage.totalPages ?? 1;
+
+  if (totalPages <= 1) return firstPage.items;
+
+  const remainingPages = await Promise.all(
+    Array.from({ length: totalPages - 1 }, (_, index) => loadPage(index + 1))
+  );
+  return [firstPage, ...remainingPages].flatMap((page) => page.items);
+}
 
 type FormValues = {
   studentId?: number;
@@ -42,14 +59,51 @@ export default function CreateEnrollmentScreen() {
   const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
+  const [studentSearchInput, setStudentSearchInput] = useState('');
+  const [studentSearch, setStudentSearch] = useState('');
 
-  const { data: studentsData } = useGetStudents({ pageable: LIST_PAGEABLE });
-  const { data: classesData } = useGetClasses({ pageable: LIST_PAGEABLE });
-  const { data: coursesData } = useGetCourses(values.classId ?? 0, { pageable: LIST_PAGEABLE });
+  useEffect(() => {
+    const timeout = setTimeout(() => setStudentSearch(studentSearchInput.trim()), 300);
+    return () => clearTimeout(timeout);
+  }, [studentSearchInput]);
 
-  const students = studentsData?.items ?? [];
-  const classes = classesData?.items ?? [];
-  const courses = values.classId != null ? (coursesData?.items ?? []) : [];
+  const { data: students = [] } = useQuery({
+    queryKey: ['enrollment-options', 'students', studentSearch],
+    queryFn: async ({ signal }) => {
+      const loadPage = (page: number) =>
+        getStudents(
+          {
+            search: studentSearch || undefined,
+            pageable: { page, size: OPTION_PAGE_SIZE },
+          },
+          undefined,
+          { signal }
+        );
+
+      if (studentSearch) return loadAllPages(loadPage);
+      return (await loadPage(0)).items;
+    },
+  });
+  const { data: classes = [] } = useQuery({
+    queryKey: ['enrollment-options', 'classes'],
+    queryFn: ({ signal }) =>
+      loadAllPages((page) =>
+        getClasses({ pageable: { page, size: OPTION_PAGE_SIZE } }, undefined, { signal })
+      ),
+  });
+  const { data: courses = [] } = useQuery({
+    queryKey: ['enrollment-options', 'courses', values.classId],
+    queryFn: ({ signal }) =>
+      loadAllPages((page) =>
+        getCourses(
+          values.classId!,
+          { pageable: { page, size: OPTION_PAGE_SIZE } },
+          undefined,
+          { signal }
+        )
+      ),
+    enabled: values.classId != null,
+  });
 
   const studentOptions: PickerOption[] = students.map((student) => ({
     label: `${student.firstName ?? ''} ${student.lastName ?? ''}`.trim(),
@@ -112,6 +166,7 @@ export default function CreateEnrollmentScreen() {
             placeholder={t('enrollments.form.fields.studentPlaceholder')}
             options={studentOptions}
             searchable
+            onSearchChange={setStudentSearchInput}
             value={values.studentId != null ? String(values.studentId) : undefined}
             onValueChange={(value) => updateField('studentId', Number(value))}
             disabled={isPending}

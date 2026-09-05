@@ -575,6 +575,9 @@
             "generateAction": "Generate sessions",
             "errorFallback": "Unable to load sessions.",
             "noResults": "No sessions yet.",
+            "previous": "Previous",
+            "next": "Next",
+            "pageIndicator": "Page {{page}} of {{totalPages}}",
             "cancelAction": "Cancel",
             "cancelConfirmMessage": "Are you sure you want to cancel the session on {{date}}?",
             "filters": {

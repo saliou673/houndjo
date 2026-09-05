@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useGenerateSessions } from '@api-client';
 
-import { DateField } from '@/components/date-field';
+import { DateField, formatDateValue } from '@/components/date-field';
 import { SettingsCard } from '@/components/settings-card';
 import { SettingsListScreen } from '@/components/settings-list-screen';
 import { SubmitButton } from '@/components/submit-button';
@@ -17,8 +17,8 @@ export default function GenerateSessionsScreen() {
   const { courseId: courseIdParam } = useLocalSearchParams<{ courseId: string }>();
   const courseId = Number(courseIdParam);
 
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
+  const [fromDate, setFromDate] = useState(() => formatDateValue(new Date()));
+  const [toDate, setToDate] = useState(() => formatDateValue(new Date()));
 
   const { mutate, isPending } = useGenerateSessions({
     mutation: {
