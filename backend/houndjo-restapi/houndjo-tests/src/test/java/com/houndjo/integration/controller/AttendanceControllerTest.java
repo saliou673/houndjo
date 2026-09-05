@@ -211,6 +211,28 @@ class AttendanceControllerTest extends IntegrationTest {
     }
 
     @Test
+    void shouldListAttendancePermissionsByStudent() throws Exception {
+        createUser(OWNER_EMAIL);
+        OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
+        StudentDTO student = createStudent(organization.getId(), "Aminata", "Diallo");
+        StudentDTO otherStudent = createStudent(organization.getId(), "Mamadou", "Bah");
+        createAttendancePermission(
+                organization.getId(), student.id(), LocalDate.of(2026, 3, 9), LocalDate.of(2026, 3, 12));
+        createAttendancePermission(
+                organization.getId(), otherStudent.id(), LocalDate.of(2026, 4, 1), LocalDate.of(2026, 4, 2));
+
+        AttendancePermissionDTO[] result = mockMvc(
+                MockMvcRequestBuilders.get(PERMISSIONS_API + "?studentId=" + student.id())
+                        .with(authenticatedForOrganization(
+                                OWNER_EMAIL, organization.getId(), "attendance-permission:read")),
+                AttendancePermissionDTO[].class,
+                status().isOk());
+
+        assertThat(result).hasSize(1);
+        assertThat(result[0].studentId()).isEqualTo(student.id());
+    }
+
+    @Test
     void shouldRejectInvalidAttendancePermissionDateRange() throws Exception {
         createUser(OWNER_EMAIL);
         OrganizationDTO organization = registerAsOwner(OWNER_EMAIL, "Ecole Al Nour", "contact@al-nour.test");
@@ -270,6 +292,17 @@ class AttendanceControllerTest extends IntegrationTest {
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
+    }
+
+    private void createAttendancePermission(Long organizationId, Long studentId, LocalDate fromDate, LocalDate toDate)
+            throws Exception {
+        CreateAttendancePermissionRequest request =
+                new CreateAttendancePermissionRequest(studentId, fromDate, toDate, null);
+        mockMvc.perform(MockMvcRequestBuilders.post(PERMISSIONS_API)
+                        .with(authenticatedForOrganization(OWNER_EMAIL, organizationId, "attendance-permission:create"))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated());
     }
 
     private ClassDTO createClass(Long organizationId) throws Exception {

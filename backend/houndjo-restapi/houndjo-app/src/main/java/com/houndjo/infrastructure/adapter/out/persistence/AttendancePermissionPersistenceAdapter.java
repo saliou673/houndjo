@@ -4,6 +4,7 @@ import com.houndjo.domain.models.attendance.AttendancePermission;
 import com.houndjo.domain.ports.out.persistenceport.AttendancePermissionPersistencePort;
 import com.houndjo.infrastructure.adapter.out.persistence.mapper.AttendancePermissionMapper;
 import com.houndjo.infrastructure.adapter.out.persistence.repository.AttendancePermissionRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,15 @@ public class AttendancePermissionPersistenceAdapter implements AttendancePermiss
                         .findByIdAndOrganizationId(id, organizationId)
                         .map(attendancePermissionMapper::toDomain),
                 "Error fetching attendance permission by id");
+    }
+
+    @Override
+    public List<AttendancePermission> findByStudentIdAndOrganizationId(Long studentId, Long organizationId) {
+        return AdapterPersistenceUtils.executeDbOperation(
+                () -> attendancePermissionMapper.toDomain(
+                        attendancePermissionRepository.findByStudentIdAndOrganizationIdOrderByFromDateDesc(
+                                studentId, organizationId)),
+                "Error fetching student attendance permissions");
     }
 
     @Override

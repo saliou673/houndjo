@@ -7,6 +7,7 @@ import com.houndjo.infrastructure.adapter.in.rest.controller.requests.CreateAtte
 import com.houndjo.infrastructure.adapter.in.rest.controller.requests.UpdateAttendancePermissionStatusRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,6 +37,13 @@ public class AttendancePermissionController {
 
     private final AttendancePermissionUseCase attendancePermissionUseCase;
     private final AttendancePermissionDtoMapper attendancePermissionDtoMapper;
+
+    @GetMapping
+    public List<AttendancePermissionDTO> getAttendancePermissionsByStudent(@RequestParam Long studentId) {
+        return attendancePermissionUseCase.findByStudent(studentId).stream()
+                .map(attendancePermissionDtoMapper::toDTO)
+                .toList();
+    }
 
     @GetMapping("/{id}")
     public AttendancePermissionDTO getAttendancePermissionById(@PathVariable Long id) {

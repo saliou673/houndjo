@@ -2,6 +2,7 @@ package com.houndjo.infrastructure.adapter.out.persistence.mapper;
 
 import com.houndjo.domain.models.attendance.AttendancePermission;
 import com.houndjo.infrastructure.adapter.out.persistence.entity.AttendancePermissionEntity;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -34,4 +35,6 @@ public interface AttendancePermissionMapper {
     @Mapping(target = "lastUpdateDate", ignore = true)
     @Mapping(target = "lastUpdatedBy", ignore = true)
     AttendancePermissionEntity toEntity(AttendancePermission domain);
+
+    List<AttendancePermission> toDomain(List<AttendancePermissionEntity> entities);
 }

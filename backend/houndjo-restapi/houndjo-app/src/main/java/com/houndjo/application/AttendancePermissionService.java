@@ -9,6 +9,7 @@ import com.houndjo.domain.ports.in.AttendancePermissionUseCase;
 import com.houndjo.domain.ports.out.persistenceport.AttendancePermissionPersistencePort;
 import com.houndjo.domain.ports.out.persistenceport.StudentPersistencePort;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,14 @@ public class AttendancePermissionService implements AttendancePermissionUseCase 
     @Transactional(readOnly = true)
     public AttendancePermission getById(Long id) {
         return getByIdOrThrow(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AttendancePermission> findByStudent(Long studentId) {
+        Long organizationId = tenantContext.requireCurrentOrganizationId();
+        requireStudent(studentId, organizationId);
+        return attendancePermissionPersistencePort.findByStudentIdAndOrganizationId(studentId, organizationId);
     }
 
     @Override

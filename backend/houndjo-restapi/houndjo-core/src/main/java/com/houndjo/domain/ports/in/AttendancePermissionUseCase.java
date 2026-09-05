@@ -3,6 +3,7 @@ package com.houndjo.domain.ports.in;
 import com.houndjo.domain.enumerations.AttendancePermissionStatus;
 import com.houndjo.domain.models.attendance.AttendancePermission;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Use case for managing student planned absence/leave authorizations within the active
@@ -20,6 +21,14 @@ public interface AttendancePermissionUseCase {
      * @return the created authorization, in {@code PENDING} status
      */
     AttendancePermission create(Long studentId, LocalDate fromDate, LocalDate toDate, String reason);
+
+    /**
+     * Returns a student's leave authorizations within the active organization.
+     *
+     * @param studentId the student identifier
+     * @return the matching authorizations
+     */
+    List<AttendancePermission> findByStudent(Long studentId);
 
     /**
      * Returns a leave authorization by its identifier within the active organization.
